@@ -1,7 +1,7 @@
 src_dir: ./src/modules/
 output_dir: ./doc/ford 
 project: ReMKiT1D
-project_github: https://github.com/SMijin/ReMKiT1D
+project_github: https://github.com/ukaea/ReMKiT1D
 summary: Reactive Multifluid and Kinetic Transport in 1D
 author: Stefan Mijin
 author_description: Boundary Plasma Physicist and Code Developer at UKAEA 

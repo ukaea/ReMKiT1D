@@ -1,6 +1,6 @@
 Title: Building and Installing
 Author: Stefan Mijin 
-Date: 16.05.2023.
+Date: 21.06.2023.
 
 ## Building prerequisites
 

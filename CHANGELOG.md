@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.0.0, 2023-MM-DD
+## v1.0.0, 2023-06-21
 
 - Initial release
 

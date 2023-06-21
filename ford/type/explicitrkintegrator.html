@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Reactive Multifluid and Kinetic Transport in 1D">
+    <meta name="author" content="Stefan Mijin" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>ExplicitRKIntegrator &ndash; ReMKiT1D </title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              <li><a href='../page/index.html'>Documentation</a></li>
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/absint.html">Abstract Interfaces</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>ExplicitRKIntegrator
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title="<p> 0.5% of total for derived types.</p>Including implementation: 9 statements,  0.4% of total for derived types.">9 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/explicit_rk_integrator.f90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/explicit_rk_integrator.f90.html'>explicit_rk_integrator.f90</a></li>
+              <li><a href='../module/explicit_rk_integrator_class.html'>explicit_rk_integrator_class</a></li>
+          <li class="active">ExplicitRKIntegrator</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-0">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-userdefined">userDefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-communicationneeded">communicationNeeded</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-commdata~8">commData</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-nontrivialupdate">nonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-nontrivialmodeldataupdate">nonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-tableau~2">tableau</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-tableauanonzeros">tableauANonzeros</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-intermediatevalues">intermediateValues</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-buffer">buffer</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a>
+        </h3>
+      </div>
+      <div id="boundprocs-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-isdefined">isDefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-makedefined">makeDefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-makeundefined">makeUndefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settimestep">setTimestep</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-gettimestep">getTimestep</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settermgroups">setTermGroups</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-gettermgroups">getTermGroups</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setmodelindices">setModelIndices</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getmodelindices">getModelIndices</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settimeevolving">setTimeEvolving</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-istimeevolving">isTimeEvolving</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settimestepcontroller">setTimestepController</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-hastimestepcontroller">hasTimestepController</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-gettimestepfromcontroller">getTimestepFromController</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-iscommunicationneeded">isCommunicationNeeded</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setcommunicationneeded">setCommunicationNeeded</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getcommunicationdata">getCommunicationData</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setcommunicationdata">setCommunicationData</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getupdaterules">getUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setupdaterules">setUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getmodeldataupdaterules">getModelDataUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setmodeldataupdaterules">setModelDataUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-hasnontrivialupdate">hasNonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setnontrivialupdate">setNonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-hasnontrivialmodeldataupdate">hasNonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setnontrivialmodeldataupdate">setNonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-affect~3">affect</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-init~78">init</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>type, public, extends(<a href='../type/integrator.html'>Integrator</a>) :: ExplicitRKIntegrator</h2>
+    <p>Explicit Runge-Kutta integrator</p>
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+        <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-1">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-userdefined">userDefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-communicationneeded">communicationNeeded</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-commdata~8">commData</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-nontrivialupdate">nonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-nontrivialmodeldataupdate">nonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-tableau~2">tableau</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-tableauanonzeros">tableauANonzeros</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-intermediatevalues">intermediateValues</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#variable-buffer">buffer</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a>
+        </h3>
+      </div>
+      <div id="boundprocs-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-isdefined">isDefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-makedefined">makeDefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-makeundefined">makeUndefined</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settimestep">setTimestep</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-gettimestep">getTimestep</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settermgroups">setTermGroups</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-gettermgroups">getTermGroups</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setmodelindices">setModelIndices</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getmodelindices">getModelIndices</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settimeevolving">setTimeEvolving</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-istimeevolving">isTimeEvolving</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-settimestepcontroller">setTimestepController</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-hastimestepcontroller">hasTimestepController</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-gettimestepfromcontroller">getTimestepFromController</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-iscommunicationneeded">isCommunicationNeeded</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setcommunicationneeded">setCommunicationNeeded</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getcommunicationdata">getCommunicationData</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setcommunicationdata">setCommunicationData</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getupdaterules">getUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setupdaterules">setUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-getmodeldataupdaterules">getModelDataUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setmodeldataupdaterules">setModelDataUpdateRules</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-hasnontrivialupdate">hasNonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setnontrivialupdate">setNonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-hasnontrivialmodeldataupdate">hasNonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-setnontrivialmodeldataupdate">setNonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-affect~3">affect</a>
+            <a class="list-group-item" href="../type/explicitrkintegrator.html#boundprocedure-init~78">init</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Visibility</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+<th></th><th>Initial</th>        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-userdefined"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>userDefined</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>True only if user explicitly sets it to true</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-communicationneeded"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>communicationNeeded</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>True if this Integrator requires MPI communication during evolution</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-commdata~8"></span>
+              type(<a href='../type/communicationdata.html'>CommunicationData</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>commData</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Communication data object for this Integrator</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nontrivialupdate"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nonTrivialUpdate</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>True if this integrator should perform non-trivial updates of terms</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nontrivialmodeldataupdate"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nonTrivialModelDataUpdate</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>True if this integrator should perform non-trivial updates of model data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tableau~2"></span>
+              type(<a href='../type/btableau.html'>BTableau</a>),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tableau</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Butcher tableau used by the integrator</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tableauanonzeros"></span>
+              type(<a href='../type/intarray.html'>IntArray</a>),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>tableauANonzeros</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Locations of non-zeros in the  a_ij tableau matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-intermediatevalues"></span>
+              type(<a href='../type/realarray.html'>RealArray</a>),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable, dimension(:,:)
+            </td>
+            <td>::</td>
+            <td><strong>intermediateValues</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Buffer for intermediate RK values for various variables</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer"></span>
+              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>VariableContainer buffer for passing to Modeller routines</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-isdefined"></span><h3>procedure, public :: <strong>isDefined</strong>  => <a href='../interface/isdefinedobject.html'>isDefinedObject</a>         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function isDefinedObject(this) result(defined)  
+    <a href='../proc/isdefinedobject.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for userDefined</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/object.html'>Object</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-makedefined"></span><h3>procedure, public :: <strong>makeDefined</strong>  => <a href='../interface/makedefinedobject.html'>makeDefinedObject</a>         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine makeDefinedObject(this)  
+    <a href='../proc/makedefinedobject.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Set userDefined to .true.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/object.html'>Object</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-makeundefined"></span><h3>procedure, public :: <strong>makeUndefined</strong>  => <a href='../interface/makeundefinedobject.html'>makeUndefinedObject</a>         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine makeUndefinedObject(this)  
+    <a href='../proc/makeundefinedobject.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Set userDefined to .false.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/object.html'>Object</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-settimestep"></span><h3>procedure, public :: <strong>setTimestep</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setTimestep(this, timestep)  
+    <a href='../proc/settimestep.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for dt</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=rk),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>timestep</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-gettimestep"></span><h3>procedure, public :: <strong>getTimestep</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getTimestep(this) result(timestep)  
+    <a href='../proc/gettimestep.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for dt</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-settermgroups"></span><h3>procedure, public :: <strong>setTermGroups</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setTermGroups(this, groups)  
+    <a href='../proc/settermgroups.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for termGroups</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/intarray.html'>IntArray</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>groups</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-gettermgroups"></span><h3>procedure, public :: <strong>getTermGroups</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getTermGroups(this) result(groups)  
+    <a href='../proc/gettermgroups.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for termGroups</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/intarray.html'>IntArray</a>), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setmodelindices"></span><h3>procedure, public :: <strong>setModelIndices</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setModelIndices(this, indices)  
+    <a href='../proc/setmodelindices.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for modelIndices</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>indices</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-getmodelindices"></span><h3>procedure, public :: <strong>getModelIndices</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getModelIndices(this) result(indices)  
+    <a href='../proc/getmodelindices.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for modelIndices</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=ik), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-settimeevolving"></span><h3>procedure, public :: <strong>setTimeEvolving</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setTimeEvolving(this, evo)  
+    <a href='../proc/settimeevolving.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for evolvesTimeVar</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>evo</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-istimeevolving"></span><h3>procedure, public :: <strong>isTimeEvolving</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function isTimeEvolving(this) result(evo)  
+    <a href='../proc/istimeevolving.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Check if this Integrator is allowed to evolve a time variable if present</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-settimestepcontroller"></span><h3>procedure, public :: <strong>setTimestepController</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setTimestepController(this, controller)  
+    <a href='../proc/settimestepcontroller.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for dtController</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>controller</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hastimestepcontroller"></span><h3>procedure, public :: <strong>hasTimestepController</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function hasTimestepController(this) result(hasController)  
+    <a href='../proc/hastimestepcontroller.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Check if this Integrator has an allocated timestep controller</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-gettimestepfromcontroller"></span><h3>procedure, public :: <strong>getTimestepFromController</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private module function getTimestepFromController(this, inputVars) result(timestep)  
+    <a href='../proc/gettimestepfromcontroller.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Get the individual timestep size if Integrator has a timestep controller</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inputVars</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-iscommunicationneeded"></span><h3>procedure, public :: <strong>isCommunicationNeeded</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function isCommunicationNeeded(this) result(commNeeded)  
+    <a href='../proc/iscommunicationneeded.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Check whether this Integrator requires MPI communication</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setcommunicationneeded"></span><h3>procedure, public :: <strong>setCommunicationNeeded</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setCommunicationNeeded(this, commNeeded)  
+    <a href='../proc/setcommunicationneeded.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for communicationNeeded</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>commNeeded</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-getcommunicationdata"></span><h3>procedure, public :: <strong>getCommunicationData</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getCommunicationData(this) result(commData)  
+    <a href='../proc/getcommunicationdata.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for commData</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/communicationdata.html'>CommunicationData</a>), allocatable</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setcommunicationdata"></span><h3>procedure, public :: <strong>setCommunicationData</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setCommunicationData(this, commData)  
+    <a href='../proc/setcommunicationdata.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for commData</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/communicationdata.html'>CommunicationData</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>commData</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-getupdaterules"></span><h3>procedure, public :: <strong>getUpdateRules</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getUpdateRules(this) result(updateRules)  
+    <a href='../proc/getupdaterules.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for updateOnInternalIteration</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/logicalarray.html'>LogicalArray</a>), dimension(:), allocatable</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setupdaterules"></span><h3>procedure, public :: <strong>setUpdateRules</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setUpdateRules(this, updateRules)  
+    <a href='../proc/setupdaterules.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for updateOnInternalIteration</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/logicalarray.html'>LogicalArray</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>updateRules</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-getmodeldataupdaterules"></span><h3>procedure, public :: <strong>getModelDataUpdateRules</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getModelDataUpdateRules(this) result(updateRules)  
+    <a href='../proc/getmodeldataupdaterules.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for updateModelDataOnInternalIteration</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical, dimension(:), allocatable</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setmodeldataupdaterules"></span><h3>procedure, public :: <strong>setModelDataUpdateRules</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setModelDataUpdateRules(this, updateRules)  
+    <a href='../proc/setmodeldataupdaterules.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for updateModelDataOnInternalIteration</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>updateRules</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hasnontrivialupdate"></span><h3>procedure, public :: <strong>hasNonTrivialUpdate</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function hasNonTrivialUpdate(this) result(nonTrivialUpdate)  
+    <a href='../proc/hasnontrivialupdate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for nonTrivialUpdate</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setnontrivialupdate"></span><h3>procedure, public :: <strong>setNonTrivialUpdate</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setNonTrivialUpdate(this, nonTrivialUpdate)  
+    <a href='../proc/setnontrivialupdate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for nonTrivialUpdate</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nonTrivialUpdate</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hasnontrivialmodeldataupdate"></span><h3>procedure, public :: <strong>hasNonTrivialModelDataUpdate</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function hasNonTrivialModelDataUpdate(this) result(nonTrivialUpdate)  
+    <a href='../proc/hasnontrivialmodeldataupdate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Getter for nonTrivialModelDataUpdate</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-setnontrivialmodeldataupdate"></span><h3>procedure, public :: <strong>setNonTrivialModelDataUpdate</strong>          
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine setNonTrivialModelDataUpdate(this, nonTrivialUpdate)  
+    <a href='../proc/setnontrivialmodeldataupdate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Setter for nonTrivialModelDataUpdate</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/integrator.html'>Integrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nonTrivialUpdate</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-affect~3"></span><h3>procedure, public :: <strong>affect</strong>  => <a href='../interface/integraterk.html'>integrateRK</a>         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private module subroutine integrateRK(this, manipulatedModeller, outputVars, inputVars)  
+    <a href='../proc/integraterk.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Implementation of abstract manipulate routine for the case of Runge-Kutta integrator</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/explicitrkintegrator.html'>ExplicitRKIntegrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/modellersurrogate.html'>ModellerSurrogate</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>manipulatedModeller</strong></td>
+            <td>
+                <p>Modeller to be used in callbacks during integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>outputVars</strong></td>
+            <td>
+                <p>VariableContainer object to store the integration output </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inputVars</strong></td>
+            <td>
+                <p>VariableContainer object housing input data for the integration routine</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-init~78"></span><h3>procedure, public :: <strong>init</strong>  => <a href='../interface/initrkintegrator.html'>initRKIntegrator</a>         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private module subroutine initRKIntegrator(this, modelList, termGroups, order, tableau, evolvesTimeVar, dtController, initialTimestep)  
+    <a href='../proc/initrkintegrator.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+  <p>Constructs an RK integrator with initial evaluated model indices and correspoding term groups if those
+are present. If neither order or tableau are provided defaults to forward Euler time-stepping. Possible order values are 1,2,3,4
+where 2 is the midpoint method, 3 is SSPRK3, and 4 is the standard RK4 method. </p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/explicitrkintegrator.html'>ExplicitRKIntegrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>modelList</strong></td>
+            <td>
+                <p>List of models this integrator will be responsible for</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/intarray.html'>IntArray</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>termGroups</strong></td>
+            <td>
+                <p>Term groups this integrator is responsible for - should conform with modelList</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>order</strong></td>
+            <td>
+                <p>Runge-Kutta order</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='../type/btableau.html'>BTableau</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tableau</strong></td>
+            <td>
+                <p>User-defined Butcher tableau</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>evolvesTimeVar</strong></td>
+            <td>
+                <p>Set to true if this integrator is allowed to change the "time" varible (if present in passed variable container)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dtController</strong></td>
+            <td>
+                <p>User-supplied timestep controller object</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>initialTimestep</strong></td>
+            <td>
+                <p>Default timestep</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+      </section>
+
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+</p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

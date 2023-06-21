@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Reactive Multifluid and Kinetic Transport in 1D">
+    <meta name="author" content="Stefan Mijin" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>Building and Installing &ndash; ReMKiT1D</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              <li><a href='../page/index.html'>Documentation</a></li>
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/absint.html">Abstract Interfaces</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>Building and Installing</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+        <li><i class="fa fa-pencil"></i> Stefan Mijin</li>
+        <li><i class="fa fa-calendar-o"></i> 16.05.2023.</li>
+<!--
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+         <li><a href='../page/index.html'>Documentation</a></li>
+         <li class="active">Building and Installing</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h2>Building prerequisites</h2>
+<p>On Ubuntu, the following commands can be used to build all of the prerequisites. Keep in mind conflicts might occur depending on the state of your system. First run</p>
+<div class="codehilite"><pre><span></span><code>sudo apt-get install g++-11 gcc-11 gfortran-11 libblas-dev liblapack-dev m4 gcovr python-pip
+sudo pip install ford
+</code></pre></div>
+
+<p>Make sure that the correct CMake version is installed (there are possible conflicts with newer versions). For example, to install CMake 3.18.0:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">wget</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Kitware</span><span class="o">/</span><span class="n">CMake</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v3</span><span class="o">.</span><span class="mf">18.0</span><span class="o">/</span><span class="n">cmake</span><span class="o">-</span><span class="mf">3.18</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="w"></span>
+<span class="n">tar</span><span class="w"> </span><span class="o">-</span><span class="n">zvxf</span><span class="w"> </span><span class="n">cmake</span><span class="o">-</span><span class="mf">3.18</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="w"></span>
+<span class="n">cd</span><span class="w"> </span><span class="o">./</span><span class="n">cmake</span><span class="o">-</span><span class="mf">3.18</span><span class="o">.</span><span class="mi">0</span><span class="w"></span>
+<span class="o">./</span><span class="n">bootstrap</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="o">-</span><span class="n">DCMAKE_USE_OPENSSL</span><span class="o">=</span><span class="n">OFF</span><span class="w"></span>
+<span class="n">make</span><span class="w"></span>
+<span class="n">make</span><span class="w"> </span><span class="n">install</span><span class="w"></span>
+</code></pre></div>
+
+<p>Then, to install a fresh build of MPI:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">wget</span><span class="w"> </span><span class="o">-</span><span class="n">O</span><span class="w"> </span><span class="n">mpich</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">mpich</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="k">static</span><span class="o">/</span><span class="n">downloads</span><span class="o">/</span><span class="mf">3.4</span><span class="o">.</span><span class="mi">2</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="mf">3.4</span><span class="o">.</span><span class="mf">2.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="w"></span>
+<span class="n">tar</span><span class="w"> </span><span class="n">xfz</span><span class="w"> </span><span class="n">mpich</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span><span class="w"></span>
+<span class="n">mkdir</span><span class="w"> </span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="w"></span>
+<span class="n">cd</span><span class="w"> </span><span class="o">./</span><span class="n">mpich</span><span class="o">-</span><span class="mf">3.4</span><span class="o">.</span><span class="mi">2</span><span class="w"></span>
+<span class="o">./</span><span class="n">configure</span><span class="w"> </span><span class="n">CC</span><span class="o">=</span><span class="n">gcc</span><span class="o">-</span><span class="mi">11</span><span class="w"> </span><span class="n">CXX</span><span class="o">=</span><span class="n">g</span><span class="o">++-</span><span class="mi">11</span><span class="w"> </span><span class="n">FC</span><span class="o">=</span><span class="n">gfortran</span><span class="o">-</span><span class="mi">11</span><span class="w"> </span><span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="w">  </span><span class="n">FFLAGS</span><span class="o">=-</span><span class="n">fallow</span><span class="o">-</span><span class="n">argument</span><span class="o">-</span><span class="n">mismatch</span><span class="w"> </span><span class="o">--</span><span class="n">with</span><span class="o">-</span><span class="n">device</span><span class="o">=</span><span class="n">ch3</span><span class="w"></span>
+<span class="n">make</span><span class="w"> </span>
+<span class="n">make</span><span class="w"> </span><span class="n">install</span><span class="w"></span>
+</code></pre></div>
+
+<p>To install a compatible version of PETSc (make sure to set correct paths!):</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="o">-</span><span class="n">b</span><span class="w"> </span><span class="n">release</span><span class="o">-</span><span class="mf">3.17</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gitlab</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">petsc</span><span class="o">/</span><span class="n">petsc</span><span class="o">.</span><span class="n">git</span><span class="w"> </span><span class="n">petsc</span><span class="w"></span>
+<span class="n">cd</span><span class="w"> </span><span class="n">petsc</span><span class="w"></span>
+<span class="o">./</span><span class="n">configure</span><span class="w"> </span><span class="o">--</span><span class="n">with</span><span class="o">-</span><span class="n">mpi</span><span class="o">-</span><span class="n">dir</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="w"> </span><span class="o">--</span><span class="n">download</span><span class="o">-</span><span class="n">hypre</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="o">--</span><span class="n">download</span><span class="o">-</span><span class="n">fblaslapack</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="o">--</span><span class="n">with</span><span class="o">-</span><span class="n">debugging</span><span class="o">=</span><span class="mi">0</span><span class="w"> </span><span class="n">COPTFLAGS</span><span class="o">=-</span><span class="n">O3</span><span class="w"> </span><span class="n">CXXOPTFLAGS</span><span class="o">=-</span><span class="n">O3</span><span class="w"> </span><span class="n">FOPTFLAGS</span><span class="o">=-</span><span class="n">O3</span><span class="w"></span>
+<span class="n">make</span><span class="w"> </span><span class="n">PETSC_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">petsc</span><span class="w"> </span><span class="n">PETSC_ARCH</span><span class="o">=</span><span class="n">arch</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">opt</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">check</span><span class="w"></span>
+</code></pre></div>
+
+<p>To install pFUnit (make sure to set paths):</p>
+<div class="codehilite"><pre><span></span><code>git clone -b v4.2.2 https://github.com/Goddard-Fortran-Ecosystem/pFUnit.git
+cd pFUnit
+mkdir build
+cd build
+cmake .. -DSKIP_OPENMP=yes -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 -DCMAKE_INSTALL_PREFIX=/path/to/installs/pFUnit
+make install
+</code></pre></div>
+
+<p>The json-fortran library version used by ReMKiT1D can be installed using:</p>
+<div class="codehilite"><pre><span></span><code>git clone -b 8.2.5 https://github.com/jacobwilliams/json-fortran.git
+cd json-fortran
+mkdir build
+cd build
+cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 -DCMAKE_INSTALL_PREFIX=/path/to/installs/json-fortran
+make install
+</code></pre></div>
+
+<p>Install the hdf5 library:</p>
+<div class="codehilite"><pre><span></span><code>git clone -b hdf5-1_13_0 https://github.com/HDFGroup/hdf5.git
+cd hdf5
+mkdir build
+cd build
+cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 -DHDF5_BUILD_FORTRAN=ON -DCMAKE_INSTALL_PREFIX=/path/to/installs/hdf5
+make install
+</code></pre></div>
+
+<p>Set the environmental variables</p>
+<div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">LD_LIBRARY_PATH</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="p">:</span><span class="o">$</span><span class="n">LD_LIBRARY_PATH</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PFUNIT_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">pFUnit</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PETSC_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">petsc</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PETSC_ARCH</span><span class="o">=</span><span class="n">arch</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">debug</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">petsc</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">hdf5</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">json</span><span class="o">-</span><span class="n">fortran</span><span class="o">/</span><span class="n">jsonfortran</span><span class="o">-</span><span class="n">gnu</span><span class="o">-</span><span class="mf">8.2</span><span class="o">.</span><span class="mi">5</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="o">/</span><span class="n">bin</span><span class="p">:</span><span class="o">$</span><span class="n">PATH</span><span class="w"></span>
+</code></pre></div>
+
+<p>NOTE: Some of the above paths might have to be set differently depending on your system setup. </p>
+<h2>Building ReMKiT1D</h2>
+<ol>
+<li>Make sure all used libraries have their paths set (set PETSC_DIR and PETSC_ARCH, for example)</li>
+<li>Create a debug or build folder. On Linux:</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>mkdir build
+cd build
+</code></pre></div>
+
+<ol>
+<li>Run cmake (see <a href="https://cmake.org/cmake/help/latest/manual/cmake.1.html">here</a> for cmake documentation)</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>cmake ..
+</code></pre></div>
+
+<p>For test coverage enabled run with <code>-DCMAKE_BUILD_TYPE=TESTING</code></p>
+<ol>
+<li>Run make and make test (if pFUnit enabled)</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>make
+make test
+</code></pre></div>
+
+<ol>
+<li>Optional: To generate documentation and get gcovr test coverage data</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>make docs
+make gcovr
+</code></pre></div>
+
+<h2>Setup with Docker</h2>
+<p>A Dockerfile is included in the repository that sets up an image with all ReMKiT1D prerequisites. </p>
+<p>To build the image with docker run the following command in the docker folder of the repository</p>
+<div class="codehilite"><pre><span></span><code>docker build --tag remkit1d:latest .
+</code></pre></div>
+
+<p>Note that ReMKiT1D needs to be copied into the docker image. This can be done either by <a href="https://docs.docker.com/storage/volumes/">mounting</a> the local repository folder or using the <a href="https://docs.docker.com/engine/reference/commandline/cp/">docker cp</a> command. </p>
+<p>The docker cp approach can be done by running </p>
+<div class="codehilite"><pre><span></span><code><span class="n">docker</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="o">-</span><span class="n">it</span><span class="w"> </span><span class="c1">--name [CONTAINER_NAME] remkit1d</span>
+</code></pre></div>
+
+<p>where [CONTAINER_NAME] should be replaced by the name you wish to give the container for use with the docker cp command. Then, in another terminal, run</p>
+<div class="codehilite"><pre><span></span><code><span class="n">docker</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">/</span><span class="k">path</span><span class="o">/</span><span class="k">to</span><span class="o">/</span><span class="n">ReMKiT1D_repo</span><span class="w"> </span><span class="o">[</span><span class="n">CONTAINER_NAME</span><span class="o">]</span><span class="err">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="w"></span>
+</code></pre></div>
+
+<p>which will copy the ReMKiT1D repository folder into the docker container. After this is done follow the above ReMKiT1D build instructions within the docker image. </p>
+    </div>
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../page/index.html'>Documentation</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="disabled">
+            <a href='../page/./01-install.html'>Building and Installing</a>
+            </li>
+            <li role="presentation">
+            <a href='../page/./02-run.html'>Running</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+</p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

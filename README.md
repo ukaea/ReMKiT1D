@@ -1,5 +1,6 @@
 # ReMKiT1D
 ![CI](https://github.com/ukaea/ReMKiT1D/actions/workflows/CI.yml/badge.svg)
+[![codecov](https://codecov.io/gh/ukaea/ReMKiT1D/branch/master/graph/badge.svg?token=I709666D08)](https://codecov.io/gh/ukaea/ReMKiT1D)
 
 Contact: stefan.mijin@ukaea.uk
 

@@ -1,0 +1,9 @@
+debug
+build
+tests/*/*.F90
+.VSCodeCounter
+.vscode
+ford_doc.md
+*mod
+*.json
+/doc/

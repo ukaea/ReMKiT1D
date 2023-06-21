@@ -1,0 +1,1617 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_common_derivs
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use variable_container_class
+    use v_space_class
+    use indexing_class
+    use support_types 
+    use simple_derivation_class
+    use additive_derivation_class
+    use moment_derivation_class
+    use central_diff_grad_derivation_class
+    use geometry_class
+    use physical_constants
+    use physics_functions
+    use coulomb_log_derivation_class
+    use interpolation_derivation_class
+    use multiplicative_derivation_class
+    use polynomial_fun_derivation_class
+    use maxwellian_derivation_class
+    use ddv_derivation_class
+    use d2dv2_derivation_class
+    use harmonic_extractor_derivation_class
+    use ccl_weight_derivation_class
+    use ccl_drag_derivation_class
+    use ccl_diff_derivation_class
+    use initialization_support
+    use ij_int_derivation_class
+    use cold_ion_ij_int_derivation_class
+    use bounded_ext_derivation_class
+    use f_scaling_derivation_class
+    use loc_val_extractor_derivation_class
+    use sparse_row_data_class
+    use ieee_arithmetic
+    use lin_extrapolation_class
+    use log_extrapolation_class
+    use vel_contraction_derivation_class
+    use vel_tensor_prod_derivation_class
+    use gen_int_polynomial_fun_derivation_class
+    use range_filter_derivation_class
+    use calculation_tree_derivation_class
+    use calculation_tree_class
+
+    implicit none
+
+contains
+
+    @test
+    subroutine test_simple_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(SimpleDerivation) :: method
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%init(real([1,2],kind=rk),real(3,kind=rk))
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real(6,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector = 3*testVarCont%variables(1)%entry*testVarCont%variables(2)%entry**2
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+    end subroutine test_simple_deriv
+
+    @test
+    subroutine test_additive_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(SimpleDerivation) ,dimension(2) :: derivComp
+        type(AdditiveDerivation)             :: method
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call derivComp(1)%init(real([1,2],kind=rk))
+        call derivComp(2)%init(real([0.5d0],kind=rk))
+
+        call method%init(2,2,linearCoefficients=real([3,-1],kind=rk))
+        call method%addDerivation(derivComp(1),[1,2])
+        call method%addDerivation(derivComp(2),[2])
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real(6,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector = 3*testVarCont%variables(1)%entry*testVarCont%variables(2)%entry**2 - sqrt(testVarCont%variables(2)%entry)
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+    end subroutine test_additive_deriv
+
+    @test
+    subroutine test_moment_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(MomentDerivation) :: method
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),5,0)
+        call testVSpace%init(testGrid)
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%init(0,1,testVSpace,varPowers=real([1,2],kind=rk),multConst=real(3,kind=rk))
+
+        call cRules(1)%init(method,[stringArray("f"),stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real(6,kind=rk)
+        testVarCont%variables(3)%entry = real(1,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector = 3*testVarCont%variables(1)%entry*testVarCont%variables(2)%entry**2
+        locVector = locVector*4*pi*sum(testGrid%getVGrid()**2*testVSpace%getVCellWidths())
+
+        @assertEqual(testVarCont%variables(4)%entry,locVector)
+    end subroutine test_moment_deriv
+
+    @test
+    subroutine test_central_diff_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(CentralDiffDerivation) :: method1
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),5,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("T")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("dT")
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testGeometry,testPart,0,varPowers=real([1],kind=rk),multConst=real(3,kind=rk))
+
+        call cRules(1)%init(method1,[stringArray("T"),stringArray("n")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real([0,2,3,4,5],kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(locVector(0:4))
+        locVector = 0
+        locVector(1:3) = real(6,kind=rk)
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+
+    end subroutine test_central_diff_deriv
+
+    @test
+    subroutine test_coulomb_log_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(CoulombLogDerivation) :: method
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("T")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("logL")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%init(1.0d0,3,1.d19,10.0d0)
+
+        call cRules(1)%init(method,[stringArray("T"),stringArray("n")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(1,kind=rk)
+        testVarCont%variables(2)%entry = real(2,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(locVector(0:4))
+        locVector = 0
+        locVector(1:3) = logLei(20.0d0,1.d19,1.0d0)
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+    end subroutine test_coulomb_log_deriv
+
+    @test
+    subroutine test_interpolation_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(6) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector ,locDist
+        type(InterpolationDerivation) :: method1 ,method2 ,method3 ,method4,method5,method6
+
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: linInterp
+
+
+        call testPart%initSimplePartition(4,1,12,2)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),1,0)
+        call testGeometry%init(real([(0.5d0*i,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("f",isDist=.true.)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("n_interp")
+        call testListDerived%addVar("u_interp")
+        call testListDerived%addVar("u_interp2")
+        call testListDerived%addVar("f_interp",isDist=.true.)
+        call testListDerived%addVar("f_interp2",isDist=.true.)
+        call testListDerived%addVar("n_interp2")
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testGeometry,testGrid,10,12)
+        call method2%init(testGeometry,testGrid,1,3,inverseInterp=.true.)
+        call method3%init(testGeometry,testGrid,10,12,inverseInterp=.true.)
+        call method4%init(testGeometry,testGrid,10,12,distInterp=.true.)
+        call method5%init(testGeometry,testGrid,1,3,distInterp=.true.)
+        call method6%init(testGeometry,testGrid,1,3)
+
+
+        call cRules(1)%init(method1,[stringArray("n")])
+        call cRules(2)%init(method2,[stringArray("u")])
+        call cRules(3)%init(method3,[stringArray("u")])
+        call cRules(4)%init(method4,[stringArray("f")])
+        call cRules(5)%init(method5,[stringArray("f")])
+        call cRules(6)%init(method6,[stringArray("n")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([1,2,3,4,0],kind=rk)
+        testVarCont%variables(2)%entry = real([0,2,3,4,5],kind=rk)
+
+        call setDistHarmonic(testVarCont%variables(3)%entry,1,testVarCont%variables(1)%entry,real([1,1,1,1,1],kind=rk))
+        call setDistHarmonic(testVarCont%variables(3)%entry,2,testVarCont%variables(2)%entry,real([1,1,1,1,1],kind=rk))
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(locVector(0:4))
+        allocate(locDist(-9:40))
+        allocate(linInterp,source = testGeometry%getLinInterp())
+        locVector = real(1,kind=rk)
+        locVector(1:3) = testVarCont%variables(1)%entry(1:3)*(1.0d0-linInterp(10:12)) &
+        + linInterp(10:12) * testVarCont%variables(1)%entry(2:4)
+        locVector(3) = testVarCont%variables(1)%entry(3)*(2.0d0-linInterp(11)) &
+        -(1.0d0- linInterp(11)) * testVarCont%variables(1)%entry(2)
+        @assertEqual(testVarCont%variables(4)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1:3) = (testVarCont%variables(2)%entry(0:2) + testVarCont%variables(2)%entry(1:3))/2
+        locVector(1) = testVarCont%variables(1)%entry(1)*1.25d0 &
+        -0.25d0 * testVarCont%variables(1)%entry(2)
+        @assertEqual(testVarCont%variables(5)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1:3) = (testVarCont%variables(2)%entry(0:2) + testVarCont%variables(2)%entry(1:3))/2
+        locVector(3) = testVarCont%variables(1)%entry(2)*(1.0d0+6.0d0/11.d0) &
+        -6.0d0/11.0d0 * testVarCont%variables(1)%entry(1)
+        @assertEqual(testVarCont%variables(6)%entry,locVector,tolerance=1.d-15)
+
+        call setDistHarmonic(locDist,1,testVarCont%variables(4)%entry,real([1,1,1,1,1],kind=rk))
+        call setDistHarmonic(locDist,2,testVarCont%variables(6)%entry,real([1,1,1,1,1],kind=rk))
+
+        @assertEqual(testVarCont%variables(7)%entry,locDist,tolerance=1.d-15)
+
+        call setDistHarmonic(locDist,1,testVarCont%variables(9)%entry,real([1,1,1,1,1],kind=rk))
+        call setDistHarmonic(locDist,2,testVarCont%variables(5)%entry,real([1,1,1,1,1],kind=rk))
+
+        @assertEqual(testVarCont%variables(8)%entry,locDist,tolerance=1.d-15)
+
+    end subroutine test_interpolation_deriv
+
+    @test
+    subroutine test_mult_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(SimpleDerivation) ,dimension(2) :: derivComp
+        type(MultiplicativeDerivation)             :: method
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call derivComp(1)%init(real([1,2],kind=rk),real(3,kind=rk))
+        call derivComp(2)%init(real([0.5d0],kind=rk),real(-1,kind=rk))
+
+        call method%init(derivComp(1),[1,2],outerDeriv=derivComp(2),outerIndices=[2],innerFuncName="log",innerPower=2.0d0)
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real(6,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector =  - log(3*testVarCont%variables(1)%entry*testVarCont%variables(2)%entry**2)**2 &
+                       * sqrt(testVarCont%variables(2)%entry)
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector,tolerance=1.d-13)
+    end subroutine test_mult_deriv
+
+    @test
+    subroutine test_poly_fun_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(2) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(PolyFunDeriv) :: method1
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),5,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("poly")
+        call testListDerived%addVar("poly2")
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(real([1,2],kind=rk),real([-1,2],kind=rk),real(3,kind=rk))
+
+        call cRules(1)%init(method1,[stringArray("n")])
+        call cRules(2)%init(method1,[stringArray("n"),stringArray("poly")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(locVector(0:4))
+        locVector = real(9,kind=rk)
+        @assertEqual(testVarCont%variables(2)%entry,locVector)
+
+        locVector = real(163,kind=rk)
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+
+    end subroutine test_poly_fun_deriv
+
+    @test
+    subroutine test_gen_int_poly_fun_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(GenIntPolyFunDeriv) :: method1
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),5,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("poly")
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init([IntArray([0,0]),IntArray([0,1]),IntArray([1,0]),IntArray([2,1])],&
+                          real([2,3,4,5],kind=rk),[2,1],"exp",real(2,kind=rk))
+
+        call cRules(1)%init(method1,[stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([0.1,0.2,0.3,0.4,0.5],kind=rk)
+        testVarCont%variables(2)%entry = real([0.5,0.4,0.3,0.2,0.1],kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(locVector(0:4))
+        locVector = real(2,kind=rk)
+        locVector = locVector &
+                  + 3*testVarCont%variables(2)%entry &
+                  + 4*testVarCont%variables(1)%entry &
+                  + 5*testVarCont%variables(2)%entry*testVarCont%variables(1)%entry**2
+
+        locVector = 2 * exp(locVector)
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+
+
+    end subroutine test_gen_int_poly_fun_deriv
+
+    @test
+    subroutine test_maxwellian_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(VSpace) :: testVSpace
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(MaxwellianDerivation) :: method1
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),1,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("T")
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("f",.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testVSpace)
+
+        call cRules(1)%init(method1,[stringArray("T"),stringArray("n")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+        allocate(locVector(-9:40))
+        locVector = 0
+        do i = 0,4  
+            locVector((i-1)*10+1:(i-1)*10+5) = normMaxwellian(real(2,kind=rk),real(i+1,kind=rk),testGrid%getVGrid())
+        end do
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+
+    end subroutine test_maxwellian_deriv
+
+    @test
+    subroutine test_ddv_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(VSpace) :: testVSpace
+        type(DDVDerivation) :: method1 ,method2
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,vInterp, dvArr ,vArrCellEdge ,checkVec ,checkVecSH
+
+        type(RealArray) ,allocatable ,dimension(:) :: innerV
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("dfdv",.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        allocate(innerV(4))
+        do i = 1,4
+            innerV(i)%entry = testGrid%getVGrid() 
+        end do
+        call method1%init(testVSpace,innerV=innerV,outerV=innerV,vifAtZero=[RealArray([1.0d0,0.0d0]),RealArray([1.0d0,0.0d0]),&
+                                                                            RealArray([1.0d0,0.0d0]),RealArray([1.0d0,0.0d0])])
+        call method2%init(testVSpace,innerV=[innerV(2)],outerV=[innerV(2)],vifAtZero=[RealArray([1.0d0,0.0d0])],targetH=2)
+
+        call cRules(1)%init(method1,[stringArray("f")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        do i = 1,4
+            call setDistHarmonic(testVarCont%variables(1)%entry,i,i*xArr,vArr)
+        end do
+        allocate(dvArr(10))
+        allocate(vArrCellEdge(0:10))
+        vInterp = testVSpace%getVLinInterp()
+        vArrCellEdge = 0
+
+
+        do i = 1,9
+            vArrCellEdge(i) = vArr(i)*(real(1,kind=rk)-vInterp(i)) + vArr(i+1)*vInterp(i)
+        end do
+        dvArr(2:10) = (vArrCellEdge(2:10)*innerV(1)%entry(2:10)-vArrCellEdge(1:9)*innerV(1)%entry(1:9))
+        dvArr(1) = vArrCellEdge(1) * innerV(1)%entry(1) - vArr(1)
+        dvArr = dvArr*innerV(1)%entry/testVSpace%getVCellWidths()
+
+        allocate(checkVec,source=testVarCont%variables(1)%entry)
+        
+        checkVec = 0
+
+        do i = 1,4
+            call setDistHarmonic(checkVec,i,i*xArr,dvArr)
+        end do
+        
+        call testVarCont%calculateDerivedVars()
+        @assertEqual(testVarCont%variables(2)%entry,checkVec,tolerance=1.0d-12)
+
+        allocate(checkVecSH(50))
+        do i = 1,5
+            checkVecSH((i-1)*10+1:i*10) = checkVec((i-2)*40+11:(i-2)*40+20)
+        end do 
+
+        @assertEqual(method2%calculate(testVarCont%variables,[1]),checkVecSH,tolerance=1.0d-12)
+
+    end subroutine test_ddv_deriv
+
+    @test
+    subroutine test_d2dv2_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(VSpace) :: testVSpace
+        type(D2DV2Derivation) :: method1 ,method2
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,vInterp, dvArr ,vArrCellEdge ,checkVec ,checkVecSH ,vGridCopy
+
+        type(RealArray) ,allocatable ,dimension(:) :: innerV
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("dfdv",.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        vGridCopy = testGrid%getVGrid()
+        allocate(innerV(4))
+        do i = 1,4
+            innerV(i)%entry = vGridCopy
+        end do
+        call method1%init(testVSpace,innerV=innerV,outerV=innerV,vidfdvAtZero=[RealArray([1.0d0,0.0d0]),RealArray([1.0d0,0.0d0]),&
+                                                                            RealArray([1.0d0,0.0d0]),RealArray([1.0d0,0.0d0])])
+        call method2%init(testVSpace,innerV=[innerV(2)],outerV=[innerV(2)],vidfdvAtZero=[RealArray([1.0d0,0.0d0])],targetH=2)
+
+        call cRules(1)%init(method1,[stringArray("f")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        do i = 1,4
+            call setDistHarmonic(testVarCont%variables(1)%entry,i,i*xArr,vArr)
+        end do
+        allocate(dvArr(10))
+        allocate(vArrCellEdge(0:10))
+        vInterp = testVSpace%getVLinInterp()
+        vArrCellEdge = 0
+
+        do i = 1,9
+            vArrCellEdge(i) = (vArr(i+1)-vArr(i))/(vGridCopy(i+1)-vGridCopy(i))
+        end do
+        dvArr(2:10) = (vArrCellEdge(2:10)*innerV(1)%entry(2:10)-vArrCellEdge(1:9)*innerV(1)%entry(1:9))
+        dvArr(1) = vArrCellEdge(1) * innerV(1)%entry(1) - vArr(1)
+        dvArr = dvArr*innerV(1)%entry/testVSpace%getVCellWidths()
+
+        allocate(checkVec,source=testVarCont%variables(1)%entry)
+        
+        checkVec = 0
+
+        do i = 1,4
+            call setDistHarmonic(checkVec,i,i*xArr,dvArr)
+        end do
+        
+        call testVarCont%calculateDerivedVars()
+        @assertEqual(testVarCont%variables(2)%entry,checkVec,tolerance=1.0d-12)
+
+        allocate(checkVecSH(50))
+        do i = 1,5
+            checkVecSH((i-1)*10+1:i*10) = checkVec((i-2)*40+11:(i-2)*40+20)
+        end do 
+
+        @assertEqual(method2%calculate(testVarCont%variables,[1]),checkVecSH,tolerance=1.0d-12)
+
+    end subroutine test_d2dv2_deriv
+
+    @test
+    subroutine test_h_e_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(VSpace) :: testVSpace
+        type(HExtractorDerivation) :: method1 
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,checkVec 
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("f1",.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testVSpace,2)
+
+        call cRules(1)%init(method1,[stringArray("f")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        do i = 1,4
+            call setDistHarmonic(testVarCont%variables(1)%entry,i,i*xArr,vArr)
+        end do
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(checkVec(50))
+        do i = 1,5
+            checkVec((i-1)*10+1:i*10) = testVarCont%variables(1)%entry((i-2)*40+11:(i-2)*40+20)
+        end do 
+
+        @assertEqual(testVarCont%variables(2)%entry,checkVec,tolerance=1.0d-12)
+
+    end subroutine test_h_e_deriv
+
+    @test
+    subroutine test_ij_int_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(2) :: cRules
+        type(VSpace) :: testVSpace
+        type(IJIntDerivation) :: method1 ,method2
+        type(SparseRowData) :: iMat ,jMat
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,checkVec ,vArrJ ,vArrI
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("f1",.true.)
+        call testListDerived%addVar("f2",.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testVSpace,0)
+        call method2%init(testVSpace,1,.true.)
+
+        call cRules(1)%init(method1,[stringArray("f")])
+        call cRules(2)%init(method2,[stringArray("f")])
+
+        iMat = testVSpace%getShkarofskyIMat(0)
+        jMat = testVSpace%getShkarofskyJMat(1)
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        do i = 1,4
+            call setDistHarmonic(testVarCont%variables(1)%entry,i,i*xArr,vArr)
+        end do
+        allocate(vArrI(10))
+        allocate(vArrJ(10))
+
+        do i = 1,size(iMat%values)
+            vArrI(i) = dot_product(iMat%values(i)%entry,vArr(iMat%columnVector(i)%entry))
+        end do
+
+        do i = 1,size(jMat%values)
+            vArrJ(i) = dot_product(jMat%values(i)%entry,vArr(jMat%columnVector(i)%entry))
+        end do
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(checkVec(size(testVarCont%variables(1)%entry)))
+        do i = 1,4
+            call setDistHarmonic(checkVec,i,i*xArr,vArrI)
+        end do
+
+        @assertEqual(testVarCont%variables(2)%entry,checkVec,tolerance=1.0d-12)
+
+        do i = 1,4
+            call setDistHarmonic(checkVec,i,i*xArr,vArrJ)
+        end do
+
+        @assertEqual(testVarCont%variables(3)%entry,checkVec,tolerance=1.0d-12)
+
+    end subroutine test_ij_int_deriv
+
+    @test
+    subroutine test_ccl_weights
+    
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(CCLWeightDerivation) :: method1 
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,checkVec ,cVec, dVec ,dvPlus ,vArr2 ,vGrid ,wBuffer
+
+        type(RealArray) ,dimension(2) :: rArray
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call method1%init(testVSpace)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        allocate(cVec(50))
+        allocate(dVec(50))  
+        allocate(checkVec(50))
+        allocate(wBuffer(50))
+
+        vArr2 = vArr 
+        vArr2(10) = 0
+        
+        allocate(dvPlus(10))
+        vGrid = testGrid%getVGrid()
+        dvPlus = 0 
+        dvPlus(1:9) = vGrid(2:10) - vGrid(1:9)
+        call setDistHarmonic(cVec,1,xArr,vArr)
+        call setDistHarmonic(dVec,1,xArr,vArr2)
+        xArr = real(1,kind=rk)
+        call setDistHarmonic(wBuffer,1,xArr,dvPlus*vArr/vArr2)
+
+        where (ieee_is_nan(wBuffer)) 
+            wBuffer = ieee_value(wBuffer,ieee_positive_inf)
+        end where
+
+        checkVec = real(1,kind=rk) - 1/wBuffer + 1/(exp(wBuffer)-1)
+
+        rArray = [RealArray(cVec),RealArray(dVec)]
+        @assertEqual(method1%calculate(rArray,[1,2]),checkVec,tolerance=1.0d-12)
+
+    end subroutine test_ccl_weights
+
+    @test
+    subroutine test_ccl_drag
+    
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(CCLDragDerivation) :: method1 
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,checkVec ,fVec, v2dv ,vArr2 
+
+        type(RealArray) ,dimension(1) :: rArray
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call method1%init(testVSpace)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        allocate(fVec(50))
+        allocate(checkVec(50))
+        allocate(vArr2(10))
+        v2dv = testGrid%getVGrid()**2*testVSpace%getVCellWidths()
+        do i = 1,10
+            vArr2(i) = 4*pi*dot_product(vArr(1:i),v2dv(1:i))
+        end do
+        vArr2(10)=0
+        
+        call setDistHarmonic(fVec,1,xArr,vArr)
+        call setDistHarmonic(checkVec,1,xArr,vArr2)
+
+        rArray = [RealArray(fVec)]
+        @assertEqual(method1%calculate(rArray,[1]),checkVec,tolerance=1.0d-12)
+
+    end subroutine test_ccl_drag
+
+    @test
+    subroutine test_ccl_diff
+    
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(CCLDiffDerivation) :: method1 
+
+        integer(ik) :: i ,j 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,checkVec ,fVec, deltaVec, v2dv ,vArr2 &
+                                                ,vInterp,fInterp,vdvPlus,vGrid,dv ,vStar
+
+        type(RealArray) ,dimension(2) :: rArray
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call method1%init(testVSpace)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        allocate(fVec(50))
+        call setDistHarmonic(fVec,1,xArr,vArr)
+        vInterp = testVSpace%getVLinInterp()
+
+        allocate(deltaVec(50))
+        do i = 1,5
+            deltaVec((i-1)*10+1:i*10) = vInterp
+        end do
+        allocate(checkVec(50))
+        allocate(vArr2(10))
+        allocate(vdvPlus(10))
+        vdvPlus = 0
+        vGrid = testGrid%getVGrid()
+        dv = testVSpace%getVCellWidths()
+        v2dv = vGrid**2 * dv
+        vdvPlus(1:9) = (vGrid(2:10) - vGrid(1:9))*(vGrid(1:9)+vGrid(2:10))/2
+
+        allocate(vStar(10))
+        vStar = 0
+        vStar(1:9) = (vGrid(2:10) + vGrid(1:9))/2
+        allocate(fInterp(10))
+        fInterp(1:9) = (real(1,kind=rk)-vInterp(1:9))*vArr(1:9) + vInterp(1:9)*vArr(2:10)
+        vArr2 = 0
+        do i = 1,10
+            do j =1,i
+                vArr2(i) = vArr2(i) + dot_product(fInterp(j:9),vdvPlus(j:9))*v2dv(j)
+            end do
+            vArr2(i) = vArr2(i) * 4 * pi / vStar(i)
+        end do
+        
+        vArr2(10)=0
+    
+        
+        call setDistHarmonic(checkVec,1,xArr,vArr2)
+
+        rArray = [RealArray(fVec),RealArray(deltaVec)]
+        @assertEqual(method1%calculate(rArray,[1,2]),checkVec,tolerance=1.0d-12)
+
+    end subroutine test_ccl_diff
+
+
+    @test
+    subroutine test_ci_ij_int_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(2) :: cRules
+        type(VSpace) :: testVSpace
+        type(ColdIonIJIntDerivation) :: method1 ,method2
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,checkVec 
+        real(rk) ,allocatable ,dimension(:,:) :: vArrJ ,vArrI
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("u")
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("f1",.true.)
+        call testListDerived%addVar("f2",.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testGrid,0)
+        call method2%init(testGrid,1,.true.)
+
+        call cRules(1)%init(method1,[stringArray("u")])
+        call cRules(2)%init(method2,[stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+        xArr = real([0.03d0,0.5d0,-3.0d0,4.0d0,5.0d0],kind=rk)
+
+        testVarCont%variables(1)%entry = xArr
+        
+        allocate(vArrI(10,5))
+        allocate(vArrJ(10,5))
+
+        vArrI = 0 
+        vArrJ = 0
+
+        do i = 1,5
+            vArrI(:,i) = sign(0.5d0,testGrid%getVGrid()-abs(xArr(i))) + 0.5d0
+            vArrJ(:,i) = (-sign(0.5d0,testGrid%getVGrid()-abs(xArr(i))) + 0.5d0)/testGrid%getVGrid()
+        end do
+        
+        call testVarCont%calculateDerivedVars()
+
+        allocate(checkVec(size(testVarCont%variables(1)%entry)*10*4))
+        do i = 1,4
+            call setDistHarmonic(checkVec,i,(2*i-1)*sign(real(1,kind=rk),xArr)**(i-1)*abs(xArr)**0,vArrI)
+        end do
+
+        @assertEqual(testVarCont%variables(2)%entry,checkVec,tolerance=1.0d-12)
+
+        do i = 1,4
+            call setDistHarmonic(checkVec,i,(2*i-1)*sign(real(1,kind=rk),xArr)**(i-1)*abs(xArr),vArrJ)
+        end do
+
+        @assertEqual(testVarCont%variables(3)%entry,checkVec,tolerance=1.0d-12)
+
+    end subroutine test_ci_ij_int_deriv
+
+    @test
+    subroutine test_bounded_ext
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(13) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector ,locDist
+        type(BoundedExtDerivation) :: method1 ,method2 ,method3 ,method4,method5,method6,method7,method8,method9,method10, method11
+
+        type(LinExtrapolation) :: leftExtrap, rightExtrap
+        type(LogExtrapolation) :: rightExtrapLog ,rightExtrapLogInterp ,rightExtrapLogStag,rightExtrapLogStagInterp
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: linInterp ,dx
+        real(rk) :: logExtrap
+
+        call testPart%initSimplePartition(4,1,12,2)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),1,0)
+        call testGeometry%init(real([(0.5d0*i,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("nleft",isScalar=.true.)
+        call testListDerived%addVar("nright",isScalar=.true.)
+        call testListDerived%addVar("bound")
+        call testListDerived%addVar("nleftlb",isScalar=.true.)
+        call testListDerived%addVar("nrightlb",isScalar=.true.)
+        call testListDerived%addVar("nleftub",isScalar=.true.)
+        call testListDerived%addVar("nrightub",isScalar=.true.)
+        call testListDerived%addVar("boundscal",isScalar=.true.)
+        call testListDerived%addVar("nleftlbscal",isScalar=.true.)
+        call testListDerived%addVar("nlog",isScalar=.true.)
+        call testListDerived%addVar("nloginterp",isScalar=.true.)
+        call testListDerived%addVar("nlogstag",isScalar=.true.)
+        call testListDerived%addVar("nlogstaginterp",isScalar=.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        allocate(linInterp,source = testGeometry%getLinInterp())    
+        dx = testGeometry%getCellWidths()
+
+        call leftExtrap%init(testPart,testGrid,0,1,testGeometry,.true.,.false.)
+        call rightExtrap%init(testPart,testGrid,3,1,testGeometry,.false.,.false.)
+
+        call rightExtrapLog%init(testPart,testGrid,3,1,testGeometry,.false.,.false.,.false.)
+        call rightExtrapLogInterp%init(testPart,testGrid,3,1,testGeometry,.false.,.false.,.true.)
+        call rightExtrapLogStag%init(testPart,testGrid,3,1,testGeometry,.false.,.true.,.false.)
+        call rightExtrapLogStagInterp%init(testPart,testGrid,3,1,testGeometry,.false.,.true.,.true.)
+
+        call method1%init(testPart,0,leftExtrap)
+        call method2%init(testPart,3,rightExtrap)
+        call method3%init(testPart,0,leftExtrap,expectLowerBoundVar=.true.)
+        call method4%init(testPart,3,rightExtrap,expectLowerBoundVar=.true.)
+        call method5%init(testPart,0,leftExtrap,expectUpperBoundVar=.true.)
+        call method6%init(testPart,3,rightExtrap,expectUpperBoundVar=.true.)
+        call method7%init(testPart,0,leftExtrap,expectLowerBoundVar=.true.)
+        call method8%init(testPart,3,rightExtrapLog)
+        call method9%init(testPart,3,rightExtrapLogInterp)
+        call method10%init(testPart,3,rightExtrapLogStag)
+        call method11%init(testPart,3,rightExtrapLogStagInterp)
+
+        call cRules(1)%init(method1,[stringArray("n")])
+        call cRules(2)%init(method2,[stringArray("n")])
+        call cRules(3)%init()
+        call cRules(4)%init(method3,[stringArray("n"),stringArray("bound")])
+        call cRules(5)%init(method4,[stringArray("n"),stringArray("bound")])
+        call cRules(6)%init(method5,[stringArray("n"),stringArray("bound")])
+        call cRules(7)%init(method6,[stringArray("n"),stringArray("bound")])
+        call cRules(8)%init()
+        call cRules(9)%init(method7,[stringArray("n"),stringArray("boundscal")])
+        call cRules(10)%init(method8,[stringArray("n")])
+        call cRules(11)%init(method9,[stringArray("n")])
+        call cRules(12)%init(method10,[stringArray("n")])
+        call cRules(13)%init(method11,[stringArray("n")])
+    
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([1,2,3,4,0],kind=rk)
+        testVarCont%variables(4)%entry = real([2,3,1,1,1],kind=rk)
+        testVarCont%variables(9)%entry = real([2],kind=rk)
+
+        call testVarCont%calculateDerivedVars()
+
+        allocate(locVector(1))
+        
+        locVector(1) = (real(1,kind=rk) + linInterp(1)) * testVarCont%variables(1)%entry(1) &
+                      - linInterp(1) * testVarCont%variables(1)%entry(2)
+
+        @assertEqual(testVarCont%variables(2)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1) = (real(2,kind=rk) - linInterp(11)) * testVarCont%variables(1)%entry(3) &
+                      - (real(1,kind=rk) - linInterp(11)) * testVarCont%variables(1)%entry(2)
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1) = -(real(1,kind=rk) + linInterp(1)) * testVarCont%variables(4)%entry(1) &
+                      + linInterp(1) * testVarCont%variables(4)%entry(2)
+
+        @assertEqual(testVarCont%variables(5)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1) = (real(2,kind=rk) - linInterp(11)) * testVarCont%variables(1)%entry(3) &
+                      - (real(1,kind=rk) - linInterp(11)) * testVarCont%variables(1)%entry(2)
+
+        @assertEqual(testVarCont%variables(6)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1) = (real(1,kind=rk) + linInterp(1)) * testVarCont%variables(1)%entry(1) &
+        - linInterp(1) * testVarCont%variables(1)%entry(2)
+
+        @assertEqual(testVarCont%variables(7)%entry,locVector,tolerance=1.d-15)
+
+        locVector(1) = (real(2,kind=rk) - linInterp(11)) * testVarCont%variables(4)%entry(3) &
+                      - (real(1,kind=rk) - linInterp(11)) * testVarCont%variables(4)%entry(2)
+
+        @assertEqual(testVarCont%variables(8)%entry,locVector,tolerance=1.d-15)
+
+        locVector = - testVarCont%variables(9)%entry
+
+        @assertEqual(testVarCont%variables(10)%entry,locVector,tolerance=1.d-15)
+
+        logExtrap = dx(12)/(dx(12)+dx(11)) + real(1,kind=rk) 
+        locVector = testVarCont%variables(1)%entry(3)**logExtrap * testVarCont%variables(1)%entry(2)**(real(1,rk)-logExtrap)
+
+        @assertEqual(testVarCont%variables(11)%entry,locVector,tolerance=1.d-15)
+
+        logExtrap = real(2,kind=rk) 
+        locVector = testVarCont%variables(1)%entry(3)**logExtrap * (linInterp(11)* testVarCont%variables(1)%entry(3)+&
+                    (real(1,kind=rk) - linInterp(11))*testVarCont%variables(1)%entry(2))**(real(1,rk)-logExtrap)
+
+        @assertEqual(testVarCont%variables(12)%entry,locVector,tolerance=1.d-15)
+
+        logExtrap = dx(12)/dx(11) + real(1,kind=rk) 
+        locVector = testVarCont%variables(1)%entry(2)**logExtrap * testVarCont%variables(1)%entry(1)**(real(1,kind=rk)-logExtrap)
+
+        @assertEqual(testVarCont%variables(13)%entry,locVector,tolerance=1.d-15)
+
+        logExtrap = 2*dx(12)/dx(11) + real(1,kind=rk) 
+        locVector = testVarCont%variables(1)%entry(2)**logExtrap * (testVarCont%variables(1)%entry(2)/2+&
+                   testVarCont%variables(1)%entry(1)/2)**(real(1,rk)-logExtrap)
+
+        @assertEqual(testVarCont%variables(14)%entry,locVector,tolerance=1.d-15)
+        
+
+    end subroutine test_bounded_ext
+
+    @test
+    subroutine test_f_scaling_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(VSpace) :: testVSpace
+        type(FScalingDerivation) :: method1 ,method2,method3,method4,method5,method6,method7,method8
+        type(CalculationRule) ,dimension(1) :: cRules
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: xArr 
+        real(rk) ,allocatable ,dimension(:,:) :: checkMat
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("n")
+        call testList%addVar("n_dual")
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("nb",isScalar=.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testPart,0,10,leftBoundary=.true.)
+        call method2%init(testPart,7,10)
+        call method3%init(testPart,0,10,leftBoundary=.true.,staggeredVars=.true.)
+        call method4%init(testPart,7,10,staggeredVars=.true.)
+        call method5%init(testPart,0,10,leftBoundary=.true.,extrapolateToBoundary=.true.)
+        call method6%init(testPart,7,10,extrapolateToBoundary=.true.)
+        call method7%init(testPart,0,10,leftBoundary=.true.,extrapolateToBoundary=.true.,staggeredVars=.true.)
+        call method8%init(testPart,7,10,extrapolateToBoundary=.true.,staggeredVars=.true.)
+        call cRules(1)%init()
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+        xArr = real([1,2,3,4,5],kind=rk)
+        testVarCont%variables(2)%entry = real([3,4,5,6,7],kind=rk)
+        testVarCont%variables(3)%entry = real([7,6,5,4,3],kind=rk)
+        testVarCont%variables(4)%entry(1) = real(10,kind=rk)
+
+        do i = 1,4
+            call setDistHarmonic(testVarCont%variables(1)%entry,i,i*xArr,testGrid%getVGrid())
+        end do
+
+        allocate(checkMat(4,10))
+
+        do i = 1,4
+            checkMat(i,:) = i*xArr(2)*testGrid%getVGrid()
+        end do
+
+        @assertEqual(method1%calculate(testVarCont%variables,[1,2]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4
+            checkMat(i,:) = i*xArr(4)*testGrid%getVGrid()
+        end do
+
+        @assertEqual(method2%calculate(testVarCont%variables,[1,2]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4,2
+            checkMat(i,:) = i*xArr(2)*testGrid%getVGrid()
+        end do
+
+        do i = 2,4,2
+            checkMat(i,:) = i*xArr(2)*testGrid%getVGrid()*testVarCont%variables(2)%entry(1)/testVarCont%variables(3)%entry(1)
+        end do
+
+        @assertEqual(method3%calculate(testVarCont%variables,[1,2,3]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4,2
+            checkMat(i,:) = i*xArr(4)*testGrid%getVGrid()
+        end do
+
+        do i = 2,4,2
+            checkMat(i,:) = i*xArr(3)*testGrid%getVGrid()*testVarCont%variables(2)%entry(3)/testVarCont%variables(3)%entry(2)
+        end do
+
+        @assertEqual(method4%calculate(testVarCont%variables,[1,2,3]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4
+            checkMat(i,:) = i*xArr(2)*testGrid%getVGrid()*testVarCont%variables(4)%entry(1)/testVarCont%variables(2)%entry(1)
+        end do
+
+        @assertEqual(method5%calculate(testVarCont%variables,[1,2,4]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4
+            checkMat(i,:) = i*xArr(4)*testGrid%getVGrid()*testVarCont%variables(4)%entry(1)/testVarCont%variables(2)%entry(3)
+        end do
+
+        @assertEqual(method6%calculate(testVarCont%variables,[1,2,4]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4,2
+            checkMat(i,:) = i*xArr(2)*testGrid%getVGrid()*testVarCont%variables(4)%entry(1)/testVarCont%variables(2)%entry(1)
+        end do
+
+        do i = 2,4,2
+            checkMat(i,:) = i*xArr(2)*testGrid%getVGrid()*testVarCont%variables(4)%entry(1)/testVarCont%variables(3)%entry(1)
+        end do
+
+        @assertEqual(method7%calculate(testVarCont%variables,[1,2,3,4]),checkMat,tolerance=1.0d-12)
+
+        do i = 1,4,2
+            checkMat(i,:) = i*xArr(4)*testGrid%getVGrid()*testVarCont%variables(4)%entry(1)/testVarCont%variables(2)%entry(3)
+        end do
+
+        do i = 2,4,2
+            checkMat(i,:) = i*xArr(3)*testGrid%getVGrid()*testVarCont%variables(4)%entry(1)/testVarCont%variables(3)%entry(2)
+        end do
+
+        @assertEqual(method8%calculate(testVarCont%variables,[1,2,3,4]),checkMat,tolerance=1.0d-12)
+
+    end subroutine test_f_scaling_deriv
+
+    @test
+    subroutine test_loc_val_extr
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Geometry) :: testGeometry
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(VSpace) :: testVSpace
+        type(LocValExtractorDerivation) :: method1 
+
+        integer(ik) :: i 
+
+        real(rk) ,allocatable ,dimension(:) :: checkVec 
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+        call testList%init()
+        call testList%addVar("n")
+        call testVSpace%init(testGrid)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("n_left",isScalar=.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call method1%init(testPart,0,1)
+
+        call cRules(1)%init(method1,[stringArray("n")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+        testVarCont%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+
+        call testVarCont%calculateDerivedVars()
+        checkVec = real([2],kind=rk)
+
+        @assertEqual(testVarCont%variables(2)%entry,checkVec,tolerance=1.0d-12)
+
+    end subroutine test_loc_val_extr
+
+
+    @test
+    subroutine test_contrac_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(VelContracDerivation) :: method
+
+        real(rk) ,allocatable ,dimension(:) :: gVec
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),5,0)
+        call testVSpace%init(testGrid)
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        gVec = 12 * pi * testVSpace%getVGrid()**2 * testVSpace%getVCellWidths()
+
+        call method%init(1,gVec,testVSpace)
+
+        call cRules(1)%init(method,[stringArray("f")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(3,kind=rk)
+        testVarCont%variables(2)%entry = real(1,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector = testVarCont%variables(1)%entry
+        locVector = locVector*4*pi*sum(testGrid%getVGrid()**2*testVSpace%getVCellWidths())
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector)
+    end subroutine test_contrac_deriv
+
+    @test
+    subroutine test_v_tensor_prod
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(VelTProdDerivation) :: method
+
+        real(rk) ,allocatable ,dimension(:) :: gVec ,resVec
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)]-0.5d0,kind=rk),5,0)
+        call testVSpace%init(testGrid)
+        call testList%init()
+        call testList%addVar("n")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        allocate(gVec(5))
+        gVec = 2
+
+        call method%init(testVSpace,gVec,power=real(2,kind=rk))
+
+        call cRules(1)%init()
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont%variables(2)%entry = real(1,kind=rk)
+
+        allocate(locVector(25))
+        do i = 1,5
+            locVector((i-1)*5+1:i*5) = testVarCont%variables(1)%entry(i-1)*(gVec+testVarCont%variables(2)%entry(i-1))**2
+        end do
+       
+        resVec =method%calculate(testVarCont%variables,[1,2])
+        @assertEqual(resVec,locVector)
+    end subroutine test_v_tensor_prod
+
+    @test
+    subroutine test_range_filter_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(SimpleDerivation) ,dimension(1) :: derivObj
+        type(RangeFilterDerivation)          :: method
+
+        integer(ik) :: i 
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call derivObj(1)%init(real([1,2],kind=rk),real(3,kind=rk))
+
+        call method%init(derivObj(1),[1,2],[RealArray([0,3]),RealArray([-5,5])])
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([-1,-2,1,2,2],kind=rk)
+        testVarCont%variables(2)%entry = real([1,2,3,6,4],kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector =  3*testVarCont%variables(1)%entry*testVarCont%variables(2)%entry**2
+
+        locVector(1:2)=0
+        locVector(4) = 0
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector,tolerance=1.d-13)
+    end subroutine test_range_filter_deriv
+
+    @test
+    subroutine test_calculation_tree_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(CalculationTreeDerivation) :: method
+        type(CalculationTree)          :: testTree 
+        type(FlatTree)                 :: testFlatTree
+        type(CalculationNode) ,pointer :: nodePointer 
+
+        integer(ik) :: i 
+
+        call testTree%init(constant = real(2,kind=rk),unaryTransformTag="shift",unaryIntParams=[-1])
+        
+        nodePointer => testTree%root
+
+        call nodePointer%addChild(additiveMode=.true.,constant=real(0.5d0,kind=rk))
+        call nodePointer%addChild(constant=(real(0.25d0,kind=rk)),leafVarIndex=1)
+
+        nodePointer => nodePointer%leftChild
+
+        call nodePointer%addChild(leafVarIndex=2)
+        call nodePointer%addChild(additiveMode=.true.)
+
+        nodePointer => nodePointer%leftChild
+        nodePointer => nodePointer%rightSibling
+
+        call nodePointer%addChild(leafVarIndex=1,unaryTransformTag="ipow",unaryIntParams=[3])
+        call nodePointer%addChild(leafVarIndex=3)
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("v")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%init(testTree%flatten())
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u"),stringArray("v")]) !Not needed, but good practice
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real(6,kind=rk)
+        testVarCont%variables(3)%entry = real(3,kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+
+        locVector = ((testVarCont%variables(1)%entry**3 + testVarCont%variables(3)%entry) &
+        + (real(0.5d0,kind=rk) + testVarCont%variables(2)%entry))&
+        *real(0.5d0,kind=rk)*testVarCont%variables(1)%entry
+
+        @assertEqual(testVarCont%variables(3)%entry(1:3),testVarCont%variables(3)%entry(2:4),tolerance=1e-15)
+        @assertEqual(testVarCont%variables(3)%entry(4),testVarCont%variables(3)%entry(1),tolerance=1e-15)
+    end subroutine test_calculation_tree_deriv
+
+
+end module test_common_derivs

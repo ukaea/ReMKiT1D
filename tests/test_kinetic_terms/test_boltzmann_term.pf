@@ -1,0 +1,449 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_boltzmann_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use support_functions
+    use v_space_class
+    use mpi_controller_class
+    use initialization_support
+    use general_mat_term_class
+    use multiplicative_stencil_generator_class
+    use multiplicative_generator_core_class
+    use fixed_boltzmann_stencil_gen_class 
+    use fixed_ecs_transition_class
+    use db_transition_class
+    use inelastic_grid_data_class
+    use modelbound_CRM_data_class
+    use model_surrogate_class
+    use sparse_row_data_class
+    use variable_boltzmann_stencil_gen_class
+    use variable_ecs_transition_class
+
+    implicit none
+
+    type ,extends(modelSurrogate) ,public :: dummyModel 
+
+    end type dummyModel
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+    contains 
+
+    procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+    type ,extends(derivation) ,public :: testDerivation2 
+
+    contains 
+
+    procedure ,public :: calculate => testCalculate2
+
+    end type testDerivation2
+
+contains
+
+    @test( npes=[8])
+    subroutine test_boltz_terms(this)
+    
+        type(Partition) :: testPart
+        class(MpiTestMethod), intent(inout) :: this
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont1
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(GeneralMatrixTerm) :: testTerm ,testTerm2 ,testTerm3 ,testTerm4
+        real(rk) ,allocatable ,dimension(:) :: testVec,rateVec
+        type(MPIController) :: testController 
+        type(StencilTemplate) :: templateObj ,templateObj2 ,templateObj3 ,templateObj4
+        type(MultiplicativeStencilGen) :: stencilGen ,stencilGen2 ,stencilGen3 ,stencilGen4
+        type(MultiplicativeGeneratorCore) ,allocatable :: stencilCore
+        type(VSpace) ,target:: testVSpace
+        type(FixedECSTransition) :: testFixedECSTransition
+        type(DBTransition) :: testDBTransition
+        type(InelasticGridData) :: testInelGrid
+        type(ModelboundCRMData) :: testCRMData
+        type(FixedBoltzmannStencilGen) :: boltzStencilGen ,boltzStencilGen2 ,boltzStencilGen3 ,boltzStencilGen4
+        type(dummyModel) :: dummyM
+
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr
+        real(rk) ,allocatable ,dimension(:,:) :: cSection
+
+        type(IntArray) ,allocatable ,dimension(:) :: fixedVStencil
+        type(SparseRowData) :: wBuffer
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i*1.0d0 - 0.5d0,i=1,10)],kind=rk),1,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+        call testListDerived%addVar("T")
+
+        call cRules(1)%init()
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call templateObj%defaultStencil%init(mapToDist=.true.)
+        templateObj%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+        allocate(stencilCore)
+        call stencilCore%init(testGrid,testPart,testController%getWorldRank(),templateObj%rowCoords)
+
+        call boltzStencilGen%init(testVSpace,1,1)
+
+        call stencilGen%init(stencilCore,initXVals=jaggedArray(reshape(real([(1,i=1,3)],kind=rk),[1,3])),&
+                                        initHVals=jaggedArray(reshape(real([(1,i=1,1)],kind=rk),[1,1])))
+        call stencilGen%setVGen(boltzStencilGen)
+
+        allocate(templateObj%stencilGen,source=stencilGen)
+        templateObj%fixedStencil = .true.
+
+        allocate(cSection(10,1))
+        cSection = real(1.0d0)
+
+        call testFixedECSTransition%init(3,[0,2],[0,3],3.5d0,cSection,1,testVSpace,1)
+        call testDBTransition%init(3,[0,3],[0,2],-3.5d0,1,testVSpace,1,1,2,2,0,real(1,kind=rk))
+
+        call testCRMData%init(2)
+        call testCRMData%addTransition(testFixedECSTransition)
+        call testCRMData%addTransition(testDBTransition)
+
+        call testInelGrid%init(testVSpace,fixedEnergies=[3.5d0,-3.5d0])
+
+        call testCRMData%setInelData(testInelGrid)
+        
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj&
+                          ,mbData=testCRMData)
+
+        call dummyM%makeDefined()
+
+        xArr = real([1,2,3,4,5],kind=rk)*pi**(-1.5d0)
+        call setDistHarmonic(testVarCont1%variables(1)%entry,1,xArr,exp(-testGrid%getVGrid()**2))
+
+        testVarCont1%variables(2)%entry = xArr
+        call testCRMData%update(dummyM,testVarCont1)
+        call testTerm%update(testVarCont1,modelData=testCRMData)
+        call testTerm%calculateValues(testVarCont1)
+
+        testVec = testTerm%evaluate(testVarCont1)
+        rateVec = -testVSpace%calculateMoment(testVec,1,0)
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(1),tolerance=1.0d-14)
+        end if  
+
+        wBuffer = testCRMData%getFixedW(1)
+
+        allocate(fixedVStencil(testGrid%getNumV()))
+        do i = 1,testGrid%getNumV()
+            allocate(fixedVStencil(i)%entry(0))
+        end do
+
+        do i = 1,size(wBuffer%rowIndex)
+            fixedVStencil(wBuffer%rowIndex(i))%entry = wBuffer%columnVector(i)%entry
+        end do
+        call templateObj2%defaultStencil%init(vStencilFixed=fixedVStencil,mapToDist=.true.)
+        templateObj2%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+        allocate(stencilCore)
+        call stencilCore%init(testGrid,testPart,testController%getWorldRank(),templateObj2%rowCoords)
+
+        call boltzStencilGen2%init(testVSpace,1,1,absorptionTerm=.true.)
+
+        call stencilGen2%init(stencilCore,initXVals=jaggedArray(reshape(real([(1,i=1,3)],kind=rk),[1,3])),&
+                                        initHVals=jaggedArray(reshape(real([(1,i=1,1)],kind=rk),[1,1])))
+        call stencilGen2%setVGen(boltzStencilGen2)
+
+        allocate(templateObj2%stencilGen,source=stencilGen2)
+
+        call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj2,&
+                            mbData=testCRMData)
+
+        call testTerm2%update(testVarCont1,modelData=testCRMData)
+        call testTerm2%calculateValues(testVarCont1)
+
+        testVec = testTerm2%evaluate(testVarCont1)
+        rateVec = testVSpace%calculateMoment(testVec,1,0)
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(1),tolerance=1.0d-14)
+        end if
+        
+        call templateObj3%defaultStencil%init(mapToDist=.true.)
+        templateObj3%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+        allocate(stencilCore)
+        call stencilCore%init(testGrid,testPart,testController%getWorldRank(),templateObj3%rowCoords,vValsDependOnX=.true.)
+
+        call boltzStencilGen3%init(testVSpace,2,2,dbTerm=.true.)
+
+        call stencilGen3%init(stencilCore,initXVals=jaggedArray(reshape(real([(1,i=1,3)],kind=rk),[1,3])),&
+                                        initHVals=jaggedArray(reshape(real([(1,i=1,1)],kind=rk),[1,1])))
+        call stencilGen3%setVGen(boltzStencilGen3)
+
+        allocate(templateObj3%stencilGen,source=stencilGen3)
+
+        call testTerm3%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj3,&
+                            mbData=testCRMData)
+
+        call testTerm3%update(testVarCont1,modelData=testCRMData)
+        call testTerm3%calculateValues(testVarCont1)
+
+        testVec = testTerm3%evaluate(testVarCont1)
+        rateVec = - testVSpace%calculateMoment(testVec,1,0)
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(2),tolerance=1.0d-14)
+        end if
+
+        wBuffer = testCRMData%getFixedW(2)
+
+        deallocate(fixedVStencil)
+        allocate(fixedVStencil(testGrid%getNumV()))
+        do i = 1,testGrid%getNumV()
+            allocate(fixedVStencil(i)%entry(0))
+        end do
+
+        do i = 1,size(wBuffer%rowIndex)
+            fixedVStencil(wBuffer%rowIndex(i))%entry = wBuffer%columnVector(i)%entry
+        end do
+        call templateObj4%defaultStencil%init(vStencilFixed=fixedVStencil,mapToDist=.true.)
+        templateObj4%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+        allocate(stencilCore)
+        call stencilCore%init(testGrid,testPart,testController%getWorldRank(),templateObj4%rowCoords,vValsDependOnX=.true.)
+
+        call boltzStencilGen4%init(testVSpace,2,2,absorptionTerm=.true.,dbTerm=.true.)
+
+        call stencilGen4%init(stencilCore,initXVals=jaggedArray(reshape(real([(1,i=1,3)],kind=rk),[1,3])),&
+                                        initHVals=jaggedArray(reshape(real([(1,i=1,1)],kind=rk),[1,1])))
+        call stencilGen4%setVGen(boltzStencilGen4)
+
+        allocate(templateObj4%stencilGen,source=stencilGen4)
+
+        call testTerm4%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj4,&
+                            mbData=testCRMData)
+
+        call testTerm4%update(testVarCont1,modelData=testCRMData)
+        call testTerm4%calculateValues(testVarCont1)
+
+        testVec = testTerm4%evaluate(testVarCont1)
+        rateVec = testVSpace%calculateMoment(testVec,1,0)
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(2),tolerance=1.0d-12)
+        end if
+
+    end subroutine test_boltz_terms
+
+    @test( npes=[8])
+    subroutine test_var_boltz_terms(this)
+    
+        type(Partition) :: testPart
+        class(MpiTestMethod), intent(inout) :: this
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont1
+        type(CalculationRule) ,dimension(2) :: cRules
+        type(GeneralMatrixTerm) :: testTerm ,testTerm2 ,testTerm3 ,testTerm4
+        real(rk) ,allocatable ,dimension(:) :: testVec,rateVec
+        type(MPIController) :: testController 
+        type(StencilTemplate) :: templateObj ,templateObj2 ,templateObj3 ,templateObj4  
+        type(VSpace) ,target:: testVSpace
+        type(VariableECSTransition) :: testVariableECSTransition ,testVariableECSTransition2
+        type(DBTransition) :: testDBTransition
+        type(InelasticGridData) :: testInelGrid
+        type(ModelboundCRMData) :: testCRMData
+        type(VariableBoltzmannStencilGen) :: boltzStencilGen ,boltzStencilGen2 ,boltzStencilGen3 ,boltzStencilGen4  
+        type(dummyModel) :: dummyM
+        type(testDerivation) :: testDeriv
+        type(testDerivation2) :: testDeriv2
+        type(DerivationContainer) ,dimension(1) :: derivCont
+
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr
+        real(rk) ,allocatable ,dimension(:,:) :: cSection
+
+        type(IntArray) ,allocatable ,dimension(:) :: fixedVStencil
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i*1.0d0 - 0.5d0,i=1,10)],kind=rk),1,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+        call testListDerived%addVar("En")
+        call testListDerived%addVar("EnMinus")
+
+        call cRules(1)%init()
+        call cRules(2)%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call templateObj%defaultStencil%init(mapToDist=.true.)
+        templateObj%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        call boltzStencilGen%init(testVSpace,1)
+
+        allocate(templateObj%stencilGen,source=boltzStencilGen)
+
+        call testDeriv%makeDefined()
+        call testDeriv2%makeDefined()
+        allocate(derivCont(1)%entry,source=testDeriv2)
+
+        call testVariableECSTransition%init(3,[0,2],[0,3],testDeriv,[2],derivCont,&
+                                            [IntArray([2])],[1],1,testVSpace)
+        call testVariableECSTransition2%init(3,[0,2],[0,3],testDeriv,[3],derivCont,&
+                                            [IntArray([2])],[1],1,testVSpace)
+
+        call testCRMData%init(2)
+        call testCRMData%addTransition(testVariableECSTransition)
+        call testCRMData%addTransition(testVariableECSTransition2)
+
+        call testInelGrid%init(testVSpace,fixedEnergies=[3.5d0,-3.5d0],&
+                               interpolationGrid = [(i*1.0d0 - 0.5d0,i=-9,10)])
+
+        call testCRMData%setInelData(testInelGrid)
+        
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj&
+                          ,mbData=testCRMData)
+
+        call dummyM%makeDefined()
+
+        xArr = real([1,2,3,4,5],kind=rk)*pi**(-1.5d0)
+        call setDistHarmonic(testVarCont1%variables(1)%entry,1,xArr,exp(-testGrid%getVGrid()**2))
+
+        testVarCont1%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont1%variables(3)%entry = - real([1,2,3,4,5],kind=rk)
+
+        call testCRMData%update(dummyM,testVarCont1)
+        call testTerm%update(testVarCont1,modelData=testCRMData)
+        call testTerm%calculateValues(testVarCont1)
+
+        testVec = testTerm%evaluate(testVarCont1)
+        rateVec = -testVSpace%calculateMoment(testVec,1,0)
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(1),tolerance=1.0d-14)
+        end if  
+
+        fixedVStencil = triangularIntArray(testGrid%getNumV())
+        call templateObj2%defaultStencil%init(vStencilFixed=fixedVStencil,mapToDist=.true.)
+        templateObj2%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        call boltzStencilGen2%init(testVSpace,1,absorptionTerm=.true.)
+
+        allocate(templateObj2%stencilGen,source=boltzStencilGen2)
+
+        call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj2,&
+                            mbData=testCRMData)
+
+        call testTerm2%update(testVarCont1,modelData=testCRMData)
+        call testTerm2%calculateValues(testVarCont1)
+
+        testVec = testTerm2%evaluate(testVarCont1)
+        rateVec = testVSpace%calculateMoment(testVec,1,0)
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(1),tolerance=1.0d-14)
+        end if
+
+        call templateObj3%defaultStencil%init(mapToDist=.true.)
+        templateObj3%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        call boltzStencilGen3%init(testVSpace,2,superelasticTerm=.true.)
+
+        allocate(templateObj3%stencilGen,source=boltzStencilGen3)
+        
+        call testTerm3%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj3&
+                          ,mbData=testCRMData)
+
+        call testTerm3%update(testVarCont1,modelData=testCRMData)
+        call testTerm3%calculateValues(testVarCont1)
+
+        testVec = testTerm3%evaluate(testVarCont1)
+        rateVec = -testVSpace%calculateMoment(testVec,1,0)
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(2),tolerance=1.0d-14)
+        end if  
+
+        fixedVStencil = triangularIntArray(testGrid%getNumV(),.true.)
+        call templateObj4%defaultStencil%init(vStencilFixed=fixedVStencil,mapToDist=.true.)
+        templateObj4%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        call boltzStencilGen4%init(testVSpace,2,absorptionTerm=.true.,superelasticTerm=.true.)
+
+        allocate(templateObj4%stencilGen,source=boltzStencilGen4)
+
+        call testTerm4%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj4,&
+                            mbData=testCRMData)
+
+        call testTerm4%update(testVarCont1,modelData=testCRMData)
+        call testTerm4%calculateValues(testVarCont1)
+
+        testVec = testTerm4%evaluate(testVarCont1)
+        rateVec = testVSpace%calculateMoment(testVec,1,0)
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(2),tolerance=1.0d-14)
+        end if
+        
+        
+
+    end subroutine test_var_boltz_terms
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry 
+
+    end function testCalculate
+
+    module function testCalculate2(this,inputArray,indices) result(output)
+
+        class(testDerivation2)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        allocate(output(10*size(inputArray(1)%entry)))
+        output = real(1,kind=rk)
+
+    end function testCalculate2
+
+
+end module test_boltzmann_term
+

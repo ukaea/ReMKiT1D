@@ -1,0 +1,62 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+@test
+subroutine test_variable_list
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use variable_list_class
+    use support_types
+    implicit none
+    
+    type(variableList) :: testList ,testList2, testList3
+    type(stringArray) ,dimension(:) ,allocatable :: testNames
+
+    call testList%init()
+
+    @assertEqual(testList%getNumVars(),0)
+
+    call testList%addVar("n")
+    call testList%addVar("u")
+    call testList%addVar("f",.true.)
+
+    call testList2%init()
+
+    call testList2%addVar("E")
+
+    testList3 = testList%combineWith(testList2)
+    @assertEqual(testList3%getNumVars(),4)
+
+    testNames = testList3%getVarNames()
+
+    @assertEqual(testNames(1)%string,"n")
+    @assertEqual(testNames(2)%string,"u")
+    @assertEqual(testNames(3)%string,"f")
+    @assertEqual(testNames(4)%string,"E")
+
+    @assertEqual(testList3%getVarName(1),testNames(1)%string)
+
+    @assertFalse(testList3%isVarDist(1))
+    @assertFalse(testList3%isVarDist(2))
+    @assertTrue(testList3%isVarDist(3))
+    @assertFalse(testList3%isVarDist(4))
+
+    @assertEqual(testList3%getVarIndex("n"),1)
+    @assertEqual(testList3%getVarIndex("u"),2)
+    @assertEqual(testList3%getVarIndex("f"),3)
+    @assertEqual(testList3%getVarIndex("E"),4)
+
+    @assertFalse(testList3%isVarNameRegistered("b"))
+    @assertTrue(testList3%isVarNameRegistered("n"))
+
+end subroutine test_variable_list

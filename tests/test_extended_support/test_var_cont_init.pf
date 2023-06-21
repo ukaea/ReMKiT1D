@@ -1,0 +1,168 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_var_cont_init
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use textbook_class
+    use initialization_support
+    use json_controller_class
+    use mpi_controller_class
+    use key_names
+
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+contains
+
+    @test( npes=[8])
+    subroutine test_json_init(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(Indexing) :: testIndexing
+        type(VariableList) :: testList
+        type(VariableContainer) :: testVarCont
+        real(rk) ,allocatable ,dimension(:) :: locVector1, locVector2
+        type(TestDerivation) :: method1, method2
+        type(Textbook) :: testTextbook
+        integer(ik) :: i ,j ,k
+
+        type(NamedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+        type(NamedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(MPIController) :: testMPIController 
+        type(JSONController) :: testJSONController
+
+        real(rk) ,allocatable ,dimension(:) :: testVec,testVecDist
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testMPIController%init(4,2)   
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),3,0)
+
+        allocate(stringArrayParams(4))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n"),StringArray("u"),StringArray("f")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("p"),StringArray("T"),StringArray("g")]
+
+        allocate(logicalParams(3))
+
+        logicalParams(1) = NamedLogical(keyVariables//"."//keyImplicitVars//".f."//keyIsDist,.true.)
+        logicalParams(2) = NamedLogical(keyVariables//"."//keyDerivedVars//".g."//keyIsDist,.true.)
+        logicalParams(3) = NamedLogical(keyVariables//"."//keyDerivedVars//".g."//keyIsStationary,.true.)
+
+
+        allocate(realArrayParams(4))
+
+        realArrayParams(1)%name = keyVariables//"."//keyImplicitVars//".n."//keyInitVals
+        realArrayParams(1)%values = real([(1,i=1,12)],kind=rk)
+        realArrayParams(2)%name = keyVariables//"."//keyDerivedVars//".p."//keyInitVals
+        realArrayParams(2)%values = real([(2,i=1,12)],kind=rk)
+        realArrayParams(3)%name = keyVariables//"."//keyImplicitVars//".f."//keyInitVals
+        realArrayParams(3)%values = real([(3,i=1,240)],kind=rk)
+        realArrayParams(4)%name = keyVariables//"."//keyDerivedVars//".g."//keyInitVals
+        realArrayParams(4)%values = real([(4,i=1,240)],kind=rk)
+
+        allocate(stringParams(2))
+
+        stringParams(1) = NamedString(keyVariables//"."//keyDerivedVars//".p."//keyDerivRule//"."//keyRuleName,"deriv1")
+        stringParams(2) = NamedString(keyVariables//"."//keyDerivedVars//".T."//keyDerivRule//"."//keyRuleName,"deriv2")
+
+        stringArrayParams(3)%name = keyVariables//"."//keyDerivedVars//".p."//keyDerivRule//"."//keyReqVarNames
+        stringArrayParams(3)%values = [StringArray("n")]
+        stringArrayParams(4)%name = keyVariables//"."//keyDerivedVars//".T."//keyDerivRule//"."//keyReqVarNames
+        stringArrayParams(4)%values = [StringArray("u")]
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(realArrayParams)
+
+        call initVarListFromJSON(testList,testJSONController,testMPIController)
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method1%makeDefined()
+        call method2%makeDefined()
+        call testTextbook%init()
+
+        call testTextbook%addDerivation(method1,"deriv1")
+        call testTextbook%addDerivation(method2,"deriv2")
+
+        call initVarContFromJSON(testVarCont,testIndexing,testPart,testTextbook,testJSONController,testMPIController)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        @assertTrue(testVarCont%isVarDist(6))
+        @assertFalse(testVarCont%isVarDist(1))
+        @assertFalse(testVarCont%isVarDist(4))
+
+        @assertEqual(testVarCont%getVarIndex("n"),1)
+        @assertEqual(testVarCont%getVarIndex("T"),5)
+
+        allocate(testVec(3))
+        allocate(testVecDist(60))
+
+        call testVarCont%calculateDerivedVars()
+
+        testVec = real(1,rk)
+        testVecDist = real(1,rk)
+
+        @assertEqual(testVarCont%variables(1)%entry(1:3),testVec,tolerance=1.0d-14)
+        @assertEqual(testVarCont%variables(3)%entry(1:60),3*testVecDist,tolerance=1.0d-14)
+        @assertEqual(testVarCont%variables(6)%entry(1:60),4*testVecDist,tolerance=1.0d-14)
+
+        @assertEqual(testVarCont%variables(1)%entry,testVarCont%variables(4)%entry,tolerance=1.0d-14)
+        @assertEqual(testVarCont%variables(2)%entry,testVarCont%variables(5)%entry,tolerance=1.0d-14)
+
+        @assertFalse(testVarCont%isStationary("n"))
+        @assertTrue(testVarCont%isStationary("g"))
+
+
+    end subroutine test_json_init
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry 
+
+    end function testCalculate
+
+end module test_var_cont_init
+

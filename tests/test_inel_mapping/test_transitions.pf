@@ -1,0 +1,247 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_transitions
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use support_functions
+    use mpi_controller_class
+    use modelbound_CRM_data_class
+    use fixed_ecs_transition_class
+    use simple_transition_class
+    use db_transition_class
+    use v_space_class
+    use model_surrogate_class
+    use inelastic_grid_data_class
+    use physics_functions
+    use derivation_abstract_class
+    use derived_transition_class
+    use variable_ecs_transition_class
+    use physical_constants
+
+    implicit none
+
+    type ,extends(modelSurrogate) ,public :: dummyModel 
+
+    end type dummyModel
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+    contains 
+
+    procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+    type ,extends(derivation) ,public :: testDerivation2 
+
+    contains 
+
+    procedure ,public :: calculate => testCalculate2
+
+    end type testDerivation2
+
+    type ,public :: VSpaceWrapper
+
+        type(VSpace) ,public :: vSpaceObj
+
+    end type
+
+contains
+    @test
+    subroutine test_crm_transitions
+    
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived 
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(3) :: cRules
+        type(dummyModel) :: dummyM
+        type(VSpaceWrapper) ,target :: testVSpaceWrapper
+        type(ModelboundCRMData) :: testCRMData
+        type(SimpleTransition) :: testSimpleTransition
+        type(FixedECSTransition) :: testFixedECSTransition
+        type(VariableECSTransition) :: testVariableECSTransition
+        type(DBTransition) :: testDBTransition
+        type(DerivedTransition) :: testDerivedTransition,testDerivedTransition2
+        type(InelasticGridData) :: testInelGrid
+        type(testDerivation) :: testDeriv
+        type(testDerivation2) :: testDeriv2
+        type(DerivationContainer) ,dimension(1) :: derivCont
+        real(rk) ,allocatable ,dimension(:,:) :: cSection 
+
+        real(rk) ,allocatable ,dimension(:) :: testRate, testRateInverse ,testVec,checkVec ,csVals
+        integer(ik) :: i 
+
+        integer(ik) :: popChangeMat(4,4) ,testDensDat(1,2)
+
+        call testPart%initSimplePartition(4,2,12,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i*1.0d0 - 0.5d0,i=1,10)],kind=rk),1,0)
+        call testVSpaceWrapper%vSpaceObj%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("E")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("n")
+        call testListDerived%addVar("T")
+        call testListDerived%addVar("En")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call cRules(1)%init()
+        call cRules(2)%init()
+        call cRules(3)%init()
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        call testDeriv%makeDefined()
+        call testDeriv2%makeDefined()
+        allocate(derivCont(1)%entry,source=testDeriv2)
+
+        allocate(cSection(10,1))
+        cSection = real(1.0d0)
+        call testSimpleTransition%init(3,1,2,2.0d0,1.5d0)
+        call testFixedECSTransition%init(3,[0,2],[0,3],3.5d0,cSection,1,testVSpaceWrapper%vSpaceObj,1)
+        call testDBTransition%init(3,[0,3],[0,2],-3.5d0,1,testVSpaceWrapper%vSpaceObj,2,1,2,4,0,real(1,kind=rk))
+        call testDerivedTransition%init(3,[3],[2],3.0d0,testDeriv,[3])
+        call testDerivedTransition2%init(3,[3],[2],3.0d0,testDeriv,[3],testDeriv,[3],testDeriv,[3])
+        call testVariableECSTransition%init(3,[0,2],[0,3],testDeriv,[5],derivCont,&
+                                            [IntArray([3])],[1],1,testVSpaceWrapper%vSpaceObj)
+
+        call testCRMData%init(6)
+        call testCRMData%addTransition(testSimpleTransition)
+        call testCRMData%addTransition(testFixedECSTransition)
+        call testCRMData%addTransition(testDBTransition)
+        call testCRMData%addTransition(testDerivedTransition)
+        call testCRMData%addTransition(testDerivedTransition2)
+        call testCRMData%addTransition(testVariableECSTransition)
+
+        @assertFalse(testCRMData%ratesIncludeElDensity(1))
+        @assertTrue(testCRMData%ratesIncludeElDensity(2))
+        @assertTrue(testCRMData%ratesIncludeElDensity(3))
+        @assertFalse(testCRMData%ratesIncludeElDensity(4))
+
+        call testInelGrid%init(testVSpaceWrapper%vSpaceObj,fixedEnergies=[3.5d0,-3.5d0],&
+                               interpolationGrid = [(i*1.0d0 - 0.5d0,i=1,10)])
+
+        call testCRMData%setInelData(testInelGrid)
+        do i = 1,3
+        testVarCont1%variables(1)%entry((i-1)*20+1:i*20) = exp(-testVSpaceWrapper%vSpaceObj%getVGrid()**2)
+        testVarCont1%variables(2)%entry(i) = real(1.0d0)
+        testVarCont1%variables(3)%entry(i) = real(2.0d0)
+        testVarCont1%variables(4)%entry(i) = real(1.0d0)
+        end do
+        testVarCont1%variables(5)%entry = real([1,2,3,4,5],kind=rk)
+
+        call testCRMData%update(dummyM,testVarCont1)
+        testRate = 4*pi*[(sum(testVSpaceWrapper%vSpaceObj%getVGrid()**3*testVSpaceWrapper%vSpaceObj%getVCellWidths()&
+        *testCRMData%getFixedEmissionVector(1)*exp(-testVSpaceWrapper%vSpaceObj%getVGrid()**2)),i=1,3)]
+        testRateInverse = testRate * exp(3.5d0)
+        @assertEqual(testCRMData%getTransitionIngoingStates(1),[1])
+        @assertEqual(testCRMData%getTransitionIngoingStates(2),[0,2])
+        @assertEqual(testCRMData%getTransitionIngoingStates(3),[0,3])
+        @assertEqual(testCRMData%getTransitionIngoingStates(4),[3])
+        @assertEqual(testCRMData%getTransitionOutgoingStates(1),[2])
+        @assertEqual(testCRMData%getTransitionOutgoingStates(2),[0,3])
+        @assertEqual(testCRMData%getTransitionOutgoingStates(3),[0,2])
+        @assertEqual(testCRMData%getTransitionOutgoingStates(4),[2])
+        @assertEqual(testCRMData%getTransitionRate(1),[1.5d0,1.5d0,1.5d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionRate(2),testRate,tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionRate(3),testRateInverse,tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionRate(4),[2.0d0,2.0d0,2.0d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionRate(5),[2.0d0,2.0d0,2.0d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionEnergy(1),[2.0d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionEnergy(2),[3.5d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionEnergy(3),[-3.5d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionEnergy(4),[3.d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionEnergy(6),real([2,3,4],kind=rk),tolerance=1.0d-14)
+
+        @assertEqual(testCRMData%getTransitionRateMomentum(5),[2.0d0,2.0d0,2.0d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionRateEnergy(5),[2.0d0,2.0d0,2.0d0],tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionEnergy(5),[1.0d0,1.0d0,1.0d0],tolerance=1.0d-14)
+
+        testRate = 4*pi*[(sum(testVSpaceWrapper%vSpaceObj%getVGrid()**3*testVSpaceWrapper%vSpaceObj%getVCellWidths()&
+        *testCRMData%getInterpolatedEmissionVector(real(i+1,kind=rk))*exp(-testVSpaceWrapper%vSpaceObj%getVGrid()**2)),i=1,3)]
+        @assertEqual(testCRMData%getTransitionRate(6),testRate,tolerance=1.0d-14)
+        @assertEqual(testCRMData%getTransitionRateEnergy(6),testRate*real([2,3,4],kind=rk),tolerance=1.0d-14)
+
+        call testCRMData%copyData("rate0index1",testRate)
+        @assertEqual(testRate,[1.5d0,1.5d0,1.5d0],tolerance=1.0d-14)
+
+        popChangeMat = 0
+        popChangeMat(2,1) = -1
+        popChangeMat(3,1) = 1
+        popChangeMat(3,2) = -1
+        popChangeMat(4,2) = 1
+        popChangeMat(3,3) = 1
+        popChangeMat(3,4) = 1
+        popChangeMat(4,3) = -1
+        popChangeMat(4,4) = -1
+
+        @assertEqual(popChangeMat,testCRMData%getPopulationChangeMatrix([0,1,2,3],[1,2,3,4]))
+
+        testDensDat(1,1) = 2
+        testDensDat(1,2) = 1
+
+        @assertEqual(testDensDat,testCRMData%getRequiredDensityData(2))
+
+        allocate(csVals(30))
+        csVals = real(1,kind=rk)
+        
+        call testCRMData%copyData("cssl1index2",testRate)
+        @assertEqual(testRate,csVals,tolerance=1.0d-14)
+
+        call testDBTransition%update(testVarCont1,hostData=testCRMData)
+        csVals = testDBTransition%getCrossSectionCol(1)
+        call testCRMData%copyData("cssl1index3",testRate)
+        @assertEqual(testRate,csVals,tolerance=1.0d-14)
+
+    end subroutine test_crm_transitions
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry 
+
+    end function testCalculate
+
+    module function testCalculate2(this,inputArray,indices) result(output)
+
+        class(testDerivation2)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        allocate(output(10*size(inputArray(1)%entry)))
+        output = real(1,kind=rk)
+
+    end function testCalculate2
+
+end module test_transitions
+

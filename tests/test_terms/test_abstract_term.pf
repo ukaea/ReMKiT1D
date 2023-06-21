@@ -1,0 +1,208 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_abstract_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use test_matrix_term_class
+    use matrix_term_abstract_class
+    use petsc_preallocation_data_class
+    use support_functions
+    use test_explicit_term_class
+    use test_operator_class
+    use stencil_class
+
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+contains
+
+    @test
+    subroutine test_matrix_term
+    
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(2) :: cRules
+        type(testDerivation) :: method
+        type(testMatrixTerm) :: testTerm ,testTerm2
+        type(petscPreallocationData) :: testPreallocData
+        type(intArray) ,allocatable ,dimension(:) :: coordsF
+        real(rk) ,allocatable ,dimension(:) :: testVec
+        type(stencil) :: testStencil1 ,testStencil2
+
+        integer(ik) :: i ,j
+
+        call testPart%initSimplePartition(4,2,12,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("E")
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%makeDefined()
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+        call cRules(2)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,2)
+
+        call testTerm%makeDefined()
+
+        call testStencil1%init(xStencil=[-1,1])
+        call testStencil2%init(xStencil=[-1,1],mapToDist=.true.)
+
+
+        call testTerm%setEvolvedAndImplicitVar("n","u",testVarCont1)
+        call testTerm%setReqVars([stringArray("n"),stringArray("E")],[stringArray("u")],testVarCont1)
+        call testTerm%initRowData(reshape([4,5,6],[1,3]),testMapping,testIndexing)
+
+        allocate(coordsF(3))
+
+        coordsF(1)%entry = [4,5,6]
+        coordsF(2)%entry = [1]
+        coordsF(3)%entry = [1,2,3]
+
+
+        call testTerm2%makeDefined()
+
+        call testTerm2%setEvolvedAndImplicitVar("f","f",testVarCont1)
+        call testTerm2%setReqVars([stringArray("f"),stringArray("f")],[stringArray("f")],testVarCont1)
+        call testTerm2%initRowData(allCombinations(coordsF),testMapping,testIndexing)
+
+        call testPreallocData%init(testIndexing,2)
+
+        call testTerm%addRowDataToPreallocationData(testPreallocData)
+        call testTerm2%addRowDataToPreallocationData(testPreallocData)
+        call testPreallocData%assembleData()
+
+        @assertEqual(testPreallocData%getNumNonzerosDiag(),[1,0,1,1,1,2,0,2,2,2,1,0,1,1,1])
+        @assertEqual(testPreallocData%getNumNonzerosOffDiag(),[1,0,1,1,1,0,0,0,0,0,1,0,1,1,1])
+
+        testVarCont1%variables(1)%entry = real([1.0,2.0,3.0,4.0,5.0],kind=rk)
+        testVarCont1%variables(2)%entry = real([1.0,4.0,5.0,6.0,7.0],kind=rk)
+        testVarCont1%variables(3)%entry = 2.0d00
+        call testVarCont1%calculateDerivedVars()
+        call testTerm%calculateValues(testVarCont1)
+        @assertEqual(testTerm%evaluate(testVarCont1),real([0.0,416.0,2340.0,7104.0,0.0],kind=rk))
+        call testTerm2%calculateValues(testVarCont1)
+
+        allocate(testVec(-5:24))
+        testVec = 0.0
+        do i = 1,3
+            do j = 1,3
+                testVec((i-1)*6 + j) = real(32.0,kind=rk)
+            end do 
+        end do
+
+        @assertEqual(testTerm2%evaluate(testVarCont1),testVec)
+
+        contains 
+
+        pure function testMapping(inputArray) result(output)
+
+            integer(ik)    ,dimension(:)        ,intent(in) :: inputArray 
+            type(intArray) ,allocatable ,dimension(:)       :: output
+
+            if (size(inputArray) == 1) then
+                output = testStencil1%mapCoords(testGrid,inputArray)
+            else
+                output = testStencil2%mapCoords(testGrid,inputArray)
+            end if
+
+        end function testMapping
+
+
+
+    end subroutine test_matrix_term
+
+    @test
+    subroutine test_explicit_term
+    
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(testExplicitTerm) :: testTerm 
+        type(testOperator) :: testOp
+
+        integer(ik) :: i
+
+        call testPart%initSimplePartition(4,2,12,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,2)
+
+        call testTerm%init("n",testVarCont1)
+
+        call testTerm%setEvolvedAndOperatedVar("n")
+
+        call testTerm%setOperator(testOp)
+        
+        testVarCont1%variables(1)%entry = real(2.0d00,kind=rk)
+
+        @assertEqual(testTerm%evaluate(testVarCont1),2*testVarCont1%variables(1)%entry)
+
+    end subroutine test_explicit_term
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry * inputArray(indices(2))%entry
+
+    end function testCalculate
+
+    
+
+end module test_abstract_term
+

@@ -1,0 +1,217 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_mpi
+    use MPI
+    use pFunit
+    use mpi_controller_class
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+contains
+
+@test( npes=[8])
+subroutine test_controller(this)
+
+    
+    class (MpiTestMethod), intent(inout) :: this
+    type(MPIController) :: testController 
+
+    call testController%init(4,2)
+
+    @assertEqual(testController%getWorldSize(),8)
+    @assertEqual(testController%getRowSize(),2)
+    @assertEqual(testController%getRowRank(),mod(testController%getWorldRank(),2))
+   
+end subroutine test_controller
+
+@test( npes=[8])
+    subroutine test_communication(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont
+        type(calculationRule) ,dimension(1) :: cRules
+        type(testDerivation) :: method
+        type(MPIController) :: testController 
+
+        integer(ik) :: i ,j ,k
+
+        logical :: testLogical
+
+        real(rk) ,allocatable ,dimension(:) :: testFVec ,testGather1 ,testGather2
+
+        call testController%init(4,2)
+
+        call testPart%initSimplePartition(4,2,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+        call testListDerived%addVar("scal",isScalar=.true.)
+
+        call cRules(1)%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%makeDefined()
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        testVarCont%variables(4)%entry = testController%getWorldRank()
+
+        if (testController%getRowRank() == 0) then
+            testVarCont%variables(1)%entry = 1.0d00
+            testVarCont%variables(2)%entry = 1.0d00
+        end if
+
+        if (testController%getRowRank() > 0) then
+            @assertEqual(testVarCont%variables(1)%entry,[1.0d00,0.0d00,0.0d00,0.0d00,1.0d00])
+            @assertEqual(testVarCont%variables(2)%entry,[1.0d00,0.0d00,0.0d00,0.0d00,1.0d00])
+        end if
+
+        call testController%broadcastVarInRow(testVarCont,"n")
+
+        if (testController%getRowRank() > 0) then
+            @assertEqual(testVarCont%variables(1)%entry,[1.0d00,1.0d00,1.0d00,1.0d00,1.0d00])
+            @assertEqual(testVarCont%variables(2)%entry,[1.0d00,0.0d00,0.0d00,0.0d00,1.0d00])
+        end if
+
+        call testController%broadcastVarInRow(testVarCont,"u")
+
+        if (testController%getRowRank() > 0) then
+            @assertEqual(testVarCont%variables(1)%entry,[1.0d00,1.0d00,1.0d00,1.0d00,1.0d00])
+            @assertEqual(testVarCont%variables(2)%entry,[1.0d00,1.0d00,1.0d00,1.0d00,1.0d00])
+        end if
+
+        testVarCont%variables(3)%entry = real(testController%getRowRank(),kind=rk)
+
+        call testController%calculateRowDistData(testPart,1,5)
+
+        call testController%exchangeDistVarInRow(testVarCont,"f")
+
+        allocate(testFVec(-29:120))
+
+        do i = 1,5
+            do j = 1,6
+                do k =1,5
+
+                    testFVec(-30 + (i-1)*30 +5*(j-1) +k) = real((j-1)/3,kind=rk)
+
+                end do 
+            end do
+        end do
+
+        @assertEqual( testVarCont%variables(3)%entry,testFVec,tolerance=1e-14)
+
+        testVarCont%variables(3)%entry = real(testController%getWorldRank(),kind=rk)
+
+        call testController%initializeNeighbourPairs(.true.)
+
+        call testController%exchangeVarXHalos(testVarCont,"f",.true.)
+
+        do i = 2,5
+            if (testController%getWorldRank() == i) then
+            @assertEqual(testVarCont%variables(3)%entry(-29:0),[(real(i-2,kind=rk),j=1,30)],tolerance=1e-14)
+            @assertEqual(testVarCont%variables(3)%entry(91:120),[(real(i+2,kind=rk),j=1,30)],tolerance=1e-14)
+            end if
+        end do
+        
+        if (testController%getWorldRank() == 0) then
+            @assertEqual(testVarCont%variables(3)%entry(-29:0),[(real(6,kind=rk),j=1,30)],tolerance=1e-14)
+            @assertEqual(testVarCont%variables(3)%entry(91:120),[(real(2,kind=rk),j=1,30)],tolerance=1e-14)
+        end if
+
+        if (testController%getWorldRank() == 1) then
+            @assertEqual(testVarCont%variables(3)%entry(-29:0),[(real(7,kind=rk),j=1,30)],tolerance=1e-14)
+            @assertEqual(testVarCont%variables(3)%entry(91:120),[(real(3,kind=rk),j=1,30)],tolerance=1e-14)
+        end if
+
+        testVarCont%variables(1)%entry = real(testController%getWorldRank(),kind=rk)
+        call testController%exchangeVarXHalos(testVarCont,"n",.false.)
+
+        do i = 2,5
+            if (testController%getWorldRank() == i) then
+            @assertEqual(testVarCont%variables(1)%entry(0),real(i-2,kind=rk),tolerance=1e-14)
+            @assertEqual(testVarCont%variables(1)%entry(4),real(i+2,kind=rk),tolerance=1e-14)
+            end if
+        end do
+        
+        if (testController%getWorldRank() == 0) then
+            @assertEqual(testVarCont%variables(1)%entry(0),real(6,kind=rk),tolerance=1e-14)
+            @assertEqual(testVarCont%variables(1)%entry(4),real(2,kind=rk),tolerance=1e-14)
+        end if
+
+        if (testController%getWorldRank() == 1) then
+            @assertEqual(testVarCont%variables(1)%entry(0),real(7,kind=rk),tolerance=1e-14)
+            @assertEqual(testVarCont%variables(1)%entry(4),real(3,kind=rk),tolerance=1e-14)
+        end if
+
+        testLogical = .false. 
+
+        if (testController%getWorldRank() /= 0) testLogical = .true. 
+
+        @assertFalse(testController%isTrueEverywhere(testLogical))
+
+        if (testController%getWorldRank() == 0) testLogical = .true. 
+
+        @assertTrue(testController%isTrueEverywhere(testLogical))
+
+        testVarCont%variables(1)%entry = real(testController%getColRank(),kind=rk)
+        testVarCont%variables(3)%entry = real(testController%getColRank(),kind=rk)
+
+        call testController%gatherVar(testVarCont%variables(1)%entry,testGather1,.false.)
+        call testController%gatherVar(testVarCont%variables(3)%entry,testGather2,.true.)
+
+        if (testController%getWorldRank() == 0) call assertEqual(size(testGather1),12)
+
+        if (testController%getWorldRank() == 0) call assertEqual(size(testGather2),360)
+        !Checked by printing that the values are correct TODO: add proper test everywhere
+
+        call testController%broadcastReal(testVarCont%variables(4)%entry,5)
+
+        @assertEqual(testVarCont%variables(4)%entry,[real(5,kind=rk)],tolerance=1e-14)
+
+    end subroutine test_communication
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry * inputArray(indices(2))%entry
+
+    end function testCalculate
+end module

@@ -1,0 +1,83 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+
+@test
+subroutine test_sparse_row_data
+    use pfunit
+    use sparse_row_data_class
+    use support_types
+    use data_kinds        ,only: ik, rk
+    implicit none 
+
+    type(sparseRowData) :: testData ,testData2 
+
+    integer(ik) ,dimension(:) ,allocatable :: rows 
+    type(intArray) ,dimension(:) ,allocatable :: colVecs 
+
+    type(RealArray) ,dimension(:) ,allocatable :: testArray
+
+    integer(ik) :: i 
+
+    rows = [1,2,3]
+    colVecs = [intArray([1,2]),intArray([2,3]),intArray([3,4])]
+
+    call testData%init(rows,colVecs)
+    
+    @assertEqual(testData%rowIndex,[1,2,3])
+    @assertEqual(size(testData%columnVector),3)
+    @assertEqual(size(testData%values),3)
+
+    @assertEqual(testData%columnVector(1)%entry,[1,2])
+    @assertEqual(testData%columnVector(2)%entry,[2,3])
+    @assertEqual(testData%columnVector(3)%entry,[3,4])
+
+    @assertTrue(all(abs(testData%values(1)%entry) <= 1.0d-14))
+    @assertTrue(all(abs(testData%values(2)%entry) <= 1.0d-14))
+    @assertTrue(all(abs(testData%values(3)%entry) <= 1.0d-14))
+
+    call testData%addRow(4,[4,5])
+
+    @assertEqual(testData%rowIndex,[1,2,3,4])
+    @assertEqual(size(testData%columnVector),4)
+    @assertEqual(size(testData%values),4)
+
+    @assertEqual(testData%columnVector(1)%entry,[1,2])
+    @assertEqual(testData%columnVector(2)%entry,[2,3])
+    @assertEqual(testData%columnVector(3)%entry,[3,4])
+    @assertEqual(testData%columnVector(4)%entry,[4,5])
+
+    @assertTrue(all(abs(testData%values(1)%entry) <= 1.0d-14))
+    @assertTrue(all(abs(testData%values(2)%entry) <= 1.0d-14))
+    @assertTrue(all(abs(testData%values(3)%entry) <= 1.0d-14))
+    @assertTrue(all(abs(testData%values(4)%entry) <= 1.0d-14))
+
+    do i = 1,4
+        testData%values(i)%entry = real(i,kind=rk)
+    end do
+
+
+    testData2 = testData * testData
+
+    @assertEqual(size(testData2%values),4)
+
+    do i = 1,4 
+        @assertTrue(all(abs(testData2%values(i)%entry - real(i**2,kind=rk)) <= 1.0d-14))
+    end do
+
+    testArray = testData%values * testData 
+
+    do i = 1,4 
+        @assertTrue(all(abs(testArray(i)%entry - real(i**2,kind=rk)) <= 1.0d-14))
+    end do
+
+end subroutine test_sparse_row_data

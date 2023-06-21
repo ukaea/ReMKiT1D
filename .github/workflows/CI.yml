@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 
+      image: smijin/remkit1d-ci:latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Build ReMKiT1D
+        run: |
+            mkdir build
+            cd build
+            cmake .. -DCMAKE_Fortran_COMPILER=${FC} -DCMAKE_BUILD_TYPE=TESTING
+            make -j$(nproc) 
+
+      - name: Tar build artifacts
+        run: tar -cvf build.tar ./build/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ReMKiT1D-build
+          path: build.tar
+
+  test: 
+    needs: build
+    runs-on: ubuntu-latest
+    container: 
+      image: smijin/remkit1d-ci:latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ReMKiT1D-build
+
+      - name: Untar build artifacts
+        run: tar -xvf build.tar 
+
+      - name: Run tests 
+        run: |
+            cd build
+            ctest --rerun-failed --output-on-failure
+            make gcov
+            lcov --c --d ./coverage --output-file ./coverage/main_coverage.txt
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ github.workspace }}/build/coverage/main_coverage.txt
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)

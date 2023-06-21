@@ -1,0 +1,63 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+@test
+subroutine test_inel_map
+    use pfunit
+    use data_kinds         ,only: ik, rk
+    use inelastic_mapping 
+    use sparse_row_data_class 
+    use v_space_class     ,only: VSpace
+    use grid_class        ,only: Grid
+
+    implicit none
+    
+
+    type(Grid) :: testGrid 
+    type(VSpace) :: testVSpace
+    type(SparseRowData) :: testW
+    real(rk) :: E
+    integer(ik) :: i ,j
+
+    real(rk) ,allocatable ,dimension(:) :: partProduct, eProduct ,partRate ,eRate ,eGrid
+    
+    call testGrid%init(real([0.0,0.1,0.2,0.3],kind=rk),real([(i -0.5d0, i=1,10)],kind=rk),2,0)
+
+    call testVSpace%init(testGrid)
+    E = 3.5d0
+    testW = inelWeights(testVSpace,E)
+    eGrid = testVSpace%getVGrid()**2
+    !Confirm conservation properties
+    partProduct = eGrid * testVSpace%getVCellWidths()
+    eProduct = eGrid**2 * testVSpace%getVCellWidths()
+    allocate(partRate(size(partProduct)))
+    allocate(eRate(size(partProduct)))
+    partRate = 0 
+    eRate = 0
+    do i = 1, size(testW%rowIndex)
+        do j = 1,size(testW%columnVector(i)%entry)
+            partRate(testW%columnVector(i)%entry(j)) = partRate(testW%columnVector(i)%entry(j)) + &
+            testW%values(i)%entry(j) * partProduct(testW%rowIndex(i))
+            eRate(testW%columnVector(i)%entry(j)) = eRate(testW%columnVector(i)%entry(j)) + &
+            testW%values(i)%entry(j) * eProduct(testW%rowIndex(i))
+        end do
+    end do
+    do i = 1,size(partProduct) 
+        if (partRate(i) > 0) partRate(i) = partRate(i) - partProduct(i)
+        if (eRate(i) > 0) eRate(i) = eRate(i) - partProduct(i) * (eGrid(i) - E)
+    end do
+
+    !Normalize to remove floating point errors
+    @assertTrue(all(partRate/partProduct < 1.0d-14))
+    @assertTrue(all(eRate/eProduct < 1.0d-14))
+
+end subroutine test_inel_map

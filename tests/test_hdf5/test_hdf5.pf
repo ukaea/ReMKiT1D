@@ -1,0 +1,114 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_hdf5
+    use MPI
+    use pFunit
+    use hdf5_controller_class
+    use mpi_controller_class
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+contains
+
+@test( npes=[8])
+    subroutine test_hdf5_serial_IO(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont
+        type(calculationRule) ,dimension(0) :: cRules
+        type(testDerivation) :: method
+        type(MPIController) :: testMPIController 
+        type(HDF5Controller) :: testHDF5Controller,testHDF5Controller2
+
+        integer(ik) :: i 
+
+        call testMPIController%init(4,2)
+
+        call testPart%initSimplePartition(4,2,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%makeDefined()
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
+
+        call testMPIController%calculateRowDistData(testPart,1,5)
+
+        testVarCont%variables(1)%entry = real(testMPIController%getColRank(),kind=rk)
+        testVarCont%variables(2)%entry = real(testMPIController%getColRank(),kind=rk)
+        testVarCont%variables(3)%entry = real(testMPIController%getColRank(),kind=rk)
+
+        call testHDF5Controller%init(testVarCont,[stringArray("n"),stringArray("u"),stringArray("f")])
+        call testHDF5Controller2%init(testVarCont,[stringArray("n"),stringArray("u")])
+
+        call testHDF5Controller%outputVarsSerial(testMPIController,testVarCont,"testVar",1) 
+        call testHDF5Controller%outputGridDataSerial(testMPIController,testGrid,"testGrid") 
+        call testHDF5Controller%dumpRestartFiles(testMPIController,testVarCont) 
+        testVarCont%variables(1)%entry = 0
+        testVarCont%variables(2)%entry = 0
+        testVarCont%variables(3)%entry = 0
+        call testHDF5Controller%loadRestartFiles(testMPIController,testVarCont) 
+
+        @assertTrue(all(abs(testVarCont%variables(1)%entry - real(testMPIController%getColRank(),kind=rk)) < 1d-12))
+        @assertTrue(all(abs(testVarCont%variables(2)%entry - real(testMPIController%getColRank(),kind=rk)) < 1d-12))
+        @assertTrue(all(abs(testVarCont%variables(3)%entry - real(testMPIController%getColRank(),kind=rk)) < 1d-12))
+
+        testVarCont%variables(1)%entry = 0
+        testVarCont%variables(2)%entry = 0
+        testVarCont%variables(3)%entry = 0
+
+        call testHDF5Controller2%loadVarsSerial(testMPIController,testVarCont,"testVar_1")
+
+        @assertTrue(all(abs(testVarCont%variables(1)%entry(1:3) - real(testMPIController%getColRank(),kind=rk)) < 1d-12))
+        @assertTrue(all(abs(testVarCont%variables(2)%entry(1:3) - real(testMPIController%getColRank(),kind=rk)) < 1d-12))
+        @assertTrue(all(abs(testVarCont%variables(3)%entry) < 1d-12))
+
+    end subroutine test_hdf5_serial_IO
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry * inputArray(indices(2))%entry
+
+    end function testCalculate
+end module

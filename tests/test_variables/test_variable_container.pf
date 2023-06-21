@@ -1,0 +1,202 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_variable_container
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+contains
+
+    @test
+    subroutine test1
+    
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1, testVarCont2
+        type(calculationRule) ,dimension(3) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector1, locVector2
+        type(testDerivation) :: method
+        type(StringArray) ,allocatable ,dimension(:) :: varNames
+
+        integer(ik) :: i ,j ,k
+        real(rk) ,allocatable ,dimension(:) :: fVec
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("E")
+        call testListDerived%addVar("T",priority=1)
+        call testListDerived%addVar("p",priority=1)
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call method%makeDefined()
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+        call cRules(2)%init(method,[stringArray("n"),stringArray("p")])
+        call cRules(3)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        @assertTrue(testVarCont1%isVarDist(3))
+        @assertFalse(testVarCont1%isVarDist(1))
+        @assertFalse(testVarCont1%isVarDist(4))
+
+        @assertEqual(testVarCont1%getVarIndex("u"),2)
+        @assertEqual(testVarCont1%getVarIndex("E"),4)
+
+        @assertEqual(lbound(testVarCont1%variables(1)%entry,1),0)
+        @assertEqual(ubound(testVarCont1%variables(1)%entry,1),4)
+        @assertEqual(lbound(testVarCont1%variables(2)%entry,1),0)
+        @assertEqual(ubound(testVarCont1%variables(2)%entry,1),4)
+        @assertEqual(lbound(testVarCont1%variables(3)%entry,1),-29)
+        @assertEqual(ubound(testVarCont1%variables(3)%entry,1),120)
+
+        testVarCont1%variables(1)%entry = real(2.0,kind=rk)
+        testVarCont1%variables(2)%entry = real(3.0,kind=rk)
+        testVarCont1%variables(3)%entry = real(0.0,kind=rk)
+
+
+        call testVarCont1%calculateDerivedVars(derivPriority=0)
+
+        @assertTrue(all(abs(testVarCont1%variables(4)%entry - 6.0d00) < 1d-12))
+        @assertTrue(all(abs(testVarCont1%variables(6)%entry(1:3) - 0.0d00) < 1d-12))
+        @assertTrue(all(abs(testVarCont1%variables(5)%entry(1:3) - 0.0d00) < 1d-12))
+
+        call testVarCont1%calculateDerivedVars(derivPriority=1)
+
+        @assertEqual(testVarCont1%variables(6)%entry,real([(6,i=1,5)],kind=rk),tolerance=1d-12)
+
+        allocate(locVector1(36))
+        locVector1 = real(1.0d00,kind=rk)
+        do i = 1,3
+            locVector1(testIndexing%findIndex("n",i,local=.true.)) = real(4.0,kind=rk)
+            locVector1(testIndexing%findIndex("u",i,local=.true.)) = real(3.0,kind=rk)
+        end do
+
+        call testVarCont1%extractImplicitVars(locVector1)
+        call testVarCont1%calculateDerivedVars()
+        @assertEqual(testVarCont1%variables(4)%entry,[6.0d00,12.0d00,12.0d00,12.0d00,6.0d00])
+        @assertEqual(testVarCont1%variables(6)%entry,[6.0d00,12.0d00,12.0d00,12.0d00,6.0d00])
+        allocate(fVec(-29:120))
+        fVec = [(real(0.0,kind=rk),i=1,150)]
+        do i = 1,3
+            do j = 1,2
+                do k = 1,5
+
+                    fVec(testIndexing%findDistIndex(i,j,k,.true.)) = 1.0d00
+
+                end do 
+            end do
+        end do
+        @assertEqual(fVec,testVarCont1%variables(3)%entry)
+
+        !Test different rank
+        call testVarCont2%init(testList,testListDerived,cRules,testIndexing,testPart,1,4)
+
+        @assertEqual(lbound(testVarCont2%variables(1)%entry,1),0)
+        @assertEqual(ubound(testVarCont2%variables(1)%entry,1),4)
+        @assertEqual(lbound(testVarCont2%variables(2)%entry,1),0)
+        @assertEqual(ubound(testVarCont2%variables(2)%entry,1),4)
+        @assertEqual(lbound(testVarCont2%variables(3)%entry,1),-29)
+        @assertEqual(ubound(testVarCont2%variables(3)%entry,1),120)
+
+        testVarCont2%variables(1)%entry = real(2.0,kind=rk)
+        testVarCont2%variables(2)%entry = real(3.0,kind=rk)
+        testVarCont2%variables(3)%entry = real(0.0,kind=rk)
+
+        call testVarCont2%calculateDerivedVars()
+
+        @assertTrue(all(abs(testVarCont2%variables(4)%entry - 6.0d00) < 1d-12))
+        @assertTrue(all(abs(testVarCont2%variables(6)%entry - 6.0d00) < 1d-12))
+
+        allocate(locVector2(30))
+        locVector2 = real(1.0d00,kind=rk)
+
+        call testVarCont2%extractImplicitVars(locVector2)
+        call testVarCont2%calculateDerivedVars()
+        @assertTrue(all(abs(testVarCont2%variables(4)%entry - 6.0d00) < 1d-12))
+        @assertTrue(all(abs(testVarCont2%variables(6)%entry - 6.0d00) < 1d-12))
+        fVec = 0
+        do i = 1,3
+            do j = 3,4
+                do k = 1,5
+
+                    fVec(testIndexing%findDistIndex(i,j,k,.true.)) = 1.0d00
+
+                end do 
+            end do
+        end do
+        @assertEqual(fVec,testVarCont2%variables(3)%entry)
+
+        testVarCont2%variables(3)%entry = real(2.0d00,kind=rk)
+        call testVarCont2%copyImplicitVarsToVec(locVector2)
+
+        @assertTrue(all(abs(locVector2 - 2.0d00) < 1d-12))
+
+        varNames = testVarCont2%getAllVarNames()
+
+        @assertEqual(varNames(4)%string,'E')
+
+        @assertEqual(testVarCont1%getMaxDepth(),1)
+        @assertEqual(testVarCont1%getVarDepth("n"),-1)
+        @assertEqual(testVarCont1%getVarDepth("p"),0)
+        @assertEqual(testVarCont1%getVarDepth("T"),1)
+
+        call testVarCont1%calculateDerivedVars(derivPriority=1,derivDepth=1)
+
+        @assertEqual(testVarCont1%variables(5)%entry(1:3),real([48,48,48],kind=rk),tolerance=1.d-12)
+
+
+    end subroutine test1
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(indices(1))%entry * inputArray(indices(2))%entry
+
+    end function testCalculate
+
+end module test_variable_container
+

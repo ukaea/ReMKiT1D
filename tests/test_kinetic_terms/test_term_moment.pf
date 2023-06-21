@@ -1,0 +1,123 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_term_moment
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use v_space_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use support_functions
+    use mpi_controller_class
+    use modelbound_data_varlike_class
+    use model_surrogate_class
+    use initialization_support
+    use general_mat_term_class
+    use physical_constants
+    use term_moment_stencil_gen_class
+    use model_class
+    use matrix_term_abstract_class
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_t_moment(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(GeneralMatrixTerm) :: testTerm ,testTerm2
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(MPIController) :: testController 
+        type(StencilTemplate) :: testTemplate ,testTemplate2
+        type(Model) :: testModel
+        type(TermMomentStencilGenerator) :: stencilGen
+        type(VSpace) :: testVSpace
+
+        class(MatrixTerm) ,allocatable :: matBuffer
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,vVec
+
+        integer(ik) ,dimension(2) :: locHs
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i*0.1d0,i=1,10)]-0.05d0,kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+        locHs = [testPart%getMinHAtInd(testController%getWorldRank()+1),testPart%getMaxHAtInd(testController%getWorldRank()+1)]
+
+        call testTemplate%defaultStencil%init(mapToDist=.true.)
+        testTemplate%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,10)])])
+        testTemplate%fixedStencil = .true.
+
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,testTemplate)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        allocate(vArr(size(testGrid%getVGrid())))
+        vArr = real(1,kind=rk)
+        do i = 1,4
+            call setDistHarmonic(testVarCont1%variables(1)%entry,i,xArr,vArr)
+        end do
+        
+        call testTemplate2%defaultStencil%init(mapToDist=.true.,hStencil=[1],vStencil=[(i,i=1,10)])
+        testTemplate2%rowCoords = allCombinations([IntArray([(i,i=1,12)])])
+
+        call stencilGen%init(testPart,testVSpace,testController%getWorldRank(),1,"firstTerm")
+
+        allocate(testTemplate2%stencilGen,source=stencilGen)
+
+        call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"u","f",testVarCont1,testTemplate2)
+
+        call testModel%init(1,0,1,1)
+        allocate(matBuffer,source=testTerm)
+        call testModel%addImplicitTerm(matBuffer,[1],[1],"firstTerm")
+        call testModel%assemble()
+        call testModel%calculateMatGroupValues(1,testVarCont1)
+        call testTerm2%update(testVarCont1,hostModel=testModel)
+
+        call testTerm2%calculateValues(testVarCont1)
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1)==1) then
+            testVec = testTerm2%evaluate(testVarCont1)
+            checkVec = testVSpace%calculateMoment(testVarCont1%variables(1)%entry,1,1) 
+            @assertEqual(testVec(2:4),checkVec(2:4),tolerance=1.d-14)
+        end if
+    end subroutine test_t_moment
+
+
+end module test_term_moment
+

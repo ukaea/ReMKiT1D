@@ -1,0 +1,41 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+
+@test
+subroutine test_grid
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use grid_class
+    implicit none
+    
+    type(grid) :: testGrid 
+
+    call testGrid%init(real([0.0,0.1,0.2,0.3],kind=rk),real([0.1,0.2,0.3],kind=rk),2,1)
+
+    @assertEqual(testGrid%getXGrid(),real([0.0,0.1,0.2,0.3],kind=rk))
+    @assertEqual(testGrid%getVGrid(),real([0.1,0.2,0.3],kind=rk))
+    @assertEqual(testGrid%getMaxL(),2)
+    @assertEqual(testGrid%getMaxM(),1)
+    @assertEqual(testGrid%getNumH(),7)
+    @assertEqual(testGrid%getNumX(),4)
+    @assertEqual(testGrid%getNumV(),3)
+
+    @assertEqual(testGrid%getLGrid(),[0,1,1,1,2,2,2])
+    @assertEqual(testGrid%getMGrid(),[0,0,1,1,0,1,1])
+    @assertEqual(testGrid%getHarmonicIm(),[0,0,0,1,0,0,1]>0)
+    @assertEqual(testGrid%getH(2,1,.false.),6)
+
+    
+end subroutine test_grid
+

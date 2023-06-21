@@ -1,0 +1,162 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_uwc_boundary_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use petsc_preallocation_data_class
+    use support_functions
+    use geometry_class
+    use mpi_controller_class
+    use uwc_bc_stencil_gen_class
+    use general_mat_term_class
+    use stencil_class
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_uwc_boundary_term_constructed(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(2) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(geometry) :: testGeometry
+        type(MPIController) :: testController
+        type(GeneralMatrixTerm) :: testGenTermRight ,testGenTermLeft
+        type(VarData) :: vDataLeft
+        type(UWCBCStencilValGenerator) :: stencilGenRight ,stencilGenLeft
+        type(StencilTemplate) :: templateRight, templateLeft
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX ,minH
+
+        real(rk) ,allocatable ,dimension(:) :: testGridWidths ,testXGrid 
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)   
+        
+        testGridWidths = real([(0.5d0,i=1,12)],kind=rk)
+        allocate(testXGrid(12))
+
+        testXGrid(1) = testGridWidths(1)/2 
+        do i = 2,12
+            testXGrid(i) = testXGrid(i-1) + (testGridWidths(i-1)+testGridWidths(i))/2.0d0 
+        end do
+        
+        call testGrid%init(testXGrid,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("flux")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("u")
+        call testListDerived%addVar("scal",isScalar=.true.)
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call cRules(1)%init()
+        call cRules(2)%init()
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testGeometry%init(testGridWidths,real([(1.0d0,i=1,12)],kind=rk),real([(1.0d0,i=1,12)],kind=rk))
+
+        call stencilGenRight%init(testPart,testController%getWorldRank(),real(1,kind=rk),&
+        1/(testGridWidths(12)),&
+        real(0.5d0,kind=rk),interpVarIndex=3,extrapolate=.true.,lowerBoundVarIndex=2)
+
+        allocate(templateRight%stencilGen,source = stencilGenRight)
+        allocate(templateRight%rowCoords(1,1))
+        templateRight%rowCoords(1,:) = [12]
+        call templateRight%defaultStencil%init(xStencil=[0,-1])
+
+        call testGenTermRight%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+                                    "n","n",testVarCont1,templateRight) 
+
+        call stencilGenLeft%init(testPart,testController%getWorldRank(),real(1,kind=rk),&
+        1/(testGridWidths(1)),&
+        real(0.5d0,kind=rk),interpVarIndex=3,extrapolate=.true.,lowerBoundVarIndex=2,leftBoundary=.true.)
+
+        vDataLeft%rowVarPowers = [2.0d0,1.0d0]
+        vDataLeft%rowVars = [StringArray("flux"),StringArray("scal")]
+        vDataLeft%colVars = [StringArray("flux")]
+
+        allocate(templateLeft%stencilGen,source = stencilGenLeft)
+        allocate(templateLeft%rowCoords(1,1))
+        templateLeft%rowCoords(1,:) = [1]
+        call templateLeft%defaultStencil%init(xStencil=[0,1])
+
+        call testGenTermLeft%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "n","n",testVarCont1,templateLeft,vDataLeft) 
+
+        testVarCont1%variables(1)%entry = real([1,1,1,1,1],kind=rk)
+        testVarCont1%variables(2)%entry = real([2,2,2,2,2],kind=rk)
+        testVarCont1%variables(3)%entry = real([1,-3,1,1,5],kind=rk)
+        testVarCont1%variables(4)%entry = real([2],kind=rk)
+
+        minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
+        maxX = testPart%getMaxXAtInd(testController%getWorldRank()+1)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+
+        call testGenTermRight%update(testVarCont1)
+        call testGenTermRight%calculateValues(testVarCont1)
+        call testGenTermLeft%update(testVarCont1)
+        call testGenTermLeft%calculateValues(testVarCont1)
+
+        allocate(checkVec(5))
+        checkVec = 0
+        if (minH == 1) then
+            if (maxX == 12) then 
+                checkVec = -[0.0d0,0.0d0,0.0d0,2.0d0,0.0d0]&
+                /[1.d0,testGridWidths(minX),testGridWidths(minX+1),testGridWidths(minX+2),1.0d0]
+            else 
+                checkVec = 0
+            end if
+        end if
+        testVec = - testGenTermRight%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+
+        if (minH == 1) then
+            if (minX == 1) then 
+                checkVec = -2*[0.0d0,40.0d0,0.0d0,0.0d0,0.0d0]&
+                /[1.d0,testGridWidths(minX),testGridWidths(minX+1),testGridWidths(minX+2),1.0d0]
+            else 
+                checkVec = 0
+            end if
+        end if
+
+        testVec = - testGenTermLeft%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_uwc_boundary_term_constructed
+
+end module test_uwc_boundary_term
+

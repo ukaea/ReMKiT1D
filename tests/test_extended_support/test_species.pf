@@ -1,0 +1,85 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_species
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use support_types 
+    use json_controller_class
+    use mpi_controller_class
+    use species_class
+    use species_list_class
+    use key_names
+    use physical_constants
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_species_list(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        integer(ik) :: i ,j ,k
+
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+        type(NamedReal)  ,dimension(4) :: realParams
+        type(NamedInteger) ,dimension(3) :: intParams
+        type(Species) :: testSpecies 
+        type(SpeciesList) :: testSpeciesList
+        type(MPIController) :: testMPIController 
+        type(JSONController) :: testJSONController
+
+        call testMPIController%init()
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(1) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(2) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(3) = NamedInteger(keySpecies//".n."//keyID,1)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(2,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(intParams)
+        call testJSONController%output(realParams)
+        call testJSONController%output(speciesNames)
+
+        call testSpeciesList%init(testJSONController,testMPIController)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        testSpecies = testSpeciesList%getSpeciesFromID(1)
+
+        @assertEqual(testSpecies%getName(),"n")
+        @assertEqual(testSpecies%getMass(),3*amu)
+        @assertEqual(testSpecies%getCharge(),0.0d0)
+
+        testSpecies = testSpeciesList%getSpeciesFromName("e")
+
+        @assertEqual(testSpecies%getID(),0)
+        @assertEqual(testSpecies%getMass(),elMass)
+        @assertEqual(testSpecies%getCharge(),-real(1,kind=rk))
+    
+
+    end subroutine test_species_list
+
+end module test_species
+

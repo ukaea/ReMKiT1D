@@ -1,0 +1,48 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+
+@test
+subroutine test_coo_sparsity_pattern
+    use pfunit
+    use coo_sparsity_pattern_class
+    use data_kinds        ,only: ik, rk
+    implicit none 
+
+    type(cooSparsityPattern) :: testSP ,testSP2
+
+    call testSP%init(15,15)
+
+    @assertTrue(testSP%isDefined())
+
+    @assertFalse(testSP%hasIndices([1],[1]))
+
+    call testSP%addEntry(2,1)
+    call testSP%addEntry(4,2)
+    call testSP%addEntry(5,11)
+
+    @assertEqual(testSP%numNonZeros,3)
+    @assertTrue(testSP%hasIndices([2,4,5],[1,2,11]))
+
+    @assertEqual(testSP%findLocationOfIndices([4,5],[2,11]),[2,3])
+
+    call testSP2%init(15,15)
+    call testSP2%addEntry(2,1)
+    call testSP2%addEntry(4,3)
+    call testSP2%addEntry(5,1)
+
+    call testSP%addPattern(testSP2,[0,1,1],[0,0,0])
+    @assertEqual(testSP%numNonZeros,5)
+    @assertEqual(testSP%rowIndex(1:5),[2,4,5,5,6])
+    @assertEqual(testSP%colIndex(1:5),[1,2,11,3,1])
+    
+end subroutine test_coo_sparsity_pattern

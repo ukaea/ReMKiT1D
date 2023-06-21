@@ -1,0 +1,68 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+@test
+subroutine test_indexing
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types
+    implicit none
+    
+    type(partition) :: testPart 
+    type(grid) :: testGrid
+    type(variableList) :: testList
+    type(indexing) :: testIndexing
+
+    integer(ik) :: i
+    integer(ik) ,dimension(12) :: indices
+
+    call testPart%initSimplePartition(4,3,12,6)
+    call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,10)],kind=rk),5,0)
+
+    call testList%init()
+
+    call testList%addVar("n")
+    call testList%addVar("u")
+    call testList%addVar("f",.true.)
+
+    call testIndexing%init(testPart,testGrid,testList,xHaloWidth = 1)
+
+    @assertEqual(testIndexing%getProcDoF(),[66,60,60,66,60,60,66,60,60,66,60,60])
+
+    @assertEqual(testIndexing%findIndex("u",1),2)
+    @assertEqual(testIndexing%findIndex("n",6),231)
+    @assertEqual(testIndexing%findIndex("f",8,3,5),463)
+
+    @assertEqual(testIndexing%findIndex("n",6,local=.true.),45)
+    @assertEqual(testIndexing%findIndex("f",8,3,5,local=.true.),25)
+
+    indices = [74,75,76,84,85,86,94,95,96,104,105,106]
+
+    @assertEqual(testIndexing%mapToGlobalIndices("u",[intArray([1,2])]),[2,24])
+    @assertEqual(testIndexing%mapToGlobalIndices("f",[intArray([1,2]),intArray([3,4]),intArray([8,9,10])]),indices)
+
+    @assertEqual(testIndexing%findLocalXIndex(1,12),4)
+    @assertEqual(testIndexing%findLocalXIndex(12,1),0)
+
+    @assertEqual(testIndexing%findDistIndex(1,1,1,.true.,12),181)
+    @assertEqual(testIndexing%findDistIndex(12,6,10,.true.,1),0)
+
+    @assertEqual(size(testIndexing%getAllIndicesOfVar(1,1)),0)
+    @assertEqual(testIndexing%getAllIndicesOfVar(1,3),[1,23,45])
+    @assertEqual(testIndexing%getAllIndicesOfVar(3,3),[[(i,i=3,22)],[(i,i=25,44)],[(i,i=47,66)]])
+
+end subroutine test_indexing

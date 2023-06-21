@@ -1,0 +1,40 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_find
+
+    use pfunit
+    use support_functions ,only: findIndices
+    use data_kinds        ,only: ik, rk
+    implicit none
+
+    contains
+
+    @test
+    subroutine test_find_matrix()
+        integer(ik)                             :: M(3,3), indices(4,2)
+
+        M = reshape([ 1, 0, 0, 1, 0, 0, 1, 0, 1 ], shape(M))
+        indices = reshape([ 1, 1, 1, 3, 1, 2, 3, 3 ], shape(indices))
+        @assertEqual(findIndices(M == 1),indices)
+    
+        
+    end subroutine test_find_matrix
+
+    @test
+    subroutine test_find_vector()
+
+        @assertEqual(findIndices([1,2,3,4,5,1] > 3),[4,5])
+        
+    end subroutine test_find_vector
+
+end module test_find

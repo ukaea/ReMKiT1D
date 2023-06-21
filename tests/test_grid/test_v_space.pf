@@ -1,0 +1,57 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+@test
+subroutine test_v_space
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use grid_class
+    use v_space_class 
+    use physical_constants
+
+    implicit none
+
+    type(Grid) :: testGrid 
+    type(VSpace) :: testVSpace
+
+    real(rk) ,allocatable ,dimension(:) :: testDist ,testMoment ,checkMoment ,testLinInterp
+
+    integer(ik) :: i 
+    
+    call testGrid%init(real([0.0,0.1,0.2,0.3],kind=rk),real([(0.1d0*i - 0.05d0, i=1,12)],kind=rk),2,0)
+
+    call testVSpace%init(testGrid)
+
+    @assertEqual(testVSpace%getVGrid(),testGrid%getVGrid())
+    @assertEqual(testVSpace%getVCellWidths(),[(0.1d0,i=1,12)],tolerance=1.0d-14)
+    testLinInterp = [(0.5d0,i=1,12)]
+    testLinInterp(12) = real(1,kind=rk)
+    @assertEqual(testVSpace%getVLinInterp(),testLinInterp,tolerance=1.0d-14)
+
+    allocate(testDist(4*12*3))
+    testDist = 0
+    do i = 1,4
+        testDist((i-1)*36+1:i*36) = real(0.1d0*i,kind=rk)
+    end do
+
+    testMoment = testVSpace%calculateMoment(testDist,1,1)
+    allocate(checkMoment(4))
+    do i = 1,4
+        checkMoment(i) = 4*pi*sum(real([(0.1d0*i - 0.05d0, i=1,12)],kind=rk) ** 3 * 0.1d0 * real(0.1d0*i,kind=rk))
+    end do
+
+    @assertEqual(testMoment,checkMoment,tolerance=1.0d-14)
+    @assertEqual(testVSpace%getNearestPoints(0.81d0),[8,9])
+    @assertEqual(testVSpace%getContainingVCell(0.81d0),9)
+end subroutine test_v_space
+

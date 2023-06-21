@@ -1,0 +1,85 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_stencil_generator1d
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use support_functions
+    use stencil1d_class
+    use stencil_generator1d_class
+
+    implicit none
+
+contains
+
+    @test
+    subroutine test_stencil1d_gen
+    
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(RealArray) ,allocatable ,dimension(:) :: colVals ,testRes
+        type(Stencil1D) :: testStencil
+        type(StencilGenerator1D) :: testGen 
+
+        integer(ik) :: i ,j
+
+        call testPart%initSimplePartition(4,2,12,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,2)
+
+        call testStencil%init([-1,0,1])
+
+        allocate(colVals(3))
+
+        do i =1,3
+            colVals(i)%entry = [(real((i-1)*12+j,kind=rk),j=1,12)]
+        end do
+
+        call testGen%init(testStencil,colVals,coordInterval=[1,12])
+
+        call testGen%calculateInPlace(testVarCont1,testRes)
+
+        @assertEqual(testRes(1)%entry,[colVals(2)%entry(1),colVals(3)%entry(1)],tolerance=1e-15)
+        @assertEqual(testRes(12)%entry,[colVals(1)%entry(12),colVals(2)%entry(12)],tolerance=1e-15)
+
+        do i = 2,11
+            @assertEqual(testRes(i)%entry,[colVals(1)%entry(i),colVals(2)%entry(i),colVals(3)%entry(i)],tolerance=1e-15)
+        end do
+
+    end subroutine test_stencil1d_gen
+
+   
+
+    
+
+end module test_stencil_generator1d
+

@@ -1,0 +1,250 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_standard_textbook
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use support_types 
+    use json_controller_class
+    use mpi_controller_class
+    use species_class
+    use species_list_class
+    use grid_class
+    use v_space_class
+    use variable_container_class
+    use variable_list_class
+    use partition_class
+    use indexing_class
+    use textbook_class
+    use initialization_support
+    use key_names
+    use physical_constants
+    use basic_normalization_class
+    use derivation_abstract_class
+    use geometry_class
+    use physics_functions
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_textbook_derivs(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        integer(ik) :: i ,j ,k
+        type(Partition) :: testPart
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+        type(NamedReal)  ,dimension(4) :: realParams
+        type(NamedInteger) ,dimension(3) :: intParams
+        type(NamedIntegerArray) ,dimension(1) :: intArrayParams
+        type(Species) :: testSpecies 
+        type(SpeciesList) :: testSpeciesList
+        type(Grid) :: testGrid 
+        type(Geometry) :: testGeometry
+        type(VSpace) :: testVSpace
+        type(MPIController) :: testMPIController 
+        type(JSONController) :: testJSONController
+        type(VariableList) :: testList,testListDerived
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(14) :: cRules
+        type(BasicNormalization) :: testNormalization
+        type(Textbook) :: testTextbook
+        type(Indexing) :: testIndexing
+        type(DerivationContainer) ,dimension(14) :: methods
+        real(rk) ,allocatable ,dimension(:) :: locVector
+
+        real(rk) :: tempNorm, speedNorm ,velSpaceNorm 
+
+
+        call testMPIController%init()
+
+        call testGeometry%init(real([(1,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk)&
+                              ,real([(1,i=1,12)],kind=rk),periodicGrid=.true.)
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i*0.1d0,i=1,5)]-0.05d0,kind=rk),2,0)
+        call testVSpace%init(testGrid)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(1) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(2) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(3) = NamedInteger(keySpecies//".n."//keyID,1)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(2,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+
+        intArrayParams(1)%name = keyStandardTextbook//"."//keyTempDerivIDs
+        intArrayParams(1)%values = [0,-1,1]
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(intParams)
+        call testJSONController%output(realParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(intArrayParams)
+
+        call testSpeciesList%init(testJSONController,testMPIController)
+        call testNormalization%init(testJSONController,testMPIController)
+
+        call initStandardTextbook(testTextbook,testGrid,testGeometry,testPart,testVSpace,testNormalization,&
+                                  testSpeciesList,testList,testJSONController,testMPIController)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("flux")
+        call testList%addVar("energy")
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("uFluid")
+        call testListDerived%addVar("Te")
+        call testListDerived%addVar("Ti")
+        call testListDerived%addVar("Tn")
+        call testListDerived%addVar("cs")
+        call testListDerived%addVar("densMom")
+        call testListDerived%addVar("fluxMom")
+        call testListDerived%addVar("heatFluxMom")
+        call testListDerived%addVar("energyMom")
+        call testListDerived%addVar("viscosityMom")
+        call testListDerived%addVar("lGamma",isScalar=.true.)
+        call testListDerived%addVar("n_staggered")
+        call testListDerived%addVar("flux_nonstaggered")
+        call testListDerived%addVar("maxwellian",.true.)
+
+        call testTextbook%copyDerivation("flowSpeedFromFlux",methods(1)%entry)
+        call testTextbook%copyDerivation("tempFromEnergye",methods(2)%entry)
+        call testTextbook%copyDerivation("tempFromEnergyi",methods(3)%entry)
+        call testTextbook%copyDerivation("tempFromEnergyn",methods(4)%entry)
+        call testTextbook%copyDerivation("sonicSpeedi",methods(5)%entry)
+        call testTextbook%copyDerivation("densityMoment",methods(6)%entry)
+        call testTextbook%copyDerivation("fluxMoment",methods(7)%entry)
+        call testTextbook%copyDerivation("heatFluxMoment",methods(8)%entry)
+        call testTextbook%copyDerivation("energyMoment",methods(9)%entry)
+        call testTextbook%copyDerivation("viscosityTensorxxMoment",methods(10)%entry)
+        call testTextbook%copyDerivation("leftElectronGamma",methods(11)%entry)
+        call testTextbook%copyDerivation("gridToDual",methods(12)%entry)
+        call testTextbook%copyDerivation("dualToGrid",methods(13)%entry)
+        call testTextbook%copyDerivation("maxwellianDistribution",methods(14)%entry)
+
+        call cRules(1)%init(methods(1)%entry,[StringArray("flux"),StringArray("n")])
+        call cRules(2)%init(methods(2)%entry,[StringArray("energy"),StringArray("n"),StringArray("flux")])
+        call cRules(3)%init(methods(3)%entry,[StringArray("energy"),StringArray("n"),StringArray("flux")])
+        call cRules(4)%init(methods(4)%entry,[StringArray("energy"),StringArray("n"),StringArray("flux")])
+        call cRules(5)%init(methods(5)%entry,[StringArray("Te"),StringArray("Ti")])
+
+        do i = 6,10
+            call cRules(i)%init(methods(i)%entry,[StringArray("f")])
+        end do
+        call cRules(11)%init(methods(11)%entry,[StringArray("Te"),StringArray("Ti")])
+        call cRules(12)%init(methods(12)%entry,[StringArray("n")])
+        call cRules(13)%init(methods(13)%entry,[StringArray("flux")])
+        call cRules(14)%init(methods(14)%entry,[StringArray("Te"),StringArray("n")])
+
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont%variables(2)%entry = real(1.0d-3,kind=rk)*real([1,2,3,4,5],kind=rk)
+        testVarCont%variables(3)%entry = real(3,kind=rk)
+        testVarCont%variables(4)%entry = real(0.1d0,kind=rk)
+
+        call testVarCont%calculateDerivedVars()
+
+        tempNorm = testNormalization%getNormalizationValue(keyTempEVNorm)
+        speedNorm = testNormalization%getNormalizationValue(keySpeedNorm)
+        velSpaceNorm = testNormalization%getNormalizationValue(keyVelGridNorm)
+
+        locVector = testVarCont%variables(2)%entry/testVarCont%variables(1)%entry
+
+        @assertEqual(testVarCont%variables(5)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 2*testVarCont%variables(3)%entry/(3*testVarCont%variables(1)%entry) - &
+        elMass*speedNorm**2*testVarCont%variables(5)%entry ** 2/(3*elCharge*tempNorm)
+
+        @assertEqual(testVarCont%variables(6)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 2*testVarCont%variables(3)%entry/(3*testVarCont%variables(1)%entry) - &
+        2*amu*speedNorm**2*testVarCont%variables(5)%entry ** 2/(3*elCharge*tempNorm)
+
+        @assertEqual(testVarCont%variables(7)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 2*testVarCont%variables(3)%entry/(3*testVarCont%variables(1)%entry) - &
+        3*amu*speedNorm**2*testVarCont%variables(5)%entry ** 2/(3*elCharge*tempNorm)
+
+        @assertEqual(testVarCont%variables(8)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = sqrt(elCharge*tempNorm/(2*amu*speedNorm**2))*sqrt(testVarCont%variables(6)%entry+testVarCont%variables(7)%entry)
+
+        @assertEqual(testVarCont%variables(9)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 4* pi * 0.1d0*sum(testGrid%getVGrid()**2*testVSpace%getVCellWidths())
+
+        @assertEqual(testVarCont%variables(10)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 4* pi * 0.1d0*sum(testGrid%getVGrid()**3*testVSpace%getVCellWidths())/3
+
+        @assertEqual(testVarCont%variables(11)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 4* pi * 0.1d0*sum(testGrid%getVGrid()**5*testVSpace%getVCellWidths())/3
+
+        @assertEqual(testVarCont%variables(12)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 4* pi * 0.1d0*sum(testGrid%getVGrid()**4*testVSpace%getVCellWidths())
+
+        @assertEqual(testVarCont%variables(13)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = 16* pi * 0.1d0*sum(testGrid%getVGrid()**4*testVSpace%getVCellWidths())/15
+
+        @assertEqual(testVarCont%variables(14)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = testVarCont%variables(7)%entry/testVarCont%variables(6)%entry
+        locVector = log(pi*elMass/amu*(real(1,kind=rk)+locVector))/2
+        locVector = real(2,kind=rk) - locVector
+
+        @assertEqual(testVarCont%variables(15)%entry(1),locVector(2),tolerance=1.0d-14)
+
+        locVector = real(1,kind=rk) 
+        locVector(2:4) = real([2.5d0,3.5d0,4.5d0],kind=rk)
+        @assertEqual(testVarCont%variables(16)%entry,locVector,tolerance=1.0d-14)
+
+        locVector = real(1,kind=rk) 
+        locVector(2:4) = real(1.0d-3,kind=rk)*real([1.5d0,2.5d0,3.5d0],kind=rk)
+        @assertEqual(testVarCont%variables(17)%entry,locVector,tolerance=1.0d-14)
+
+        deallocate(locVector)
+
+        allocate(locVector(-14:60))
+
+        locVector = 0 
+
+        do i = 0,4
+            locVector((i-1)*15+1:(i-1)*15+5) = &
+            normMaxwellian(testVarCont%variables(1)%entry(i),testVarCont%variables(6)%entry(i),testGrid%getVGrid())
+        end do
+        @assertEqual(testVarCont%variables(18)%entry,locVector,tolerance=1.0d-14)
+
+    end subroutine test_textbook_derivs
+
+end module test_standard_textbook
+

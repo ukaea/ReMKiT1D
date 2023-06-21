@@ -1,0 +1,35 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+
+@test
+subroutine test_interp
+    use pfunit
+    use data_kinds         ,only: ik, rk
+    use lin_interp1D_class ,only: Interpolation1D
+    implicit none
+    
+
+    type(Interpolation1D) :: testInterp 
+
+    real(rk) ,allocatable ,dimension(:) :: testGrid ,testArray
+    integer(ik) :: i
+
+    testGrid = real([((i-1)*1.0d0 + 0.5d0,i=1,10)],kind=rk)
+    testArray = real([((i-1)*2.0d0,i=1,10)],kind=rk)
+
+    call testInterp%init(testGrid,real([1.0d0, 5.4d0],kind=rk))
+
+    @assertEqual(testInterp%getFirstDataIndices(),[1,5])
+    @assertEqual(testInterp%interpolate(testArray),real([1.0d0,9.8d0],kind=rk))
+    
+end subroutine test_interp

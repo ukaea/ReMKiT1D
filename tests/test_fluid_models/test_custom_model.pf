@@ -1,0 +1,1745 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_custom_model
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use support_functions
+    use geometry_class
+    use mpi_controller_class
+    use modeller_class
+    use custom_model_builder_class
+    use petsc_controller_class
+    use json_controller_class
+    use key_names
+    use basic_environment_wrapper
+    use textbook_class
+    use basic_normalization_class
+    use physical_constants
+    use physics_functions
+    use initialization_support
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_advection(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(Modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(NamedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(NamedString) ,allocatable ,dimension(:) :: stringParams
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(5) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+        type(NamedReal) ,allocatable ,dimension(:) :: realParams
+
+
+        integer(ik) :: i 
+        integer(ik) :: minX  
+
+        real(rk) ,allocatable ,dimension(:) :: linInterp, interpLeft,interpRight 
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0*i,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(4))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("u")]
+        stringArrayParams(3)%name = keyModels//".advection-n."//keyTermTags
+        stringArrayParams(3)%values = [StringArray("divFlux")]
+        stringArrayParams(4)%name = keyModels//".advection-n.divFlux."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keySpeedNorm),StringArray(keyTimeNorm),StringArray(keyLengthNorm)]
+
+        allocate(logicalParams(1))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
+
+        allocate(stringParams(4))
+        stringParams(1) = NamedString(keyModels//".advection-n.divFlux."//keyEvolvedVar,"n") 
+        stringParams(2) = NamedString(keyModels//".advection-n.divFlux."//keyImplicitVar,"n") 
+        stringParams(3) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyInterpolatedVar,"u") 
+        stringParams(4) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
+
+        allocate(realArrayParams(1))
+
+        realArrayParams(1)%name = keyModels//".advection-n.divFlux."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,-1.0d0]
+
+        allocate(realParams(1))
+
+        realParams(1) = NamedReal(keyModels//".advection-n.divFlux."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(realParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"advection-n")
+
+        call testBuilder%addModelToModeller(testModeller)
+    
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,1,1,1,1],kind=rk)
+        testEnv%externalVars%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(linInterp,source = testEnv%geometryObj%getLinInterp())
+
+        allocate(interpLeft(0:4))
+        allocate(interpRight(0:4))
+        interpLeft = 0 
+        interpRight = 0
+
+        do i = 1,3
+            interpLeft(i) = testEnv%externalVars%variables(2)%entry(i-1)*(1.0d0-linInterp(minX+i-2)) &
+            + linInterp(minX+i-2) * testEnv%externalVars%variables(2)%entry(i)
+            interpRight(i) = testEnv%externalVars%variables(2)%entry(i)*(1.0d0-linInterp(minX+i-1)) &
+            + linInterp(minX+i-1) * testEnv%externalVars%variables(2)%entry(i+1)
+        end do
+
+        allocate(testVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = -(interpRight-interpLeft)&
+            /[1.d0,cellWidth(1)%values(minX),cellWidth(1)%values(minX+1),cellWidth(1)%values(minX+2),1.0d0]
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_advection
+
+    @test( npes=[8])
+    subroutine test_advection_uniform_outflow(this)
+    
+
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(5) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+        type(NamedReal) ,allocatable ,dimension(:) :: realParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX 
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(1.0d0,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(9))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("u")]
+        stringArrayParams(3)%name = keyModels//".advection-n."//keyTermTags
+        stringArrayParams(3)%values = [StringArray("divFlux"),StringArray("leftBC"),StringArray("rightBC")]
+        stringArrayParams(4)%name = keyModels//".advection-n.divFlux."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keySpeedNorm),StringArray(keyTimeNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(5)%name = keyModels//".advection-n.leftBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(5)%values = [StringArray(keySpeedNorm),StringArray(keyTimeNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(6)%name = keyModels//".advection-n.rightBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(6)%values = [StringArray(keySpeedNorm),StringArray(keyTimeNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(7)%name = keyModels//".advection-n.divFlux."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(7)%values = [StringArray("u")]
+        stringArrayParams(8)%name = keyModels//".advection-n.leftBC."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(8)%values = [StringArray("u")]
+        stringArrayParams(9)%name = keyModels//".advection-n.rightBC."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(9)%values = [StringArray("u")]
+
+        allocate(logicalParams(2))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
+        logicalParams(2) = NamedLogical(keyModels//".advection-n.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
+
+        allocate(stringParams(12))
+        stringParams(1) = NamedString(keyModels//".advection-n.divFlux."//keyEvolvedVar,"n") 
+        stringParams(2) = NamedString(keyModels//".advection-n.divFlux."//keyImplicitVar,"n") 
+        stringParams(3) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyFluxJacVar,"u") 
+        stringParams(4) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyStencilType,keyUpwindedDiff) 
+        stringParams(5) = NamedString(keyModels//".advection-n.leftBC."//keyEvolvedVar,"n") 
+        stringParams(6) = NamedString(keyModels//".advection-n.leftBC."//keyImplicitVar,"n") 
+        stringParams(7) = NamedString(keyModels//".advection-n.leftBC."//keyStencilData//"."//keyFluxJacVar,"u")
+        stringParams(8) = NamedString(keyModels//".advection-n.leftBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+        stringParams(9) = NamedString(keyModels//".advection-n.rightBC."//keyEvolvedVar,"n") 
+        stringParams(10) = NamedString(keyModels//".advection-n.rightBC."//keyImplicitVar,"n") 
+        stringParams(11) = NamedString(keyModels//".advection-n.rightBC."//keyStencilData//"."//keyFluxJacVar,"u")
+        stringParams(12) = NamedString(keyModels//".advection-n.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+
+        allocate(realArrayParams(3))
+
+        realArrayParams(1)%name = keyModels//".advection-n.divFlux."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".advection-n.leftBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [1.0d0,1.0d0,-1.0d0]
+        realArrayParams(3)%name = keyModels//".advection-n.rightBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(3)%values = [1.0d0,1.0d0,-1.0d0]
+
+        allocate(realParams(3))
+
+        realParams(1) = NamedReal(keyModels//".advection-n.divFlux."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+        realParams(2) = NamedReal(keyModels//".advection-n.leftBC."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+        realParams(3) = NamedReal(keyModels//".advection-n.rightBC."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(realParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        
+        call testEnv%init(textbookObj)
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"advection-n")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,1,1,1,1],kind=rk)
+        testEnv%externalVars%variables(2)%entry = real([2,2,3,4,4],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testMPIController%getWorldRank()+1)
+        maxX = testEnv%partitionObj%getMaxXAtInd(testMPIController%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+        
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = [0.0d0,-1.0d0,-5.5d0,-5.5d0,0.0d0]
+            if (minX == 1) checkVec(1) = -5.0d0 ! Positive flux at left boundary -> reduced to zero so there is no effective inflow
+            if (maxX == 12) checkVec(3) = -9.75d0
+
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_advection_uniform_outflow
+
+    !Ampere-Maxwell equation
+    @test( npes=[8])
+    subroutine test_am(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(9) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(6) :: realParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX  
+
+        real(rk) :: normConst
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0*i,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(6) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(7) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(8) = NamedInteger(keySpecies//".n."//keyID,1)
+        intParams(9) = NamedInteger(keyIntegrator//"."//keyNumImplicitGroups,2)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(2,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+        realParams(5) = NamedReal(keyModels//".am.je."//keyCustomNormConst//"."//keyMultConst,elCharge/epsilon0)
+        realParams(6) = NamedReal(keyModels//".am.ji."//keyCustomNormConst//"."//keyMultConst,-2*elCharge/epsilon0)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(4))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("ne"),StringArray("ni"),StringArray("E"),&
+                                       StringArray("fluxe"),StringArray("fluxi")]
+        stringArrayParams(2)%name = keyModels//".am."//keyTermTags
+        stringArrayParams(2)%values = [StringArray("je"),StringArray("ji")]
+        stringArrayParams(3)%name = keyModels//".am.je."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(3)%values = [StringArray(keyDensNorm),StringArray(keySpeedNorm),&
+                                       StringArray(keyTimeNorm),StringArray(keyEFieldNorm)]
+        stringArrayParams(4)%name = keyModels//".am.ji."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keyDensNorm),StringArray(keySpeedNorm),&
+                                        StringArray(keyTimeNorm),StringArray(keyEFieldNorm)]
+                               
+
+        allocate(logicalParams(1))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
+
+        allocate(stringParams(6))
+        stringParams(1) = NamedString(keyModels//".am.je."//keyEvolvedVar,"E") 
+        stringParams(2) = NamedString(keyModels//".am.je."//keyImplicitVar,"fluxe") 
+        stringParams(3) = NamedString(keyModels//".am.je."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(4) = NamedString(keyModels//".am.ji."//keyEvolvedVar,"E") 
+        stringParams(5) = NamedString(keyModels//".am.ji."//keyImplicitVar,"fluxi") 
+        stringParams(6) = NamedString(keyModels//".am.ji."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+
+        allocate(realArrayParams(2))
+
+        realArrayParams(1)%name = keyModels//".am.je."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".am.ji."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [1.0d0,1.0d0,1.0d0,-1.0d0]
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(realParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"am")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(4)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(5)%entry = real([1,1,1,1,1],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+       
+        normConst = elPlasmaOscFreq(testNormalization%getNormalizationValue(keyDensNorm))&
+        *testNormalization%getNormalizationValue(keyTimeNorm)
+
+        normConst = normConst**2
+
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = normConst* real([0,0,1,2,0],kind=rk)
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14*maxval(abs(checkVec)))
+
+    end subroutine test_am
+
+    ! Implicit temperature derivation terms
+    @test( npes=[8])
+    subroutine test_imp_temp(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(9) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(7) :: realParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+
+        integer(ik) :: i 
+        integer(ik) :: minX  
+
+        real(rk) :: massRatio 
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0*i,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(6) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(7) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(8) = NamedInteger(keySpecies//".n."//keyID,1)
+        intParams(9) = NamedInteger(keyIntegrator//"."//keyNumImplicitGroups,2)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(1,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+
+        realParams(5) = NamedReal(keyModels//".imp_temp.energyTerm."//keyCustomNormConst//"."//keyMultConst,&
+                       real(2,kind=rk)/real(3,kind=rk))
+
+        realParams(6) = NamedReal(keyModels//".imp_temp.kineticEnergyTerm."//keyCustomNormConst//"."//keyMultConst,&
+                                 -2*amu/(3*elCharge))
+        realParams(7) = NamedReal(keyModels//".imp_temp.identityTerm."//keyCustomNormConst//"."//keyMultConst,-1.d00)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(5))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("ni"),StringArray("Ti"),&
+                                       StringArray("fluxi"),StringArray("Wi")]
+
+        stringArrayParams(2)%name = keyModels//".imp_temp."//keyTermTags
+        stringArrayParams(2)%values = [StringArray("energyTerm"),StringArray("kineticEnergyTerm"),StringArray("identityTerm")]
+        stringArrayParams(3)%name = keyModels//".imp_temp.kineticEnergyTerm."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(3)%values = [StringArray(keySpeedNorm),StringArray(keyTempEVNorm)]
+        stringArrayParams(4)%name = keyModels//".imp_temp.energyTerm."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(4)%values = [StringArray("ni")]
+        stringArrayParams(5)%name = keyModels//".imp_temp.kineticEnergyTerm."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(5)%values = [StringArray("ni"),StringArray("fluxi")]
+
+        allocate(logicalParams(2))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
+        logicalParams(2) = NamedLogical(keyVariables//"."//keyImplicitVars//".Ti."//keyIsStationary,.true.)
+
+        allocate(stringParams(9))
+        stringParams(1) = NamedString(keyModels//".imp_temp.energyTerm."//keyEvolvedVar,"Ti") 
+        stringParams(2) = NamedString(keyModels//".imp_temp.energyTerm."//keyImplicitVar,"Wi") 
+        stringParams(3) = NamedString(keyModels//".imp_temp.energyTerm."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(4) = NamedString(keyModels//".imp_temp.kineticEnergyTerm."//keyEvolvedVar,"Ti") 
+        stringParams(5) = NamedString(keyModels//".imp_temp.kineticEnergyTerm."//keyImplicitVar,"fluxi") 
+        stringParams(6) = NamedString(keyModels//".imp_temp.kineticEnergyTerm."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(7) = NamedString(keyModels//".imp_temp.identityTerm."//keyEvolvedVar,"Ti") 
+        stringParams(8) = NamedString(keyModels//".imp_temp.identityTerm."//keyImplicitVar,"Ti") 
+        stringParams(9) = NamedString(keyModels//".imp_temp.identityTerm."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+
+        allocate(realArrayParams(3))
+
+        realArrayParams(1)%name = keyModels//".imp_temp.kineticEnergyTerm."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [2.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".imp_temp.energyTerm."//keyVarData//"."//keyReqRowVarPowers
+        realArrayParams(2)%values = [-1.0d0]
+        realArrayParams(3)%name = keyModels//".imp_temp.kineticEnergyTerm."//keyVarData//"."//keyReqRowVarPowers
+        realArrayParams(3)%values = [-2.0d0,1.0d0]
+
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(realParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"imp_temp")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,1,1,1,1],kind=rk)
+        testEnv%externalVars%variables(2)%entry = real([1,1,1,1,1],kind=rk)
+        testEnv%externalVars%variables(3)%entry = real([1,2,3,4,5],kind=rk)*real(0.01,kind=rk)
+        testEnv%externalVars%variables(4)%entry = real([1,1,1,1,1],kind=rk)
+
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        massRatio = elMass/(2*amu)
+
+        call testModeller%updateModelData(1,testEnv%externalVars)
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        !Electrons
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = 2*testEnv%externalVars%variables(4)%entry/(3*testEnv%externalVars%variables(1)%entry) & 
+                       - 2*testEnv%externalVars%variables(3)%entry**2/(3*massRatio) - real(1,kind=rk)
+            checkVec(0) = 0
+            checkVec(4) = 0
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-13)
+
+       
+    end subroutine test_imp_temp
+
+    ! j-e heating terms
+    @test( npes=[8])
+    subroutine test_je(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(9) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(6) :: realParams
+        type(NamedIntegerArray) ,allocatable ,dimension(:) :: intArrayParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX  
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0*i,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(6) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(7) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(8) = NamedInteger(keySpecies//".n."//keyID,1)
+        intParams(9) = NamedInteger(keyIntegrator//"."//keyNumImplicitGroups,2)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(2,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+        realParams(5) = NamedReal(keyModels//".jE.e."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+
+        realParams(6) = NamedReal(keyModels//".jE.i."//keyCustomNormConst//"."//keyMultConst,2.0d0)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(6))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("ne"),StringArray("ni"),StringArray("E"),&
+                                       StringArray("fluxe"),StringArray("fluxi"),StringArray("We"),StringArray("Wi")]
+        stringArrayParams(2)%name = keyModels//".jE."//keyTermTags
+        stringArrayParams(2)%values = [StringArray("e"),StringArray("i")]
+        stringArrayParams(3)%name = keyModels//".jE.e."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(3)%values = [StringArray(keyEFieldNorm),StringArray(keyTimeNorm),&
+                                       StringArray(keySpeedNorm),StringArray(keyTempEVNorm)]
+        stringArrayParams(4)%name = keyModels//".jE.i."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keyEFieldNorm),StringArray(keyTimeNorm),&
+                                       StringArray(keySpeedNorm),StringArray(keyTempEVNorm)]
+        stringArrayParams(5)%name = keyModels//".jE.e."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(5)%values = [StringArray("fluxe")]
+        stringArrayParams(6)%name = keyModels//".jE.i."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(6)%values = [StringArray("fluxi")]
+
+        allocate(logicalParams(1))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
+
+        allocate(stringParams(6))
+        stringParams(1) = NamedString(keyModels//".jE.e."//keyEvolvedVar,"We") 
+        stringParams(2) = NamedString(keyModels//".jE.e."//keyImplicitVar,"E") 
+        stringParams(3) = NamedString(keyModels//".jE.e."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(4) = NamedString(keyModels//".jE.i."//keyEvolvedVar,"Wi") 
+        stringParams(5) = NamedString(keyModels//".jE.i."//keyImplicitVar,"E") 
+        stringParams(6) = NamedString(keyModels//".jE.i."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+
+        allocate(intArrayParams(2))
+        intArrayParams(1) = NamedIntegerArray(keyModels//".jE.e."//keyImplicitTermGroups,[1])
+        intArrayParams(2) = NamedIntegerArray(keyModels//".jE.i."//keyImplicitTermGroups,[2])
+
+        allocate(realArrayParams(2))
+
+        realArrayParams(1)%name = keyModels//".jE.e."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".jE.i."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [1.0d0,1.0d0,1.0d0,-1.0d0]
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(intArrayParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(realParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"jE")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(4)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(5)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(3)%entry = real([2,2,2,2,2],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%updateModelTermGroup(1,2,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,2,testEnv%externalVars)
+
+        !Electrons
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = - 2*real([0,4,6,8,0],kind=rk)
+        end if
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+       
+        !Ions
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,2,testEnv%externalVars)
+            checkVec = 4*real([0,4,6,8,0],kind=rk)
+        end if
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+
+    end subroutine test_je
+
+    @test( npes=[8])
+    subroutine test_lorentz_force(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(9) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(6) :: realParams
+        type(NamedIntegerArray) ,allocatable ,dimension(:) :: intArrayParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX  
+
+        real(rk) :: normConst
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0*i,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(6) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(7) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(8) = NamedInteger(keySpecies//".n."//keyID,1)
+        intParams(9) = NamedInteger(keyIntegrator//"."//keyNumImplicitGroups,2)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(2,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+        realParams(5) = NamedReal(keyModels//".lorentz.e."//keyCustomNormConst//"."//keyMultConst,-elCharge/elMass)
+
+        realParams(6) = NamedReal(keyModels//".lorentz.i."//keyCustomNormConst//"."//keyMultConst,elCharge/amu)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(6))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("ne"),StringArray("ni"),StringArray("E"),&
+                                       StringArray("fluxe"),StringArray("fluxi")]
+        
+        stringArrayParams(2)%name = keyModels//".lorentz."//keyTermTags
+        stringArrayParams(2)%values = [StringArray("e"),StringArray("i")]
+        stringArrayParams(3)%name = keyModels//".lorentz.e."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(3)%values = [StringArray(keyEFieldNorm),StringArray(keyTimeNorm),&
+                                        StringArray(keySpeedNorm)]
+        stringArrayParams(4)%name = keyModels//".lorentz.i."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keyEFieldNorm),StringArray(keyTimeNorm),&
+                                        StringArray(keySpeedNorm)]
+        stringArrayParams(5)%name = keyModels//".lorentz.e."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(5)%values = [StringArray("ne")]
+        stringArrayParams(6)%name = keyModels//".lorentz.i."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(6)%values = [StringArray("ni")]
+        allocate(logicalParams(1))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
+
+        allocate(stringParams(6))
+        stringParams(1) = NamedString(keyModels//".lorentz.e."//keyEvolvedVar,"fluxe") 
+        stringParams(2) = NamedString(keyModels//".lorentz.e."//keyImplicitVar,"E") 
+        stringParams(3) = NamedString(keyModels//".lorentz.e."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(4) = NamedString(keyModels//".lorentz.i."//keyEvolvedVar,"fluxi") 
+        stringParams(5) = NamedString(keyModels//".lorentz.i."//keyImplicitVar,"E") 
+        stringParams(6) = NamedString(keyModels//".lorentz.i."//keyStencilData//"."//keyStencilType,keyDiagonal)  
+
+        allocate(intArrayParams(2))
+        intArrayParams(1) = NamedIntegerArray(keyModels//".lorentz.e."//keyImplicitTermGroups,[1])
+        intArrayParams(2) = NamedIntegerArray(keyModels//".lorentz.i."//keyImplicitTermGroups,[2])
+
+        allocate(realArrayParams(2))
+
+        realArrayParams(1)%name = keyModels//".lorentz.e."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".lorentz.i."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [1.0d0,1.0d0,-1.0d0]
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(intArrayParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(realParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"lorentz")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(3)%entry = real([2,2,2,2,2],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%updateModelTermGroup(1,2,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,2,testEnv%externalVars)
+
+        !Electrons
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = - real([0,4,6,8,0],kind=rk)
+        end if
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        normConst = elMass/(2*amu)
+       
+        !Ions
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,2,testEnv%externalVars)
+            checkVec = 2*normConst*real([0,4,6,8,0],kind=rk)
+        end if
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+
+    end subroutine test_lorentz_force
+
+    ! Pressure gradient test 
+    @test( npes=[8])
+    subroutine test_pg(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(8) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(7) :: realParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX  ,maxX
+
+        real(rk) :: normConst
+
+        real(rk) ,allocatable ,dimension(:) :: linInterp, interpLeft,interpRight 
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(0.5d0*i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(1,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(6) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(7) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(8) = NamedInteger(keySpecies//".n."//keyID,1)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,real(2,kind=rk))
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+        realParams(5) = NamedReal(keyModels//".pg-n.grad."//keyCustomNormConst//"."//keyMultConst,-elCharge/(2*amu))
+        realParams(6) = NamedReal(keyModels//".pg-n.leftBC."//keyCustomNormConst//"."//keyMultConst,-elCharge/(2*amu))
+        realParams(7) = NamedReal(keyModels//".pg-n.rightBC."//keyCustomNormConst//"."//keyMultConst,-elCharge/(2*amu))
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(8))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n"),StringArray("T")]
+        stringArrayParams(2)%name = keyModels//".pg-n."//keyTermTags
+        stringArrayParams(2)%values = [StringArray("grad"),StringArray("leftBC"),StringArray("rightBC")]
+        stringArrayParams(3)%name = keyModels//".pg-n.grad."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(3)%values = [StringArray(keyTempEVNorm),StringArray(keyTimeNorm),&
+                                       StringArray(keySpeedNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(4)%name = keyModels//".pg-n.grad."//keyVarData//"."//keyReqColVarNames
+                                       stringArrayParams(6)%values = [StringArray("T")]
+        stringArrayParams(4)%values = [StringArray("T")]
+        stringArrayParams(5)%name = keyModels//".pg-n.leftBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(5)%values = [StringArray(keyTempEVNorm),StringArray(keyTimeNorm),&
+                                      StringArray(keySpeedNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(6)%name = keyModels//".pg-n.rightBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(6)%values = [StringArray(keyTempEVNorm),StringArray(keyTimeNorm),&
+                                    StringArray(keySpeedNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(7)%name = keyModels//".pg-n.leftBC."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(7)%values = [StringArray("T")]
+        stringArrayParams(8)%name = keyModels//".pg-n.rightBC."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(8)%values = [StringArray("T")]
+        allocate(logicalParams(2))
+
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
+        logicalParams(2) = NamedLogical(keyModels//".pg-n.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
+
+        allocate(stringParams(9))
+        stringParams(1) = NamedString(keyModels//".pg-n.grad."//keyEvolvedVar,"n") 
+        stringParams(2) = NamedString(keyModels//".pg-n.grad."//keyImplicitVar,"n") 
+        stringParams(3) = NamedString(keyModels//".pg-n.grad."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
+        stringParams(4) = NamedString(keyModels//".pg-n.leftBC."//keyEvolvedVar,"n") 
+        stringParams(5) = NamedString(keyModels//".pg-n.leftBC."//keyImplicitVar,"n") 
+        stringParams(6) = NamedString(keyModels//".pg-n.leftBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+        stringParams(7) = NamedString(keyModels//".pg-n.rightBC."//keyEvolvedVar,"n") 
+        stringParams(8) = NamedString(keyModels//".pg-n.rightBC."//keyImplicitVar,"n") 
+        stringParams(9) = NamedString(keyModels//".pg-n.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil)
+        
+        allocate(realArrayParams(3))
+
+        realArrayParams(1)%name = keyModels//".pg-n.grad."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,-1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".pg-n.leftBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [1.0d0,1.0d0,-1.0d0,-1.0d0]
+        realArrayParams(3)%name = keyModels//".pg-n.rightBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(3)%values = [1.0d0,1.0d0,-1.0d0,-1.0d0]
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(realParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"pg-n")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+        maxX = testEnv%partitionObj%getMaxXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(linInterp,source = testEnv%geometryObj%getLinInterp())
+
+        allocate(interpLeft(0:4))
+        allocate(interpRight(0:4))
+        interpLeft = 0 
+        interpRight = 0
+
+        do i = 1,3
+            interpLeft(i) = testEnv%externalVars%variables(1)%entry(i-1)&
+            *testEnv%externalVars%variables(2)%entry(i-1)*(1.0d0-linInterp(minX+i-2)) &
+            + linInterp(minX+i-2) * testEnv%externalVars%variables(1)%entry(i)* testEnv%externalVars%variables(2)%entry(i)
+
+            interpRight(i) = testEnv%externalVars%variables(1)%entry(i)&
+            *testEnv%externalVars%variables(2)%entry(i)*(1.0d0-linInterp(minX+i-1)) &
+            + linInterp(minX+i-1) * testEnv%externalVars%variables(1)%entry(i+1)* testEnv%externalVars%variables(2)%entry(i+1)
+        end do
+
+        if (minX == 1) interpLeft(1) = 4*(1.0d0+linInterp(1)) -9*linInterp(1)
+        if (maxX == 12) interpRight(3) = 16*(2.0d0-linInterp(11)) -9*(1.0d0-linInterp(11))
+        allocate(testVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        normConst = elMass/(4*amu)
+
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = -normConst*(interpRight-interpLeft)&
+            /[1.d0,cellWidth(1)%values(minX),cellWidth(1)%values(minX+1),cellWidth(1)%values(minX+2),1.0d0]
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_pg
+
+    ! Test profiled source
+    @test( npes=[8])
+    subroutine test_ps(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+
+        type(NamedReal) ,dimension(1) :: tPeriod
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth ,xProfile ,reqVarsPowers ,tParams
+        type(NamedInteger)   ,dimension(5) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX  
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0*i,i=1,12)],kind=rk)
+
+        xProfile(1) = NamedRealArray(keyModels//".source.term."//keySpatialProfile,real([(0.5d0*i,i=1,12)],kind=rk))
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(4))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("time")]
+        stringArrayParams(3)%name = keyModels//".source."//keyTermTags
+        stringArrayParams(3)%values = [StringArray("term")]
+
+        stringArrayParams(4)%name = keyModels//".source.term."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(4)%values = [StringArray("n")]
+
+        allocate(logicalParams(2))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
+        logicalParams(2) = NamedLogical(keyVariables//"."//keyDerivedVars//".time."//keyIsScalar,.true.)
+
+        allocate(stringParams(4))
+        stringParams(1) = NamedString(keyModels//".source.term."//keyEvolvedVar,"n") 
+        stringParams(2) = NamedString(keyModels//".source.term."//keyImplicitVar,"n") 
+        stringParams(3) = NamedString(keyModels//".source.term."//keyTimeSignalData//"."//keySignal,keyCutSineSignal) 
+        stringParams(4) = NamedString(keyModels//".source.term."//keyStencilData//"."//keyStencilType,keyDiagonal)
+        
+        reqVarsPowers = NamedRealArray(keyModels//".source.term."//keyVarData//"."//keyReqRowVarPowers,[real(-1,kind=rk)])
+        tParams = NamedRealArray(keyModels//".source.term."//keyTimeSignalData//"."//keyTimeSignalParams,real([0.d0,0.5d0],kind=rk))
+        tPeriod = NamedReal(keyModels//".source.term."//keyTimeSignalData//"."//keyTimeSignalPeriod,real(5,kind=rk))
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(xProfile)
+        call testJSONController%output(reqVarsPowers)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(tParams)
+        call testJSONController%output(tPeriod)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"source")
+
+        call testBuilder%addModelToModeller(testModeller)
+        
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(2)%entry = real([7],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec(1:3) = sin(pi*2/real(2.5d0,kind=rk)) * xProfile(1)%values(minX:minX+2)
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_ps
+
+    !Test Braginskii heatflux calculation for electrons with implicit temperature
+    @test( npes=[8])
+    subroutine test_braginski_hf_e(this)
+    
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec ,linInterp ,interpLeft ,interpRight ,dTval ,logLeeVec 
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+        type(NamedStringArray)  ,dimension(1) :: speciesNames
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(9) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(7) :: realParams
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX  ,maxX
+
+        real(rk) :: tempNorm ,lengthNorm ,heatfluxNorm ,ionZ,thermNorm
+        real(rk) :: delta, thermConst ! Transport coefficient calculation quantities based on reduced version of Makarov et al (https://doi.org/10.1063/5.0047618)
+
+        ionZ = real(1,kind=rk)
+
+        delta = real(1.0d0 + (65.0d0*sqrt(2.0d0)/32.0d0+433.0d0*sqrt(2.0d0)/288.0d0-23.0d0*sqrt(2.0d0)/16.0d0)&
+                  + (5629.0d0/1152.0d0-529.0d0/128.0d0),kind=rk) !A30 in Makarov paper assuming single ion species and 0 mass ratio
+
+        thermConst = real(125.0d0*(1.0d0+433.0d0*sqrt(2.0d0)*ionZ/360.0d0)/(32*delta),kind=rk) 
+
+        thermNorm = thermConst * 12 * pi**1.5d00 * epsilon0**2/(sqrt(elMass*elCharge)) 
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(0.5d0,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        speciesNames(1) = NamedStringArray(keySpecies//"."//keyNames,[StringArray("e"),StringArray("i"),StringArray("n")])
+
+        intParams(6) = NamedInteger(keySpecies//".e."//keyID,0)
+        intParams(7) = NamedInteger(keySpecies//".i."//keyID,-1)
+        intParams(8) = NamedInteger(keySpecies//".n."//keyID,1)
+        intParams(9) = NamedInteger(keyIntegrator//"."//keyNumImplicitGroups,2)
+
+        realParams(1) = NamedReal(keySpecies//".i."//keyMassA,real(2,kind=rk))
+        realParams(2) = NamedReal(keySpecies//".n."//keyMassA,real(3,kind=rk))
+        realParams(3) = NamedReal(keySpecies//".i."//keyCharge,ionZ)
+        realParams(4) = NamedReal(keySpecies//".n."//keyCharge,real(0,kind=rk))
+        realParams(5) = NamedReal(keyModels//".braginskii_q.grad."//keyCustomNormConst//"."//keyMultConst,-thermNorm)
+        realParams(6) = NamedReal(keyModels//".braginskii_q.leftBC."//keyCustomNormConst//"."//keyMultConst,-thermNorm)
+        realParams(7) = NamedReal(keyModels//".braginskii_q.rightBC."//keyCustomNormConst//"."//keyMultConst,-thermNorm)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(13))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("ne"),StringArray("ni"),StringArray("Te"),&
+                                       StringArray("fluxe"),StringArray("fluxi"),StringArray("q")]
+        stringArrayParams(2)%name = keyModels//".braginskii_q."//keyTermTags
+        stringArrayParams(2)%values = [StringArray("grad"),StringArray("leftBC"),StringArray("rightBC")]
+        stringArrayParams(3)%name = keyModels//".braginskii_q.grad."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(3)%values = [StringArray(keyTempEVNorm),StringArray(keyHeatFluxNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(4)%name = keyModels//".braginskii_q.leftBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keyTempEVNorm),StringArray(keyHeatFluxNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(5)%name = keyModels//".braginskii_q.rightBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(5)%values = [StringArray(keyTempEVNorm),StringArray(keyHeatFluxNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(6)%name = keyModels//".braginskii_q.grad."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(6)%values = [StringArray("Te")]
+        stringArrayParams(7)%name = keyModels//".braginskii_q.leftBC."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(7)%values = [StringArray("Te")]
+        stringArrayParams(8)%name = keyModels//".braginskii_q.rightBC."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(8)%values = [StringArray("Te")]
+        stringArrayParams(9)%name = keyModels//".braginskii_q.grad."//keyVarData//"."//keyReqMBRowVarNames
+        stringArrayParams(9)%values = [StringArray("logL")]
+        stringArrayParams(10)%name = keyModels//".braginskii_q.leftBC."//keyVarData//"."//keyReqMBRowVarNames
+        stringArrayParams(10)%values = [StringArray("logL")]
+        stringArrayParams(11)%name = keyModels//".braginskii_q.rightBC."//keyVarData//"."//keyReqMBRowVarNames
+        stringArrayParams(11)%values = [StringArray("logL")]
+
+        stringArrayParams(12)%name = keyModels//".braginskii_q."//keyModelboundData//"."//keyDataNames
+        stringArrayParams(12)%values = [StringArray("logL")]
+
+        stringArrayParams(13)%name = keyModels//".braginskii_q."//keyModelboundData//".logL."//keyReqVarNames
+        stringArrayParams(13)%values = [StringArray("Te"),StringArray("ne")]
+
+        allocate(logicalParams(3))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
+        logicalParams(2) = NamedLogical(keyModels//".braginskii_q.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
+        logicalParams(3) = NamedLogical(keyVariables//"."//keyImplicitVars//".q."//keyIsStationary,.true.)
+        
+        allocate(stringParams(11))
+        stringParams(1) = NamedString(keyModels//".braginskii_q.grad."//keyEvolvedVar,"q") 
+        stringParams(2) = NamedString(keyModels//".braginskii_q.grad."//keyImplicitVar,"Te") 
+        stringParams(3) = NamedString(keyModels//".braginskii_q.grad."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
+        stringParams(4) = NamedString(keyModels//".braginskii_q.leftBC."//keyEvolvedVar,"q") 
+        stringParams(5) = NamedString(keyModels//".braginskii_q.leftBC."//keyImplicitVar,"Te") 
+        stringParams(6) = NamedString(keyModels//".braginskii_q.leftBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+        stringParams(7) = NamedString(keyModels//".braginskii_q.rightBC."//keyEvolvedVar,"q") 
+        stringParams(8) = NamedString(keyModels//".braginskii_q.rightBC."//keyImplicitVar,"Te") 
+        stringParams(9) = NamedString(keyModels//".braginskii_q.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil)
+
+        stringParams(10) = NamedString(keyModels//".braginskii_q."//keyModelboundData//"."//keyModelboundDataType,keyVarLikeMB)
+
+        stringParams(11) = NamedString(keyModels//".braginskii_q."//keyModelboundData//".logL."//keyRuleName,"logLee")
+
+        allocate(realArrayParams(9))
+
+        realArrayParams(1)%name = keyModels//".braginskii_q.grad."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [3.5d0,-1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".braginskii_q.leftBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [3.5d0,-1.0d0,-1.0d0]
+        realArrayParams(3)%name = keyModels//".braginskii_q.rightBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(3)%values = [3.5d0,-1.0d0,-1.0d0]
+        realArrayParams(4)%name = keyModels//".braginskii_q.grad."//keyVarData//"."//keyReqRowVarPowers
+        realArrayParams(4)%values = [2.5d0]
+        realArrayParams(5)%name = keyModels//".braginskii_q.leftBC."//keyVarData//"."//keyReqRowVarPowers
+        realArrayParams(5)%values = [2.5d0]
+        realArrayParams(6)%name = keyModels//".braginskii_q.rightBC."//keyVarData//"."//keyReqRowVarPowers
+        realArrayParams(6)%values = [2.5d0]
+        realArrayParams(7)%name = keyModels//".braginskii_q.grad."//keyVarData//"."//keyReqMBRowVarPowers
+        realArrayParams(7)%values = [-1.0d0]
+        realArrayParams(8)%name = keyModels//".braginskii_q.leftBC."//keyVarData//"."//keyReqMBRowVarPowers
+        realArrayParams(8)%values = [-1.0d0]
+        realArrayParams(9)%name = keyModels//".braginskii_q.rightBC."//keyVarData//"."//keyReqMBRowVarPowers
+        realArrayParams(9)%values = [-1.0d0]
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(speciesNames)
+        call testJSONController%output(realParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init()
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call initStandardTextbook(textbookObj,testEnv%gridObj,testEnv%geometryObj,testEnv%partitionObj,&
+        testEnv%vSpaceObj,testNormalization,testEnv%speciesListObj,testEnv%allVars,testEnv%jsonCont,testEnv%mpiCont)
+
+        call testEnv%finishInit(textbookObj)
+
+
+        tempNorm = testNormalization%getNormalizationValue(keyTempEVNorm)
+        lengthNorm = testNormalization%getNormalizationValue(keyLengthNorm)
+        heatfluxNorm = testNormalization%getNormalizationValue(keyHeatFluxNorm)
+
+        thermConst = thermConst * 12 * pi**1.5d00 *  tempNorm**3.5d00 * epsilon0**2/(sqrt(elMass*elCharge)*lengthNorm*heatfluxNorm)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+
+        call testBuilder%init(testEnv,testNormalization,"braginskii_q")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,1,1,1,1],kind=rk)
+        testEnv%externalVars%variables(3)%entry = real([1,2,3,4,5],kind=rk)
+
+
+        minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
+        maxX = testEnv%partitionObj%getMaxXAtInd(testEnv%mpiCont%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        allocate(linInterp,source = testEnv%geometryObj%getLinInterp())
+
+        allocate(interpLeft(0:4))
+        allocate(interpRight(0:4))
+        interpLeft = 0 
+        interpRight = 0
+
+        do i = 1,3
+            interpLeft(i) = testEnv%externalVars%variables(3)%entry(i-1)*(1.0d0-linInterp(minX+i-2)) &
+            + linInterp(minX+i-2) * testEnv%externalVars%variables(3)%entry(i)
+            interpRight(i) = testEnv%externalVars%variables(3)%entry(i)*(1.0d0-linInterp(minX+i-1)) &
+            + linInterp(minX+i-1) * testEnv%externalVars%variables(3)%entry(i+1)
+        end do
+
+        allocate(dTval(0:4))
+        dTval = 0
+        dTval(1:3) = (interpRight(1:3) - interpLeft(1:3))/cellWidth(1)%values(minX:minX+2)
+        if (minX == 1) dTval(1) = 2*(testEnv%externalVars%variables(3)%entry(2) - testEnv%externalVars%variables(3)%entry(1))&
+                                 /(cellWidth(1)%values(1)+cellWidth(1)%values(2))
+        if (maxX == 12) dTval(3) = 2*(testEnv%externalVars%variables(3)%entry(3) - testEnv%externalVars%variables(3)%entry(2))&
+                                 /(cellWidth(1)%values(11)+cellWidth(1)%values(12))
+        
+
+        allocate(logLeeVec(0:4))
+        logLeeVec = 1.0d0
+
+        do i = 1,3
+            logLeeVec(i) = logLee(testEnv%externalVars%variables(3)%entry(i)*10,1.d19)
+        end do 
+
+        call testModeller%updateModelData(1,testEnv%externalVars)
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        !Electrons
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = - dTval*thermConst*testEnv%externalVars%variables(3)%entry**2.5d00/logLeeVec 
+            checkVec(0) = 0
+            checkVec(4) = 0
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-13)
+
+       
+    end subroutine test_braginski_hf_e
+
+
+    ! Test heatflux divergence with boundary condition
+    @test( npes=[8])
+    subroutine test_hf_div(this)
+    
+
+        class (MpiTestMethod), intent(inout) :: this
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(modeller) :: testModeller
+        type(EnvironmentWrapper) :: testEnv
+        type(CustomModelBuilder) :: testBuilder
+        type(Textbook) :: textbookObj
+        type(JSONController) :: testJSONController
+        type(MPIController) :: testMPIController
+        type(BasicNormalization) :: testNormalization
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth
+        type(NamedInteger)   ,dimension(5) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+
+        type(NamedRealArray) ,allocatable ,dimension(:) :: realArrayParams
+        type(NamedReal) ,allocatable ,dimension(:) :: realParams
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX 
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(1.0d0,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+
+        allocate(stringArrayParams(10))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n"),StringArray("W"),StringArray("q")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("u"),StringArray("T"),StringArray("gammaLeft"),StringArray("gammaRight")]
+
+        stringArrayParams(3)%name = keyModels//".heatfluxdiv."//keyTermTags
+        stringArrayParams(3)%values = [StringArray("divFlux"),StringArray("leftBC"),StringArray("rightBC")]
+        stringArrayParams(4)%name = keyModels//".heatfluxdiv.divFlux."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(4)%values = [StringArray(keyHeatFluxNorm),StringArray(keyTimeNorm),&
+        StringArray(keyDensNorm),StringArray(keyLengthNorm),StringArray(keyTempEVNorm)]
+        stringArrayParams(5)%name = keyModels//".heatfluxdiv.leftBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(5)%values = [StringArray(keySpeedNorm),StringArray(keyTimeNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(6)%name = keyModels//".heatfluxdiv.rightBC."//keyCustomNormConst//"."//keyNormNames
+        stringArrayParams(6)%values = [StringArray(keySpeedNorm),StringArray(keyTimeNorm),StringArray(keyLengthNorm)]
+        stringArrayParams(7)%name = keyModels//".heatfluxdiv.leftBC."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(7)%values = [StringArray("T")]
+        stringArrayParams(8)%name = keyModels//".heatfluxdiv.rightBC."//keyVarData//"."//keyReqColVarNames
+        stringArrayParams(8)%values = [StringArray("T")]
+        stringArrayParams(9)%name = keyModels//".heatfluxdiv.leftBC."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(9)%values = [StringArray("gammaLeft")]
+        stringArrayParams(10)%name = keyModels//".heatfluxdiv.rightBC."//keyVarData//"."//keyReqRowVarNames
+        stringArrayParams(10)%values = [StringArray("gammaRight")]
+
+        allocate(logicalParams(4))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
+        logicalParams(2) = NamedLogical(keyModels//".heatfluxdiv.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
+        logicalParams(3) = NamedLogical(keyVariables//"."//keyDerivedVars//".gammaLeft."//keyIsScalar,.true.)
+        logicalParams(4) = NamedLogical(keyVariables//"."//keyDerivedVars//".gammaRight."//keyIsScalar,.true.)
+
+        allocate(stringParams(11))
+        stringParams(1) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyEvolvedVar,"W") 
+        stringParams(2) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyImplicitVar,"q")
+        stringParams(3) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
+        stringParams(4) = NamedString(keyModels//".heatfluxdiv.leftBC."//keyEvolvedVar,"W") 
+        stringParams(5) = NamedString(keyModels//".heatfluxdiv.leftBC."//keyImplicitVar,"n") 
+        stringParams(6) = NamedString(keyModels//".heatfluxdiv.leftBC."//keyStencilData//"."//keyFluxJacVar,"u")
+        stringParams(7) = NamedString(keyModels//".heatfluxdiv.leftBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+        stringParams(8) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyEvolvedVar,"W") 
+        stringParams(9) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyImplicitVar,"n") 
+        stringParams(10) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyStencilData//"."//keyFluxJacVar,"u")
+        stringParams(11) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+
+        allocate(realArrayParams(3))
+
+        realArrayParams(1)%name = keyModels//".heatfluxdiv.divFlux."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(1)%values = [1.0d0,1.0d0,-1.0d0,-1.0d0,-1.0d0]
+        realArrayParams(2)%name = keyModels//".heatfluxdiv.leftBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(2)%values = [1.0d0,1.0d0,-1.0d0]
+        realArrayParams(3)%name = keyModels//".heatfluxdiv.rightBC."//keyCustomNormConst//"."//keyNormPowers
+        realArrayParams(3)%values = [1.0d0,1.0d0,-1.0d0]
+
+        allocate(realParams(3))
+
+        realParams(1) = NamedReal(keyModels//".heatfluxdiv.divFlux."//keyCustomNormConst//"."//keyMultConst,-1/elCharge)
+        realParams(2) = NamedReal(keyModels//".heatfluxdiv.leftBC."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+        realParams(3) = NamedReal(keyModels//".heatfluxdiv.rightBC."//keyCustomNormConst//"."//keyMultConst,-1.0d0)
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%output(realArrayParams)
+        call testJSONController%output(realParams)
+
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+        call testBuilder%init(testEnv,testNormalization,"heatfluxdiv")
+
+        call testBuilder%addModelToModeller(testModeller)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+        testEnv%externalVars%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(3)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(4)%entry = real([2,2,3,4,4],kind=rk)
+        testEnv%externalVars%variables(5)%entry = real([1,2,3,4,5],kind=rk)
+        testEnv%externalVars%variables(6)%entry = real([1],kind=rk)
+        testEnv%externalVars%variables(7)%entry = real([2.5d0],kind=rk)
+
+        minX = testEnv%partitionObj%getMinXAtInd(testMPIController%getWorldRank()+1)
+        maxX = testEnv%partitionObj%getMaxXAtInd(testMPIController%getWorldRank()+1)
+
+        allocate(testVec(0:4))
+        allocate(checkVec(0:4))
+        testVec = 0
+        checkVec = testVec
+
+        call testModeller%updateModelTermGroup(1,1,testEnv%externalVars)
+        call testModeller%calculateMatGroupValsInModel(1,1,testEnv%externalVars)
+
+        if (testEnv%partitionObj%getMinHAtInd(testMPIController%getWorldRank()+1) == 1) then
+            testVec = testModeller%evaluateModelTermGroup(1,1,testEnv%externalVars)
+            checkVec = [0.0d0,-1.0d0,-1.0d0,-1.0d0,0.0d0]
+            if (minX == 1) checkVec(1) = -2.5d0 ! Positive flux at left boundary -> reduced to zero so there is no effective inflow
+            if (maxX == 12) checkVec(3) = -19.5d0*2.5d0*4.5d0+3.5d0
+
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+
+        call testEnv%petscCont%finalize()
+        
+    end subroutine test_hf_div
+
+end module test_custom_model
+

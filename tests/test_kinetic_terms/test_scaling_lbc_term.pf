@@ -1,0 +1,179 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_scaling_lbc_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use v_space_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use matrix_term_abstract_class
+    use support_functions
+    use mpi_controller_class
+    use initialization_support
+    use general_mat_term_class
+    use scaling_lbc_stencil_gen_class
+    use modelbound_lbc_data_class
+    use f_scaling_derivation_class
+    use stencil_class 
+    use physics_functions
+    use model_surrogate_class
+    use physical_constants
+
+    implicit none
+
+    type ,extends(modelSurrogate) ,public :: dummyModel 
+
+    end type dummyModel
+
+
+contains
+
+    @test( npes=[8])
+    subroutine test_lbc(this)
+    
+        type(Partition) :: testPart
+        class(MpiTestMethod), intent(inout) :: this
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont1
+        type(CalculationRule) ,dimension(4) :: cRules
+        type(GeneralMatrixTerm) :: testTerm ,testTerm2,testTerm3
+        real(rk) ,allocatable ,dimension(:) :: testVec
+        type(MPIController) :: testController 
+        type(StencilTemplate) :: templateObj ,templateObj2 ,templateObj3
+        type(ScalingLBCStencilGen) :: stencilGen ,stencilGen2 ,stencilGen3
+        type(FScalingDerivation) :: derivObj ,derivObj2
+        type(ModelboundLBCData) :: mbData,mbData2
+        type(dummyModel) :: dummyM
+
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: xArr , flux
+
+        logical :: isActive
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d0+0.1d0*1.05**(i-1),i=1,80)],kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+        call testListDerived%addVar("nb",isScalar=.true.)
+        call testListDerived%addVar("n")
+        call testListDerived%addVar("ji",isScalar=.true.)
+        call testListDerived%addVar("n_dual")
+
+        do i = 1,4
+            call cRules(i)%init()
+        end do 
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+        
+        call templateObj%defaultStencil%init(hStencil=[(i-1,i=1,4)],vStencil=[0,1],mapToDist=.true.)
+        templateObj%rowCoords = allCombinations([IntArray([1]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        isActive = size(testPart%filterCoords(testController%getWorldRank()+1,templateObj%rowCoords),2) > 0
+
+        call derivObj%init(testPart,testController%getWorldRank(),testGrid%getNumV(),&
+                            leftBoundary=.true.,extrapolateToBoundary=.true.)
+
+        call stencilGen%init(testVSpace,isActive,derivObj,[1,3,2],1,real(1,kind=rk))
+
+        allocate(templateObj%stencilGen,source=stencilGen)
+        
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj)
+
+        xArr = real([1,2,3,4,5],kind=rk)*pi**(-1.5d0)
+        call setDistHarmonic(testVarCont1%variables(1)%entry,1,xArr,exp(-testGrid%getVGrid()**2))
+
+        testVarCont1%variables(2)%entry = real(3,kind=rk)
+        testVarCont1%variables(3)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont1%variables(4)%entry = -3*vSonic(1.0d0,1.0d0,protonMass*2,1.0d0,1.0d0)/elVthermal(1.0d0)
+        testVarCont1%variables(5)%entry = real([1,1,2,3,4],kind=rk)
+
+        call mbData%init(testVSpace,derivObj,[1,3,2],4,isActive,isLeftBoundary=.true.)
+        call dummyM%makeDefined()
+        call mbData%update(dummyM,testVarCont1)
+        call testTerm%update(testVarCont1,modelData=mbData)
+        call testTerm%calculateValues(testVarCont1)
+
+        testVec = testTerm%evaluate(testVarCont1)
+        flux = testVSpace%calculateMoment(testVec,1,0)/real(3,kind=rk)
+        if (isActive) then 
+            @assertEqual(flux(2),testVarCont1%variables(4)%entry(1),tolerance=1.d-12)
+            deallocate(flux)
+
+            call mbData%copyData("gamma",flux) !Todo: automate this check as well?
+            print*,flux
+        end if
+
+        testVarCont1%variables(4)%entry = 3*vSonic(1.0d0,1.0d0,protonMass*2,1.0d0,1.0d0)/elVthermal(1.0d0)
+
+        call templateObj2%defaultStencil%init(hStencil=[(i-1,i=1,4,2)],vStencil=[0,1],mapToDist=.true.)
+        templateObj2%rowCoords = allCombinations([IntArray([12]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        isActive = size(testPart%filterCoords(testController%getWorldRank()+1,templateObj2%rowCoords),2) > 0
+
+        call derivObj2%init(testPart,testController%getWorldRank(),testGrid%getNumV(),&
+                            staggeredVars=.true.,extrapolateToBoundary=.true.)
+
+        call stencilGen2%init(testVSpace,isActive,derivObj2,[1,3,5,2],1,real(1,kind=rk),includedDecompHarmonics=[1,3])
+
+        allocate(templateObj2%stencilGen,source=stencilGen2)
+        
+        call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj2)
+
+        call templateObj3%defaultStencil%init(xStencil=[-1],hStencil=[(i-1,i=2,4,2)],vStencil=[0,1],mapToDist=.true.)
+        templateObj3%rowCoords = allCombinations([IntArray([12]),IntArray([1]),IntArray([(i,i=1,testGrid%getNumV())])])
+
+        call stencilGen3%init(testVSpace,isActive,derivObj2,[1,3,5,2],1,real(1,kind=rk),includedDecompHarmonics=[2,4])
+
+        allocate(templateObj3%stencilGen,source=stencilGen3)
+        
+        call testTerm3%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj3)
+
+        call mbData2%init(testVSpace,derivObj2,[1,3,5,2],4,isActive)
+        call mbData2%update(dummyM,testVarCont1)
+        call testTerm2%update(testVarCont1,modelData=mbData2)
+        call testTerm2%calculateValues(testVarCont1)
+        call testTerm3%update(testVarCont1,modelData=mbData2)
+        call testTerm3%calculateValues(testVarCont1)
+
+        testVec = testTerm2%evaluate(testVarCont1)
+        flux = testVSpace%calculateMoment(testVec,1,0)/real(3,kind=rk) 
+        testVec = testTerm3%evaluate(testVarCont1)
+        flux = flux + testVSpace%calculateMoment(testVec,1,0)/real(3,kind=rk) 
+
+        if (isActive) then 
+            @assertEqual(flux(4),testVarCont1%variables(4)%entry(1),tolerance=1.d-12)
+            deallocate(flux)
+
+            call mbData2%copyData("gamma",flux) !Todo: automate this check as well?
+            print*,flux
+        end if
+    end subroutine test_lbc
+
+end module test_scaling_lbc_term
+

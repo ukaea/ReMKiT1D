@@ -1,0 +1,291 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_diffusion_term
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use petsc_preallocation_data_class
+    use support_functions
+    use geometry_class
+    use mpi_controller_class
+    use diffusion_stencil_gen_class
+    use matrix_term_abstract_class
+    use general_mat_term_class
+    use stencil_class
+
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+contains
+
+    @test( npes=[8])
+    subroutine test_diff_term(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(calculationRule) :: diffRule
+        type(testDerivation) :: diffDeriv
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(geometry) :: testGeometry
+        type(MPIController) :: testController 
+        type(GeneralMatrixTerm) :: testGenTerm ,testGenTerm2
+        type(DiffusionStencilValGenerator) :: stencilGen ,stencilGen2
+        type(StencilTemplate) :: testTemplate ,testTemplate2
+
+        integer(ik) :: i 
+        real(rk) :: minX ,maxX ,minH
+
+        real(rk) ,allocatable ,dimension(:) :: dx ,dxp
+        integer(ik) ,allocatable ,dimension(:,:) :: rowCoords
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+
+        dx = testGeometry%getCellWidths()
+        dxp = (dx + [dx(2:12),0.0d0])/2 
+        call diffDeriv%makeDefined()
+
+        call diffRule%init(diffDeriv,[stringArray("n")])
+
+        call stencilGen%init(testPart,testController%getWorldRank(),testGeometry%getJacobianRight()/dxp,&
+        1/(testGeometry%getCellWidths()*testGeometry%getJacobianCentre()),&
+        testGeometry%getLinInterp(),diffCoeffDerivRule=diffRule)
+
+        allocate(testTemplate%stencilGen,source = stencilGen)
+        allocate(rowCoords(1,12))
+        rowCoords(1,:) = [(i,i=1,12)]
+        testTemplate%rowCoords = rowCoords
+        call testTemplate%defaultStencil%init(xStencil=[-1,0,1])
+
+        call testGenTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"n","n",testVarCont1,testTemplate)
+
+        testVarCont1%variables(1)%entry = real([1,2,3,4,5],kind=rk)
+
+        minX = real(testPart%getMinXAtInd(testController%getWorldRank()+1),rk)
+        maxX = real(testPart%getMaxXAtInd(testController%getWorldRank()+1),rk)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1) 
+
+        call testGenTerm%update(testVarCont1)
+        call testGenTerm%calculateValues(testVarCont1)
+        allocate(checkVec(0:4))
+        checkVec = 0
+        if (minH == 1) then 
+            if (testPart%getMinXAtInd(testController%getWorldRank()+1) == 1) then 
+                checkVec = [0.0d0,2.5d0*(minX+1.0d0),minX+4.5d0,minX+6.5d0,0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+            else if (testPart%getMaxXAtInd(testController%getWorldRank()+1) == 12) then
+                checkVec = [0.0d0,minX+2.5d0,minX+4.5d0,-3.5d0*(minX+2.0d0),0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+            else 
+                checkVec = [0.0d0,minX+2.5d0,minX+4.5d0,minX+6.5d0,0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+
+            end if
+        end if
+        
+        testVec = testGenTerm%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+
+        call stencilGen2%init(testPart,testController%getWorldRank(),testGeometry%getJacobianRight()/dxp,&
+        1/(testGeometry%getCellWidths()*testGeometry%getJacobianCentre()),&
+        testGeometry%getLinInterp(),diffCoeffDerivRule=diffRule,doNotInterpolateD=.true.)
+
+        allocate(testTemplate2%stencilGen,source = stencilGen2)
+        testTemplate2%rowCoords = rowCoords
+        call testTemplate2%defaultStencil%init(xStencil=[-1,0,1])
+
+        call testGenTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"n","n",testVarCont1,testTemplate2)
+        
+        call testGenTerm2%update(testVarCont1)
+        call testGenTerm2%calculateValues(testVarCont1)
+        checkVec = 0
+        if (minH == 1) then 
+            if (testPart%getMinXAtInd(testController%getWorldRank()+1) == 1) then 
+                checkVec = [0.0d0,2.0d0*(minX+1.0d0),minX+4.0d0,minX+6.0d0,0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+            else if (testPart%getMaxXAtInd(testController%getWorldRank()+1) == 12) then
+                checkVec = [0.0d0,minX+2.0d0,minX+4.0d0,-3.0d0*(minX+2.0d0),0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+            else 
+                checkVec = [0.0d0,minX+2.0d0,minX+4.0d0,minX+6.0d0,0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+
+            end if
+        end if
+
+        testVec = testGenTerm2%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+    end subroutine test_diff_term
+
+    @test( npes=[8])
+    subroutine test_diff_term_periodic_nonuniform(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(testDerivation) :: diffDeriv
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(geometry) :: testGeometry
+        type(MPIController) :: testController 
+        type(calculationRule) :: diffRule
+        type(GeneralMatrixTerm) :: testGenTerm
+        type(DiffusionStencilValGenerator) :: stencilGen
+        type(StencilTemplate) :: testTemplate
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX ,minH
+
+        real(rk) ,allocatable ,dimension(:) :: testGridWidths ,testXGrid ,linInterp, interpLeft,interpRight ,dxp,dxm ,dnp,dnm
+
+        integer(ik) ,allocatable ,dimension(:,:) :: rowCoords
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)
+
+        testGridWidths = real([(0.5d0*i,i=1,12)],kind=rk)
+        allocate(testXGrid(12))
+        allocate(dxp(12))
+        allocate(dxm(12))
+
+        testXGrid(1) = testGridWidths(1)/2 
+        do i = 2,12
+            testXGrid(i) = testXGrid(i-1) + (testGridWidths(i-1)+testGridWidths(i))/2.0d0 
+        end do
+
+        do i = 1,11
+            dxp(i) = (testGridWidths(i) + testGridWidths(i+1))/2.0d0
+        end do
+            dxp(12) = (testGridWidths(12) + testGridWidths(1))/2.0d0
+
+        dxm(1) = dxp(12)
+        
+        do i = 2,12
+            dxm(i) = dxp(i-1)
+        end do
+        
+        call testGrid%init(testXGrid,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList,xHaloWidth=1)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testGeometry%init(testGridWidths,real([(1.0d0,i=1,12)],kind=rk),real([(1.0d0,i=1,12)],kind=rk),periodicGrid=.true.)
+
+        call diffDeriv%makeDefined()
+
+        call diffRule%init(diffDeriv,[stringArray("n")])
+
+        call stencilGen%init(testPart,testController%getWorldRank(),testGeometry%getJacobianRight()/dxp,&
+        1/(testGeometry%getCellWidths()*testGeometry%getJacobianCentre()),&
+        testGeometry%getLinInterp(),diffCoeffDerivRule=diffRule,xPeriodic=.true.)
+
+        allocate(testTemplate%stencilGen,source = stencilGen)
+        allocate(rowCoords(1,12))
+        rowCoords(1,:) = [(i,i=1,12)]
+        testTemplate%rowCoords = rowCoords
+        call testTemplate%defaultStencil%init(xStencil=[-1,0,1],xPeriodic=.true.)
+
+        call testGenTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"n","n",testVarCont1,testTemplate)
+
+        testVarCont1%variables(1)%entry = real([1,2,1,4,5],kind=rk)
+
+        minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+
+        allocate(linInterp,source = testGeometry%getLinInterp())
+
+        allocate(interpLeft(0:4))
+        allocate(interpRight(0:4))
+        interpLeft = 0 
+        interpRight = 0
+
+        do i = 1,3
+            interpLeft(i) = testVarCont1%variables(1)%entry(i-1)*(1.0d0-linInterp(minX+i-2)) &
+            + linInterp(minX+i-2) * testVarCont1%variables(1)%entry(i)
+            interpRight(i) = testVarCont1%variables(1)%entry(i)*(1.0d0-linInterp(minX+i-1)) &
+            + linInterp(minX+i-1) * testVarCont1%variables(1)%entry(i+1)
+        end do
+
+        allocate(dnp(0:4))
+        allocate(dnm(0:4))
+        dnp = 0 
+        dnm = 0 
+
+        do i = 1,3
+            dnp(i) = (testVarCont1%variables(1)%entry(i+1)-testVarCont1%variables(1)%entry(i))/dxp(minX+i-1)
+            dnm(i) = (testVarCont1%variables(1)%entry(i)-testVarCont1%variables(1)%entry(i-1))/dxm(minX+i-1)
+        end do
+
+        call testGenTerm%update(testVarCont1)
+        call testGenTerm%calculateValues(testVarCont1)
+        allocate(checkVec(0:4))
+        checkVec = 0 
+
+        if (minH == 1) then 
+            checkVec = (interpRight*dnp-interpLeft*dnm)&
+                /[1.d0,testGridWidths(minX),testGridWidths(minX+1),testGridWidths(minX+2),1.0d0]
+        end if
+        
+        testVec = testGenTerm%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_diff_term_periodic_nonuniform
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = inputArray(1)%entry 
+
+    end function testCalculate
+end module test_diffusion_term
+

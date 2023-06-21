@@ -1,0 +1,96 @@
+
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_petsc_controller 
+    use MPI
+    use pFunit
+    use mpi_controller_class
+    use partition_class
+    use grid_class
+    use indexing_class
+    use support_types 
+    use petsc_controller_class
+    use sparse_row_data_class
+    use variable_list_class
+    implicit none
+
+    contains
+
+    @test( npes=[8])
+    subroutine test_controller(this)
+
+    
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController 
+        type(sparseRowData) :: testSRMatrix
+        type(petscController) :: testPETScController 
+        type(solverOptions) :: solOptions 
+
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList
+        type(indexing) :: testIndexing
+
+        real(rk) ,dimension(3) :: locVecUnknown, locVecKnown
+        integer(ik) ,dimension(3) :: locRows 
+        type(intArray) ,dimension(3) :: locCols
+
+        integer(ik) :: i
+
+        call testMPIController%init(8,1)
+
+        call testPart%initSimplePartition(8,1,24,1)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),0,0)
+
+        call testList%init()
+        call testList%addVar("n")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+
+        solOptions%kspSolverType = "bcgs"
+        solOptions%hyprePC = "euclid"
+        solOptions%petscOptions = ""
+        call testPETScController%init(testIndexing,testMPIController,solOptions) 
+        locRows = [1,2,3] + testMPIController%getWorldRank()*3
+        locCols = [intArray([testMPIController%getWorldRank()*3+1]),&
+        intArray([testMPIController%getWorldRank()*3+2]),&
+        intArray([testMPIController%getWorldRank()*3+3])]
+        call testSRMatrix%init(locRows,locCols)
+        testSRMatrix%values = [realArray(real([locRows(1)],kind=rk)),&
+                               realArray(real([locRows(2)],kind=rk)),&
+                               realArray(real([locRows(3)],kind=rk))]
+
+        locVecUnknown = 0.0 
+        locVecKnown = real(locRows,kind=rk)
+
+        call testPETScController%addRowDataToPreallocation(testSRMatrix)
+        call testPETScController%createPETScObjs()
+        call testPETScController%addRowValuesToMatrix(testSRMatrix)
+
+        @assertTrue(testPETScController%objectsCreated())
+
+        call testPETScController%linearSolve(locVecKnown,locVecUnknown)
+
+        @assertTrue(testPETScController%getLastConvergedReason()>0)
+        @assertEqual(testPETScController%getLastNumIterations(),1)
+
+        @assertEqual(locVecUnknown,real([1.0d00,1.0d00,1.0d00],kind=rk))
+
+        call testPETScController%finalize()
+
+
+
+    end subroutine test_controller
+
+end module

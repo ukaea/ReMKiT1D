@@ -1,0 +1,179 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_part_v_int_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use support_functions
+    use mpi_controller_class
+    use modelbound_data_varlike_class
+    use model_surrogate_class
+    use initialization_support
+    use v_space_class
+    use physical_constants
+    use multiplicative_generator_core_class
+    use multiplicative_stencil_generator_class
+    use general_mat_term_class
+    use sparse_row_data_class
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_part_v_int_term_s(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(GeneralMatrixTerm) :: testTerm ,testTerm2
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(MPIController) :: testController 
+        type(VSpace) :: testVSpace
+        type(StencilTemplate) :: templateObj ,templateObj2
+        type(MultiplicativeStencilGen) :: stencilGen ,stencilgen2
+        type(MultiplicativeGeneratorCore) ,allocatable :: stencilCore
+        type(CoordProfiles) :: cProfs
+        type(VarData) :: vData
+
+        integer(ik) :: i ,j
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,hArr ,vWidths ,vGrid ,vdvArr
+
+        integer(ik) ,dimension(2) :: locHs
+
+        type(SparseRowData) :: jMat ,iMat
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.1d0*i,i=1,10)]-0.05d0,kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+        locHs = [testPart%getMinHAtInd(testController%getWorldRank()+1),testPart%getMaxHAtInd(testController%getWorldRank()+1)]
+        hArr=real([2,3,3,4],kind=rk)
+        allocate(vArr(10))
+        vArr = real(1,kind=rk)
+
+        vWidths = testVSpace%getVCellWidths()
+        vGrid = testGrid%getVGrid()
+
+        vdvArr = 4*pi*vGrid*vWidths
+
+        jMat = testVSpace%getShkarofskyJMat(-1)
+        iMat = testVSpace%getShkarofskyIMat(-1)
+
+        call templateObj%defaultStencil%init(vStencilFixed=iMat%columnVector,mapToDist=.true.)
+        templateObj%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([(i,i=1,4)]),IntArray([(i,i=1,10)])])
+        allocate(stencilCore)
+        call stencilCore%init(testGrid,testPart,testController%getWorldRank(),templateObj%rowCoords)
+
+        templateObj%fixedStencil = .true.
+
+        call stencilGen%init(stencilCore,initXVals=jaggedArray(reshape(real([(1,i=1,3)],kind=rk),[1,3])),&
+                                        initHVals=jaggedArray(reshape(real([(1,i=1,2)],kind=rk),[1,2])),&
+                                        initVVals=iMat%values)
+
+        allocate(templateObj%stencilGen,source=stencilGen)
+        templateObj%fixedStencil = .true.
+
+        vData%rowVars=[stringArray("f"),stringArray("u")]
+        vData%rowVarPowers = [2.0d0,-1.0d0]
+
+        cProfs%hProfile = hArr
+        cProfs%vProfile = vGrid**(-1)
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+                          "f","f",testVarCont1,templateObj,vData=vData,coordProfile = cProfs)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        do i = 1,4
+            call setDistHarmonic(testVarCont1%variables(1)%entry,i,xArr,vArr)
+        end do
+
+        testVarCont1%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+
+        call testTerm%calculateValues(testVarCont1)
+        xArr = xArr ** 3 /testVarCont1%variables(2)%entry
+        xArr(1) = 0
+        xArr(5) = 0
+
+        do i = 1,10
+            vArr(i) = sum(vdvArr(1:i)) - 2*pi*vGrid(i)*vWidths(i)
+        end do
+
+
+        testVec = testTerm%evaluate(testVarCont1)
+        allocate(checkVec,source=testVec)
+        checkVec = 0 
+        do i = 1,2 
+            call setDistHarmonic(checkVec,locHs(i),hArr(locHs(i))*xArr,vArr)
+        end do
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-12)
+
+        vArr = real(1,kind=rk)
+
+        call templateObj2%defaultStencil%init(vStencilFixed=jMat%columnVector,mapToDist=.true.)
+        templateObj2%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([(i,i=1,4)]),IntArray([(i,i=1,10)])])
+        allocate(stencilCore)
+        call stencilCore%init(testGrid,testPart,testController%getWorldRank(),templateObj2%rowCoords)
+
+        templateObj2%fixedStencil = .true.
+
+        call stencilGen2%init(stencilCore,initXVals=jaggedArray(reshape(real([(1,i=1,3)],kind=rk),[1,3])),&
+                                        initHVals=jaggedArray(reshape(real([(1,i=1,2)],kind=rk),[1,2])),&
+                                        initVVals=jMat%values)
+
+        allocate(templateObj2%stencilGen,source=stencilGen2)
+        templateObj2%fixedStencil = .true.
+
+        call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+                          "f","f",testVarCont1,templateObj2,vData=vData,coordProfile = cProfs)
+
+        call testTerm2%calculateValues(testVarCont1)
+
+        do i = 1,10
+            vArr(i) = sum(vdvArr(i:10)) - 2*pi*vGrid(i)*vWidths(i)
+        end do
+        testVec = testTerm2%evaluate(testVarCont1)
+        checkVec = 0 
+        do i = 1,2 
+            call setDistHarmonic(checkVec,locHs(i),hArr(locHs(i))*xArr,vArr)
+        end do
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-12)
+    end subroutine test_part_v_int_term_s
+
+end module test_part_v_int_term
+

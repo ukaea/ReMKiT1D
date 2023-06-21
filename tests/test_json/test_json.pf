@@ -1,0 +1,231 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_json
+    use MPI
+    use pFunit
+    use json_controller_class
+    use mpi_controller_class
+    use support_types
+    implicit none
+
+
+contains
+
+@test( npes=[8])
+    subroutine test_json_controller(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController 
+        type(JSONController) :: testJSONController
+
+        type(namedReal) ,dimension(:) ,allocatable :: testReals, testRealsLoad
+        type(namedLogical) ,dimension(:) ,allocatable :: testLogicals, testLogicalsLoad
+        type(namedInteger) ,dimension(:) ,allocatable :: testInts, testIntsLoad
+        type(namedString) ,dimension(:) ,allocatable :: testStrings, testStringsLoad
+
+        type(namedRealArray) ,dimension(:) ,allocatable :: testRealArray , testRealArrayLoad
+        type(namedIntegerArray) ,dimension(:) ,allocatable :: testIntArray , testIntArrayLoad
+        type(namedLogicalArray) ,dimension(:) ,allocatable :: testLogicalArray , testLogicalArrayLoad
+        type(namedStringArray) ,dimension(:) ,allocatable :: testStringArray , testStringArrayLoad
+
+
+        integer(ik) :: i 
+
+        call testMPIController%init(4,2)
+
+        allocate(testReals(3))
+        allocate(testRealsLoad(4))
+        allocate(testInts(3))
+        allocate(testIntsLoad(4))
+        allocate(testLogicals(3))
+        allocate(testLogicalsLoad(4))
+        allocate(testStrings(3))
+        allocate(testStringsLoad(4))
+
+        allocate(testRealArray(2))
+        allocate(testRealArrayLoad(3))
+        allocate(testIntArray(2))
+        allocate(testIntArrayLoad(3))
+        allocate(testLogicalArray(2))
+        allocate(testLogicalArrayLoad(3))
+        allocate(testStringArray(2))
+        allocate(testStringArrayLoad(3))
+
+        testReals(1)%name = "real1"
+        testReals(2)%name = "real2"
+        testReals(3)%name = "real3"
+
+        testReals(1)%value = 1.0d0
+        testReals(2)%value = 2.0d0
+        testReals(3)%value = 3.0d0
+
+        testRealsLoad(1:3) = testReals
+        do i = 1,3
+            testRealsLoad(i)%value = 0.0d00
+        end do
+        testRealsLoad(4)%name = "real4"
+        testRealsLoad(4)%value = 4.0d00
+
+        testInts(1)%name = "a.int1"
+        testInts(2)%name = "a.int2"
+        testInts(3)%name = "a.int3"
+
+        testInts(1)%value = 1
+        testInts(2)%value = 2
+        testInts(3)%value = 3
+
+        testIntsLoad(1:3) = testInts
+        do i = 1,3
+            testIntsLoad(i)%value = 0
+        end do
+        testIntsLoad(4)%name = "int4"
+        testIntsLoad(4)%value = 4
+
+        testLogicals(1)%name = "log1"
+        testLogicals(2)%name = "log2"
+        testLogicals(3)%name = "log3"
+
+        testLogicals(1)%value = .true.
+        testLogicals(2)%value = .true.
+        testLogicals(3)%value = .true.
+
+        testLogicalsLoad(1:3) = testLogicals
+        do i = 1,3
+            testLogicalsLoad(i)%value = .false.
+        end do
+        testLogicalsLoad(4)%name = "log4"
+        testLogicalsLoad(4)%value = .true.
+
+        testStrings(1)%name = "str1"
+        testStrings(2)%name = "str2"
+        testStrings(3)%name = "str3"
+
+        testStrings(1)%value = "aa"
+        testStrings(2)%value = "bbb"
+        testStrings(3)%value = "c"
+
+        testStringsLoad(1:3) = testStrings
+        do i = 1,3
+            testStringsLoad(i)%value = "nope"
+        end do
+        testStringsLoad(4)%name = "str4"
+        testStringsLoad(4)%value = "d"
+
+        testRealArray(1)%name = "realArray1"
+        testRealArray(2)%name = "realArray2"
+        testRealArray(1)%values = [1.0d0,2.33d0]
+        testRealArray(2)%values = [1.0d0]
+        testRealArrayLoad(1:2) = testRealArray
+        testRealArrayLoad(3)%name = "realArray3"
+        testRealArrayLoad(3)%values = [2.0d0,3.3d0,1.0d0]
+        testRealArrayLoad(1)%values = [0d0]
+        testRealArrayLoad(2)%values = [0d0]
+
+        testIntArray(1)%name = "intArray1"
+        testIntArray(2)%name = "intArray2"
+        testIntArray(1)%values = [1,2]
+        testIntArray(2)%values = [1]
+        testIntArrayLoad(1:2) = testIntArray
+        testIntArrayLoad(3)%name = "intArray3"
+        testIntArrayLoad(3)%values = [2,3,1]
+        testIntArrayLoad(1)%values = [0]
+        
+        testLogicalArray(1)%name = "logicalArray1"
+        testLogicalArray(2)%name = "logicalArray2"
+        testLogicalArray(1)%values = [.true.,.false.]
+        testLogicalArray(2)%values = [.true.]
+        testLogicalArrayLoad(1:2) = testLogicalArray
+        testLogicalArrayLoad(3)%name = "logicalArray3"
+        testLogicalArrayLoad(3)%values = [.true.,.false.,.true.]
+        testLogicalArrayLoad(1)%values = [.false.]
+        testLogicalArrayLoad(2)%values = [.false.]
+
+        testStringArray(1)%name = "stringArray1"
+        testStringArray(2)%name = "stringArray2"
+        testStringArray(1)%values = [stringArray("a"),stringArray("bb")]
+        testStringArray(2)%values = [stringArray("c")]
+        testStringArrayLoad(1:2) = testStringArray
+        testStringArrayLoad(3)%name = "stringArray3"
+        testStringArrayLoad(3)%values = [stringArray("ccc"),stringArray("blah")]
+        testStringArrayLoad(1)%values = [stringArray("nothing")]
+        testStringArrayLoad(2)%values = [stringArray("nothing")]
+
+        call testJSONController%loadFile(testMPIController,filepath="./used_config_test_json.json")
+        
+        call testJSONController%output(testReals)
+        call testJSONController%output(testInts)
+        call testJSONController%output(testLogicals)
+        call testJSONController%output(testStrings)
+        call testJSONController%output(testRealArray)
+        call testJSONController%output(testIntArray)
+        call testJSONController%output(testLogicalArray)
+        call testJSONController%output(testStringArray)
+
+        call testJSONController%closeFile(testMPIController,saveFile=.true.,filepath="./used_config_test_json.json")
+
+        call testJSONController%loadFile(testMPIController,filepath="./used_config_test_json.json")
+
+        call testJSONController%load(testRealsLoad)
+        call testJSONController%load(testIntsLoad)
+        call testJSONController%load(testLogicalsLoad)
+        call testJSONController%load(testStringsLoad)
+        call testJSONController%load(testRealArrayLoad)
+        call testJSONController%load(testIntArrayLoad)
+        call testJSONController%load(testLogicalArrayLoad)
+        call testJSONController%load(testStringArrayLoad)
+
+        call testJSONController%output(testRealsLoad)
+        call testJSONController%output(testIntsLoad)
+        call testJSONController%output(testLogicalsLoad)
+        call testJSONController%output(testStringsLoad)
+        call testJSONController%output(testRealArrayLoad)
+        call testJSONController%output(testIntArrayLoad)
+        call testJSONController%output(testLogicalArrayLoad)
+        call testJSONController%output(testStringArrayLoad)
+
+        call testJSONController%closeFile(testMPIController,saveFile=.true.,filepath="./used_config_test_json.json")
+
+        do i = 1,4
+            @assertEqual(testRealsLoad(i)%value,real(i,kind=rk))
+            @assertEqual(testIntsLoad(i)%value,i)
+            @assertTrue(testLogicalsLoad(i)%value)
+        end do
+
+        @assertEqual(testStringsLoad(1)%value,"aa")
+        @assertEqual(testStringsLoad(2)%value,"bbb")
+        @assertEqual(testStringsLoad(3)%value,"c")
+        @assertEqual(testStringsLoad(4)%value,"d")
+
+        @assertEqual(testRealArrayLoad(1)%values,[1.0d0,2.33d0])
+        @assertEqual(testRealArrayLoad(2)%values,[1.0d0])
+        @assertEqual(testRealArrayLoad(3)%values,[2.0d0,3.3d0,1.0d0])
+
+        @assertEqual(testIntArrayLoad(1)%values,[1,2])
+        @assertEqual(testIntArrayLoad(2)%values,[1])
+        @assertEqual(testIntArrayLoad(3)%values,[2,3,1])
+
+        @assertEqual(testLogicalArrayLoad(1)%values,[.true.,.false.])
+        @assertEqual(testLogicalArrayLoad(2)%values,[.true.])
+        @assertEqual(testLogicalArrayLoad(3)%values,[.true.,.false.,.true.])
+
+        @assertEqual(testStringArrayLoad(1)%values(1)%string,"a")
+        @assertEqual(testStringArrayLoad(1)%values(2)%string,"bb")
+        @assertEqual(testStringArrayLoad(2)%values(1)%string,"c")
+        @assertEqual(testStringArrayLoad(3)%values(1)%string,"ccc")
+        @assertEqual(testStringArrayLoad(3)%values(2)%string,"blah")
+
+
+
+
+    end subroutine test_json_controller
+end module

@@ -1,0 +1,319 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_uwc_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use petsc_preallocation_data_class
+    use support_functions
+    use geometry_class
+    use mpi_controller_class
+    use uwc_diff_stencil_gen_class
+    use general_mat_term_class
+    use stencil_class
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_uwc_flux_term(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(geometry) :: testGeometry
+        type(MPIController) :: testController 
+        type(GeneralMatrixTerm) :: testGenTerm
+        type(UWCDiffStencilValGenerator) :: stencilGen
+        type(StencilTemplate) :: testTemplate
+
+        integer(ik) :: i 
+        real(rk) :: minX ,maxX ,minH
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("flux")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("u")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call cRules(1)%init()
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i+1,i=1,12)],kind=rk))
+
+        call stencilGen%init(testPart,testController%getWorldRank(),testGeometry%getJacobianRight(),&
+        1/(testGeometry%getCellWidths()*testGeometry%getJacobianCentre()),&
+        testGeometry%getLinInterp(),interpVarIndex=3,upwindingMode=2)
+
+        allocate(testTemplate%stencilGen,source = stencilGen)
+        allocate(testTemplate%rowCoords(1,12))
+        testTemplate%rowCoords(1,:) = [(i,i=1,12)]
+        call testTemplate%defaultStencil%init(xStencil=[-1,0,1])
+
+        call testGenTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "n","flux",testVarCont1,testTemplate) 
+
+        testVarCont1%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont1%variables(3)%entry = real([-1,-1,2,2,2],kind=rk)
+        minX = real(testPart%getMinXAtInd(testController%getWorldRank()+1),rk)
+        maxX = real(testPart%getMaxXAtInd(testController%getWorldRank()+1),rk)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+
+        call testGenTerm%update(testVarCont1)
+        call testGenTerm%calculateValues(testVarCont1)
+
+        testVec = -testGenTerm%evaluate(testVarCont1)
+        allocate(checkVec(0:4))
+        checkVec = 0
+
+        if (minH == 1) then
+            if (testPart%getMinXAtInd(testController%getWorldRank()+1) == 1) then 
+                checkVec = -[0.0d0,4.0d0,minX+4.0d0,minX+6.0d0,0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+            else if (testPart%getMaxXAtInd(testController%getWorldRank()+1) == 12) then
+                checkVec = -[0.0d0,2.0d0,minX+4.0d0,-3.0d0*(minX+2.0d0),0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+            else 
+                checkVec = -[0.0d0,2.0d0,minX+4.0d0,minX+6.0d0,0.0d0]/[1.d0,minX+0.5d0,minX+1.5d0,minX+2.5d0,1.0d0]
+
+            end if
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_uwc_flux_term
+
+    @test( npes=[8])
+    subroutine test_uwc_flux_term_nonuniform_periodic(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(geometry) :: testGeometry
+        type(MPIController) :: testController 
+        type(GeneralMatrixTerm) :: testGenTerm
+        type(UWCDiffStencilValGenerator) :: stencilGen
+        type(StencilTemplate) :: testTemplate
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX ,minH
+
+        real(rk) ,allocatable ,dimension(:) :: testGridWidths ,testXGrid ,linInterp, interpLeft,interpRight 
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)   
+        
+        testGridWidths = real([(0.6d0*i,i=1,12)],kind=rk)
+        allocate(testXGrid(12))
+
+        testXGrid(1) = testGridWidths(1)/2 
+        do i = 2,12
+            testXGrid(i) = testXGrid(i-1) + (testGridWidths(i-1)+testGridWidths(i))/2.0d0 
+        end do
+        
+        call testGrid%init(testXGrid,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("flux")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("u")
+
+        call testIndexing%init(testPart,testGrid,testList,xHaloWidth=1)
+
+        call cRules(1)%init()
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testGeometry%init(testGridWidths,real([(1.0d0,i=1,12)],kind=rk),real([(1.0d0,i=1,12)],kind=rk),periodicGrid=.true.)
+
+        call stencilGen%init(testPart,testController%getWorldRank(),testGeometry%getJacobianRight(),&
+        1/(testGeometry%getCellWidths()*testGeometry%getJacobianCentre()),&
+        testGeometry%getLinInterp(),xPeriodic=.true.,interpVarIndex=3,upwindingMode=2)
+
+        allocate(testTemplate%stencilGen,source = stencilGen)
+        allocate(testTemplate%rowCoords(1,12))
+        testTemplate%rowCoords(1,:) = [(i,i=1,12)]
+        call testTemplate%defaultStencil%init(xStencil=[-1,0,1],xPeriodic=.true.)
+
+        call testGenTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "n","flux",testVarCont1,testTemplate) 
+
+        testVarCont1%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont1%variables(3)%entry = real([-1,-1,2,2,2],kind=rk)
+
+        minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+
+        allocate(linInterp,source = testGeometry%getLinInterp())
+
+        allocate(interpLeft(0:4))
+        allocate(interpRight(0:4))
+        interpLeft = 0 
+        interpRight = 0
+
+        do i = 1,3
+            interpLeft(i) = testVarCont1%variables(2)%entry(i-1)*(1.0d0-linInterp(minX+i-2)) &
+            + linInterp(minX+i-2) * testVarCont1%variables(2)%entry(i)
+            interpRight(i) = testVarCont1%variables(2)%entry(i)*(1.0d0-linInterp(minX+i-1)) &
+            + linInterp(minX+i-1) * testVarCont1%variables(2)%entry(i+1)
+        end do
+
+        call testGenTerm%update(testVarCont1)
+        call testGenTerm%calculateValues(testVarCont1)
+
+        testVec = -testGenTerm%evaluate(testVarCont1)
+        allocate(checkVec(0:4))
+        checkVec = 0
+        if (minH == 1) then 
+            checkVec = -[0.0d0,0.0d0,1.0d0,1.0d0,0.0d0]&
+            /[1.d0,testGridWidths(minX),testGridWidths(minX+1),testGridWidths(minX+2),1.0d0]
+        end if
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_uwc_flux_term_nonuniform_periodic
+
+    @test( npes=[8])
+    subroutine test_uwc_flux_term_nonuniform_periodic_constructed(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(geometry) :: testGeometry
+        type(MPIController) :: testController 
+        type(GeneralMatrixTerm) :: testGenTerm
+        type(VarData) :: vData
+        type(UWCDiffStencilValGenerator) :: stencilGen
+        type(StencilTemplate) :: testTemplate
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX ,minH
+
+        real(rk) ,allocatable ,dimension(:) :: testGridWidths ,testXGrid ,linInterp, interpLeft,interpRight 
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)   
+        
+        testGridWidths = real([(0.5d0*i,i=1,12)],kind=rk)
+        allocate(testXGrid(12))
+
+        testXGrid(1) = testGridWidths(1)/2 
+        do i = 2,12
+            testXGrid(i) = testXGrid(i-1) + (testGridWidths(i-1)+testGridWidths(i))/2.0d0 
+        end do
+        
+        call testGrid%init(testXGrid,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("flux")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("u")
+
+        call testIndexing%init(testPart,testGrid,testList,xHaloWidth=1)
+
+        call cRules(1)%init()
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testGeometry%init(testGridWidths,real([(1.0d0,i=1,12)],kind=rk),real([(1.0d0,i=1,12)],kind=rk),periodicGrid=.true.)
+
+        call stencilGen%init(testPart,testController%getWorldRank(),testGeometry%getJacobianRight(),&
+        1/(testGeometry%getCellWidths()*testGeometry%getJacobianCentre()),&
+        testGeometry%getLinInterp(),xPeriodic=.true.,interpVarIndex=3)
+        vData%rowVarPowers = [2.0d0]
+        vData%rowVars = [stringArray("flux")]
+        vData%colVars = [stringArray("flux")]
+
+        allocate(testTemplate%stencilGen,source = stencilGen)
+        allocate(testTemplate%rowCoords(1,12))
+        testTemplate%rowCoords(1,:) = [(i,i=1,12)]
+        call testTemplate%defaultStencil%init(xStencil=[-1,0,1],xPeriodic=.true.)
+
+        call testGenTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "n","n",testVarCont1,testTemplate,vData)
+
+        testVarCont1%variables(1)%entry = real([1,1,1,1,1],kind=rk)
+        testVarCont1%variables(2)%entry = real([2,2,2,2,2],kind=rk)
+        testVarCont1%variables(3)%entry = real([1,2,3,4,5],kind=rk)
+
+        minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+
+        allocate(linInterp,source = testGeometry%getLinInterp())
+
+        allocate(interpLeft(0:4))
+        allocate(interpRight(0:4))
+        interpLeft = 0 
+        interpRight = 0
+
+        do i = 1,3
+            interpLeft(i) = testVarCont1%variables(3)%entry(i-1)*(1.0d0-linInterp(minX+i-2)) &
+            + linInterp(minX+i-2) * testVarCont1%variables(3)%entry(i)
+            interpRight(i) = testVarCont1%variables(3)%entry(i)*(1.0d0-linInterp(minX+i-1)) &
+            + linInterp(minX+i-1) * testVarCont1%variables(3)%entry(i+1)
+        end do
+
+        call testGenTerm%update(testVarCont1)
+        call testGenTerm%calculateValues(testVarCont1)
+
+        allocate(checkVec(0:4))
+        checkVec = 0
+        if (minH == 1) then 
+            checkVec = -8*(interpRight-interpLeft)&
+                /[1.d0,testGridWidths(minX),testGridWidths(minX+1),testGridWidths(minX+2),1.0d0]
+        end if
+        testVec = -testGenTerm%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_uwc_flux_term_nonuniform_periodic_constructed
+
+end module test_uwc_term
+

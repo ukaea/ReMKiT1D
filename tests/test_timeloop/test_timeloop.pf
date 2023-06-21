@@ -1,0 +1,348 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_timeloop
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use support_types 
+    use json_controller_class
+    use mpi_controller_class
+    use species_class
+    use species_list_class
+    use key_names
+    use physical_constants
+    use basic_environment_wrapper
+    use textbook_class
+    use modeller_class
+    use composite_integrator_class
+    use variable_container_class 
+    use basic_normalization_class
+    use initialization_support
+    use term_abstract_class
+    use test_explicit_term_class
+    use model_class
+    use basic_timeloop_class
+    use test_operator_class
+
+
+    implicit none
+
+contains
+
+    @test( npes=[8])
+    subroutine test_simple_timeloop(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth 
+        type(NamedRealArray) ,dimension(2) :: initVals
+        type(NamedInteger)   ,dimension(6) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(1) :: initialTimestep 
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+        type(MPIController) :: testMPIController 
+        type(JSONController) :: testJSONController
+        type(EnvironmentWrapper) :: testEnv
+        type(Textbook) :: textbookObj
+        type(BasicNormalization) :: testNormalization
+        type(CompositeIntegrator) :: testIntegrator
+        type(modeller) :: testModeller
+        class(term) ,allocatable :: genTerm
+        type(testExplicitTerm) :: testTerm
+        class(model) ,allocatable :: testModel
+        type(Timeloop) :: testLoop
+        type(testOperator) :: testOp
+
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+
+
+        integer(ik) :: i 
+
+        call testMPIController%init()
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(1.0d0,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+        intParams(6) = NamedInteger(keyTimeloop//"."//keyNumTimestep,2)
+
+        initVals(1)%name = keyVariables//"."//keyImplicitVars//".n."//keyInitVals
+        initVals(1)%values = real([(1,i=1,12)],kind=rk)
+        initVals(2)%name = keyVariables//"."//keyDerivedVars//".u."//keyInitVals
+        initVals(2)%values = real([(i,i=1,12)],kind=rk)
+
+        allocate(stringArrayParams(7))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("u"),StringArray("time")]
+        stringArrayParams(3)%name = keyModels//"."//keyTags
+        stringArrayParams(3)%values = [StringArray("test-model")]
+        stringArrayParams(4)%name = keyIntegrator//"."//keyIntegratorTags
+        stringArrayParams(4)%values = [StringArray("RK1")]
+        stringArrayParams(5)%name = keyIntegrator//"."//keyStepTags
+        stringArrayParams(5)%values = [StringArray("StepRK1")]
+
+        stringArrayParams(6)%name = keyIntegrator//".StepRK1."//keyEvolvedModels
+        stringArrayParams(6)%values = [StringArray("test-model")]
+
+        stringArrayParams(7)%name = keyHDF5//"."//keyOutputVars
+        stringArrayParams(7)%values = [StringArray("n"),StringArray("time")]
+
+        allocate(logicalParams(2))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
+        logicalParams(2) = NamedLogical(keyVariables//"."//keyDerivedVars//".time."//keyIsScalar,.true.)
+
+        allocate(stringParams(2))
+        stringParams(1) = NamedString(keyIntegrator//".RK1."//keyType,"RK")
+        stringParams(2) = NamedString(keyIntegrator//".StepRK1."//keyIntegratorTagSingle,"RK1")
+
+        initialTimestep(1) = NamedReal(keyIntegrator//"."//keyInitialTimestep,real(0.1d0,kind=rk))
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(initVals)
+        call testJSONController%output(initialTimestep)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+        allocate(testModel)
+        call testModel%init(0,1,0,1)
+
+        call testTerm%init("n",testEnv%externalVars)
+
+        call testTerm%setEvolvedAndOperatedVar("n","n")
+        call testOP%makeDefined()
+        call testTerm%setOperator(testOp)
+
+        allocate(genTerm,source=testTerm)
+
+        call testModel%addGeneralTerm(genTerm,[1],"1")
+
+        call testModeller%addModel(testModel)
+
+        call initStandardIntegrator(testIntegrator,testEnv%externalVars,testEnv%indexingObj,testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%setIntegrator(testIntegrator)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+
+        call testLoop%init(testEnv,testNormalization)
+
+        call testLoop%loop(testEnv,testModeller)
+
+        call testModeller%copyVarValuesTo(testEnv%externalVars)
+
+        testVec = testEnv%externalVars%variables(1)%entry 
+        checkVec = testVec 
+        checkVec = real(1.44d00,kind=rk)
+
+        @assertEqual(testVec(1:3),checkVec(1:3),tolerance=1.0d-14)
+        call testEnv%petscCont%finalize()
+
+    end subroutine test_simple_timeloop
+
+    @test( npes=[8])
+    subroutine test_target_timeloop(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+
+        type(namedLogical) ,allocatable ,dimension(:) :: logicalParams
+        type(namedString) ,allocatable ,dimension(:) :: stringParams
+
+        type(NamedRealArray) ,dimension(1) :: gridPoints ,cellWidth 
+        type(NamedRealArray) ,dimension(2) :: initVals
+        type(NamedInteger)   ,dimension(6) :: intParams
+        type(NamedLogical)   ,dimension(2) :: constructGridFromWidths
+        type(NamedReal)      ,dimension(1) :: initialTimestep ,targetTime ,minInterval
+
+        type(NamedStringArray) ,allocatable ,dimension(:) :: stringArrayParams
+        type(MPIController) :: testMPIController 
+        type(JSONController) :: testJSONController
+        type(EnvironmentWrapper) :: testEnv
+        type(Textbook) :: textbookObj
+        type(BasicNormalization) :: testNormalization
+        type(CompositeIntegrator) :: testIntegrator
+        type(modeller) :: testModeller
+        class(term) ,allocatable :: genTerm
+        type(testExplicitTerm) :: testTerm
+        class(model) ,allocatable :: testModel
+        type(Timeloop) :: testLoop
+        type(testOperator) :: testOp
+
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+
+        integer(ik) :: i 
+
+        call testMPIController%init()
+
+        gridPoints(1)%name = keyVGrid//"."//keyCellCoords
+
+        gridPoints(1)%values = real([(i,i=1,3)],kind=rk)
+
+        cellWidth(1)%name = keyXGrid//"."//keyCellWidths
+
+        cellWidth(1)%values = real([(1.0d0,i=1,12)],kind=rk)
+
+        constructGridFromWidths(1) = NamedLogical(keyXGrid//"."//keyBuildFromWidths,.true.)
+        constructGridFromWidths(2) = NamedLogical(keyVGrid//"."//keyBuildFromWidths,.false.)
+
+        intParams(1) = NamedInteger(keyVGrid//"."//keyMaxL,1)
+        intParams(2) = NamedInteger(keyVGrid//"."//keyMaxM,0)
+        intParams(3) = NamedInteger(keyMPI//"."//keyNumPX,4)
+        intParams(4) = NamedInteger(keyMPI//"."//keyNumPH,2)
+        intParams(5) = NamedInteger(keyMPI//"."//keyXHaloWidth,1)
+        intParams(6) = NamedInteger(keyTimeloop//"."//keyNumTimestep,2)
+
+        initVals(1)%name = keyVariables//"."//keyImplicitVars//".n."//keyInitVals
+        initVals(1)%values = real([(1,i=1,12)],kind=rk)
+        initVals(2)%name = keyVariables//"."//keyDerivedVars//".u."//keyInitVals
+        initVals(2)%values = real([(i,i=1,12)],kind=rk)
+
+        allocate(stringArrayParams(7))
+        stringArrayParams(1)%name = keyVariables//"."//keyImplicitVars//"."//keyNames
+        stringArrayParams(1)%values = [StringArray("n")]
+        stringArrayParams(2)%name = keyVariables//"."//keyDerivedVars//"."//keyNames
+        stringArrayParams(2)%values = [StringArray("u"),StringArray("time")]
+        stringArrayParams(3)%name = keyModels//"."//keyTags
+        stringArrayParams(3)%values = [StringArray("test-model")]
+        stringArrayParams(4)%name = keyIntegrator//"."//keyIntegratorTags
+        stringArrayParams(4)%values = [StringArray("RK1")]
+        stringArrayParams(5)%name = keyIntegrator//"."//keyStepTags
+        stringArrayParams(5)%values = [StringArray("StepRK1")]
+
+        stringArrayParams(6)%name = keyIntegrator//".StepRK1."//keyEvolvedModels
+        stringArrayParams(6)%values = [StringArray("test-model")]
+
+        stringArrayParams(7)%name = keyHDF5//"."//keyOutputVars
+        stringArrayParams(7)%values = [StringArray("n"),StringArray("time")]
+
+        allocate(logicalParams(2))
+        logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
+        logicalParams(2) = NamedLogical(keyVariables//"."//keyDerivedVars//".time."//keyIsScalar,.true.)
+
+        allocate(stringParams(4))
+        stringParams(1) = NamedString(keyIntegrator//".RK1."//keyType,"RK")
+        stringParams(2) = NamedString(keyIntegrator//".StepRK1."//keyIntegratorTagSingle,"RK1")
+        stringParams(3) = NamedString(keyTimeloop//"."//keyMode,keyRealTimeTarget)
+        stringParams(4) = NamedString(keyTimeloop//"."//keyOutputMode,keyMinSaveInterval)
+
+        initialTimestep(1) = NamedReal(keyIntegrator//"."//keyInitialTimestep,real(0.1d0,kind=rk))
+
+        targetTime(1) = NamedReal(keyTimeloop//"."//keyTimeTarget,real(0.15d-7,kind=rk))
+        minInterval(1) = NamedReal(keyTimeloop//"."//keyMinSaveInterval,real(0.15d0,kind=rk))
+
+        call textbookObj%init()
+
+        call testMPIController%init()
+
+        !Make fresh json file
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(logicalParams)
+        call testJSONController%output(constructGridFromWidths)
+        call testJSONController%output(stringParams)
+        call testJSONController%output(gridPoints)
+        call testJSONController%output(cellWidth)
+        call testJSONController%output(initVals)
+        call testJSONController%output(initialTimestep)
+        call testJSONController%output(targetTime)
+        call testJSONController%output(minInterval)
+        call testJSONController%output(intParams)
+        call testJSONController%output(stringArrayParams)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+
+        call testEnv%init(textbookObj)
+
+        call testNormalization%init(testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%init(1,testEnv%externalVars,testEnv%mpiCont,testEnv%petscCont)
+        allocate(testModel)
+        call testModel%init(0,1,0,1)
+
+        call testTerm%init("n",testEnv%externalVars)
+
+        call testTerm%setEvolvedAndOperatedVar("n","n")
+        call testOP%makeDefined()
+        call testTerm%setOperator(testOp)
+
+        allocate(genTerm,source=testTerm)
+
+        call testModel%addGeneralTerm(genTerm,[1],"1")
+
+        call testModeller%addModel(testModel)
+
+        call initStandardIntegrator(testIntegrator,testEnv%externalVars,testEnv%indexingObj,testEnv%jsonCont,testEnv%mpiCont)
+
+        call testModeller%setIntegrator(testIntegrator)
+
+        call testModeller%calculateIdentityMat(testEnv%indexingObj)
+
+        call testModeller%assemble(withIdentityMat=.true.)
+
+        call testLoop%init(testEnv,testNormalization)
+
+        call testLoop%loop(testEnv,testModeller)
+
+        call testModeller%copyVarValuesTo(testEnv%externalVars)
+
+        testVec = testEnv%externalVars%variables(1)%entry 
+        checkVec = testVec 
+        checkVec = real(1.728d00,kind=rk)
+
+        @assertEqual(testVec(1:3),checkVec(1:3),tolerance=1.0d-14)
+        call testEnv%petscCont%finalize()
+
+    end subroutine test_target_timeloop
+
+end module test_timeloop
+

@@ -1,0 +1,246 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_simple_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use support_functions
+    use mpi_controller_class
+    use modelbound_data_varlike_class
+    use model_surrogate_class
+    use cut_sine_signal_class
+    use physical_constants
+    use signal_abstract_class
+    use general_mat_term_class
+    use stencil_class
+
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+    type ,extends(modelSurrogate) ,public :: dummyModel 
+
+    end type dummyModel
+
+
+contains
+
+    @test( npes=[8])
+    subroutine test_s_term(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(2) :: cRules
+        type(GeneralMatrixTerm) :: testTerm 
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(MPIController) :: testController 
+        type(TimeSignalData) :: tSignalData
+        type(VarData) :: vData
+        type(CoordProfiles) :: coordProfs
+        type(StencilTemplate) :: testTemplate
+
+        integer(ik) :: i 
+        integer(ik) :: minX ,maxX ,minH
+        integer(ik) ,allocatable ,dimension(:,:) :: rowCoords
+
+        real(rk) ,dimension(12) :: xProfile
+        type(CutSineSignal) :: tSignal
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+        call testListDerived%addVar("time")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call cRules(1)%init()
+        call cRules(2)%init()
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+        xProfile = real([(i,i=1,12)],kind=rk)
+
+        allocate(tSignalData%tParams,source=real([0d0,0.5d0],kind=rk))
+        tSignalData%tPeriod = real(4,kind=rk)
+        allocate(tSignalData%tSignal,source=tSignal)
+
+        vData%rowVars = [stringArray("n"),stringArray("p")]
+        vData%rowVarPowers = [2.0d0,-1.0d0]
+    
+        allocate(rowCoords(1,12))
+        rowCoords(1,:) = [(i,i=1,12)]
+        testTemplate%rowCoords = rowCoords
+        testTemplate%fixedStencil = .true.
+        call testTemplate%defaultStencil%init(xStencil=[0])
+
+        allocate(coordProfs%xProfile,source=xProfile)
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "n","u",testVarCont1,testTemplate,vData=vData,coordProfile=coordProfs,tData=tSignalData)
+        
+        testVarCont1%variables(1)%entry = real([2,4,6,4,5],kind=rk)
+        testVarCont1%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont1%variables(3)%entry = real([3,2,3,1,2],kind=rk)
+        testVarCont1%variables(4)%entry = real([2],kind=rk)
+
+        call testTerm%calculateValues(testVarCont1)
+
+        minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
+        maxX = testPart%getMaxXAtInd(testController%getWorldRank()+1)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+
+        testVec = testTerm%evaluate(testVarCont1)
+        allocate(checkVec(5))
+        checkVec = 0
+        if (minH==1) then 
+
+            checkVec = testVarCont1%variables(1)%entry ** 2 * testVarCont1%variables(2)%entry/testVarCont1%variables(3)%entry
+            checkVec = checkVec*sin(pi*0.5d00)*real([(i,i=minX-1,maxX+1)],kind=rk)
+            checkVec(1) = 0
+            checkVec(5) = 0
+
+        end if
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_s_term
+
+    @test( npes=[8])
+    subroutine test_s_term_modelboundData(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived ,testMBList
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(1) :: cRules
+        type(calculationRule) ,dimension(1) :: mbRules
+        type(GeneralMatrixTerm) :: testGenTerm
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(MPIController) :: testController 
+        type(modelboundDataVarlike) :: testMBData
+        type(testDerivation) :: testDeriv
+        type(dummyModel) :: dummyM
+        type(VarData) :: vData
+        type(StencilTemplate) :: testTemplate
+
+        integer(ik) :: i 
+        real(rk) :: minH
+        integer(ik) ,allocatable ,dimension(:,:) :: rowCoords
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i,i=1,3)],kind=rk),1,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testDeriv%makeDefined()
+
+        call cRules(1)%init()
+        call mbRules(1)%init(testDeriv,[stringArray("u")])
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testMBList%init()
+
+        call testMBList%addVar("mbvar")
+
+        call testMBData%init(testMBList,mbRules,testPart,testIndexing,1,testVarCont1,testController%getWorldRank())
+
+        vData%rowVars = [stringArray("n"),stringArray("p")]
+        vData%rowVarPowers = [2.0d0,-1.0d0]
+        vData%modelboundRowVars=[StringArray("mbvar")]
+        vData%modelboundRowVarPowers = [real(2,kind=rk)]
+
+        allocate(rowCoords(1,12))
+        rowCoords(1,:) = [(i,i=1,12)]
+        testTemplate%rowCoords = rowCoords
+        testTemplate%fixedStencil = .true.
+        call testTemplate%defaultStencil%init(xStencil=[0])
+        
+        call testGenTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "n","u",testVarCont1,testTemplate,vData=vData)
+
+        testVarCont1%variables(1)%entry = real([2,4,6,4,5],kind=rk)
+        testVarCont1%variables(2)%entry = real([1,2,3,4,5],kind=rk)
+        testVarCont1%variables(3)%entry = real([3,2,3,1,2],kind=rk)
+
+        call testMBData%update(dummyM,testVarCont1)
+
+        call testGenTerm%update(testVarCont1,testMBData)
+
+        call testGenTerm%calculateValues(testVarCont1)
+        minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
+        allocate(checkVec(5))
+        checkVec = 0
+        if (minH == 1) then 
+
+            checkVec = testVarCont1%variables(1)%entry ** 2 * testVarCont1%variables(2)%entry/testVarCont1%variables(3)%entry * &
+                        (2 * testVarCont1%variables(2)%entry) ** 2
+
+            checkVec(1) = 0
+            checkVec(5) = 0
+        end if
+        testVec = testGenTerm%evaluate(testVarCont1)
+        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        
+    end subroutine test_s_term_modelboundData
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        output = 2*inputArray(indices(1))%entry 
+
+    end function testCalculate
+
+end module test_simple_term
+

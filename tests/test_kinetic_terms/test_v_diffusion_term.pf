@@ -1,0 +1,291 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_v_diffusion_term
+
+    use pfunit
+    use god_objects       ,only: object
+    use data_kinds        ,only: ik, rk
+    use partition_class
+    use grid_class
+    use variable_list_class
+    use indexing_class
+    use support_types 
+    use variable_container_class 
+    use derivation_abstract_class
+    use matrix_term_abstract_class
+    use support_functions
+    use mpi_controller_class
+    use modelbound_data_varlike_class
+    use model_surrogate_class
+    use initialization_support
+    use v_space_class
+    use general_mat_term_class
+    use v_diffusion_stencil_gen_class
+
+    implicit none
+
+    type ,extends(derivation) ,public :: testDerivation 
+
+        contains 
+
+        procedure ,public :: calculate => testCalculate
+
+    end type testDerivation
+
+    type ,extends(modelSurrogate) ,public :: dummyModel 
+
+    end type dummyModel
+
+
+contains
+
+    @test( npes=[8])
+    subroutine test_v_diff_term_simple(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived
+        type(VSpace) :: testVSpace
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(GeneralMatrixTerm) :: testTerm ,testTerm2
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(MPIController) :: testController 
+        type(StencilTemplate) :: testTemplate ,testTemplate2
+        type(VDiffStencilGen) :: stencilGen ,stencilGen2
+        type(VarData) :: vData 
+
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,dvArr ,vArrCellEdge,vInterp,vGridCopy
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call stencilGen%init(testPart,testVSpace,testController%getWorldRank(),[(i,i=1,12)])
+        allocate(testTemplate%stencilGen,source=stencilGen)
+        call testTemplate%defaultStencil%init(vStencil=[-1,0,1],hStencil=[2],mapToDist=.true.)
+        testTemplate%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,10)])])
+        vData%rowVars = [stringArray("f"),stringArray("u")]
+        vData%rowVarPowers = [1.0d0,-1.0d0]
+        testTemplate%fixedStencil = .true.
+
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "f","f",testVarCont1,testTemplate,vData=vData)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        do i = 1,4
+            call setDistHarmonic(testVarCont1%variables(1)%entry,i,i*xArr,vArr)
+        end do
+
+        testVarCont1%variables(2)%entry = real([1,4,1,2,5],kind=rk)
+
+        call testTerm%calculateValues(testVarCont1)
+
+        allocate(dvArr(10))
+        allocate(vArrCellEdge(0:10))
+
+        vInterp = testVSpace%getVLinInterp()
+        vArrCellEdge = 0
+        vGridCopy = testGrid%getVGrid()
+        do i = 1,9
+            vArrCellEdge(i) = (vArr(i+1)-vArr(i))/(vGridCopy(i+1)-vGridCopy(i))
+        end do
+
+        dvArr = (vArrCellEdge(1:10)-vArrCellEdge(0:9))*vArr/testVSpace%getVCellWidths()
+
+        testVec = testTerm%evaluate(testVarCont1)
+        allocate(checkVec,source=testVec)
+        xArr = 3*xArr**2/testVarCont1%variables(2)%entry
+        
+        xArr(1) = 0 
+        xArr(5) = 0
+        checkVec = 0
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then 
+            call setDistHarmonic(checkVec,1,xArr,dvArr)
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-12)
+
+        dvArr = 0.5d00
+
+        call stencilGen2%init(testPart,testVSpace,testController%getWorldRank(),[(i,i=1,12)]&
+        ,fixedA=vInterp,adfAtZero=[-vInterp(1),vInterp(1)]/0.1d00)
+        allocate(testTemplate2%stencilGen,source=stencilGen2)
+        call testTemplate2%defaultStencil%init(vStencil=[-1,0,1],hStencil=[2],mapToDist=.true.)
+        testTemplate2%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,10)])])
+        testTemplate2%fixedStencil = .true.
+
+        call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "f","f",testVarCont1,testTemplate2,vData=vData)
+
+        call testTerm2%calculateValues(testVarCont1)
+
+        vArrCellEdge = 0
+
+        do i = 1,9
+            vArrCellEdge(i) = vInterp(i)*(vArr(i+1)-vArr(i))/(vGridCopy(i+1)-vGridCopy(i))
+        end do
+
+        dvArr(2:10) = (vArrCellEdge(2:10)-vArrCellEdge(1:9))
+
+        dvArr(1) = 0
+
+        dvArr = dvArr*vArr/testVSpace%getVCellWidths()
+
+        testVec = testTerm2%evaluate(testVarCont1)
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then 
+            call setDistHarmonic(checkVec,1,xArr,dvArr)
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-12)
+
+    end subroutine test_v_diff_term_simple
+
+    @test( npes=[8])
+    subroutine test_v_diff_term_mb(this)
+    
+        type(partition) :: testPart
+        class (MpiTestMethod), intent(inout) :: this
+        type(grid) :: testGrid
+        type(variableList) :: testList,testListDerived,testMBList
+        type(VSpace) :: testVSpace
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont1
+        type(calculationRule) ,dimension(0) :: cRules
+        type(GeneralMatrixTerm) :: testTerm
+        real(rk) ,allocatable ,dimension(:) :: testVec,checkVec
+        type(MPIController) :: testController 
+        type(modelboundDataVarlike) :: testMBData
+        type(testDerivation) :: testDeriv
+        type(dummyModel) :: dummyM
+        type(calculationRule) ,dimension(1) :: mbRules
+        type(StencilTemplate) :: testTemplate 
+        type(VDiffStencilGen) :: stencilGen 
+        type(VarData) :: vData 
+
+        integer(ik) :: i 
+        real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,dvArr ,vArrCellEdge ,mbVals,vGridCopy
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(0.05d00 + (i-1)**2*0.1d0,i=1,10)],kind=rk),3,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        call testDeriv%makeDefined()
+        call mbRules(1)%init(testDeriv,[stringArray("u")])
+
+        call testMBList%init()
+
+        call testMBList%addVar("mbvar")
+
+        call testMBData%init(testMBList,mbRules,testPart,testIndexing,1,testVarCont1,testController%getWorldRank())
+
+        call stencilGen%init(testPart,testVSpace,testController%getWorldRank(),[(i,i=1,12)],mbA="mbvar")
+        allocate(testTemplate%stencilGen,source=stencilGen)
+        call testTemplate%defaultStencil%init(vStencil=[-1,0,1],hStencil=[2],mapToDist=.true.)
+        testTemplate%rowCoords = allCombinations([IntArray([(i,i=1,12)]),IntArray([1]),IntArray([(i,i=1,10)])])
+        vData%rowVars = [stringArray("f"),stringArray("u")]
+        vData%rowVarPowers = [1.0d0,-1.0d0]
+
+        call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),&
+        "f","f",testVarCont1,testTemplate,vData=vData)
+
+        xArr = real([1,2,3,4,5],kind=rk)
+        vArr = exp(-testGrid%getVGrid()**2)
+        mbVals = [(0.1d0*i,i=1,10)]
+        do i = 1,4
+            call setDistHarmonic(testVarCont1%variables(1)%entry,i,i*xArr,vArr)
+        end do
+
+        testVarCont1%variables(2)%entry = real([1,4,1,2,5],kind=rk)
+        call testMBData%update(dummyM,testVarCont1)
+
+        call testTerm%update(testVarCont1,testMBData)
+        call testTerm%calculateValues(testVarCont1)
+
+        allocate(dvArr(10))
+        allocate(vArrCellEdge(0:10))
+
+        vArrCellEdge = 0
+        vGridCopy = testGrid%getVGrid()
+
+        do i = 1,9
+            vArrCellEdge(i) = mbVals(i)*(vArr(i+1)-vArr(i))/(vGridCopy(i+1)-vGridCopy(i))
+        end do
+
+        dvArr = (vArrCellEdge(1:10)-vArrCellEdge(0:9))
+        dvArr = dvArr*vArr/testVSpace%getVCellWidths()
+
+        testVec = testTerm%evaluate(testVarCont1)
+        allocate(checkVec,source=testVec)
+        xArr = 3*xArr**2/testVarCont1%variables(2)%entry
+        
+        xArr(1) = 0 
+        xArr(5) = 0
+        checkVec = 0
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then 
+            call setDistHarmonic(checkVec,1,xArr,dvArr)
+        end if
+
+        @assertEqual(testVec,checkVec,tolerance=1.d-12)
+
+    end subroutine test_v_diff_term_mb
+
+    module function testCalculate(this,inputArray,indices) result(output)
+
+        class(testDerivation)               ,intent(inout) :: this
+        type(realArray)       ,dimension(:) ,intent(in) :: inputArray 
+        integer(ik)           ,dimension(:) ,intent(in) :: indices
+        real(rk) ,allocatable ,dimension(:)             :: output
+
+        integer(ik) :: i ,j
+
+        allocate(output(-9:40))
+        do i = 0,4
+            output((i-1)*10+1:i*10) = [(0.1d0*j,j=1,10)]
+        end do
+
+    end function testCalculate
+
+end module test_v_diffusion_term
+

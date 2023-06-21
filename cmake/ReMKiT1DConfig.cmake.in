@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Find any packages which will be needed by users of your projectd, e.g.:
+#    find_package(Boost 1.55 REQUIRED COMPONENTS regex)
+
+if(NOT TARGET @PROJECT_NAME@::@PROJECT_NAME@)
+    include("@PACKAGE_INSTALL_CONFIGDIR@/@PROJECT_NAME@Targets.cmake")
+endif()

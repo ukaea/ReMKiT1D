@@ -1,0 +1,77 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_calculation_tree
+
+    use pfunit
+    use calculation_tree_class
+    use unary_transforms
+    use support_types
+    use basic_interfaces
+    use data_kinds        ,only: ik, rk
+
+    implicit none
+
+contains
+
+    @test
+    subroutine test_tree
+
+        type(CalculationNode) ,pointer :: nodePointer 
+        type(CalculationTree)          :: testTree ,testTree2
+        type(FlatTree)                 :: testFlatTree
+        type(RealArray) ,allocatable ,dimension(:) :: testData 
+        real(rk) ,allocatable ,dimension(:) :: testVec ,checkVec 
+
+        integer(ik) :: i
+        allocate(testData(3))
+        testData(1)%entry = real([1,2,3],kind=rk)
+        testData(2)%entry = 2*real([1,2,3],kind=rk)
+        testData(3)%entry = 3*real([1,2,3],kind=rk)
+
+        call testTree%init(constant = real(2,kind=rk),unaryTransformTag="shift",unaryIntParams=[-1])
+        
+        nodePointer => testTree%root
+
+        call nodePointer%addChild(additiveMode=.true.,constant=real(0.5d0,kind=rk))
+        call nodePointer%addChild(constant=(real(0.25d0,kind=rk)),leafVarIndex=1)
+
+        nodePointer => nodePointer%leftChild
+
+        call nodePointer%addChild(leafVarIndex=2)
+        call nodePointer%addChild(additiveMode=.true.)
+
+        nodePointer => nodePointer%leftChild
+        nodePointer => nodePointer%rightSibling
+
+        call nodePointer%addChild(leafVarIndex=1,unaryTransformTag="ipow",unaryIntParams=[3])
+        call nodePointer%addChild(leafVarIndex=3)
+
+        testVec = testTree%evaluate(testData)
+
+        checkVec = ((testData(1)%entry**3 + testData(3)%entry) + (real(0.5d0,kind=rk) + testData(2)%entry))&
+                    *real(0.5d0,kind=rk)*testData(1)%entry
+
+        
+        @assertEqual(testVec(1:2),checkVec(2:3),tolerance=1e-15)
+        @assertEqual(testVec(3),checkVec(1),tolerance=1e-15)
+
+        testFlatTree = testTree%flatten()
+        call testTree2%initFromFlatTree(testFlatTree)
+        testVec = testTree2%evaluate(testData)
+
+        @assertEqual(testVec(1:2),checkVec(2:3),tolerance=1e-15)
+        @assertEqual(testVec(3),checkVec(1),tolerance=1e-15)
+
+    end subroutine test_tree
+
+end module

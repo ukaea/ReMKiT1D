@@ -35,14 +35,17 @@ module implicit_PicardBDE_integrator_class
 
     type ,public :: InternalControllerOptions 
 
-        integer(ik) :: currentNumSubsteps = 1
-        integer(ik) :: stepMultiplier = 2
-        integer(ik) :: stepDecrament = 1
+        integer(ik) :: currentNumSubsteps = 1 !! The current number of sub- timesteps 
+        integer(ik) :: stepMultiplier = 2 !! Which number to multiply the current number of substeps when a solve failure is detected
+        integer(ik) :: stepDecrament = 1 !! By how much to decrament the current number of timesteps when the number of nonlinear iterations drops below minNonlinIters
         
-        integer(ik) :: minNonlinIters = 5
+        integer(ik) :: minNonlinIters = 5 !! Number of nonlinear iterations below which the number of substeps gets reduced
 
-        integer(ik) :: maxRestarts = 3
-        integer(ik) :: restartCount = 0
+        integer(ik) :: maxRestarts = 3 !! Maximum number of consecutive solver restart attempts before critical failure is announced
+        integer(ik) :: restartCount = 0 !! Counter for consecutive number of solver restars 
+
+        integer(ik) :: consolidationInterval = 50 !! How many integration calls before currentNumSubsteps is again reduced to 1
+        integer(ik) :: stepsSinceLastConsolidation = 0 !! Counter for steps since last consolidation to 1 substep
 
     end type InternalControllerOptions
 

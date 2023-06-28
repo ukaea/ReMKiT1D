@@ -141,6 +141,9 @@ module subroutine createPETScObjs(this)
         call KSPSetType(this%objs(i)%solver,this%options%kspSolverType,ierr)
         CHKERRQ(ierr)
 
+        call KSPSetFromOptions(this%objs(i)%solver,ierr)
+        CHKERRQ(ierr)
+
         call KSPGetPC(this%objs(i)%solver,this%objs(i)%preconditioner,ierr)
         CHKERRQ(ierr)
 

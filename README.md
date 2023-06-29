@@ -112,9 +112,10 @@ export PETSC_ARCH=arch-linux-c-opt
 export PATH=$PATH:/home/installs/petsc
 export PATH=$PATH:/home/installs/hdf5
 export PATH=$PATH:/home/installs/json-fortran/jsonfortran-gnu-8.2.5
-export PATH=/home/mpich-install/bin:$PATH
+export PATH=$PATH:/home/mpich-install/bin:$PATH
+export LD_LIBRARY_PATH=/home/mpich-install/lib:$LD_LIBRARY_PATH
 ```
-NOTE: Some of the above paths might have to be set differently depending on your system setup. 
+NOTE: Some of the above paths might have to be set differently depending on your system setup and you might have to define the ones you need after the corresponding installation. Another option is to export the paths before the start of the installation process. 
 
 ## Building ReMKiT1D 
 

@@ -103,7 +103,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.4% of total for modules and submodules.">100 statements</a>
+               title=" 0.4% of total for modules and submodules.">102 statements</a>
           </li>
 
             <li id="source-file">
@@ -196,19 +196,19 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
-                <li><a href='../module/mpi_controller_class.html'>mpi_controller_class</a></li>
-                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
-                <li><a href='../module/modeller_class.html'>modeller_class</a></li>
                 <li><a href='../module/indexing_class.html'>indexing_class</a></li>
-                <li><a href='../module/modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
                 <li><a href='../module/integrator_abstract_class.html'>integrator_abstract_class</a></li>
+                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
                 <li><a href='../module/timestep_controller_abstract_class.html'>timestep_controller_abstract_class</a></li>
-                <li><a href='../module/status_printing.html'>status_printing</a></li>
-                <li><a href='../module/god_objects.html'>god_objects</a></li>
+                <li><a href='../module/modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
                 <li><a href='../module/support_types.html'>support_types</a></li>
+                <li><a href='../module/mpi_controller_class.html'>mpi_controller_class</a></li>
+                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
+                <li><a href='../module/modeller_class.html'>modeller_class</a></li>
+                <li><a href='../module/status_printing.html'>status_printing</a></li>
                 <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
+                <li><a href='../module/god_objects.html'>god_objects</a></li>
+                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
             </ul>
           </li>
       </ul>
@@ -1058,7 +1058,7 @@
 <td> =</td>
                 <td>1</td>
             <td>
-
+<p>The current number of sub- timesteps </p>
             </td>
         </tr>
         <tr>
@@ -1075,7 +1075,7 @@
 <td> =</td>
                 <td>2</td>
             <td>
-
+<p>Which number to multiply the current number of substeps when a solve failure is detected</p>
             </td>
         </tr>
         <tr>
@@ -1092,7 +1092,7 @@
 <td> =</td>
                 <td>1</td>
             <td>
-
+<p>By how much to decrament the current number of timesteps when the number of nonlinear iterations drops below minNonlinIters</p>
             </td>
         </tr>
         <tr>
@@ -1109,7 +1109,7 @@
 <td> =</td>
                 <td>5</td>
             <td>
-
+<p>Number of nonlinear iterations below which the number of substeps gets reduced</p>
             </td>
         </tr>
         <tr>
@@ -1126,7 +1126,7 @@
 <td> =</td>
                 <td>3</td>
             <td>
-
+<p>Maximum number of consecutive solver restart attempts before critical failure is announced</p>
             </td>
         </tr>
         <tr>
@@ -1143,7 +1143,41 @@
 <td> =</td>
                 <td>0</td>
             <td>
-
+<p>Counter for consecutive number of solver restars </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-consolidationinterval"></span>
+              integer(kind=ik),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>consolidationInterval</strong></td>
+<td> =</td>
+                <td>50</td>
+            <td>
+<p>How many integration calls before currentNumSubsteps is again reduced to 1</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stepssincelastconsolidation"></span>
+              integer(kind=ik),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stepsSinceLastConsolidation</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>Counter for steps since last consolidation to 1 substep</p>
             </td>
         </tr>
     </tbody>
@@ -1728,7 +1762,7 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/picardbdeintegrator.html#boundprocedure-affect~4'>affect</a></strong>
+                  :: <strong><a href='../type/picardbdeintegrator.html#boundprocedure-affect~7'>affect</a></strong>
  =>
                     <a href='../interface/integratebde.html'>integrateBDE</a>
 <small>Interface</small>                </td>
@@ -1738,7 +1772,7 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/picardbdeintegrator.html#boundprocedure-init~80'>init</a></strong>
+                  :: <strong><a href='../type/picardbdeintegrator.html#boundprocedure-init~97'>init</a></strong>
  =>
                     <a href='../interface/initbdeintegrator.html'>initBDEIntegrator</a>
 <small>Interface</small>                </td>

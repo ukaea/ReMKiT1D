@@ -107,12 +107,12 @@
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stencil_procedures.f90"> Source File</a>
+              <a href="../src/stencil1d_procedures.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/stencil_procedures.f90.html'>stencil_procedures.f90</a></li>
-              <li><a href='../module/stencil_procedures.html'>stencil_procedures</a></li>
+              <li><a href='../sourcefile/stencil1d_procedures.f90.html'>stencil1d_procedures.f90</a></li>
+              <li><a href='../module/stencil1d_procedures.html'>stencil1d_procedures</a></li>
           <li class="active">mapCoords</li>
         </ol>
       </div>
@@ -156,12 +156,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module function mapCoords(this, gridObj, inputArray) result(output)  
-    <a href='../interface/mapcoords.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure module function mapCoords(this, inputCoord, dimSize, periodic) result(output)  
+    <a href='../interface/mapcoords~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Stencil coordinate mapping routine</p>
+    <p>Stencil1D coordinate mapping routine</p>
 
 
     <h3>Arguments</h3>
@@ -177,8 +177,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~819"></span>
-              class(<a href='../type/stencil.html'>Stencil</a>),
+              <span class="anchor" id="variable-this~835"></span>
+              class(<a href='../type/stencil1d.html'>Stencil1D</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -192,32 +192,47 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gridobj~9"></span>
-              type(<a href='../type/grid.html'>Grid</a>),
+              <span class="anchor" id="variable-inputcoord"></span>
+              integer(kind=ik),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>gridObj</strong></td>
+            <td><strong>inputCoord</strong></td>
             <td>
-                <p>Grid used to construct the mapping</p>
+                <p>Input coordinate value</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputarray"></span>
+              <span class="anchor" id="variable-dimsize"></span>
               integer(kind=ik),
             </td>
-<td>intent(in),</td>
+<td>intent(in)</td>
               <td></td>            <td>
-              dimension(:)
+              
             </td>
             <td>::</td>
-            <td><strong>inputArray</strong></td>
+            <td><strong>dimSize</strong></td>
             <td>
-                <p>Input array of coordinates (size 1 - [x], or size 3 [x,h,v])</p>
+                <p>Size of dimension in which mapping is done</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-periodic"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>periodic</strong></td>
+            <td>
+                <p>True if dimension is periodic</p>
             </td>
         </tr>
     </tbody>
@@ -226,7 +241,7 @@
       <h3>Return Value
         <small>
           <span class="anchor" id="variable-output~57"></span>
-          type(<a href='../type/intarray.html'>IntArray</a>), allocatable, dimension(:)
+          integer(kind=ik), allocatable, dimension(:)
         </small>
       </h3>
       

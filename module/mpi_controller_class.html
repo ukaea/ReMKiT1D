@@ -153,7 +153,7 @@
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-getcolrank">getColRank</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-getcolsize">getColSize</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-getxhalowidth">getXHaloWidth</a>
-            <a class="list-group-item" href="../module/mpi_controller_class.html#interface-istrueeverywhere~2">isTrueEverywhere</a>
+            <a class="list-group-item" href="../module/mpi_controller_class.html#interface-istrueeverywhere">isTrueEverywhere</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-allreducemin">allreduceMin</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-allreducemax">allreduceMax</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-initmpicontroller">initMPIController</a>
@@ -212,14 +212,14 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
-                <li><a href='../module/partition_class.html'>partition_class</a></li>
-                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
                 <li><a href='<a href="http://www.mpi-forum.org/docs/mpi-3.1/mpi31-report/node409.htm">mpi_f08</a>'>mpi_f08</a></li>
-                <li><a href='../module/god_objects.html'>god_objects</a></li>
+                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
                 <li><a href='../module/support_types.html'>support_types</a></li>
+                <li><a href='../module/partition_class.html'>partition_class</a></li>
+                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
                 <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
+                <li><a href='../module/god_objects.html'>god_objects</a></li>
+                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
             </ul>
           </li>
       </ul>
@@ -266,7 +266,7 @@
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-getcolrank">getColRank</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-getcolsize">getColSize</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-getxhalowidth">getXHaloWidth</a>
-            <a class="list-group-item" href="../module/mpi_controller_class.html#interface-istrueeverywhere~2">isTrueEverywhere</a>
+            <a class="list-group-item" href="../module/mpi_controller_class.html#interface-istrueeverywhere">isTrueEverywhere</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-allreducemin">allreduceMin</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-allreducemax">allreduceMax</a>
             <a class="list-group-item" href="../module/mpi_controller_class.html#interface-initmpicontroller">initMPIController</a>
@@ -700,7 +700,7 @@
 
               <div class="panel panel-default">
     <div class="panel-heading codesum">
-      <span class="anchor" id="interface-istrueeverywhere~2"></span>
+      <span class="anchor" id="interface-istrueeverywhere"></span>
       <h3>        interface
       </h3>
     </div>
@@ -708,7 +708,7 @@
         <li class="list-group-item">
               <h3>
     private module function isTrueEverywhere(this, input) result(isTrue)  
-    <a href='../proc/istrueeverywhere~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href='../proc/istrueeverywhere.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return true if input is true on every processor</p>
@@ -2336,7 +2336,7 @@ halo exchange</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~9"></span>
+              <span class="anchor" id="variable-xhalowidth~5"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -2353,7 +2353,7 @@ halo exchange</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~7"></span>
+              <span class="anchor" id="variable-numv~4"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -2370,7 +2370,7 @@ halo exchange</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~2"></span>
+              <span class="anchor" id="variable-numh"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -2675,7 +2675,7 @@ for periodic domain </p>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/mpicontroller.html#boundprocedure-istrueeverywhere~2'>isTrueEverywhere</a></strong>
+                  :: <strong><a href='../type/mpicontroller.html#boundprocedure-istrueeverywhere'>isTrueEverywhere</a></strong>
 <small>Interface</small>                </td>
                 <td></td>
               </tr>
@@ -2699,7 +2699,7 @@ for periodic domain </p>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/mpicontroller.html#boundprocedure-init~47'>init</a></strong>
+                  :: <strong><a href='../type/mpicontroller.html#boundprocedure-init~15'>init</a></strong>
  =>
                     <a href='../interface/initmpicontroller.html'>initMPIController</a>
 <small>Interface</small>                </td>

@@ -150,6 +150,13 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
         call tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,dt,solveSuccess)
         if (solveSuccess) then
             this%internalControlOpts%restartCount = 0
+            this%internalControlOpts%stepsSinceLastConsolidation = this%internalControlOpts%stepsSinceLastConsolidation + 1
+
+            if (this%internalControlOpts%stepsSinceLastConsolidation >= this%internalControlOpts%consolidationInterval) then 
+                this%internalControlOpts%currentNumSubsteps = 1
+                this%internalControlOpts%stepsSinceLastConsolidation = 0
+                call printMessage(this%integratorName//": Consolidating internal BDE steps")
+            end if
             exit
         end if 
     end do

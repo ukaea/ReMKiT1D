@@ -189,19 +189,19 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
-                <li><a href='../module/jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
-                <li><a href='../module/v_space_class.html'>v_space_class</a></li>
                 <li><a href='../module/data_kinds.html'>data_kinds</a></li>
                 <li><a href='../module/modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                <li><a href='../module/model_surrogate_class.html'>model_surrogate_class</a></li>
-                <li><a href='../module/support_types.html'>support_types</a></li>
-                <li><a href='../module/god_objects.html'>god_objects</a></li>
-                <li><a href='../module/sparse_row_data_class.html'>sparse_row_data_class</a></li>
-                <li><a href='../module/support_functions.html'>support_functions</a></li>
-                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
                 <li><a href='../module/modelbound_crm_data_class.html'>modelbound_CRM_data_class</a></li>
+                <li><a href='../module/sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                <li><a href='../module/support_types.html'>support_types</a></li>
+                <li><a href='../module/v_space_class.html'>v_space_class</a></li>
+                <li><a href='../module/support_functions.html'>support_functions</a></li>
+                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
+                <li><a href='../module/jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
+                <li><a href='../module/model_surrogate_class.html'>model_surrogate_class</a></li>
+                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
+                <li><a href='../module/god_objects.html'>god_objects</a></li>
+                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
             </ul>
           </li>
       </ul>
@@ -580,7 +580,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindex~6"></span>
+              <span class="anchor" id="variable-transitionindex~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -597,7 +597,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lnum~6"></span>
+              <span class="anchor" id="variable-lnum~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -614,7 +614,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bufferw~2"></span>
+              <span class="anchor" id="variable-bufferw"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
               <td>private,</td>
@@ -631,7 +631,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterm~6"></span>
+              <span class="anchor" id="variable-absorptionterm~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -648,7 +648,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-superelasticterm~3"></span>
+              <span class="anchor" id="variable-superelasticterm~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -706,7 +706,7 @@ Assumes no halo in cross-section.</p>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/jaggedarraygenerator.html#boundprocedure-calculate~7'>calculate</a></strong>
+                  :: <strong><a href='../type/jaggedarraygenerator.html#boundprocedure-calculate'>calculate</a></strong>
 <small>Interface</small>                </td>
                 <td></td>
               </tr>
@@ -714,7 +714,7 @@ Assumes no halo in cross-section.</p>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/variableboltzmannstencilgen.html#boundprocedure-init~23'>init</a></strong>
+                  :: <strong><a href='../type/variableboltzmannstencilgen.html#boundprocedure-init~78'>init</a></strong>
  =>
                     <a href='../interface/initvarboltzgen.html'>initVarBoltzGen</a>
 <small>Interface</small>                </td>
@@ -724,7 +724,7 @@ Assumes no halo in cross-section.</p>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/variableboltzmannstencilgen.html#boundprocedure-calculateinplace~6'>calculateInPlace</a></strong>
+                  :: <strong><a href='../type/variableboltzmannstencilgen.html#boundprocedure-calculateinplace~14'>calculateInPlace</a></strong>
  =>
                     <a href='../interface/calcvarboltzvals.html'>calcVarBoltzVals</a>
 <small>Interface</small>                </td>

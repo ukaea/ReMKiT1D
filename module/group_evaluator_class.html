@@ -146,8 +146,8 @@
       </div>
       <div id="inters-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-initevaluator~2">initEvaluator</a>
-            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-evaluate~2">evaluate</a>
+            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-initevaluator">initEvaluator</a>
+            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-evaluate">evaluate</a>
         </div>
       </div>
     </div>
@@ -189,13 +189,13 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
                 <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
                 <li><a href='../module/data_kinds.html'>data_kinds</a></li>
-                <li><a href='../module/modeller_class.html'>modeller_class</a></li>
                 <li><a href='../module/modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
+                <li><a href='../module/manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
+                <li><a href='../module/modeller_class.html'>modeller_class</a></li>
                 <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
+                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
             </ul>
           </li>
       </ul>
@@ -235,8 +235,8 @@
       </div>
       <div id="inters-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-initevaluator~2">initEvaluator</a>
-            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-evaluate~2">evaluate</a>
+            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-initevaluator">initEvaluator</a>
+            <a class="list-group-item" href="../module/group_evaluator_class.html#interface-evaluate">evaluate</a>
         </div>
       </div>
     </div>
@@ -275,7 +275,7 @@
           <h2>Interfaces</h2>
               <div class="panel panel-default">
     <div class="panel-heading codesum">
-      <span class="anchor" id="interface-initevaluator~2"></span>
+      <span class="anchor" id="interface-initevaluator"></span>
       <h3>        interface
       </h3>
     </div>
@@ -283,7 +283,7 @@
         <li class="list-group-item">
               <h3>
     private pure module subroutine initEvaluator(this, resultVarIndex, modelIndex, termGroup)  
-    <a href='../proc/initevaluator.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href='../proc/initevaluator~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>GroupEvaluator initialization routine</p>
@@ -369,7 +369,7 @@
 
               <div class="panel panel-default">
     <div class="panel-heading codesum">
-      <span class="anchor" id="interface-evaluate~2"></span>
+      <span class="anchor" id="interface-evaluate"></span>
       <h3>        interface
       </h3>
     </div>
@@ -377,7 +377,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine evaluate(this, manipulatedModeller, outputVars, inputVars)  
-    <a href='../proc/evaluate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href='../proc/evaluate~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Implementation of abstract manipulate routine for the evaluator</p>
@@ -509,7 +509,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-resultvarindex~9"></span>
+              <span class="anchor" id="variable-resultvarindex~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -526,7 +526,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evaluatedmodelindex~2"></span>
+              <span class="anchor" id="variable-evaluatedmodelindex"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -601,9 +601,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/groupevaluator.html#boundprocedure-init~89'>init</a></strong>
+                  :: <strong><a href='../type/groupevaluator.html#boundprocedure-init~91'>init</a></strong>
  =>
-                    <a href='../interface/initevaluator~2.html'>initEvaluator</a>
+                    <a href='../interface/initevaluator.html'>initEvaluator</a>
 <small>Interface</small>                </td>
                 <td></td>
               </tr>
@@ -611,9 +611,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/groupevaluator.html#boundprocedure-affect~6'>affect</a></strong>
+                  :: <strong><a href='../type/groupevaluator.html#boundprocedure-affect~3'>affect</a></strong>
  =>
-                    <a href='../interface/evaluate~2.html'>evaluate</a>
+                    <a href='../interface/evaluate.html'>evaluate</a>
 <small>Interface</small>                </td>
                 <td></td>
               </tr>

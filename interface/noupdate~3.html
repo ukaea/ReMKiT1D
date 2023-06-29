@@ -103,17 +103,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.2% of total for procedures.">80 statements</a>
+               title=" 0.0% of total for procedures.">6 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/transition_abstract.f90"> Source File</a>
+              <a href="../src/operator_abstract.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/transition_abstract.f90.html'>transition_abstract.f90</a></li>
-              <li><a href='../module/transition_abstract_class.html'>transition_abstract_class</a></li>
+              <li><a href='../sourcefile/operator_abstract.f90.html'>operator_abstract.f90</a></li>
+              <li><a href='../module/operator_abstract_class.html'>operator_abstract_class</a></li>
           <li class="active">noUpdate</li>
         </ol>
       </div>
@@ -159,7 +159,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private module subroutine noUpdate(this, varCont, hostModel, hostData, updatePriority)  
+      private module subroutine noUpdate(this, varCont)  
     <a href='../proc/noupdate~3.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -178,8 +178,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~473"></span>
-              class(<a href='../type/transition.html'>Transition</a>),
+              <span class="anchor" id="variable-this~285"></span>
+              class(<a href='../type/operator.html'>Operator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~40"></span>
+              <span class="anchor" id="variable-varcont~79"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -203,59 +203,14 @@
             <td>::</td>
             <td><strong>varCont</strong></td>
             <td>
-                <p>Variable container used in update</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-hostmodel~13"></span>
-              class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>hostModel</strong></td>
-            <td>
-                <p>Optional host model reference for callbacks during update</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-hostdata~4"></span>
-              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>hostData</strong></td>
-            <td>
-                <p>Optional host data reference for callbacks during update</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-updatepriority~13"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>updatePriority</strong></td>
-            <td>
-                <p>Priority for this update call </p>
+                
             </td>
         </tr>
     </tbody>
   </table>
 
     <h3>Description</h3>
-    <p>Default update routine - does nothing</p>
+    <p>Default operator update function - does nothing </p>
     <br>
 
  </div>

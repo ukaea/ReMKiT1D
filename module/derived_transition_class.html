@@ -146,7 +146,7 @@
       </div>
       <div id="inters-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/derived_transition_class.html#interface-getenergy~2">getEnergy</a>
+            <a class="list-group-item" href="../module/derived_transition_class.html#interface-getenergy~3">getEnergy</a>
             <a class="list-group-item" href="../module/derived_transition_class.html#interface-initderivedtransition">initDerivedTransition</a>
             <a class="list-group-item" href="../module/derived_transition_class.html#interface-updaterates~2">updateRates</a>
         </div>
@@ -190,15 +190,15 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
+                <li><a href='../module/transition_abstract_class.html'>transition_abstract_class</a></li>
+                <li><a href='../module/derivation_abstract_class.html'>derivation_abstract_class</a></li>
                 <li><a href='../module/data_kinds.html'>data_kinds</a></li>
                 <li><a href='../module/modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                <li><a href='../module/god_objects.html'>god_objects</a></li>
-                <li><a href='../module/derivation_abstract_class.html'>derivation_abstract_class</a></li>
-                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
                 <li><a href='../module/model_surrogate_class.html'>model_surrogate_class</a></li>
-                <li><a href='../module/transition_abstract_class.html'>transition_abstract_class</a></li>
+                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
+                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
+                <li><a href='../module/god_objects.html'>god_objects</a></li>
+                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
             </ul>
           </li>
       </ul>
@@ -238,7 +238,7 @@
       </div>
       <div id="inters-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/derived_transition_class.html#interface-getenergy~2">getEnergy</a>
+            <a class="list-group-item" href="../module/derived_transition_class.html#interface-getenergy~3">getEnergy</a>
             <a class="list-group-item" href="../module/derived_transition_class.html#interface-initderivedtransition">initDerivedTransition</a>
             <a class="list-group-item" href="../module/derived_transition_class.html#interface-updaterates~2">updateRates</a>
         </div>
@@ -279,7 +279,7 @@
           <h2>Interfaces</h2>
               <div class="panel panel-default">
     <div class="panel-heading codesum">
-      <span class="anchor" id="interface-getenergy~2"></span>
+      <span class="anchor" id="interface-getenergy~3"></span>
       <h3>        interface
       </h3>
     </div>
@@ -287,7 +287,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href='../proc/getenergy~3.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href='../proc/getenergy~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Returns array representing energy cost of this transition</p>
@@ -688,7 +688,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~2"></span>
+              <span class="anchor" id="variable-transitionenergy~3"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -807,7 +807,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~11"></span>
+              <span class="anchor" id="variable-locnumx~6"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1001,7 +1001,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/derivedtransition.html#boundprocedure-init~82'>init</a></strong>
+                  :: <strong><a href='../type/derivedtransition.html#boundprocedure-init~3'>init</a></strong>
  =>
                     <a href='../interface/initderivedtransition.html'>initDerivedTransition</a>
 <small>Interface</small>                </td>
@@ -1011,7 +1011,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/derivedtransition.html#boundprocedure-update~9'>update</a></strong>
+                  :: <strong><a href='../type/derivedtransition.html#boundprocedure-update~3'>update</a></strong>
  =>
                     <a href='../interface/updaterates~2.html'>updateRates</a>
 <small>Interface</small>                </td>
@@ -1021,9 +1021,9 @@ Optionally, momentum and energy rates can be calculated using derivation objects
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/derivedtransition.html#boundprocedure-gettransitionenergy~2'>getTransitionEnergy</a></strong>
+                  :: <strong><a href='../type/derivedtransition.html#boundprocedure-gettransitionenergy~3'>getTransitionEnergy</a></strong>
  =>
-                    <a href='../interface/getenergy~2.html'>getEnergy</a>
+                    <a href='../interface/getenergy~3.html'>getEnergy</a>
 <small>Interface</small>                </td>
                 <td></td>
               </tr>

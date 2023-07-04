@@ -146,7 +146,8 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
             allocate(dt(1))
             dt = fullTimestep
         end if
-        if (this%internalControlOpts%restartCount > this%internalControlOpts%maxRestarts) error stop "Max BDE restarts reached"
+        if (this%internalControlOpts%restartCount > this%internalControlOpts%maxRestarts .and. &
+            this%internalControlOpts%stepsSinceLastConsolidation > 1) error stop "Max BDE restarts reached"
         call tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,dt,solveSuccess)
         if (solveSuccess) then
             this%internalControlOpts%restartCount = 0

@@ -102,17 +102,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.1% of total for procedures.">27 statements</a>
+               title=" 0.1% of total for procedures.">28 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fixed_ecs_transition_procedures.f90"> Source File</a>
+              <a href="../src/derived_transition_procedures.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fixed_ecs_transition_procedures.f90.html'>fixed_ecs_transition_procedures.f90</a></li>
-              <li><a href='../module/fixed_ecs_transition_procedures.html'>fixed_ecs_transition_procedures</a></li>
+              <li><a href='../sourcefile/derived_transition_procedures.f90.html'>derived_transition_procedures.f90</a></li>
+              <li><a href='../module/derived_transition_procedures.html'>derived_transition_procedures</a></li>
           <li class="active">updateRates</li>
         </ol>
       </div>
@@ -157,11 +157,11 @@
     
     <div class="col-md-9" id='text'>
     <h2>module subroutine updateRates(this, varCont, hostModel, hostData, updatePriority)  
-    <a href='../interface/updaterates.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href='../interface/updaterates~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Update transition and moment exchange rate (if applicable)</p>
+    <p>Update transition rates using derivation object</p>
 
 
     <h3>Arguments</h3>
@@ -177,8 +177,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~628"></span>
-              class(<a href='../type/fixedecstransition.html'>FixedECSTransition</a>),
+              <span class="anchor" id="variable-this~971"></span>
+              class(<a href='../type/derivedtransition.html'>DerivedTransition</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~5"></span>
+              <span class="anchor" id="variable-varcont~33"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~5"></span>
+              <span class="anchor" id="variable-hostmodel~7"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostdata~5"></span>
+              <span class="anchor" id="variable-hostdata"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -232,12 +232,12 @@
             <td>::</td>
             <td><strong>hostData</strong></td>
             <td>
-                <p>Host data used to determine emitting cells for discrete cross-section</p>
+                <p>Host data - unused</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatepriority~5"></span>
+              <span class="anchor" id="variable-updatepriority~9"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>

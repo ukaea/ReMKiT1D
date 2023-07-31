@@ -103,17 +103,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.1% of total for procedures.">53 statements</a>
+               title=" 0.2% of total for procedures.">108 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/explicit_term_abstract.f90"> Source File</a>
+              <a href="../src/matrix_term_abstract.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/explicit_term_abstract.f90.html'>explicit_term_abstract.f90</a></li>
-              <li><a href='../module/explicit_term_abstract_class.html'>explicit_term_abstract_class</a></li>
+              <li><a href='../sourcefile/matrix_term_abstract.f90.html'>matrix_term_abstract.f90</a></li>
+              <li><a href='../module/matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
           <li class="active">getMultConst</li>
         </ol>
       </div>
@@ -160,7 +160,7 @@
     <div class="col-md-9" id='text'>
       <h2>interface <br>
       private pure module function getMultConst(this) result(multConst)  
-    <a href='../proc/getmultconst.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href='../proc/getmultconst~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
     
@@ -178,8 +178,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~279"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
+              <span class="anchor" id="variable-this~124"></span>
+              class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -194,7 +194,7 @@
     </tbody>
   </table>
 
-      <h3>Return Value <span class="anchor" id="variable-multconst~23"></span><small>real(kind=rk),allocatable,dimension(:)</small></h3>
+      <h3>Return Value <span class="anchor" id="variable-multconst~23"></span><small>type(<a href='../type/realarray.html'>RealArray</a>),allocatable,dimension(:)</small></h3>
     
     <h3>Description</h3>
     <p>Getter for multConst</p>

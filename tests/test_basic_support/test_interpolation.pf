@@ -33,3 +33,101 @@ subroutine test_interp
     @assertEqual(testInterp%interpolate(testArray),real([1.0d0,9.8d0],kind=rk))
     
 end subroutine test_interp
+
+@test
+subroutine test_interpnd
+    use pfunit
+    use data_kinds         ,only: ik, rk
+    use lin_interp1D_class ,only: Interpolation1D
+    use lin_interpnd_class ,only: InterpolationND
+    use flat_nd_data       ,only: FlatNDData
+    implicit none
+    
+
+    type(Interpolation1D) :: testInterp1, testInterp2
+
+    type(InterpolationND) :: testNDInterp1, testNDInterp2, testNDInterp3
+
+    type(FlatNDData) :: test1DData ,test2DData ,test3DData
+
+    real(rk) ,allocatable ,dimension(:) :: testGrid1, testGrid2 ,testArray1
+
+    real(rk) ,allocatable ,dimension(:,:) :: testArray2
+
+    real(rk) ,allocatable ,dimension(:,:,:) :: testArray3
+
+    real(rk) ,allocatable ,dimension(:,:) :: interpPoints1, interpPoints2, interpPoints3
+    integer(ik) :: i,j,k
+
+    testGrid1 = real([((i-1)*1.0d0 + 0.5d0,i=1,10)],kind=rk)
+    testArray1 = real([((i-1)*2.0d0,i=1,10)],kind=rk)
+
+    call testInterp1%init(testGrid1)
+
+    call testNDInterp1%init([testInterp1])
+
+    allocate(interpPoints1(1,2))
+
+    interpPoints1(1,:) = real([1.0d0, 5.4d0],kind=rk)
+
+    call testNDInterp1%updateInterpolationPoints(interpPoints1)
+
+    call test1DData%init(testArray1)
+
+    @assertEqual(testNDInterp1%getFirstDataIndicesForDim(1),[1,5])
+    @assertEqual(testNDInterp1%interpolate(test1DData),real([1.0d0,9.8d0],kind=rk))
+
+    testGrid2 = 2*real([((i-1)*1.0d0 + 0.5d0,i=1,10)],kind=rk)
+
+    call testInterp2%init(testGrid2)
+
+    call testNDInterp2%init([testInterp1,testInterp2])
+
+    allocate(interpPoints2(2,2))
+
+    interpPoints2(1,:) = real([1.0d0, 5.4d0],kind=rk)
+    interpPoints2(2,:) = real([3.5d0, 9.4d0],kind=rk)
+
+    call testNDInterp2%updateInterpolationPoints(interpPoints2)
+
+    allocate(testArray2(10,10))
+
+    do i = 1,10
+        do j = 1,10
+            testArray2(i,j) = (i-1)*2.0d0 + (j-1)*100.d0
+        end do
+    end do
+
+    call test2DData%init(testArray2)
+
+    @assertEqual(testNDInterp2%getFirstDataIndicesForDim(1),[1,5])
+    @assertEqual(testNDInterp2%getFirstDataIndicesForDim(2),[2,5])
+    @assertEqual(testNDInterp2%interpolate(test2DData),real([126.0d0,429.8d0],kind=rk))
+
+    call testNDInterp3%init([testInterp1,testInterp1,testInterp1])
+
+    allocate(interpPoints3(3,2))
+
+    interpPoints3(1,:) = real([1.0d0, 5.4d0],kind=rk)
+    interpPoints3(2,:) = real([3.0d0, 1.4d0],kind=rk)
+    interpPoints3(3,:) = real([4.3d0, 1.0d0],kind=rk)
+
+    call testNDInterp3%updateInterpolationPoints(interpPoints3)
+
+    allocate(testArray3(10,10,10))
+
+    do i = 1,10
+        do j = 1,10
+            do k = 1,10
+            testArray3(i,j,k) = (i-1)*2.0d0 + (j-1)*100.d0 + (k-1)*1000.d0
+                end do
+        end do
+    end do
+
+    call test3DData%init(testArray3)
+
+    @assertEqual(testNDInterp3%getFirstDataIndicesForDim(1),[1,5])
+    @assertEqual(testNDInterp3%getFirstDataIndicesForDim(2),[3,1])
+    @assertEqual(testNDInterp3%getFirstDataIndicesForDim(3),[4,1])
+    @assertEqual(testNDInterp3%interpolate(test3DData),real([4051.0d0,599.8d0],kind=rk))
+end subroutine test_interpnd

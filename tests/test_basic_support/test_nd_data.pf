@@ -1,0 +1,64 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+
+@test
+subroutine test_flatNDData
+    use pfunit
+    use data_kinds         ,only: ik, rk
+    use flat_nd_data ,only: FlatNDData
+    implicit none
+    
+
+    type(FlatNDData) :: testData1, testData2, testData3 ,testData4
+
+    real(rk) ,allocatable ,dimension(:) :: testInput1
+    real(rk) ,allocatable ,dimension(:,:) :: testInput2
+    real(rk) ,allocatable ,dimension(:,:,:) :: testInput3
+
+    integer(ik) :: i,j,k 
+
+    testInput1 = [1,2,3]
+    allocate(testInput2(3,4))
+    do i = 1,size(testInput2,1)
+        do j = 1,size(testInput2,2)
+            testInput2(i,j) = 10*i + j
+        end do
+    end do
+
+    allocate(testInput3(3,4,5))
+
+    do i = 1,size(testInput3,1)
+        do j = 1,size(testInput3,2)
+            do k = 1,size(testInput3,3)
+                testInput3(i,j,k) = 100*i + 10*j + k
+            end do
+        end do
+    end do
+
+    call testData1%init(testInput1)
+    call testData2%init(testInput2)
+    call testData3%init(testInput3)
+
+    @assertEqual(testData1%getValue([2]),real(2,kind=rk))
+    @assertEqual(testData2%getValue([2,3]),real(23,kind=rk))
+    @assertEqual(testData3%getValue([2,3,4]),real(234,kind=rk))
+
+    @assertEqual(testData2%get1DSlice([1],1),real([11,21,31],kind=rk))
+    @assertEqual(testData2%get1DSlice([1],2),real([11,12,13,14],kind=rk))
+    @assertEqual(testData3%get1DSlice([1,3],2),real([113,123,133,143],kind=rk))
+
+    call testData4%directInit(reshape(testInput3,[size(testInput3)]),shape(testInput3))
+
+    @assertEqual(testData4%get1DSlice([1,3],2),real([113,123,133,143],kind=rk))
+
+end subroutine test_flatNDData

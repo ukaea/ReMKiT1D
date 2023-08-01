@@ -22,36 +22,60 @@ implicit none
 contains
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module subroutine initInterpolation(this,gridPoints,interpolationPoints) 
-    !! Initialization routine for 1D interpolation object
+    !! Initialization routine for 1D Interpolation1D object
 
     class(Interpolation1D)           ,intent(inout)  :: this
     real(rk) ,dimension(:)           ,intent(in)     :: gridPoints 
+    real(rk) ,dimension(:) ,optional ,intent(in)     :: interpolationPoints
+
+    if (assertions) then 
+        if (present(interpolationPoints)) then 
+        call assertPure(all(interpolationPoints >= gridPoints(1)),"Attempted to construct Interpolation1D object when one or more&
+        & interpolation points fall outside supplied grid (lower bound)")
+        call assertPure(all(interpolationPoints <= gridPoints(size(gridPoints))),"Attempted to construct Interpolation1D object &
+        &when one or more interpolation points fall outside supplied grid (upper bound)")
+        end if
+    end if
+
+    this%gridBuffer = gridPoints
+
+    if (present(interpolationPoints)) call this%updateInterpolationPoints(interpolationPoints)
+
+    call this%makeDefined()
+
+end subroutine initInterpolation
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine updateInterpolationPoints(this,interpolationPoints) 
+    !! Updates the interpolation points and weightss
+
+    class(Interpolation1D)           ,intent(inout)  :: this
     real(rk) ,dimension(:)           ,intent(in)     :: interpolationPoints
 
     integer(ik) :: i 
 
     integer(ik) ,dimension(2) :: pair
 
-    if (assertions) then 
-        call assertPure(all(interpolationPoints >= gridPoints(1)),"Attempted to construct interpolation object when one or more&
-        & interpolation points fall outside supplied grid (lower bound)")
-        call assertPure(all(interpolationPoints <= gridPoints(size(gridPoints))),"Attempted to construct interpolation object &
-        &when one or more interpolation points fall outside supplied grid (upper bound)")
+    this%interpPoints = interpolationPoints 
+    if (.not. allocated(this%interpWeights)) then 
+        allocate(this%interpWeights(size(this%interpPoints)))
+        allocate(this%firstDataIndex(size(this%interpPoints)))
+    else if (size(this%interpWeights) .ne. size(this%interpPoints)) then
+        deallocate(this%interpWeights)
+        deallocate(this%firstDataIndex)
+
+        allocate(this%interpWeights(size(this%interpPoints)))
+        allocate(this%firstDataIndex(size(this%interpPoints)))
+
     end if
 
-    this%interpPoints = interpolationPoints 
-    allocate(this%interpWeights(size(this%interpPoints)))
-    allocate(this%firstDataIndex(size(this%interpPoints)))
-
     do i = 1, size(this%interpPoints)
-        pair = findNearestPointsInArray(gridPoints,interpolationPoints(i))
+        pair = findNearestPointsInArray(this%gridBuffer,interpolationPoints(i))
         this%firstDataIndex(i) = pair(1)
-        this%interpWeights(i) = (interpolationPoints(i) - gridPoints(pair(1)))/(gridPoints(pair(2)) - gridPoints(pair(1)))
+        this%interpWeights(i) = (interpolationPoints(i) - this%gridBuffer(pair(1)))&
+                                /(this%gridBuffer(pair(2)) - this%gridBuffer(pair(1)))
     end do
 
-    call this%makeDefined()
-
-end subroutine initInterpolation
+end subroutine updateInterpolationPoints
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module function getFirstDataIndices (this) result(inds)
     !! Getter for firstDataIndex
@@ -59,8 +83,11 @@ pure module function getFirstDataIndices (this) result(inds)
     class(Interpolation1D)                ,intent(in) :: this
     integer(ik)    ,allocatable ,dimension(:)         :: inds
 
-    if (assertions) call assertPure(this%isDefined(),"getFirstDataIndices called for undefined interpolation object")
-
+    if (assertions) then 
+        call assertPure(this%isDefined(),"getFirstDataIndices called for undefined Interpolation1D object")
+        call assertPure(allocated(this%firstDataIndex),&
+                        "getFirstDataIndices called before interpolation points defined for Interpolation1D object")
+    end if
     inds = this%firstDataIndex
 
 end function getFirstDataIndices
@@ -71,7 +98,11 @@ pure module function getInterpWeights (this) result(weights)
     class(Interpolation1D)                ,intent(in) :: this
     real(rk)   ,allocatable ,dimension(:)             :: weights
 
-    if (assertions) call assertPure(this%isDefined(),"getInterpWeights called for undefined interpolation object")
+    if (assertions) then 
+        call assertPure(this%isDefined(),"getInterpWeights called for undefined Interpolation1D object")
+        call assertPure(allocated(this%interpWeights),&
+                        "getInterpWeights called before interpolation points defined for Interpolation1D object")
+    end if
 
     weights = this%interpWeights 
 
@@ -83,20 +114,28 @@ pure module function getInterpPoints (this) result(points)
     class(Interpolation1D)                ,intent(in) :: this
     real(rk)   ,allocatable ,dimension(:)             :: points
 
-    if (assertions) call assertPure(this%isDefined(),"getInterpPoints called for undefined interpolation object")
+    if (assertions) then 
+        call assertPure(this%isDefined(),"getInterpPoints called for undefined Interpolation1D object")
+        call assertPure(allocated(this%InterpPoints),&
+                        "getInterpPoints called before interpolation points defined for Interpolation1D object")
+    end if
 
     points = this%interpPoints 
 
 end function getInterpPoints
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module function interpolate (this,targetArray) result(interpVals)
-    !! Interpolate input array defined on the same grid as the interpolation object at points 
+    !! Interpolate input array defined on the same grid as the Interpolation1D object at points 
 
     class(Interpolation1D)                ,intent(in) :: this
     real(rk) ,dimension(:)                ,intent(in) :: targetArray 
     real(rk)   ,allocatable ,dimension(:)             :: interpVals
 
-    if (assertions) call assertPure(this%isDefined(),"interpolate called for undefined interpolation object")
+    if (assertions) then 
+        call assertPure(this%isDefined(),"interpolate called for undefined Interpolation1D object")
+        call assertPure(allocated(this%InterpPoints),&
+                        "interpolate called before interpolation points defined for Interpolation1D object")
+    end if
 
     interpVals = targetArray(this%firstDataIndex) * (real(1,kind=rk) - this%interpWeights) &
                 + this%interpWeights*targetArray(this%firstDataIndex + 1)

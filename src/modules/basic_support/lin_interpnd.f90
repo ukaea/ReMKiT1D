@@ -28,7 +28,7 @@ module lin_interpnd_class
     private
 
     type ,public ,extends(Object) :: InterpolationND
-        !! Linear interpolation object housing information necessary for linearly interpolating N-dimensional data using weighted averages. NOTE: Does not support changing the number of interpolation points after the first interpolation call
+        !! Linear interpolation object housing information necessary for linearly interpolating N-dimensional data using weighted averages. If interpolation points are outside of the grid will return 0 for interpolated value. NOTE: Does not support changing the number of interpolation points after the first interpolation call.
 
         type(Interpolation1D) ,dimension(:) ,allocatable   ,private :: interpObjs !! Individual 1D interpolation objects. They must correspond to the axes of the data this object should be interpolating
         integer(ik)           ,dimension(:,:) ,allocatable ,private :: firstDataIndices !! An array of shape (Nd,:) where Nd is the dimensionality of the data being interpolated containing the coordinates of the origin of each hyper-cube of points used in interpolation

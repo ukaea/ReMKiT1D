@@ -28,15 +28,6 @@ pure module subroutine initInterpolation(this,gridPoints,interpolationPoints)
     real(rk) ,dimension(:)           ,intent(in)     :: gridPoints 
     real(rk) ,dimension(:) ,optional ,intent(in)     :: interpolationPoints
 
-    if (assertions) then 
-        if (present(interpolationPoints)) then 
-        call assertPure(all(interpolationPoints >= gridPoints(1)),"Attempted to construct Interpolation1D object when one or more&
-        & interpolation points fall outside supplied grid (lower bound)")
-        call assertPure(all(interpolationPoints <= gridPoints(size(gridPoints))),"Attempted to construct Interpolation1D object &
-        &when one or more interpolation points fall outside supplied grid (upper bound)")
-        end if
-    end if
-
     this%gridBuffer = gridPoints
 
     if (present(interpolationPoints)) call this%updateInterpolationPoints(interpolationPoints)
@@ -71,8 +62,13 @@ pure module subroutine updateInterpolationPoints(this,interpolationPoints)
     do i = 1, size(this%interpPoints)
         pair = findNearestPointsInArray(this%gridBuffer,interpolationPoints(i))
         this%firstDataIndex(i) = pair(1)
-        this%interpWeights(i) = (interpolationPoints(i) - this%gridBuffer(pair(1)))&
-                                /(this%gridBuffer(pair(2)) - this%gridBuffer(pair(1)))
+
+        if (any(pair == 0)) then 
+            this%interpWeights(i) = -1 
+        else 
+            this%interpWeights(i) = (interpolationPoints(i) - this%gridBuffer(pair(1)))&
+                                    /(this%gridBuffer(pair(2)) - this%gridBuffer(pair(1)))
+        end if
     end do
 
 end subroutine updateInterpolationPoints
@@ -135,6 +131,7 @@ pure module function interpolate (this,targetArray) result(interpVals)
         call assertPure(this%isDefined(),"interpolate called for undefined Interpolation1D object")
         call assertPure(allocated(this%InterpPoints),&
                         "interpolate called before interpolation points defined for Interpolation1D object")
+        call assertPure(all(this%interpWeights > 0),"interpolate called with some points outside of grid in Interpolation1D object")
     end if
 
     interpVals = targetArray(this%firstDataIndex) * (real(1,kind=rk) - this%interpWeights) &

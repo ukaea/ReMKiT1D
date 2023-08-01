@@ -152,10 +152,14 @@ pure module function interpolate (this,targetArray) result(interpVals)
     allocate(interpVals(size(this%weights,2)))
     interpVals = 0
     do i = 1, size(interpVals)
-        do j = 1,size(this%hyperCube)
-            interpVals(i) = interpVals(i) &
-                          + this%weights(j,i) * targetArray%getValue(this%firstDataIndices(:,i)+this%hyperCube(j)%entry)
-        end do
+        if (any(this%weights(:,i) < 0)) then 
+            interpVals(i) = 0
+        else
+            do j = 1,size(this%hyperCube)
+                interpVals(i) = interpVals(i) &
+                            + this%weights(j,i) * targetArray%getValue(this%firstDataIndices(:,i)+this%hyperCube(j)%entry)
+            end do
+        end if
     end do  
 end function interpolate
 !-----------------------------------------------------------------------------------------------------------------------------------

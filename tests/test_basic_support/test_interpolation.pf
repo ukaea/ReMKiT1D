@@ -35,6 +35,28 @@ subroutine test_interp
 end subroutine test_interp
 
 @test
+subroutine test_interp_oob
+    use pfunit
+    use data_kinds         ,only: ik, rk
+    use lin_interp1D_class ,only: Interpolation1D
+    implicit none
+    
+
+    type(Interpolation1D) :: testInterp 
+
+    real(rk) ,allocatable ,dimension(:) :: testGrid ,testArray
+    integer(ik) :: i
+
+    testGrid = real([((i-1)*1.0d0 + 0.5d0,i=1,10)],kind=rk)
+    testArray = real([((i-1)*2.0d0,i=1,10)],kind=rk)
+
+    call testInterp%init(testGrid,real([0.1d0,12.0d0],kind=rk))
+
+    @assertEqual(testInterp%getFirstDataIndices(),[0,10])
+    
+end subroutine test_interp_oob
+
+@test
 subroutine test_interpnd
     use pfunit
     use data_kinds         ,only: ik, rk
@@ -131,3 +153,44 @@ subroutine test_interpnd
     @assertEqual(testNDInterp3%getFirstDataIndicesForDim(3),[4,1])
     @assertEqual(testNDInterp3%interpolate(test3DData),real([4051.0d0,599.8d0],kind=rk))
 end subroutine test_interpnd
+
+@test
+subroutine test_interpnd_oob
+    use pfunit
+    use data_kinds         ,only: ik, rk
+    use lin_interp1D_class ,only: Interpolation1D
+    use lin_interpnd_class ,only: InterpolationND
+    use flat_nd_data       ,only: FlatNDData
+    implicit none
+    
+
+    type(Interpolation1D) :: testInterp1
+
+    type(InterpolationND) :: testNDInterp1
+
+    type(FlatNDData) :: test1DData 
+
+    real(rk) ,allocatable ,dimension(:) :: testGrid1 ,testArray1
+
+    real(rk) ,allocatable ,dimension(:,:) :: interpPoints1
+    integer(ik) :: i,j,k
+
+    testGrid1 = real([((i-1)*1.0d0 + 0.5d0,i=1,10)],kind=rk)
+    testArray1 = real([((i-1)*2.0d0,i=1,10)],kind=rk)
+
+    call testInterp1%init(testGrid1)
+
+    call testNDInterp1%init([testInterp1])
+
+    allocate(interpPoints1(1,2))
+
+    interpPoints1(1,:) = real([0.1d0, 5.4d0],kind=rk)
+
+    call testNDInterp1%updateInterpolationPoints(interpPoints1)
+
+    call test1DData%init(testArray1)
+
+    @assertEqual(testNDInterp1%getFirstDataIndicesForDim(1),[0,5])
+    @assertEqual(testNDInterp1%interpolate(test1DData),real([0.0d0,9.8d0],kind=rk))
+
+end subroutine test_interpnd_oob

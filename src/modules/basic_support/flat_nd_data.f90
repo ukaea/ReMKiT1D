@@ -11,7 +11,7 @@
 !
 ! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 !-----------------------------------------------------------------------------------------------------------------------------------
-module flat_nd_data
+module flat_nd_data_class
     !! author: Stefan Mijin 
     !! 
     !! Houses flattened data represenation with multidimensional indexing
@@ -35,6 +35,7 @@ module flat_nd_data
         procedure ,public :: getValue 
         procedure ,public :: get1DSlice 
         procedure ,public :: get1DSliceIndices
+        procedure ,public :: getDims
 
         procedure ,public :: init => initFlatNDData
         procedure ,public :: directInit
@@ -57,6 +58,14 @@ module flat_nd_data
             real(rk)               ,dimension(:) ,intent(in) :: array
             integer(ik)            ,dimension(:) ,intent(in) :: dims
         end subroutine directInit   
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getDims (this) result(dims)
+            !! Return shape of data stored
+ 
+            class(FlatNDData)                ,intent(in) :: this
+            integer(ik) ,allocatable ,dimension(:)       :: dims
+ 
+        end function getDims
 !-----------------------------------------------------------------------------------------------------------------------------------
         pure module function getValue (this,indexSet) result(val)
             !! Return multidimensional value for given indexSet (should match array dimension)
@@ -89,6 +98,6 @@ module flat_nd_data
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
- end module flat_nd_data
+ end module flat_nd_data_class
 !-----------------------------------------------------------------------------------------------------------------------------------
  

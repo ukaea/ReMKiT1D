@@ -15,7 +15,7 @@
 subroutine test_flatNDData
     use pfunit
     use data_kinds         ,only: ik, rk
-    use flat_nd_data ,only: FlatNDData
+    use flat_nd_data_class,only: FlatNDData
     implicit none
     
 
@@ -60,5 +60,7 @@ subroutine test_flatNDData
     call testData4%directInit(reshape(testInput3,[size(testInput3)]),shape(testInput3))
 
     @assertEqual(testData4%get1DSlice([1,3],2),real([113,123,133,143],kind=rk))
+
+    @assertEqual(testData3%getDims(),[3,4,5])
 
 end subroutine test_flatNDData

@@ -62,7 +62,7 @@ subroutine test_interpnd
     use data_kinds         ,only: ik, rk
     use lin_interp1D_class ,only: Interpolation1D
     use lin_interpnd_class ,only: InterpolationND
-    use flat_nd_data       ,only: FlatNDData
+    use flat_nd_data_class      ,only: FlatNDData
     implicit none
     
 
@@ -160,7 +160,7 @@ subroutine test_interpnd_oob
     use data_kinds         ,only: ik, rk
     use lin_interp1D_class ,only: Interpolation1D
     use lin_interpnd_class ,only: InterpolationND
-    use flat_nd_data       ,only: FlatNDData
+    use flat_nd_data_class      ,only: FlatNDData
     implicit none
     
 

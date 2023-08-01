@@ -56,6 +56,10 @@ module test_common_derivs
     use range_filter_derivation_class
     use calculation_tree_derivation_class
     use calculation_tree_class
+    use lin_interpnd_class
+    use lin_interp1D_class
+    use flat_nd_data_class
+    use lin_interpnd_derivation_class
 
     implicit none
 
@@ -1612,6 +1616,72 @@ contains
         @assertEqual(testVarCont%variables(3)%entry(1:3),testVarCont%variables(3)%entry(2:4),tolerance=1e-15)
         @assertEqual(testVarCont%variables(3)%entry(4),testVarCont%variables(3)%entry(1),tolerance=1e-15)
     end subroutine test_calculation_tree_deriv
+
+    @test
+    subroutine test_lin_interpnd_deriv
+    
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VariableList) :: testList,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(1) :: cRules
+        real(rk) ,allocatable ,dimension(:) :: locVector
+        type(NDInterpolationDerivation)          :: method
+        type(InterpolationND)                :: testInterpND
+        type(Interpolation1D)                :: testInterp1, testInterp2 
+        type(FlatNDData)                     :: test2DData
+
+        real(rk) ,allocatable ,dimension(:,:) :: testData ,interpPoints
+
+        integer(ik) :: i,j
+
+        call testPart%initSimplePartition(4,3,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+
+        call testListDerived%addVar("p")
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testInterp1%init([(-4.0 + 0.2d0*(i-1),i=1,40)])
+        call testInterp2%init([(0.5 + 0.5d0*(i-1),i=1,10)])
+        call testInterpND%init([testInterp1,testInterp2])
+
+        allocate(testData(40,10))
+
+        do i = 1,40
+            do j = 1,10
+                testData(i,j) = (j-1)*100.d0+ (i-1)*1.0d0
+            end do
+        end do
+
+        call test2DData%init(testData)
+
+        call method%init(testInterpND,test2DData)
+
+        call cRules(1)%init(method,[stringArray("n"),stringArray("u")])
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
+
+        testVarCont%variables(1)%entry = real([-1,-2,1,2,2],kind=rk)
+        testVarCont%variables(2)%entry = real([1,2,3,6,4],kind=rk)
+        
+        call testVarCont%calculateDerivedVars()
+        allocate(interpPoints(2,5))
+        interpPoints(1,:) = testVarCont%variables(1)%entry
+        interpPoints(2,:) = testVarCont%variables(2)%entry
+
+        call testInterpND%updateInterpolationPoints(interpPoints)
+        locVector =  testInterpND%interpolate(test2DData)
+
+        @assertEqual(testVarCont%variables(3)%entry,locVector,tolerance=1.d-13)
+    end subroutine test_lin_interpnd_deriv
 
 
 end module test_common_derivs

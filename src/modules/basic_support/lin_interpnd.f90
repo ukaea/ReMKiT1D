@@ -21,7 +21,7 @@ module lin_interpnd_class
     use god_objects                 ,only: Object
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use lin_interp1d_class          ,only: Interpolation1D
-    use flat_nd_data                ,only: FlatNDData
+    use flat_nd_data_class               ,only: FlatNDData
     use support_types               ,only: IntArray
 
     implicit none

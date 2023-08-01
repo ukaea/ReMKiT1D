@@ -11,7 +11,7 @@
 !
 ! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 !-----------------------------------------------------------------------------------------------------------------------------------
-submodule (flat_nd_data) flat_nd_data_procedures
+submodule (flat_nd_data_class) flat_nd_data_procedures
 !! author: Stefan Mijin 
 !! 
 !!  Contains module procedures associated with FlatNDData
@@ -59,6 +59,20 @@ contains
             call this%makeDefined()
 
         end subroutine directInit 
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getDims (this) result(dims)
+            !! Return shape of data stored
+ 
+            class(FlatNDData)                ,intent(in) :: this
+            integer(ik) ,allocatable ,dimension(:)       :: dims
+
+            if (assertions) then 
+                call assertPure(this%isDefined(),"getValue called on undefined FlatNDData object")
+            end if
+
+            dims = this%dims
+ 
+        end function getDims
 !-----------------------------------------------------------------------------------------------------------------------------------
         pure module function getValue (this,indexSet) result(val)
             !! Return multidimensional value for given indexSet (should match array dimension)

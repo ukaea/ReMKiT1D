@@ -32,6 +32,7 @@ jobs:
         with:
           name: ReMKiT1D-build
           path: build.tar
+          retention-days: 1
 
   test: 
     needs: build

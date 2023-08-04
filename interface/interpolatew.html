@@ -103,17 +103,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.1% of total for procedures.">28 statements</a>
+               title=" 0.2% of total for procedures.">107 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/inelastic_grid_data.f90"> Source File</a>
+              <a href="../src/modelbound_CRM_data.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/inelastic_grid_data.f90.html'>inelastic_grid_data.f90</a></li>
-              <li><a href='../module/inelastic_grid_data_class.html'>inelastic_grid_data_class</a></li>
+              <li><a href='../sourcefile/modelbound_crm_data.f90.html'>modelbound_CRM_data.f90</a></li>
+              <li><a href='../module/modelbound_crm_data_class.html'>modelbound_CRM_data_class</a></li>
           <li class="active">interpolateW</li>
         </ol>
       </div>
@@ -178,8 +178,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~410"></span>
-              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
+              <span class="anchor" id="variable-this~254"></span>
+              class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e~3"></span>
+              <span class="anchor" id="variable-e"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wres~2"></span>
+              <span class="anchor" id="variable-wres"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
 <td>intent(inout)</td>
@@ -225,8 +225,8 @@
   </table>
 
     <h3>Description</h3>
-    <p>Interpolate mapping matrices for given energy and store in passed triangular matrix. Assumes upper triangular structure for wRes
-if E is positive and lower if it's negative</p>
+    <p>Interpolate mapping matrices for given energy and store in passed triangular matrix if inelastic data component is allocated. 
+Assumes upper triangular structure for wRes if E is positive and lower if it's negative. </p>
     <br>
 
  </div>

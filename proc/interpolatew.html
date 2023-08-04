@@ -102,17 +102,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.1% of total for procedures.">46 statements</a>
+               title=" 0.0% of total for procedures.">10 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/inelastic_grid_data_procedures.f90"> Source File</a>
+              <a href="../src/modelbound_CRM_data_procedures.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/inelastic_grid_data_procedures.f90.html'>inelastic_grid_data_procedures.f90</a></li>
-              <li><a href='../module/inelastic_grid_data_procedures.html'>inelastic_grid_data_procedures</a></li>
+              <li><a href='../sourcefile/modelbound_crm_data_procedures.f90.html'>modelbound_CRM_data_procedures.f90</a></li>
+              <li><a href='../module/modelbound_crm_data_procedures.html'>modelbound_CRM_data_procedures</a></li>
           <li class="active">interpolateW</li>
         </ol>
       </div>
@@ -161,8 +161,8 @@
 </h2>
     
 
-    <p>Interpolate mapping matrices for given energy and store in passed triangular matrix. Assumes upper triangular structure for wRes
-if E is positive and lower if it's negative</p>
+    <p>Interpolate mapping matrices for given energy and store in passed triangular matrix if inelastic data component is allocated. 
+Assumes upper triangular structure for wRes if E is positive and lower if it's negative. </p>
 
 
     <h3>Arguments</h3>
@@ -178,8 +178,8 @@ if E is positive and lower if it's negative</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~976"></span>
-              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
+              <span class="anchor" id="variable-this~824"></span>
+              class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -193,7 +193,7 @@ if E is positive and lower if it's negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e"></span>
+              <span class="anchor" id="variable-e~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@ if E is positive and lower if it's negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wres"></span>
+              <span class="anchor" id="variable-wres~2"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
 <td>intent(inout)</td>

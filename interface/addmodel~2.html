@@ -91,7 +91,7 @@
     <div class="container">
   <div class="row">
     <h1>addModel
-      <small>Abstract Interface</small>
+      <small>Interface</small>
       
     </h1>
       <div class="row" id="info-bar">
@@ -103,17 +103,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 1.8% of total for abstract interfaces.">7 statements</a>
+               title=" 0.3% of total for procedures.">149 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/model_builder_abstract.f90"> Source File</a>
+              <a href="../src/modeller.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/model_builder_abstract.f90.html'>model_builder_abstract.f90</a></li>
-              <li><a href='../module/model_builder_abstract_class.html'>model_builder_abstract_class</a></li>
+              <li><a href='../sourcefile/modeller.f90.html'>modeller.f90</a></li>
+              <li><a href='../module/modeller_class.html'>modeller_class</a></li>
           <li class="active">addModel</li>
         </ol>
       </div>
@@ -158,8 +158,9 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>abstract interface <br>
-      private  subroutine addModel(this, modellerObj)  
+      <h2>interface <br>
+      private pure module subroutine addModel(this, newModel)  
+    <a href='../proc/addmodel.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
     
@@ -177,8 +178,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~445"></span>
-              class(<a href='../type/modelbuilder.html'>ModelBuilder</a>),
+              <span class="anchor" id="variable-this~482"></span>
+              class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -192,24 +193,24 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modellerobj"></span>
-              class(<a href='../type/modeller.html'>Modeller</a>),
+              <span class="anchor" id="variable-newmodel"></span>
+              class(<a href='../type/model.html'>Model</a>),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>modellerObj</strong></td>
+            <td><strong>newModel</strong></td>
             <td>
-                <p>Modeller object that will house the constructed Model after it is built by the builder</p>
+                
             </td>
         </tr>
     </tbody>
   </table>
 
     <h3>Description</h3>
-    <p>Abstract routine for adding Models to a Modeller object after building them</p>
+    <p>Add a Model to this modeller</p>
     <br>
 
  </div>

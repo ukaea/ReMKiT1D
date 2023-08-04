@@ -103,17 +103,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.0% of total for procedures.">18 statements</a>
+               title=" 0.0% of total for procedures.">16 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fluid_gen1d.f90"> Source File</a>
+              <a href="../src/stencil_generator1d.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fluid_gen1d.f90.html'>fluid_gen1d.f90</a></li>
-              <li><a href='../module/fluid_gen1d_class.html'>fluid_gen1d_class</a></li>
+              <li><a href='../sourcefile/stencil_generator1d.f90.html'>stencil_generator1d.f90</a></li>
+              <li><a href='../module/stencil_generator1d_class.html'>stencil_generator1d_class</a></li>
           <li class="active">initGenerator</li>
         </ol>
       </div>
@@ -159,7 +159,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private module subroutine initGenerator(this, stencilObj, columnVecs, varContColVarNames, mbColVarNames, periodicDim, coordInterval)  
+      private module subroutine initGenerator(this, stencilObj, columnVecs, periodicDim, coordInterval)  
     <a href='../proc/initgenerator.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -178,8 +178,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~15"></span>
-              class(<a href='../type/fluidstencilgen1d.html'>FluidStencilGen1D</a>),
+              <span class="anchor" id="variable-this~309"></span>
+              class(<a href='../type/stencilgenerator1d.html'>StencilGenerator1D</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -223,36 +223,6 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcontcolvarnames~2"></span>
-              type(<a href='../type/stringarray.html'>StringArray</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>varContColVarNames</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mbcolvarnames~2"></span>
-              type(<a href='../type/stringarray.html'>StringArray</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>mbColVarNames</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-periodicdim~2"></span>
               logical,
             </td>
@@ -285,7 +255,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>1D fluid variable stencil value generator initialization routine</p>
+    <p>1D fixed stencil value generator initialization routine</p>
     <br>
 
  </div>

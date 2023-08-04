@@ -102,17 +102,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.0% of total for procedures.">7 statements</a>
+               title=" 0.0% of total for procedures.">10 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/transition_abstract_procedures.f90"> Source File</a>
+              <a href="../src/term_abstract_procedures.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/transition_abstract_procedures.f90.html'>transition_abstract_procedures.f90</a></li>
-              <li><a href='../module/transition_abstract_procedures.html'>transition_abstract_procedures</a></li>
+              <li><a href='../sourcefile/term_abstract_procedures.f90.html'>term_abstract_procedures.f90</a></li>
+              <li><a href='../module/term_abstract_procedures.html'>term_abstract_procedures</a></li>
           <li class="active">noUpdate</li>
         </ol>
       </div>
@@ -156,12 +156,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine noUpdate(this, varCont, hostModel, hostData, updatePriority)  
-    <a href='../interface/noupdate~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module subroutine noUpdate(this, varCont, modelData, hostModel)  
+    <a href='../interface/noupdate~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Default update routine - does nothing</p>
+    <p>Default Term update function - does nothing</p>
 
 
     <h3>Arguments</h3>
@@ -177,8 +177,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~998"></span>
-              class(<a href='../type/transition.html'>Transition</a>),
+              <span class="anchor" id="variable-this~865"></span>
+              class(<a href='../type/term.html'>Term</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~37"></span>
+              <span class="anchor" id="variable-varcont~93"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -202,12 +202,27 @@
             <td>::</td>
             <td><strong>varCont</strong></td>
             <td>
-                <p>Variable container used in update</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~11"></span>
+              <span class="anchor" id="variable-modeldata~13"></span>
+              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>modelData</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hostmodel~43"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -217,37 +232,7 @@
             <td>::</td>
             <td><strong>hostModel</strong></td>
             <td>
-                <p>Optional host model reference for callbacks during update</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-hostdata~5"></span>
-              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>hostData</strong></td>
-            <td>
-                <p>Optional host data reference for callbacks during update</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-updatepriority~13"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>updatePriority</strong></td>
-            <td>
-                <p>Priority for this update call </p>
+                
             </td>
         </tr>
     </tbody>

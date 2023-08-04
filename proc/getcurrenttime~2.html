@@ -102,17 +102,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.0% of total for procedures.">6 statements</a>
+               title=" 0.0% of total for procedures.">22 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/composite_integrator_procedures.f90"> Source File</a>
+              <a href="../src/modeller_procedures.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/composite_integrator_procedures.f90.html'>composite_integrator_procedures.f90</a></li>
-              <li><a href='../module/composite_integrator_procedures.html'>composite_integrator_procedures</a></li>
+              <li><a href='../sourcefile/modeller_procedures.f90.html'>modeller_procedures.f90</a></li>
+              <li><a href='../module/modeller_procedures.html'>modeller_procedures</a></li>
           <li class="active">getCurrentTime</li>
         </ol>
       </div>
@@ -161,7 +161,8 @@
 </h2>
     
 
-    <p>Getter for currentTime</p>
+    <p>Return current value of the integrator time variable if the integrator object is a composite integrator or the value of the 
+"time" variable if it isn't</p>
 
 
     <h3>Arguments</h3>
@@ -177,8 +178,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~853"></span>
-              class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
+              <span class="anchor" id="variable-this~1083"></span>
+              class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>

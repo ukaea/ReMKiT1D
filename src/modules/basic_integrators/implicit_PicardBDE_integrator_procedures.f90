@@ -189,13 +189,26 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
         nonHaloLen = size(newVars(ind)%entry) - haloDataChunkSize
 
         if (use2Norm) then
-            relError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))&
-                    /norm2(oldVars(ind)%entry(1:nonHaloLen))
+
             absError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))
+
+            if (norm2(oldVars(ind)%entry(1:nonHaloLen))>epsilon(absError)*absTol) then
+                relError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))&
+                        /norm2(oldVars(ind)%entry(1:nonHaloLen))
+            else
+                relError = absError
+            end if
         else
-            relError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen)))&
-                    /abs(oldVars(ind)%entry(1:nonHaloLen)))
+
             absError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))))
+
+            if (all(abs(oldVars(ind)%entry(1:nonHaloLen)) > epsilon(absError)*absTol)) then 
+                relError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen)))&
+                    /abs(oldVars(ind)%entry(1:nonHaloLen)))
+                else
+                    relError = absError
+            end if
+            
         end if
         varConverged(i) = relError < nonlinTol .or. absError < epsilon(absError)*absTol
     end do

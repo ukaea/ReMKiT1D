@@ -1,15 +1,18 @@
 # CHANGELOG
 
-## v1.1.0, 2023-06-28
+## v1.1.0, 2023-08-09
 
 - Solver and integrator improvements
+- Debug mode bug fixes
 
 ### New Features
 
 - The BDE integrator internal controller now attempts to reduce the number of substeps back to 1 after every 50 successful integrations
-- Command line PETSc support for setting up the KSP solver object has been implemented. The command line ksp_type takes precedent over the integrator 
-options. This now allows for command line customization of the KSP object. Note that tolerances are still set from config options. 
+- Command line PETSc support for setting up the KSP solver object has been implemented. The command line ksp_type takes precedent over the integrator options. This now allows for command line customization of the KSP object. Note that tolerances are still set from config options. 
 
+### Bug Fixes
+
+- Fixed a number of bugs in the code where divide-by-zero FPEs would be raised in debug mode 
 
 ## v1.0.0, 2023-06-21
 

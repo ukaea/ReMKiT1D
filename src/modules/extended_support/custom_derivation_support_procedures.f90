@@ -96,6 +96,8 @@ module subroutine addCustomDerivationsToTextbook(textbookObj,gridObj,geometryObj
             call addRangeFilterDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
         case (keyCalculationTreeDerivation)
             call addCalculationTreeDerivationToTextbook(textbookObj,derivTag,varList,jsonCont,mpiCont)
+        case (keynDLinInterpDerivation)
+            call addnDLinInterpDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
         case default 
             error stop "Unsupported custom derivation type detected in addCustomDerivationsToTextbook"
         end select
@@ -1074,6 +1076,63 @@ module subroutine addCalculationTreeDerivationToTextbook(textbookObj,derivTag,va
     call textbookObj%addDerivation(calcTreeDeriv,derivTag)
 
 end subroutine addCalculationTreeDerivationToTextbook
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine addnDLinInterpDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
+    !! Add an n-D linear interpolation derivation to textbook based on JSON config file
+
+    type(Textbook)          ,intent(inout) :: textbookObj 
+    character(*)            ,intent(in)    :: derivTag 
+    type(JSONController)    ,intent(inout) :: jsonCont    !! JSONController used to get parameters from ./config.json 
+    type(MPIController)     ,intent(inout) :: mpiCont     !! MPIController used with JSONController 
+
+    type(NamedStringArray)  ,dimension(1) :: gridNames
+    type(NamedRealArray)    ,dimension(1) :: gridVals 
+    type(NamedRealArray)    ,dimension(1) :: dataVals 
+    type(NamedIntegerArray) ,dimension(1) :: dataDims
+
+    type(Interpolation1D) ,allocatable ,dimension(:) :: interps1D
+    type(InterpolationND) :: interpND
+    type(FlatNDData)      :: flatData
+
+    type(NDInterpolationDerivation) :: ndInterpDerivation
+
+    integer(ik) :: i 
+
+    gridNames(1)%name = keyCustomDerivations//"."//derivTag//"."//keyGrids//"."//keyNames
+    allocate(gridNames(1)%values(0))
+
+    call jsonCont%load(gridNames)
+    call jsonCont%output(gridNames)
+    allocate(interps1D(size(gridNames(1)%values)))
+    allocate(gridVals(1)%values(0))
+    do i = 1,size(gridNames(1)%values)
+        gridVals(1)%name = keyCustomDerivations//"."//derivTag//"."//keyGrids//"."//gridNames(1)%values(i)%string
+        call jsonCont%load(gridVals)
+        call jsonCont%output(gridVals)
+
+        call interps1D(i)%init(gridVals(1)%values)
+    end do
+
+    dataDims(1)%name = keyCustomDerivations//"."//derivTag//"."//keyData//"."//keyDims
+    allocate(dataDims(1)%values(0))
+
+    dataVals(1)%name = keyCustomDerivations//"."//derivTag//"."//keyData//"."//keyValues
+    allocate(dataVals(1)%values(0))
+
+    call jsonCont%load(dataDims)
+    call jsonCont%output(dataDims)
+    call jsonCont%load(dataVals)
+    call jsonCont%output(dataVals)
+
+    print *, dataDims(1)%values
+    call flatData%directInit(dataVals(1)%values,dataDims(1)%values)
+    call interpND%init(interps1D)
+
+    call ndInterpDerivation%init(interpND,flatData)
+
+    call textbookObj%addDerivation(ndInterpDerivation,derivTag)
+
+end subroutine addnDLinInterpDerivationToTextbook
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule custom_derivation_support_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

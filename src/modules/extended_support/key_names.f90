@@ -98,7 +98,9 @@ module key_names
     character(len=*) ,parameter :: keyFixedMatrix = "fixedMatrix"
     character(len=*) ,parameter :: keyFunctionName = "functionName"
     character(len=*) ,parameter :: keyObjGroups = "objGroups"
-
+    character(len=*) ,parameter :: keyData = "data"
+    character(len=*) ,parameter :: keyDims = "dims"
+    character(len=*) ,parameter :: keyValues = "values"
     
     ! Rule keys
     character(len=*) ,parameter :: keyDerivRule = "derivationRule" 
@@ -422,6 +424,9 @@ module key_names
     character(len=*) ,parameter :: keyUnaryRealParams = "unaryRealParams"
     character(len=*) ,parameter :: keyUnaryIntParams = "unaryIntegerParams"
     character(len=*) ,parameter :: keyUnaryLogicalParams = "unaryLogicalParams"
+    character(len=*) ,parameter :: keynDLinInterpDerivation = "nDLinInterpDerivation"
+    character(len=*) ,parameter :: keyGrids = "grids"
+
 
     !Extrapolation keys 
 

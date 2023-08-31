@@ -28,7 +28,7 @@ module flat_nd_data_class
         !! Flat representation of multidimensional data allowing for multidimensional indexing using vector notation - i.e. dataObj%getValue([1,2,3]) = someData(1,2,3). Allows for dimensionality agnostic implementations of various algorithms.
 
         integer(ik)     ,allocatable ,dimension(:) ,private :: dims !! Dimension sizes of each dimension
-        real(rk)        ,allocatable ,dimension(:) ,public  :: data !! Flattened data array
+        real(rk)        ,allocatable ,dimension(:) ,public  :: data !! Flattened data array (in Fortran order!)
 
         contains
 

@@ -29,13 +29,13 @@ contains
 
             this%dims = shape(array)
             select rank (array)
-            rank(1) ; this%data = reshape(array,[size(array)])
-            rank(2) ; this%data = reshape(array,[size(array)])
-            rank(3) ; this%data = reshape(array,[size(array)])
-            rank(4) ; this%data = reshape(array,[size(array)])
-            rank(5) ; this%data = reshape(array,[size(array)])
-            rank(6) ; this%data = reshape(array,[size(array)])
-            rank(7) ; this%data = reshape(array,[size(array)])
+            rank(1) ; this%data = pack(array,.true.)
+            rank(2) ; this%data = pack(array,.true.)
+            rank(3) ; this%data = pack(array,.true.)
+            rank(4) ; this%data = pack(array,.true.)
+            rank(5) ; this%data = pack(array,.true.)
+            rank(6) ; this%data = pack(array,.true.)
+            rank(7) ; this%data = pack(array,.true.)
             rank default 
                 error stop "rank of input array to FlatNDData not supported"
             end select

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.1.0, 2023-08-31
+## v1.1.0, 2023-09-05
 
 - Solver and integrator improvements
 - Debug mode bug fixes
@@ -15,6 +15,7 @@
 ### Bug Fixes
 
 - Fixed a number of bugs in the code where divide-by-zero FPEs would be raised in debug mode 
+- Fixed a bug with gfortran-11.4 which caused bound changes in an MPI buffer
 
 ## v1.0.0, 2023-06-21
 

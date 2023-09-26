@@ -46,6 +46,7 @@ module modelbound_CRM_data_class
         integer(ik)                                          ,private :: numAddedTransitions !! Tracker for number of added transitions
         logical                                              ,private :: allTransitionsAdded !! True if all transitions are added and the data can be used 
 
+        integer(ik)                                          ,private:: electronStateID = 0 !! Which state to treat as the electrons                   
         contains
 
         procedure ,public :: addTransition 
@@ -76,6 +77,9 @@ module modelbound_CRM_data_class
 
         procedure ,public :: getPopulationChangeMatrix
         procedure ,public :: getRequiredDensityData
+
+        procedure ,public :: getElState
+        procedure ,public :: setElState
 
         procedure ,public :: update => updateCRMData 
 
@@ -286,6 +290,22 @@ module modelbound_CRM_data_class
         integer(ik)                                          :: dim
 
     end function getDataDimCRM
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function getElState(this) result(ID)
+        !! Getter for electronStateID
+
+        class(ModelboundCRMData)              ,intent(in)    :: this 
+        integer(ik)                                          :: ID
+
+    end function getElState
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine setElState(this,ID) 
+        !! Setter for electronStateID
+
+        class(ModelboundCRMData)              ,intent(inout)    :: this 
+        integer(ik)                           ,intent(in)       :: ID
+
+    end subroutine setElState
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -351,7 +351,8 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
 
     do i = 1,size(stateCount)
         stateCount(i) = count(inStates==uniqueStates(i))
-        if (uniqueStates(i) == 0 .and. this%ratesIncludeElDensity(transitionIndex)) stateCount(i) = stateCount(i) - 1
+        if (uniqueStates(i) == this%electronStateID .and. this%ratesIncludeElDensity(transitionIndex)) &
+        stateCount(i) = stateCount(i) - 1
     end do
 
     if (rmLastState) stateCount(size(stateCount)) = stateCount(size(stateCount)) - 1
@@ -567,6 +568,30 @@ module function getDataDimCRM(this,name) result(dim)
     end select
 
 end function getDataDimCRM
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module function getElState(this) result(ID)
+    !! Getter for electronStateID
+
+    class(ModelboundCRMData)              ,intent(in)    :: this 
+    integer(ik)                                          :: ID
+
+    if (assertions) call assertPure(this%isDefined(),"getElState called from undefined modelbound CRM data object")
+
+    ID = this%electronStateID
+
+end function getElState
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine setElState(this,ID) 
+    !! Setter for electronStateID
+
+    class(ModelboundCRMData)              ,intent(inout)    :: this 
+    integer(ik)                           ,intent(in)       :: ID
+
+    if (assertions) call assertPure(this%isDefined(),"setElState called from undefined modelbound CRM data object")
+
+    this%electronStateID = ID 
+
+end subroutine setElState
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule modelbound_CRM_data_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

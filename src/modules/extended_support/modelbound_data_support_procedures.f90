@@ -145,6 +145,7 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
     type(NamedString) ,allocatable ,dimension(:) :: transitionType
     type(NamedRealArray) ,dimension(1) :: fixedTransitionEnergies
     type(NamedLogical) ,dimension(1) :: activeInelData
+    type(NamedInteger) ,dimension(1) :: elStateID
 
     integer(ik) :: i
 
@@ -182,6 +183,13 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
     call envObj%jsonCont%output(transitionType)
 
     call crmData%init(size(transitionTags(1)%values))
+
+    elStateID(1) = NamedInteger(keyModels//"."//modelTag//"."//keyModelboundData//"."//keyElState,0)
+
+    call envObj%jsonCont%load(elStateID)
+    call envObj%jsonCont%output(elStateID)
+
+    call crmData%setElState(elStateID(1)%value)
 
     do i = 1,size(transitionTags(1)%values)
 

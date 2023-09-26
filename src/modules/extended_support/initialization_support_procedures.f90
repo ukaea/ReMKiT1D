@@ -801,7 +801,7 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
 
     allocate(logLeiDeriv(size(negativeIDs)))
     allocate(selfIonLambdaAdded(size(negativeIDs)))
-    numLiiDerivs = size(negativeIDs) + (size(negativeIDs) - 1)**2
+    numLiiDerivs = size(negativeIDs)**2
     allocate(logLiiDeriv(numLiiDerivs))
     selfIonLambdaAdded = .false.
     k=1

@@ -217,6 +217,7 @@ module key_names
 
     !CRM data
     character(len=*) ,parameter :: keyCRMData = "modelboundCRMData"
+    character(len=*) ,parameter :: keyElState = "electronStateID"
     character(len=*) ,parameter :: keyInelGrid = "inelasticGridData"
     character(len=*) ,parameter :: keyFixedTransitionEnergies = "fixedTransitionEnergies"
     character(len=*) ,parameter :: keyTransitionTags = "transitionTags"

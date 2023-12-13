@@ -434,11 +434,13 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
                 end if
             end if
 
-            do j = 1, size(convergenceCounter)
-                if (convergenceCounter(j) == nonlinIter) &
-                    call printMessage(this%integratorName//": convergence bottleneck: "&
-                                // inputVars%getVarName(this%convergenceTestVars(j)),.true.)
-            end do
+            if (nonTrivialConvergenceCheck) then
+                do j = 1, size(convergenceCounter)
+                    if (convergenceCounter(j) == nonlinIter) &
+                        call printMessage(this%integratorName//": convergence bottleneck: "&
+                                    // inputVars%getVarName(this%convergenceTestVars(j)),.true.)
+                end do
+            end if
 
             if (solveSuccess) then
                 this%totNumIters = this%totNumIters + nonlinIter

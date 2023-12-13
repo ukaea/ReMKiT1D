@@ -2,8 +2,11 @@ debug
 build
 tests/*/*.F90
 .VSCodeCounter
-.vscode
+.vscode*
 ford_doc.md
 *mod
 *.json
 /doc/
+.ssh
+.gitconfig
+*bash_history

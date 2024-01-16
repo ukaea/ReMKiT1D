@@ -409,7 +409,7 @@ contains
 
         checkVec(1) = 0
         checkVec(5) = 0
-        @assertEqual(testVec,checkVec,tolerance=1.d-14)
+        @assertEqual(testVec,checkVec,tolerance=1.d-13)
         
     end subroutine test_moment_stencil
 

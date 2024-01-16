@@ -151,7 +151,7 @@ subroutine test_interpnd
     @assertEqual(testNDInterp3%getFirstDataIndicesForDim(1),[1,5])
     @assertEqual(testNDInterp3%getFirstDataIndicesForDim(2),[3,1])
     @assertEqual(testNDInterp3%getFirstDataIndicesForDim(3),[4,1])
-    @assertEqual(testNDInterp3%interpolate(test3DData),real([4051.0d0,599.8d0],kind=rk))
+    @assertEqual(testNDInterp3%interpolate(test3DData),real([4051.0d0,599.8d0],kind=rk),tolerance=1e-12)
 end subroutine test_interpnd
 
 @test

@@ -15,6 +15,7 @@
 - Command line PETSc support for setting up the KSP solver object has been implemented. The command line ksp_type takes precedent over the integrator options. This now allows for command line customization of the KSP object. Note that tolerances are still set from config options. 
 - New derivation type nDLinInterpDerivation - linear interpolation on n-dimensional data
 - ModelboundCRMData can now have an associated non-default electron species ID (useful for multiple flux tube models). Note that Janev transitions still have hardcoded values. 
+- Added the option to reset the value of the time variable upon loading from restart files
 
 ### Bug Fixes
 

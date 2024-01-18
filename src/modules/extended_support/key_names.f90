@@ -449,6 +449,7 @@ module key_names
     character(len=*) ,parameter :: keyMinSaveInterval = "minimumSaveInterval"
     character(len=*) ,parameter :: keyOutputMode = "outputMode"
     character(len=*) ,parameter :: keyRestart = "restart"
+    character(len=*) ,parameter :: keyResetTime = "resetTime"
     character(len=*) ,parameter :: keyHDF5LoadInit = "loadInitValsFromHDF5"
     character(len=*) ,parameter :: keyInitPath = "initValFilename"
  

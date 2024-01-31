@@ -45,7 +45,7 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     
     integer(ik) ,allocatable ,dimension(:) :: procDoFs
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to BDE integrator constructor")
         if (present(termGroups)) call assert(present(modelList),"Term groups object passed to BDE integrator constructor without&
                                                                & model list")

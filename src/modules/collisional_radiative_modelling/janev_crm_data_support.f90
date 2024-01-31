@@ -17,7 +17,7 @@ module janev_crm_data_support
     !! Contains functions for adding particular processes with Janev fits to modelbound CRM data
 
     use data_kinds                         ,only: rk, ik
-    use runtime_constants                  ,only: debugging, assertions
+    use runtime_constants                  ,only: debugging, assertions, assertionLvl
     use assertion_utility                  ,only: assert, assertIdentical, assertPure
     use modelbound_CRM_data_class          ,only: ModelboundCRMData
     use fixed_ecs_transition_class         ,only: FixedECSTransition

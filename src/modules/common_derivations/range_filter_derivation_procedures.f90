@@ -32,7 +32,7 @@ contains
 
         integer(ik) :: i
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(derivObj%isDefined(),"derivObj passed to initRangeFilterDeriv not defined")
             call assert(size(controlIndices) == size(controlRanges),&
             "controlRanges and controlIndices passed to initRangeFilterDeriv must conform")

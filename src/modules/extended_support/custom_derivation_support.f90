@@ -17,7 +17,7 @@ module custom_derivation_support
     !! Contains support for adding custom derivations to a textbook
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions, assertionLvl
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use textbook_class                         ,only: Textbook
     use grid_class                             ,only: Grid

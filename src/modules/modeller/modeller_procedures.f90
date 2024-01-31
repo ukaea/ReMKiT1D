@@ -31,7 +31,7 @@ module subroutine initModeller(this,numModels,initVars,mpiCont,petscCont,commDat
     type(PETScController)   ,optional ,intent(in)    :: petscCont !! Optional PETSc controller - should be supplied if any integration/manipulation routine uses PETSc
     type(CommunicationData) ,optional ,intent(in)    :: commData !! Default MPI communication data
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assert(initVars%isDefined(),"Initial variableContainer passed to modeller constructor is undefined")
         call assert(mpiCont%isDefined(),"MPI controller passed to modeller constructor is undefined")
         if (present(petscCont)) call assert(petscCont%isDEfined(),"Undefined PETSc controller passed to modeller constructor")
@@ -99,9 +99,9 @@ pure module subroutine setIntegrator(this,integ)
     class(Modeller)                          ,intent(inout)  :: this
     class(Manipulator)                       ,intent(in)     :: integ
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to set integrator in undefined modeller")
-        call assertPure(integ%isDefined(),"Attempted to set integrator in undefined modeller")
+        call assertPure(integ%isDefined(),"Attempted to undefined integrator in modeller")
     end if
 
     allocate(this%integ,source = integ)
@@ -114,9 +114,9 @@ pure module subroutine setManipulator(this,manip)
     class(Modeller)                          ,intent(inout)  :: this
     class(CompositeManipulator)              ,intent(in)     :: manip
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to set manipulator in undefined modeller")
-        call assertPure(manip%isDefined(),"Attempted to set manipulator in undefined modeller")
+        call assertPure(manip%isDefined(),"Attempted to set undefined manipulator in modeller")
     end if
 
     allocate(this%manip,source = manip)
@@ -250,7 +250,7 @@ pure module subroutine addModel(this,newModel)
     class(Modeller)                  ,intent(inout)  :: this
     class(Model) ,allocatable        ,intent(inout)  :: newModel
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add a model to undefined modeller")
         call assertPure(newModel%isDefined(),"Attempted to add undefined model to modeller")
         call assertPure(this%numModelsAdded < size(this%models),"Attempted to add model to modeller with no free model slots")
@@ -275,7 +275,7 @@ module subroutine assemble(this,withIdentityMat)
     addIdentityMat = .false. 
     if (present(withIdentityMat)) addIdentityMat = withIdentityMat
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(this%isDefined(),"Attempted to assemble undefined modeller")
         call assert(this%numModelsAdded == size(this%models),"Attempted to assemble modeller object before all models added")
         if (addIdentityMat) call assert(allocated(this%identityMat),"linearSolvePETSc called with addIdentityMat before identity&

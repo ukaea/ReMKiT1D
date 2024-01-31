@@ -29,7 +29,7 @@ module subroutine initPolyFunDeriv(this,polyPowers,polyCoeffs,constCoeff)
     real(rk) ,dimension(:)    ,intent(in)    :: polyCoeffs
     real(rk) ,optional        ,intent(in)    :: constCoeff
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(size(polyPowers) > 0 ,"polyPowers passed to initPolyFunDeriv must be of size 1 or greater")
         call assert(size(polyPowers) == size(polyCoeffs),"polyPowers and polyCoeffs passed to initPolyDeriv must be of&
                                                                     & same size")

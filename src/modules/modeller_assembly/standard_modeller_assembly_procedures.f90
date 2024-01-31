@@ -42,7 +42,7 @@ module subroutine initStandardModeller(modellerObj,envObj,normObj)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to initStandardModeller")
         call assert(normObj%isDefined(),"Undefined normalization object passed to initStandardModeller")
     end if
@@ -68,7 +68,7 @@ module subroutine initStandardModeller(modellerObj,envObj,normObj)
     if (size(intArrayParams(1)%values) == 0 .and. size(stringArrayParams(4)%values) > 0) then 
         intArrayParams(1)%values = [(0,i=1,size(stringArrayParams(4)%values))]
     end if
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(size(stringArrayParams(1)%values) > 0,"No models detected by initStandardModeller")
 
         if (size(stringArrayParams(4)%values) > 0) then 

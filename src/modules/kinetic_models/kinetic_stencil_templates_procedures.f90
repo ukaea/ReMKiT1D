@@ -137,13 +137,13 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
 
-    if (assertions) call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
                                 "initKinDiagonalStencilTemplateDirect must be invoked with evolvedVar being a distribution")
 
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         if (.not. staggeredRowVar) call assert(.not. staggeredColVar,"If the evolved distribution in &
         &initKinDiagonalStencilTemplateDirect is not staggered the column variable cannot be staggered either")
     end if
@@ -175,10 +175,10 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
     usedVCoords = [(i,i=1,envObj%gridObj%getNumV())]
     if (size(evolvedVCells)>0) usedVCoords = evolvedVCells   
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         do i = 1,size(evolvedXCells)
             call assert(any(validXCoords == usedCoords(i)),&
-            "Unallowed value detected in evolvedXCells in initDiagonalStencilTemplateDirect")
+            "Disallowed value detected in evolvedXCells in initDiagonalStencilTemplateDirect")
         end do
     end if
 
@@ -285,7 +285,7 @@ module subroutine initMomentStencilTemplateDirect(stencilTemplateObj,envObj,evol
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initMomentStencilTemplateDirect must be invoked with implicitVar being a distribution")
         call assert(.not. envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
@@ -295,7 +295,7 @@ module subroutine initMomentStencilTemplateDirect(stencilTemplateObj,envObj,evol
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         if (.not. staggeredColVar) call assert(.not. staggeredRowVar,"If the implicit distribution in &
         &initMomentStencilTemplateDirect is not staggered the evolved variable cannot be staggered either")
     end if
@@ -422,7 +422,7 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
     type(UWCDiffStencilValGenerator) :: centralDiffGen
     type(FBDiffStencilValGenerator)  :: staggeredDiffGen
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initSpatialDiffStencilTemplateDirect must be invoked with implicitVar being a distribution")
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
@@ -432,7 +432,7 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredColVar .eqv. staggeredRowVar,&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredColVar .eqv. staggeredRowVar,&
     "initSpatialDiffStencilTemplateDirect expects both row and column variables to have the same staggered status")
 
     lGrid = envObj%gridObj%getLGrid()
@@ -610,7 +610,7 @@ module subroutine initDDVStencilTemplateDirect(stencilTemplateObj,envObj,evolved
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initDDVStencilTemplateDirect must be invoked with implicitVar being a distribution")
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
@@ -620,7 +620,7 @@ module subroutine initDDVStencilTemplateDirect(stencilTemplateObj,envObj,evolved
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredColVar .eqv. staggeredRowVar,&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredColVar .eqv. staggeredRowVar,&
     "initDDVStencilTemplateDirect expects both row and column variables to have the same staggered status")
 
     if (present(fixedC)) then 
@@ -641,7 +641,7 @@ module subroutine initDDVStencilTemplateDirect(stencilTemplateObj,envObj,evolved
         usedCFAtZero = real([0,0],kind=rk)
     end if
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(size(usedFixedC)==envObj%gridObj%getNumV(),&
                     "fixedC passed to initDDVStencilTemplateDirect does not conform with velocity grid size")
@@ -837,7 +837,7 @@ module subroutine initVelDiffusionStencilTemplateDirect(stencilTemplateObj,envOb
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initVelDiffusionStencilTemplateDirect must be invoked with implicitVar being a distribution")
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
@@ -847,7 +847,7 @@ module subroutine initVelDiffusionStencilTemplateDirect(stencilTemplateObj,envOb
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredColVar .eqv. staggeredRowVar,&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredColVar .eqv. staggeredRowVar,&
     "initVelDiffusionStencilTemplateDirect expects both row and column variables to have the same staggered status")
 
     if (present(fixedA)) then 
@@ -862,7 +862,7 @@ module subroutine initVelDiffusionStencilTemplateDirect(stencilTemplateObj,envOb
         usedADFAtZero = real([0,0],kind=rk)
     end if
     
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(size(usedFixedA)==envObj%gridObj%getNumV(),& 
                     "fixedA passed to initVelDiffusionStencilTemplateDirect does not conform with velocity grid size")
@@ -1023,7 +1023,7 @@ module subroutine initIJStencilTemplateDirect(stencilTemplateObj,envObj,evolvedV
 
     type(SparseRowData) :: stencilMat
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initIJStencilTemplateDirect must be invoked with implicitVar being a distribution")
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
@@ -1033,7 +1033,7 @@ module subroutine initIJStencilTemplateDirect(stencilTemplateObj,envObj,evolvedV
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredColVar .eqv. staggeredRowVar,&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredColVar .eqv. staggeredRowVar,&
     "initIJStencilTemplateDirect expects both row and column variables to have the same staggered status")
 
     pGrid = envObj%geometryObj%isPeriodic()
@@ -1189,7 +1189,7 @@ module subroutine initFixedBoltzmannStencilDirect(stencilTemplateObj,envObj,evol
 
     type(SparseRowData) :: stencilMat
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initFixedBoltzmannStencilDirect must be invoked with implicitVar being a distribution")
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
@@ -1324,7 +1324,7 @@ module subroutine initScalingLBCStencilDirect(stencilTemplateObj,envObj,evolvedV
 
     class(MatDerivation) ,allocatable :: derivObj
 
-    if (assertions) &
+    if (assertions .or. assertionLvl >= 0) &
     call assert(evolvedVar==implicitVar,"initScalingLBCStencilDirect requires that the evolved and implicit variables be the same")
 
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
@@ -1429,7 +1429,7 @@ module subroutine initTermMomentStencilDirect(stencilTemplateObj,envObj,evolvedV
 
     integer(ik) ,allocatable ,dimension(:) :: locNumX ,xStencil ,lGrid
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
                                 "initTermMomentStencilDirect must be invoked with evolvedVar being a fluid variable")
     end if
@@ -1453,7 +1453,8 @@ module subroutine initTermMomentStencilDirect(stencilTemplateObj,envObj,evolvedV
         lGrid = envObj%gridObj%getLGrid()
     
         oddL = mod(lGrid(colHarmonic),2) == 1
-        if (assertions) call assert(oddL .eqv. staggeredRowVar,"If initTermMomentStencilDirect is called with an implcit &
+        if (assertions .or. assertionLvl >= 0) call assert(oddL .eqv. staggeredRowVar,&
+        "If initTermMomentStencilDirect is called with an implcit &
         &distribution variable the row variable must be staggered if the implicit harmonic has odd l")
     end if
     call stencilTemplateObj%defaultStencil%init(xStencil=xStencil,hStencil=[colHarmonic],&
@@ -1535,7 +1536,7 @@ module subroutine initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,e
     type(MultiplicativeStencilGen) :: multStencilGen
     type(IntArray) ,allocatable ,dimension(:) :: fixedVStencil
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)),&
                                 "initVariableBoltzmannStencilDirect must be invoked with implicitVar being a distribution")
         call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&

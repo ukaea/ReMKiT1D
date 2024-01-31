@@ -17,7 +17,7 @@ module simple_timestep_controller_class
     !! Houses simple timestep controller which uses the min (max) value of a product of variables, scaled to corresponding powers
 
     use data_kinds                         ,only: rk ,ik
-    use runtime_constants                  ,only: debugging, assertions
+    use runtime_constants                  ,only: debugging, assertions, assertionLvl
     use god_objects                        ,only: Object
     use assertion_utility                  ,only: assert, assertIdentical, assertPure
     use variable_container_class           ,only: VariableContainer

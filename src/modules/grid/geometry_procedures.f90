@@ -34,7 +34,7 @@ pure module subroutine initGeometry(this,cellWidths,jLeft,jRight,periodicGrid)
 
     logical :: periodic
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assertPure((size(cellWidths) == size(jLeft)) .and. (size(jLeft) == size(jRight)),&
         "Cell widths and face jacobians passed to geometry initializations must all be of same size")
     end if

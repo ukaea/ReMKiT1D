@@ -38,7 +38,7 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
 
     real(rk) :: timeNorm
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to initStandardTimeloop")
         call assert(normObj%isDefined(),"Undefined normalization object passed to initStandardTimeloop")
     end if

@@ -17,7 +17,7 @@ module modelbound_CRM_data_class
     !! Houses derived modelbound data class responsible for collisional-radiative data
 
     use data_kinds                           ,only: rk, ik
-    use runtime_constants                    ,only: debugging, assertions
+    use runtime_constants                    ,only: debugging, assertions, assertionLvl
     use god_objects                          ,only: Object
     use assertion_utility                    ,only: assert, assertIdentical, assertPure
     use sparse_row_data_class                ,only: SparseRowData      

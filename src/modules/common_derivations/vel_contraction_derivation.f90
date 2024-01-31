@@ -17,7 +17,7 @@ module vel_contraction_derivation_class
     !! Houses derivation that takes a general contraction in velocity space of a distribution function harmonic
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray 

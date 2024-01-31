@@ -47,7 +47,7 @@ pure module subroutine addDerivation(this,deriv,name)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add derivation to undefined textbook")
         call assertPure(deriv%isDefined(),"Attempted to add undefined derivation to textbook")
 
@@ -79,7 +79,8 @@ pure module function isDerivationRegistered(this,name) result(reg)
 
     integer(ik) :: i
 
-    if (assertions) call assertPure(this%isDefined(),"Attempted to get derivation name registration status from undefined textbook")
+    if (assertions .or. assertionLvl >= 0) call assertPure(this%isDefined(),&
+    "Attempted to get derivation name registration status from undefined textbook")
 
     reg = .false.
     do i = 1,size(this%derivationNames)
@@ -101,7 +102,7 @@ pure module subroutine copyDerivation(this,name,deriv)
     logical :: found
     integer(ik) :: i,ind
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to copy derivation from undefined textbook")
     end if
 
@@ -115,7 +116,8 @@ pure module subroutine copyDerivation(this,name,deriv)
         end if
     end do
 
-    if (assertions) call assertPure(found,"Attempted to copy derivation name "//name// " not registered in textbook")
+    if (assertions .or. assertionLvl >= 0) call assertPure(found,&
+    "Attempted to copy derivation name "//name// " not registered in textbook")
 
     if (allocated(deriv)) deallocate(deriv)
     allocate(deriv,source=this%derivations(ind)%entry)
@@ -133,7 +135,7 @@ pure module subroutine addMatDerivation(this,deriv,name)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add matrix derivation to undefined textbook")
         call assertPure(deriv%isDefined(),"Attempted to add undefined matrix derivation to textbook")
 
@@ -167,7 +169,7 @@ pure module function isMatDerivationRegistered(this,name) result(reg)
 
     integer(ik) :: i
 
-    if (assertions) call assertPure(this%isDefined(),&
+    if (assertions .or. assertionLvl >= 0) call assertPure(this%isDefined(),&
     "Attempted to get matrix derivation name registration status from undefined textbook")
 
     reg = .false.
@@ -190,7 +192,7 @@ pure module subroutine copyMatDerivation(this,name,deriv)
     logical :: found
     integer(ik) :: i,ind
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to copy matrix derivation from undefined textbook")
     end if
 
@@ -204,7 +206,8 @@ pure module subroutine copyMatDerivation(this,name,deriv)
         end if
     end do
 
-    if (assertions) call assertPure(found,"Attempted to copy matrix derivation name "//name// "not registered in textbook")
+    if (assertions .or. assertionLvl >= 0) call assertPure(found,&
+    "Attempted to copy matrix derivation name "//name// "not registered in textbook")
 
     if (allocated(deriv)) deallocate(deriv)
     allocate(deriv,source=this%matDerivations(ind)%entry)

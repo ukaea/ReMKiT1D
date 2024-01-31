@@ -17,7 +17,7 @@ module uwc_diff_stencil_gen_class
     !! Stencil generator for upwinding and central differencing
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions ,assertionLvl
     use god_objects                            ,only: Object
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use support_types                          ,only: RealArray

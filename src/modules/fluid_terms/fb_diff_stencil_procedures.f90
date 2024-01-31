@@ -36,11 +36,12 @@ module subroutine initFBValGen(this,partitionObj,procRank,innerJ,outerJ,xPeriodi
 
     integer(ik) :: inferredGridSize
 
-    if (assertions) call assert(partitionObj%isDefined(),"Undefined partition object passed to fb diff val generator constructor")
+    if (assertions .or. assertionLvl >= 0) call assert(partitionObj%isDefined(),&
+    "Undefined partition object passed to fb diff val generator constructor")
 
     inferredGridSize = maxval(partitionObj%getMaxX())
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(size(innerJ) == inferredGridSize,"innerJ passed to initFBValGen does not conform to inferred grid size")
         call assert(size(outerJ) == inferredGridSize,"outerJ passed to initFBValGen does not conform to inferred grid size")
     end if

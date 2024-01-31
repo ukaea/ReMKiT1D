@@ -545,7 +545,7 @@ module subroutine addDDVDerivationToTextbook(textbookObj,derivTag,vSpaceObj,json
         call jsonCont%load(vifAtZero)
         call jsonCont%output(vifAtZero)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(size(outerV(1)%values) == vSpaceObj%getNumV(),outerV(1)%name//" must be of size numV")
             call assert(size(innerV(1)%values) == vSpaceObj%getNumV(),innerV(1)%name//" must be of size numV")
             call assert(size(vifAtZero(1)%values) == 2,vifAtZero(1)%name//" must be size 2")
@@ -577,7 +577,7 @@ module subroutine addDDVDerivationToTextbook(textbookObj,derivTag,vSpaceObj,json
         call jsonCont%output(vifAtZero)
 
         do i = 1,vSpaceObj%getNumH()
-            if (assertions) then 
+            if (assertions .or. assertionLvl >= 0) then 
                 call assert(size(outerV(i)%values) == vSpaceObj%getNumV(),outerV(i)%name//" must be of size numV")
                 call assert(size(innerV(i)%values) == vSpaceObj%getNumV(),innerV(i)%name//" must be of size numV")
                 call assert(size(vifAtZero(i)%values) == 2,vifAtZero(i)%name//" must be size 2")
@@ -631,7 +631,7 @@ module subroutine addD2DV2DerivationToTextbook(textbookObj,derivTag,vSpaceObj,js
         call jsonCont%load(vidfdvAtZero)
         call jsonCont%output(vidfdvAtZero)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(size(outerV(1)%values) == vSpaceObj%getNumV(),outerV(1)%name//" must be of size numV")
             call assert(size(innerV(1)%values) == vSpaceObj%getNumV(),innerV(1)%name//" must be of size numV")
             call assert(size(vidfdvAtZero(1)%values) == 2,vidfdvAtZero(1)%name//" must be size 2")
@@ -663,7 +663,7 @@ module subroutine addD2DV2DerivationToTextbook(textbookObj,derivTag,vSpaceObj,js
         call jsonCont%output(vidfdvAtZero)
 
         do i = 1,vSpaceObj%getNumH()
-            if (assertions) then 
+            if (assertions .or. assertionLvl >= 0) then 
                 call assert(size(outerV(i)%values) == vSpaceObj%getNumV(),outerV(i)%name//" must be of size numV")
                 call assert(size(innerV(i)%values) == vSpaceObj%getNumV(),innerV(i)%name//" must be of size numV")
                 call assert(size(vidfdvAtZero(i)%values) == 2,vidfdvAtZero(i)%name//" must be size 2")
@@ -873,7 +873,8 @@ module subroutine addGenIntPolyDerivationToTextbook(textbookObj,derivTag,jsonCon
             allocate(maxPowers(size(polyPowers(i)%values)))
             maxPowers = polyPowers(i)%values
         end if
-        if (assertions) call assert(size(maxPowers) == size(polyPowers(i)%values),"A polyPowers entry in "//derivTag//&
+        if (assertions .or. assertionLvl >= 0) call assert(size(maxPowers) == size(polyPowers(i)%values),&
+        "A polyPowers entry in "//derivTag//&
                                     " does not conform to expected number of variables")
         do j = 1,size(maxPowers)
             maxPowers(j) = max(maxPowers(j),polyPowers(i)%values(j))

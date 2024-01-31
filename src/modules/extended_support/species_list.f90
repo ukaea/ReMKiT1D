@@ -17,7 +17,7 @@ module species_list_class
     !! Houses species list class containing species initialized from config.json and accessed either via their ID or name
 
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions, assertionLvl
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use god_objects                           ,only: Object
     use species_class                         ,only: Species

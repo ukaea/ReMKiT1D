@@ -17,7 +17,7 @@ module basic_timeloop_class
     !! Houses basic timeloop class responsible for the main computation-output loop in simulations
 
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions, assertionLvl
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use god_objects                           ,only: Object
     use modeller_class                        ,only: Modeller 

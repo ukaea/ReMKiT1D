@@ -101,7 +101,7 @@ pure module subroutine setIntegrator(this,integ)
 
     if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to set integrator in undefined modeller")
-        call assertPure(integ%isDefined(),"Attempted to undefined integrator in modeller")
+        call assertPure(integ%isDefined(),"Attempted to set undefined integrator in modeller")
     end if
 
     allocate(this%integ,source = integ)

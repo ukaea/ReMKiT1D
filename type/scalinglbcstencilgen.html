@@ -123,12 +123,12 @@
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-fderiv">fDeriv</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-fderivreqvarindices">fDerivReqVarIndices</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-bufferpl">bufferPl</a>
-            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-vgrid">vGrid</a>
+            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-vgrid~5">vGrid</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-vgridwidths~2">vGridWidths</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-coll">colL</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-includeddecompharmonics">includedDecompHarmonics</a>
-            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-dx~3">dx</a>
-            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-isactive~3">isActive</a>
+            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-dx~11">dx</a>
+            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#variable-isactive~4">isActive</a>
         </div>
       </div>
     </div>
@@ -158,9 +158,9 @@
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-calculate~6">calculate</a>
-            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-init~11">init</a>
-            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-calculateinplace~2">calculateInPlace</a>
+            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-calculate~13">calculate</a>
+            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-init~35">init</a>
+            <a class="list-group-item" href="../type/scalinglbcstencilgen.html#boundprocedure-calculateinplace~9">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -264,7 +264,7 @@ Calculates v*f_{cl}, without taking the x width or boundary sign into account.</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgrid"></span>
+              <span class="anchor" id="variable-vgrid~5"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -332,7 +332,7 @@ Calculates v*f_{cl}, without taking the x width or boundary sign into account.</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dx~3"></span>
+              <span class="anchor" id="variable-dx~11"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -349,7 +349,7 @@ Calculates v*f_{cl}, without taking the x width or boundary sign into account.</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-isactive~3"></span>
+              <span class="anchor" id="variable-isactive~4"></span>
               logical,
             </td>
               <td>private</td>
@@ -547,7 +547,7 @@ Calculates v*f_{cl}, without taking the x width or boundary sign into account.</
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~6"></span>
+      <span class="anchor" id="boundprocedure-calculate~13"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -652,7 +652,7 @@ Calculates v*f_{cl}, without taking the x width or boundary sign into account.</
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~11"></span>
+      <span class="anchor" id="boundprocedure-init~35"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initscalinglbcgen.html'>initScalingLBCGen</a>
@@ -812,7 +812,7 @@ Calculates v*f_{cl}, without taking the x width or boundary sign into account.</
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~2"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~9"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcscalinglbcvals.html'>calcScalingLBCVals</a>

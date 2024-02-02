@@ -84,15 +84,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/term_evaluator.f90"> Source File</a>
+              <a href="../src/group_evaluator.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/term_evaluator.f90.html'>term_evaluator.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/term_evaluator_class.html'>term_evaluator_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/group_evaluator.f90.html'>group_evaluator.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/group_evaluator_class.html'>group_evaluator_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">initEvaluator</li>
           </ol>
         </nav>
@@ -140,7 +140,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private pure module subroutine initEvaluator(this, resultVarIndex, modelIndices, termNames)  
+      private pure module subroutine initEvaluator(this, resultVarIndex, modelIndex, termGroup)  
     <a href="../proc/initevaluator~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -159,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1079"></span>
-              class(<a href='../type/termevaluator.html'>TermEvaluator</a>),
+              <span class="anchor" id="variable-this~909"></span>
+              class(<a href='../type/groupevaluator.html'>GroupEvaluator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -174,7 +174,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-resultvarindex~8"></span>
+              <span class="anchor" id="variable-resultvarindex~9"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -189,39 +189,39 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelindices~7"></span>
+              <span class="anchor" id="variable-modelindex~23"></span>
               integer(kind=ik),
             </td>
-<td>intent(in),</td>
+<td>intent(in)</td>
               <td></td>            <td>
-              dimension(:)
+              
             </td>
             <td>::</td>
-            <td><strong>modelIndices</strong></td>
+            <td><strong>modelIndex</strong></td>
             <td>
-                <p>Indices of models whose named term should be evaluated</p>
+                <p>Index of model whose term group should be evaluated</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termnames~2"></span>
-              type(<a href='../type/stringarray.html'>StringArray</a>),
+              <span class="anchor" id="variable-termgroup~2"></span>
+              integer(kind=ik),
             </td>
-<td>intent(in),</td>
+<td>intent(in)</td>
               <td></td>            <td>
-              dimension(:)
+              
             </td>
             <td>::</td>
-            <td><strong>termNames</strong></td>
+            <td><strong>termGroup</strong></td>
             <td>
-                <p>Name of evaluated term corresponding to each model </p>
+                <p>Term group to evaluate in model</p>
             </td>
         </tr>
     </tbody>
   </table>
 
     <h3>Description</h3>
-    <p>TermEvaluator initialization routine</p>
+    <p>GroupEvaluator initialization routine</p>
     <br>
 
  </div>

@@ -170,18 +170,18 @@ modelbound data </p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='term_generator_abstract_class.html'>term_generator_abstract_class</a></li>
                   <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='general_mat_term_class.html'>general_mat_term_class</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='basic_environment_wrapper.html'>basic_environment_wrapper</a></li>
                   <li class="list-inline-item"><a href='fluid_stencil_templates.html'>fluid_stencil_templates</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='term_generator_abstract_class.html'>term_generator_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
                   <li class="list-inline-item"><a href='modelbound_crm_data_class.html'>modelbound_CRM_data_class</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='general_mat_term_class.html'>general_mat_term_class</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
               </ul>
             </li>
         </ul>
@@ -237,7 +237,7 @@ modelbound data </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~946"></span>
+              <span class="anchor" id="variable-this~1178"></span>
               class(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -252,7 +252,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~105"></span>
+              <span class="anchor" id="variable-envobj~109"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(in),</td>
@@ -267,7 +267,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-crmdata~13"></span>
+              <span class="anchor" id="variable-crmdata~15"></span>
               type(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -282,7 +282,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generatortag~15"></span>
+              <span class="anchor" id="variable-generatortag~19"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -297,7 +297,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-electronenergyvarname~3"></span>
+              <span class="anchor" id="variable-electronenergyvarname~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -312,7 +312,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-includedtransitionindices~7"></span>
+              <span class="anchor" id="variable-includedtransitionindices~9"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -363,7 +363,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~947"></span>
+              <span class="anchor" id="variable-this~1179"></span>
               class(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -378,7 +378,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~50"></span>
+              <span class="anchor" id="variable-mbdata~64"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -427,7 +427,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~948"></span>
+              <span class="anchor" id="variable-this~1180"></span>
               type(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -497,7 +497,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~7"></span>
+              <span class="anchor" id="variable-vdata~9"></span>
               type(<a href='../type/vardata.html'>VarData</a>),
             </td>
               <td>private,</td>
@@ -531,7 +531,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-electronenergyvarname~2"></span>
+              <span class="anchor" id="variable-electronenergyvarname~3"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -548,7 +548,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envpointer~3"></span>
+              <span class="anchor" id="variable-envpointer~5"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
               <td>private,</td>
@@ -565,7 +565,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numx~9"></span>
+              <span class="anchor" id="variable-numx~12"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -645,12 +645,12 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-init~70'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmelenergytermgenerator.html'>initCRMElEnergyTermGenerator</a></td>
+  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-init~94'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmelenergytermgenerator.html'>initCRMElEnergyTermGenerator</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-generate~4'>generate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generateelenergysourceterms.html'>generateElEnergySourceTerms</a></td>
+  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-generate~6'>generate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generateelenergysourceterms.html'>generateElEnergySourceTerms</a></td>
                 <td></td>
               </tr>
           </tbody>

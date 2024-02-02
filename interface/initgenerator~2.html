@@ -79,20 +79,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">16 statements</a>
+                 title=" 0.0% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stencil_generator1d.f90"> Source File</a>
+              <a href="../src/fluid_gen1d.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stencil_generator1d.f90.html'>stencil_generator1d.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/stencil_generator1d_class.html'>stencil_generator1d_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/fluid_gen1d.f90.html'>fluid_gen1d.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/fluid_gen1d_class.html'>fluid_gen1d_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">initGenerator</li>
           </ol>
         </nav>
@@ -140,8 +140,8 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private module subroutine initGenerator(this, stencilObj, columnVecs, periodicDim, coordInterval)  
-    <a href="../proc/initgenerator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+      private module subroutine initGenerator(this, stencilObj, columnVecs, varContColVarNames, mbColVarNames, periodicDim, coordInterval)  
+    <a href="../proc/initgenerator~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
     
@@ -159,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1112"></span>
-              class(<a href='../type/stencilgenerator1d.html'>StencilGenerator1D</a>),
+              <span class="anchor" id="variable-this~878"></span>
+              class(<a href='../type/fluidstencilgen1d.html'>FluidStencilGen1D</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -174,7 +174,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stencilobj~4"></span>
+              <span class="anchor" id="variable-stencilobj~2"></span>
               type(<a href='../type/stencil1d.html'>Stencil1D</a>),
             </td>
 <td>intent(in)</td>
@@ -189,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-columnvecs~6"></span>
+              <span class="anchor" id="variable-columnvecs~4"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -204,7 +204,37 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicdim~5"></span>
+              <span class="anchor" id="variable-varcontcolvarnames~4"></span>
+              type(<a href='../type/stringarray.html'>StringArray</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>varContColVarNames</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mbcolvarnames~4"></span>
+              type(<a href='../type/stringarray.html'>StringArray</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>mbColVarNames</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-periodicdim~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -219,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordinterval~5"></span>
+              <span class="anchor" id="variable-coordinterval~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -236,7 +266,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>1D fixed stencil value generator initialization routine</p>
+    <p>1D fluid variable stencil value generator initialization routine</p>
     <br>
 
  </div>

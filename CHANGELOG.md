@@ -1,11 +1,12 @@
 # CHANGELOG
 
-## v1.1.0, 2024-01-17
+## v1.1.0, 2024-02-02
 
 - Solver and integrator improvements
 - Debug mode bug fixes
 - Multilinear interpolation support
 - Support for some CRM features with non-default electron species ID
+- Default support for release build assertions during startup
 
 ### New Features
 
@@ -16,6 +17,7 @@
 - New derivation type nDLinInterpDerivation - linear interpolation on n-dimensional data
 - ModelboundCRMData can now have an associated non-default electron species ID (useful for multiple flux tube models). Note that Janev transitions still have hardcoded values. 
 - Added the option to reset the value of the time variable upon loading from restart files
+- Assertions are now run in release mode during simulation startup
 
 ### Bug Fixes
 

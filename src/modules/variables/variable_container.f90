@@ -90,7 +90,7 @@ module variable_container_class
 
         end subroutine initCalculationRule
 !-----------------------------------------------------------------------------------------------------------------------------------
-        pure module subroutine initVarContainer(this,&
+        module subroutine initVarContainer(this,&
                                                 implicitVars,&
                                                 derivedVars,&
                                                 derivationRules,&

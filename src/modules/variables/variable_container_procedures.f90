@@ -40,7 +40,7 @@ pure module subroutine initCalculationRule(this,deriv,names)
 
 end subroutine initCalculationRule
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine initVarContainer(this,&
+module subroutine initVarContainer(this,&
                                         implicitVars,&
                                         derivedVars,&
                                         derivationRules,&
@@ -61,6 +61,8 @@ pure module subroutine initVarContainer(this,&
 
     integer(ik) :: i ,j ,k ,l
     integer(ik) :: numH ,numV ,minX ,maxX ,minH ,maxH ,locNumX ,locNumH
+
+    real(rk) :: randomNum
 
     logical :: found 
 
@@ -138,8 +140,9 @@ pure module subroutine initVarContainer(this,&
             allocate(this%implicitToLocIndex(i)%entry(locNumX*locNumH*numV))
             allocate(this%variables(i)%entry(1-xHaloWidth*numH*numV:(locNumX+xHaloWidth)*numH*numV))
             this%variables(i)%entry = 0 
-            this%variables(i)%entry(1-xHaloWidth*numH*numV:0) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
-            this%variables(i)%entry(locNumX*numH*numV+1:(locNumX+xHaloWidth)*numH*numV) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
+            call random_number(randomNum)
+            this%variables(i)%entry(1-xHaloWidth*numH*numV:0) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
+            this%variables(i)%entry(locNumX*numH*numV+1:(locNumX+xHaloWidth)*numH*numV) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
 
             do j = minX,maxX
                 do k = minH,maxH
@@ -159,8 +162,9 @@ pure module subroutine initVarContainer(this,&
             allocate(this%implicitToLocIndex(i)%entry(locNumX))
             allocate(this%variables(i)%entry(1-xHaloWidth:locNumX+xHaloWidth))
             this%variables(i)%entry = 0 
-            this%variables(i)%entry(1-xHaloWidth:0) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
-            this%variables(i)%entry(locNumX+1:locNumX+xHaloWidth) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
+            call random_number(randomNum)
+            this%variables(i)%entry(1-xHaloWidth:0) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
+            this%variables(i)%entry(locNumX+1:locNumX+xHaloWidth) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
             do j = 1,locNumX
                 this%implicitVarIndices(i)%entry(j) = indexingObj%findIndex(implicitVars%getVarName(i),j+minX-1,local=.true.)
                 this%implicitToLocIndex(i)%entry(j) = j
@@ -172,8 +176,9 @@ pure module subroutine initVarContainer(this,&
             allocate(this%implicitToLocIndex(i)%entry(0))
             allocate(this%variables(i)%entry(1-xHaloWidth:locNumX+xHaloWidth))
             this%variables(i)%entry = 0 
-            this%variables(i)%entry(1-xHaloWidth:0) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
-            this%variables(i)%entry(locNumX+1:locNumX+xHaloWidth) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
+            call random_number(randomNum)
+            this%variables(i)%entry(1-xHaloWidth:0) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
+            this%variables(i)%entry(locNumX+1:locNumX+xHaloWidth) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
 
         end if
     end do
@@ -193,8 +198,9 @@ pure module subroutine initVarContainer(this,&
         else
             allocate(this%variables(i+size(this%implicitVarIndices))%entry(1-xHaloWidth:locNumX+xHaloWidth))
             this%variables(i+size(this%implicitVarIndices))%entry = 0 
-            this%variables(i+size(this%implicitVarIndices))%entry(1-xHaloWidth:0) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
-            this%variables(i+size(this%implicitVarIndices))%entry(locNumX+1:locNumX+xHaloWidth) = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
+            call random_number(randomNum)
+            this%variables(i+size(this%implicitVarIndices))%entry(1-xHaloWidth:0) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
+            this%variables(i+size(this%implicitVarIndices))%entry(locNumX+1:locNumX+xHaloWidth) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
         end if
     end do
 
@@ -289,7 +295,7 @@ module subroutine calculateDerivedVars(this,derivPriority,derivDepth)
 
         do i = 1,size(indicesAtDepth)
             ind = indicesAtDepth(i)  - this%implicitVarList%getNumVars()
-
+            print*,this%derivedVarList%getVarName(ind)
             currentVarPriority = this%derivedVarList%getVarPriority(ind)
             calculateVar = allocated(this%derivationRules(ind)%derivationMethod) .and. currentVarPriority <= usedPriority
 

@@ -131,7 +131,7 @@
       </a>
       <div id="modfuncs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/fixed_ecs_transition_procedures.html#proc-getenergy~5">getEnergy</a>
+            <a class="list-group-item" href="../module/fixed_ecs_transition_procedures.html#proc-getenergy~3">getEnergy</a>
         </div>
       </div>
     </div>
@@ -144,7 +144,7 @@
       <div id="modsubs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/fixed_ecs_transition_procedures.html#proc-initfixedecstransition">initFixedECSTransition</a>
-            <a class="list-group-item" href="../module/fixed_ecs_transition_procedures.html#proc-updaterates~2">updateRates</a>
+            <a class="list-group-item" href="../module/fixed_ecs_transition_procedures.html#proc-updaterates">updateRates</a>
             <a class="list-group-item" href="../module/fixed_ecs_transition_procedures.html#proc-finalizefixedecstransition">finalizeFixedECSTransition</a>
         </div>
       </div>
@@ -191,8 +191,8 @@
         <section>
           <h2>Module Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getenergy~5"></span> <h3>pure module function <a href='../proc/getenergy~5.html'>getEnergy</a>(this) result(energyCost)  
-    <a href="../interface/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-getenergy~3"></span> <h3>pure module function <a href='../proc/getenergy~3.html'>getEnergy</a>(this) result(energyCost)  
+    <a href="../interface/getenergy~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -211,7 +211,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1093"></span>
+              <span class="anchor" id="variable-this~782"></span>
               class(<a href='../type/fixedecstransition.html'>FixedECSTransition</a>),
             </td>
 <td>intent(in)</td>
@@ -262,7 +262,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1092"></span>
+              <span class="anchor" id="variable-this~781"></span>
               class(<a href='../type/fixedecstransition.html'>FixedECSTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -277,7 +277,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~45"></span>
+              <span class="anchor" id="variable-locnumx~23"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -292,7 +292,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-instates~20"></span>
+              <span class="anchor" id="variable-instates~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -307,7 +307,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outstates~17"></span>
+              <span class="anchor" id="variable-outstates~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -322,7 +322,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy~9"></span>
+              <span class="anchor" id="variable-energy~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -337,7 +337,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-crosssection~10"></span>
+              <span class="anchor" id="variable-crosssection~11"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -352,7 +352,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distvarindex~15"></span>
+              <span class="anchor" id="variable-distvarindex~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -367,7 +367,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refvspace~15"></span>
+              <span class="anchor" id="variable-refvspace~10"></span>
               type(<a href='../type/vspace.html'>VSpace</a>),
             </td>
 <td>intent(inout),</td>
@@ -382,7 +382,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedwindex~13"></span>
+              <span class="anchor" id="variable-fixedwindex~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -397,7 +397,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentummoment~6"></span>
+              <span class="anchor" id="variable-momentummoment~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -412,7 +412,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-l1index~9"></span>
+              <span class="anchor" id="variable-l1index~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -433,7 +433,7 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-updaterates~2"></span> <h3>module subroutine <a href='../proc/updaterates~2.html'>updateRates</a>(this, varCont, hostModel, hostData, updatePriority)  
+    <div class="card-header codesum"><span class="anchor" id="proc-updaterates"></span> <h3>module subroutine <a href='../proc/updaterates.html'>updateRates</a>(this, varCont, hostModel, hostData, updatePriority)  
     <a href="../interface/updaterates~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
@@ -453,7 +453,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1094"></span>
+              <span class="anchor" id="variable-this~783"></span>
               class(<a href='../type/fixedecstransition.html'>FixedECSTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -468,7 +468,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~109"></span>
+              <span class="anchor" id="variable-varcont~94"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -483,7 +483,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~55"></span>
+              <span class="anchor" id="variable-hostmodel~31"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -498,7 +498,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostdata~9"></span>
+              <span class="anchor" id="variable-hostdata~3"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -513,7 +513,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatepriority~17"></span>
+              <span class="anchor" id="variable-updatepriority~10"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -554,7 +554,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1095"></span>
+              <span class="anchor" id="variable-this~784"></span>
               type(<a href='../type/fixedecstransition.html'>FixedECSTransition</a>),
             </td>
 <td>intent(inout)</td>

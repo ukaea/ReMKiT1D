@@ -121,13 +121,13 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/derivedtransition.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-transitionenergy~5">transitionEnergy</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-ratederiv~2">rateDeriv</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-ratederivindices~2">rateDerivIndices</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-momentumratederiv~2">momentumRateDeriv</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-momentumratederivindices~2">momentumRateDerivIndices</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-energyratederiv~2">energyRateDeriv</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-energyratederivindices~2">energyRateDerivIndices</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-locnumx~19">locNumX</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-ratederiv">rateDeriv</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-ratederivindices">rateDerivIndices</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-momentumratederiv">momentumRateDeriv</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-momentumratederivindices">momentumRateDerivIndices</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-energyratederiv">energyRateDeriv</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-energyratederivindices">energyRateDerivIndices</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-locnumx~27">locNumX</a>
         </div>
       </div>
     </div>
@@ -174,9 +174,9 @@
             <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-setcsdim">setCSDim</a>
             <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-getcsdim">getCSDim</a>
             <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-getratesize">getRateSize</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-init~17">init</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-update~4">update</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-gettransitionenergy~2">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-init~59">init</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-update~7">update</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-gettransitionenergy~3">getTransitionEnergy</a>
         </div>
       </div>
     </div>
@@ -244,7 +244,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ratederiv~2"></span>
+              <span class="anchor" id="variable-ratederiv"></span>
               class(<a href='derivation.html'>Derivation</a>),
             </td>
               <td>private,</td>
@@ -261,7 +261,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ratederivindices~2"></span>
+              <span class="anchor" id="variable-ratederivindices"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -278,7 +278,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentumratederiv~2"></span>
+              <span class="anchor" id="variable-momentumratederiv"></span>
               class(<a href='derivation.html'>Derivation</a>),
             </td>
               <td>private,</td>
@@ -295,7 +295,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentumratederivindices~2"></span>
+              <span class="anchor" id="variable-momentumratederivindices"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -312,7 +312,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energyratederiv~2"></span>
+              <span class="anchor" id="variable-energyratederiv"></span>
               class(<a href='derivation.html'>Derivation</a>),
             </td>
               <td>private,</td>
@@ -329,7 +329,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energyratederivindices~2"></span>
+              <span class="anchor" id="variable-energyratederivindices"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -346,7 +346,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~19"></span>
+              <span class="anchor" id="variable-locnumx~27"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1689,7 +1689,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~17"></span>
+      <span class="anchor" id="boundprocedure-init~59"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initderivedtransition.html'>initDerivedTransition</a>
@@ -1894,7 +1894,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~4"></span>
+      <span class="anchor" id="boundprocedure-update~7"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updaterates.html'>updateRates</a>
@@ -1906,7 +1906,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
               <h3>interface </h3>
                   <h3>
     private module subroutine updateRates(this, varCont, hostModel, hostData, updatePriority)  
-    <a href="../proc/updaterates.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updaterates~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Update transition rates using derivation object</p>
@@ -2009,7 +2009,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy~2"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy~3"></span>
       <h3>
           procedure, public ::
   <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~2.html'>getEnergy</a>
@@ -2021,7 +2021,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
               <h3>interface </h3>
                   <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Returns array representing energy cost of this transition</p>

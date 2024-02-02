@@ -79,20 +79,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.1% of total for procedures.">27 statements</a>
+                 title=" 0.1% of total for procedures.">28 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fixed_ecs_transition_procedures.f90"> Source File</a>
+              <a href="../src/derived_transition_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/fixed_ecs_transition_procedures.f90.html'>fixed_ecs_transition_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/fixed_ecs_transition_procedures.html'>fixed_ecs_transition_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/derived_transition_procedures.f90.html'>derived_transition_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/derived_transition_procedures.html'>derived_transition_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">updateRates</li>
           </ol>
         </nav>
@@ -139,11 +139,11 @@
     
     <div class="col-md-9" id='text'>
     <h2>module subroutine updateRates(this, varCont, hostModel, hostData, updatePriority)  
-    <a href="../interface/updaterates~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/updaterates.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Update transition and moment exchange rate (if applicable)</p>
+    <p>Update transition rates using derivation object</p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1094"></span>
-              class(<a href='../type/fixedecstransition.html'>FixedECSTransition</a>),
+              <span class="anchor" id="variable-this~1050"></span>
+              class(<a href='../type/derivedtransition.html'>DerivedTransition</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -174,7 +174,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~109"></span>
+              <span class="anchor" id="variable-varcont~118"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -189,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~55"></span>
+              <span class="anchor" id="variable-hostmodel~50"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -204,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostdata~9"></span>
+              <span class="anchor" id="variable-hostdata~7"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -214,7 +214,7 @@
             <td>::</td>
             <td><strong>hostData</strong></td>
             <td>
-                <p>Host data used to determine emitting cells for discrete cross-section</p>
+                <p>Host data - unused</p>
             </td>
         </tr>
         <tr>

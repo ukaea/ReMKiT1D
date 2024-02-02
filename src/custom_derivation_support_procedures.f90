@@ -96,6 +96,8 @@ module subroutine addCustomDerivationsToTextbook(textbookObj,gridObj,geometryObj
             call addRangeFilterDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
         case (keyCalculationTreeDerivation)
             call addCalculationTreeDerivationToTextbook(textbookObj,derivTag,varList,jsonCont,mpiCont)
+        case (keynDLinInterpDerivation)
+            call addnDLinInterpDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
         case default 
             error stop "Unsupported custom derivation type detected in addCustomDerivationsToTextbook"
         end select
@@ -543,7 +545,7 @@ module subroutine addDDVDerivationToTextbook(textbookObj,derivTag,vSpaceObj,json
         call jsonCont%load(vifAtZero)
         call jsonCont%output(vifAtZero)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(size(outerV(1)%values) == vSpaceObj%getNumV(),outerV(1)%name//" must be of size numV")
             call assert(size(innerV(1)%values) == vSpaceObj%getNumV(),innerV(1)%name//" must be of size numV")
             call assert(size(vifAtZero(1)%values) == 2,vifAtZero(1)%name//" must be size 2")
@@ -575,7 +577,7 @@ module subroutine addDDVDerivationToTextbook(textbookObj,derivTag,vSpaceObj,json
         call jsonCont%output(vifAtZero)
 
         do i = 1,vSpaceObj%getNumH()
-            if (assertions) then 
+            if (assertions .or. assertionLvl >= 0) then 
                 call assert(size(outerV(i)%values) == vSpaceObj%getNumV(),outerV(i)%name//" must be of size numV")
                 call assert(size(innerV(i)%values) == vSpaceObj%getNumV(),innerV(i)%name//" must be of size numV")
                 call assert(size(vifAtZero(i)%values) == 2,vifAtZero(i)%name//" must be size 2")
@@ -629,7 +631,7 @@ module subroutine addD2DV2DerivationToTextbook(textbookObj,derivTag,vSpaceObj,js
         call jsonCont%load(vidfdvAtZero)
         call jsonCont%output(vidfdvAtZero)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(size(outerV(1)%values) == vSpaceObj%getNumV(),outerV(1)%name//" must be of size numV")
             call assert(size(innerV(1)%values) == vSpaceObj%getNumV(),innerV(1)%name//" must be of size numV")
             call assert(size(vidfdvAtZero(1)%values) == 2,vidfdvAtZero(1)%name//" must be size 2")
@@ -661,7 +663,7 @@ module subroutine addD2DV2DerivationToTextbook(textbookObj,derivTag,vSpaceObj,js
         call jsonCont%output(vidfdvAtZero)
 
         do i = 1,vSpaceObj%getNumH()
-            if (assertions) then 
+            if (assertions .or. assertionLvl >= 0) then 
                 call assert(size(outerV(i)%values) == vSpaceObj%getNumV(),outerV(i)%name//" must be of size numV")
                 call assert(size(innerV(i)%values) == vSpaceObj%getNumV(),innerV(i)%name//" must be of size numV")
                 call assert(size(vidfdvAtZero(i)%values) == 2,vidfdvAtZero(i)%name//" must be size 2")
@@ -871,7 +873,8 @@ module subroutine addGenIntPolyDerivationToTextbook(textbookObj,derivTag,jsonCon
             allocate(maxPowers(size(polyPowers(i)%values)))
             maxPowers = polyPowers(i)%values
         end if
-        if (assertions) call assert(size(maxPowers) == size(polyPowers(i)%values),"A polyPowers entry in "//derivTag//&
+        if (assertions .or. assertionLvl >= 0) call assert(size(maxPowers) == size(polyPowers(i)%values),&
+        "A polyPowers entry in "//derivTag//&
                                     " does not conform to expected number of variables")
         do j = 1,size(maxPowers)
             maxPowers(j) = max(maxPowers(j),polyPowers(i)%values(j))
@@ -1074,6 +1077,63 @@ module subroutine addCalculationTreeDerivationToTextbook(textbookObj,derivTag,va
     call textbookObj%addDerivation(calcTreeDeriv,derivTag)
 
 end subroutine addCalculationTreeDerivationToTextbook
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine addnDLinInterpDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
+    !! Add an n-D linear interpolation derivation to textbook based on JSON config file
+
+    type(Textbook)          ,intent(inout) :: textbookObj 
+    character(*)            ,intent(in)    :: derivTag 
+    type(JSONController)    ,intent(inout) :: jsonCont    !! JSONController used to get parameters from ./config.json 
+    type(MPIController)     ,intent(inout) :: mpiCont     !! MPIController used with JSONController 
+
+    type(NamedStringArray)  ,dimension(1) :: gridNames
+    type(NamedRealArray)    ,dimension(1) :: gridVals 
+    type(NamedRealArray)    ,dimension(1) :: dataVals 
+    type(NamedIntegerArray) ,dimension(1) :: dataDims
+
+    type(Interpolation1D) ,allocatable ,dimension(:) :: interps1D
+    type(InterpolationND) :: interpND
+    type(FlatNDData)      :: flatData
+
+    type(NDInterpolationDerivation) :: ndInterpDerivation
+
+    integer(ik) :: i 
+
+    gridNames(1)%name = keyCustomDerivations//"."//derivTag//"."//keyGrids//"."//keyNames
+    allocate(gridNames(1)%values(0))
+
+    call jsonCont%load(gridNames)
+    call jsonCont%output(gridNames)
+    allocate(interps1D(size(gridNames(1)%values)))
+    allocate(gridVals(1)%values(0))
+    do i = 1,size(gridNames(1)%values)
+        gridVals(1)%name = keyCustomDerivations//"."//derivTag//"."//keyGrids//"."//gridNames(1)%values(i)%string
+        call jsonCont%load(gridVals)
+        call jsonCont%output(gridVals)
+
+        call interps1D(i)%init(gridVals(1)%values)
+    end do
+
+    dataDims(1)%name = keyCustomDerivations//"."//derivTag//"."//keyData//"."//keyDims
+    allocate(dataDims(1)%values(0))
+
+    dataVals(1)%name = keyCustomDerivations//"."//derivTag//"."//keyData//"."//keyValues
+    allocate(dataVals(1)%values(0))
+
+    call jsonCont%load(dataDims)
+    call jsonCont%output(dataDims)
+    call jsonCont%load(dataVals)
+    call jsonCont%output(dataVals)
+
+    print *, dataDims(1)%values
+    call flatData%directInit(dataVals(1)%values,dataDims(1)%values)
+    call interpND%init(interps1D)
+
+    call ndInterpDerivation%init(interpND,flatData)
+
+    call textbookObj%addDerivation(ndInterpDerivation,derivTag)
+
+end subroutine addnDLinInterpDerivationToTextbook
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule custom_derivation_support_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

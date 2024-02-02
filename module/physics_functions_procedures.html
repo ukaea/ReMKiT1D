@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>physics_functions_procedures &ndash; ReMKiT1D</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,41 +70,45 @@
       <small>Submodule</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.3% of total for modules and submodules.">85 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.3% of total for modules and submodules.">85 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/physics_functions_procedures.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/physics_functions_procedures.f90.html'>physics_functions_procedures.f90</a></li>
-          <li class="active">physics_functions_procedures</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/physics_functions_procedures.f90.html'>physics_functions_procedures.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">physics_functions_procedures</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -143,14 +124,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modfuncs-0">Module Functions</a>
-        </h3>
-      </div>
-      <div id="modfuncs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modfuncs-0"
+         aria-expanded="false" aria-controls="modfuncs-0">
+         <h4 class="card-header bg-primary text-white">Module Functions</h4>
+      </a>
+      <div id="modfuncs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-loglee">logLee</a>
             <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-loglei">logLei</a>
             <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-loglii">logLii</a>
@@ -165,6 +145,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -178,69 +159,22 @@
 
     <div class="col-md-9" id='text'>
       <p>Contains the implementations of various physics routines</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li><h5>Ancestors:</h5></li>
+                  <li class="list-inline-item"><a href='physics_functions.html'>physics_functions</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><h5>Ancestors:</h5></li>
-                <li><a href='../module/physics_functions.html'>physics_functions</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modfuncs-1">Module Functions</a>
-        </h3>
-      </div>
-      <div id="modfuncs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-loglee">logLee</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-loglei">logLei</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-loglii">logLii</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-shpotdrop">shPotDrop</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-colltimeei">collTimeei</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-elplasmaoscfreq">elPlasmaOscFreq</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-elvthermal">elVthermal</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-vsonic">vSonic</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-normmaxwellian">normMaxwellian</a>
-            <a class="list-group-item" href="../module/physics_functions_procedures.html#proc-simplemoment">simpleMoment</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
 
@@ -252,11 +186,11 @@
 
         <section>
           <h2>Module Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-loglee"></span><h3>pure module function <a href='../proc/loglee.html'>logLee</a>(Te, ne) result(res)  
-    <a href='../interface/loglee.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-loglee"></span> <h3>pure module function <a href='../proc/loglee.html'>logLee</a>(Te, ne) result(res)  
+    <a href="../interface/loglee.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculate Coulomb logarithm for electron-electron collisions (NRL Formulary 2013 page 34 equation a)</p>
 
@@ -264,16 +198,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-te"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -288,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ne"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -313,11 +247,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-loglei"></span><h3>pure module function <a href='../proc/loglei.html'>logLei</a>(Te, ne, Z) result(res)  
-    <a href='../interface/loglei.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-loglei"></span> <h3>pure module function <a href='../proc/loglei.html'>logLei</a>(Te, ne, Z) result(res)  
+    <a href="../interface/loglei.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculate Coulomb logarithm for electron-ion collisions (NRL Formulary 2013 page 34 equation b). Assumes Te &gt; TiZm_e/m_i </p>
 
@@ -325,16 +259,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-te~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -349,7 +283,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ne~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -364,7 +298,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-z"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -389,11 +323,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-loglii"></span><h3>pure module function <a href='../proc/loglii.html'>logLii</a>(Z1, Z2, mRatio, n1, n2, T1, T2) result(res)  
-    <a href='../interface/loglii.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-loglii"></span> <h3>pure module function <a href='../proc/loglii.html'>logLii</a>(Z1, Z2, mRatio, n1, n2, T1, T2) result(res)  
+    <a href="../interface/loglii.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculate Coulomb logarithm for ion-ion collisions (NRL Formulary 2013 page 34 equation c).</p>
 
@@ -401,16 +335,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-z1"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -425,7 +359,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-z2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -440,7 +374,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mratio"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -455,7 +389,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n1"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -470,7 +404,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -485,7 +419,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-t1"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -500,7 +434,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-t2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -525,11 +459,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-shpotdrop"></span><h3>pure module function <a href='../proc/shpotdrop.html'>shPotDrop</a>(massRatio, tempRatio) result(res)  
-    <a href='../interface/shpotdrop.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-shpotdrop"></span> <h3>pure module function <a href='../proc/shpotdrop.html'>shPotDrop</a>(massRatio, tempRatio) result(res)  
+    <a href="../interface/shpotdrop.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculate sheath potential drop for 2 component plasma in units of kTe/e</p>
 
@@ -537,16 +471,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-massratio"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -561,7 +495,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-tempratio"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -586,11 +520,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-colltimeei"></span><h3>pure module function <a href='../proc/colltimeei.html'>collTimeei</a>(Te, ne, Z, logL) result(res)  
-    <a href='../interface/colltimeei.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-colltimeei"></span> <h3>pure module function <a href='../proc/colltimeei.html'>collTimeei</a>(Te, ne, Z, logL) result(res)  
+    <a href="../interface/colltimeei.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculate electron-ion collision time in seconds. This is not the Braginskii time, which can be calculated as this value 
 multiplied by 3 sqrt(pi)/4 .</p>
@@ -599,16 +533,16 @@ multiplied by 3 sqrt(pi)/4 .</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-te~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -623,7 +557,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ne~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -638,7 +572,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-z~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -653,7 +587,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-logl"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -678,11 +612,11 @@ multiplied by 3 sqrt(pi)/4 .</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-elplasmaoscfreq"></span><h3>pure module function <a href='../proc/elplasmaoscfreq.html'>elPlasmaOscFreq</a>(ne) result(res)  
-    <a href='../interface/elplasmaoscfreq.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-elplasmaoscfreq"></span> <h3>pure module function <a href='../proc/elplasmaoscfreq.html'>elPlasmaOscFreq</a>(ne) result(res)  
+    <a href="../interface/elplasmaoscfreq.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Calculate cold electron plasma oscillation frequency in s^{-1} </p>
 
@@ -690,16 +624,16 @@ multiplied by 3 sqrt(pi)/4 .</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ne~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -724,11 +658,11 @@ multiplied by 3 sqrt(pi)/4 .</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-elvthermal"></span><h3>pure module function <a href='../proc/elvthermal.html'>elVthermal</a>(Te) result(res)  
-    <a href='../interface/elvthermal.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-elvthermal"></span> <h3>pure module function <a href='../proc/elvthermal.html'>elVthermal</a>(Te) result(res)  
+    <a href="../interface/elvthermal.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Mean thermal electron speed </p>
 
@@ -736,16 +670,16 @@ multiplied by 3 sqrt(pi)/4 .</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-te~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -770,11 +704,11 @@ multiplied by 3 sqrt(pi)/4 .</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-vsonic"></span><h3>pure module function <a href='../proc/vsonic.html'>vSonic</a>(Te, Ti, mi, ePolytropic, iPolytropic) result(res)  
-    <a href='../interface/vsonic.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-vsonic"></span> <h3>pure module function <a href='../proc/vsonic.html'>vSonic</a>(Te, Ti, mi, ePolytropic, iPolytropic) result(res)  
+    <a href="../interface/vsonic.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Sonic speed caclulated as sqrt((ePoly<em>Te + iPoly</em>Ti)/mi)</p>
 
@@ -782,16 +716,16 @@ multiplied by 3 sqrt(pi)/4 .</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-te~5"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -806,7 +740,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ti"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -821,7 +755,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mi"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -836,7 +770,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-epolytropic"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -851,7 +785,7 @@ multiplied by 3 sqrt(pi)/4 .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ipolytropic"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -876,11 +810,11 @@ multiplied by 3 sqrt(pi)/4 .</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-normmaxwellian"></span><h3>pure module function <a href='../proc/normmaxwellian.html'>normMaxwellian</a>(n, T, vPoints) result(res)  
-    <a href='../interface/normmaxwellian.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-normmaxwellian"></span> <h3>pure module function <a href='../proc/normmaxwellian.html'>normMaxwellian</a>(n, T, vPoints) result(res)  
+    <a href="../interface/normmaxwellian.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Returns a normalized stationary Maxwellian evaluated at vPoints. Assumes that velocity and temperature are normalized in 
 such way that  m v_0^2/2 = kT_0 , and the returned value is normalized to  1/v_0^(3/2) .</p>
@@ -889,16 +823,16 @@ such way that  m v_0^2/2 = kT_0 , and the returned value is normalized to  1/v_0
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-n"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -913,7 +847,7 @@ such way that  m v_0^2/2 = kT_0 , and the returned value is normalized to  1/v_0
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-t"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -928,7 +862,7 @@ such way that  m v_0^2/2 = kT_0 , and the returned value is normalized to  1/v_0
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-vpoints"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -953,11 +887,11 @@ such way that  m v_0^2/2 = kT_0 , and the returned value is normalized to  1/v_0
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-simplemoment"></span><h3>pure module function <a href='../proc/simplemoment.html'>simpleMoment</a>(m, f, vPoints, vWidths, g) result(res)  
-    <a href='../interface/simplemoment.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-simplemoment"></span> <h3>pure module function <a href='../proc/simplemoment.html'>simpleMoment</a>(m, f, vPoints, vWidths, g) result(res)  
+    <a href="../interface/simplemoment.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Returns the m-th moment of passed distribution function harmonic -  4<em>pi</em>int(v^(2+m)<em>f</em>dv) . Optionally takes moment of f*g
 where g conforms to f. The integration is a simple Riemann sum.</p>
@@ -966,16 +900,16 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-m~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -990,7 +924,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-f~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1005,7 +939,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-vpoints~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1020,7 +954,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-vwidths~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1035,7 +969,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-g"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1071,12 +1005,12 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -1086,17 +1020,12 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

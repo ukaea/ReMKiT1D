@@ -32,7 +32,7 @@ module subroutine initSpeciesList(this,jsonCont,mpiCont)
 
     integer(ik) :: i ,j 
 
-    if (assertions) call assert(mpiCont%isDefined(),&
+    if (assertions .or. assertionLvl >= 0) call assert(mpiCont%isDefined(),&
     "Undefined mpi controller passed to initSpeciesList")
 
     speciesNames(1)%name = keySpecies//"."//keyNames
@@ -51,7 +51,7 @@ module subroutine initSpeciesList(this,jsonCont,mpiCont)
         call this%speciesEntries(i)%initFromJSON(this%speciesNames(i)%string,jsonCont,mpiCont)
         this%speciesIDs(i) = this%speciesEntries(i)%getID()
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
 
             do j = 1,i-1
                 call assert(this%speciesNames(i)%string /= this%speciesNames(j)%string,"Duplicate species name detected")

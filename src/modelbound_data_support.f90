@@ -17,7 +17,7 @@ module modelbound_data_support
     !! Contains support for adding modelbound data to models based on JSON data
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions, assertionLvl
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use variable_container_class               ,only: VariableContainer, CalculationRule
     use variable_list_class                    ,only: VariableList

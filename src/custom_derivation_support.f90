@@ -17,7 +17,7 @@ module custom_derivation_support
     !! Contains support for adding custom derivations to a textbook
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions, assertionLvl
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use textbook_class                         ,only: Textbook
     use grid_class                             ,only: Grid
@@ -50,6 +50,10 @@ module custom_derivation_support
     use range_filter_derivation_class          ,only: RangeFilterDerivation
     use calculation_tree_class                 ,only: FlatTree
     use calculation_tree_derivation_class      ,only: CalculationTreeDerivation
+    use lin_interpnd_class                     ,only: InterpolationND
+    use lin_interp1D_class                     ,only: Interpolation1D
+    use lin_interpnd_derivation_class          ,only: NDInterpolationDerivation
+    use flat_nd_data_class                     ,only: FlatNDData
     use extrapolation_initialization_support
     use support_types
     use support_functions
@@ -274,6 +278,16 @@ module custom_derivation_support
         type(MPIController)     ,intent(inout) :: mpiCont     !! MPIController used with JSONController 
 
     end subroutine addCalculationTreeDerivationToTextbook
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine addnDLinInterpDerivationToTextbook(textbookObj,derivTag,jsonCont,mpiCont)
+        !! Add an n-D linear interpolation derivation to textbook based on JSON config file
+
+        type(Textbook)          ,intent(inout) :: textbookObj 
+        character(*)            ,intent(in)    :: derivTag 
+        type(JSONController)    ,intent(inout) :: jsonCont    !! JSONController used to get parameters from ./config.json 
+        type(MPIController)     ,intent(inout) :: mpiCont     !! MPIController used with JSONController 
+
+    end subroutine addnDLinInterpDerivationToTextbook
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

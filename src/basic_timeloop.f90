@@ -17,7 +17,7 @@ module basic_timeloop_class
     !! Houses basic timeloop class responsible for the main computation-output loop in simulations
 
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions, assertionLvl
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use god_objects                           ,only: Object
     use modeller_class                        ,only: Modeller 
@@ -45,6 +45,7 @@ module basic_timeloop_class
         logical     ,private :: loadRestart !! True if restart files should be loaded at the start of the loop
         logical     ,private :: loadSerial !! True if initial values are loaded from a serial file
         logical     ,private :: saveRestart !! True if restart files should be saved 
+        logical     ,private :: resetTimeRestart !! True if on loaded restart the time variable (if present) should be reset to 0 
         integer(ik) ,private :: restartFrequency !! Number of steps between restart saves
 
         character(:)      ,allocatable       ,private :: loadFilename !! Serial load filename - default "ReMKiT1DVarInput"

@@ -32,7 +32,7 @@ module subroutine initMomentDeriv(this,mOrder,h,refVSpace,varPowers,g,multConst)
     real(rk) ,optional ,dimension(:)    ,intent(in)    :: g !! Optional velocity space vector
     real(rk) ,optional                  ,intent(in)    :: multConst !! Optional multiplicative constant - default 1
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(refVSpace%isDefined(),"Undefined velocity space object passed to initMomentDeriv")
         call assert(h > 0,"Harmonic index passed to initMomentDeriv out of bounds-lower")

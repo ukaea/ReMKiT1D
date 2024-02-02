@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>transition_abstract_procedures &ndash; ReMKiT1D</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,41 +70,45 @@
       <small>Submodule</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.4% of total for modules and submodules.">114 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.4% of total for modules and submodules.">114 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/transition_abstract_procedures.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/transition_abstract_procedures.f90.html'>transition_abstract_procedures.f90</a></li>
-          <li class="active">transition_abstract_procedures</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/transition_abstract_procedures.f90.html'>transition_abstract_procedures.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">transition_abstract_procedures</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -143,14 +124,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modfuncs-0">Module Functions</a>
-        </h3>
-      </div>
-      <div id="modfuncs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modfuncs-0"
+         aria-expanded="false" aria-controls="modfuncs-0">
+         <h4 class="card-header bg-primary text-white">Module Functions</h4>
+      </a>
+      <div id="modfuncs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getingoingstates">getIngoingStates</a>
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getoutgoingstates">getOutgoingStates</a>
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getrate">getRate</a>
@@ -164,14 +144,13 @@
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modsubs-0">Module Subroutines</a>
-        </h3>
-      </div>
-      <div id="modsubs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modsubs-0"
+         aria-expanded="false" aria-controls="modsubs-0">
+         <h4 class="card-header bg-primary text-white">Module Subroutines</h4>
+      </a>
+      <div id="modsubs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setstates">setStates</a>
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setrate">setRate</a>
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setratemomentum">setRateMomentum</a>
@@ -180,11 +159,12 @@
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setcrosssection">setCrossSection</a>
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setincludeelectrondensity">setIncludeElectronDensity</a>
             <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setcsdim">setCSDim</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-noupdate">noUpdate</a>
+            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-noupdate~3">noUpdate</a>
         </div>
       </div>
     </div>
 
+  
   
   
   
@@ -197,88 +177,22 @@
 
     <div class="col-md-9" id='text'>
       <p>Contains abstract transition procedures</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li><h5>Ancestors:</h5></li>
+                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><h5>Ancestors:</h5></li>
-                <li><a href='../module/transition_abstract_class.html'>transition_abstract_class</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modfuncs-1">Module Functions</a>
-        </h3>
-      </div>
-      <div id="modfuncs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getingoingstates">getIngoingStates</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getoutgoingstates">getOutgoingStates</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getrate">getRate</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getratemomentum">getRateMomentum</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getrateenergy">getRateEnergy</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getcrosssectioncol">getCrossSectionCol</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-includeseldensity">includesElDensity</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getcsdim">getCSDim</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-getratesize">getRateSize</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modsubs-1">Module Subroutines</a>
-        </h3>
-      </div>
-      <div id="modsubs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setstates">setStates</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setrate">setRate</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setratemomentum">setRateMomentum</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setrateenergy">setRateEnergy</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setcrosssectioncol">setCrossSectionCol</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setcrosssection">setCrossSection</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setincludeelectrondensity">setIncludeElectronDensity</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-setcsdim">setCSDim</a>
-            <a class="list-group-item" href="../module/transition_abstract_procedures.html#proc-noupdate">noUpdate</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
 
@@ -290,11 +204,11 @@
 
         <section>
           <h2>Module Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getingoingstates"></span><h3>pure module function <a href='../proc/getingoingstates.html'>getIngoingStates</a>(this) result(inStates)  
-    <a href='../interface/getingoingstates.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getingoingstates"></span> <h3>pure module function <a href='../proc/getingoingstates.html'>getIngoingStates</a>(this) result(inStates)  
+    <a href="../interface/getingoingstates.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for ingoingStates</p>
 
@@ -302,16 +216,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1133"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -336,11 +250,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getoutgoingstates"></span><h3>pure module function <a href='../proc/getoutgoingstates.html'>getOutgoingStates</a>(this) result(outStates)  
-    <a href='../interface/getoutgoingstates.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getoutgoingstates"></span> <h3>pure module function <a href='../proc/getoutgoingstates.html'>getOutgoingStates</a>(this) result(outStates)  
+    <a href="../interface/getoutgoingstates.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for outgoingStates</p>
 
@@ -348,16 +262,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1134"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -382,11 +296,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getrate"></span><h3>pure module function <a href='../proc/getrate.html'>getRate</a>(this) result(rate)  
-    <a href='../interface/getrate.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getrate"></span> <h3>pure module function <a href='../proc/getrate.html'>getRate</a>(this) result(rate)  
+    <a href="../interface/getrate.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for rate values</p>
 
@@ -394,16 +308,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1137"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -428,11 +342,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getratemomentum"></span><h3>pure module function <a href='../proc/getratemomentum.html'>getRateMomentum</a>(this) result(rate)  
-    <a href='../interface/getratemomentum.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getratemomentum"></span> <h3>pure module function <a href='../proc/getratemomentum.html'>getRateMomentum</a>(this) result(rate)  
+    <a href="../interface/getratemomentum.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for rateMomentum values</p>
 
@@ -440,16 +354,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1139"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -474,11 +388,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getrateenergy"></span><h3>pure module function <a href='../proc/getrateenergy.html'>getRateEnergy</a>(this) result(rate)  
-    <a href='../interface/getrateenergy.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getrateenergy"></span> <h3>pure module function <a href='../proc/getrateenergy.html'>getRateEnergy</a>(this) result(rate)  
+    <a href="../interface/getrateenergy.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for rateEnergy</p>
 
@@ -486,16 +400,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1141"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -520,11 +434,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getcrosssectioncol"></span><h3>pure module function <a href='../proc/getcrosssectioncol.html'>getCrossSectionCol</a>(this, col) result(crossSection)  
-    <a href='../interface/getcrosssectioncol.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getcrosssectioncol"></span> <h3>pure module function <a href='../proc/getcrosssectioncol.html'>getCrossSectionCol</a>(this, col) result(crossSection)  
+    <a href="../interface/getcrosssectioncol.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Get cross-section values from column col</p>
 
@@ -532,16 +446,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1144"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -556,7 +470,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -581,11 +495,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-includeseldensity"></span><h3>pure module function <a href='../proc/includeseldensity.html'>includesElDensity</a>(this) result(includesDens)  
-    <a href='../interface/includeseldensity.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-includeseldensity"></span> <h3>pure module function <a href='../proc/includeseldensity.html'>includesElDensity</a>(this) result(includesDens)  
+    <a href="../interface/includeseldensity.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Check whether rates in this transition include an electron density factor</p>
 
@@ -593,16 +507,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1145"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -627,11 +541,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getcsdim"></span><h3>pure module function <a href='../proc/getcsdim.html'>getCSDim</a>(this) result(csDim)  
-    <a href='../interface/getcsdim.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getcsdim"></span> <h3>pure module function <a href='../proc/getcsdim.html'>getCSDim</a>(this) result(csDim)  
+    <a href="../interface/getcsdim.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for csDim</p>
 
@@ -639,16 +553,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1147"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -673,11 +587,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getratesize"></span><h3>pure module function <a href='../proc/getratesize.html'>getRateSize</a>(this) result(rateSize)  
-    <a href='../interface/getratesize.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getratesize"></span> <h3>pure module function <a href='../proc/getratesize.html'>getRateSize</a>(this) result(rateSize)  
+    <a href="../interface/getratesize.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Getter for rate array length</p>
 
@@ -685,16 +599,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1149"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(in)</td>
@@ -724,11 +638,11 @@
 
         <section>
           <h2>Module Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setstates"></span><h3>pure module subroutine <a href='../proc/setstates.html'>setStates</a>(this, inStates, outStates)  
-    <a href='../interface/setstates.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setstates"></span> <h3>pure module subroutine <a href='../proc/setstates.html'>setStates</a>(this, inStates, outStates)  
+    <a href="../interface/setstates.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for both ingoing and outgoing states</p>
 
@@ -736,16 +650,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1135"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -760,7 +674,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-instates~22"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -775,7 +689,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-outstates~19"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -795,11 +709,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setrate"></span><h3>pure module subroutine <a href='../proc/setrate.html'>setRate</a>(this, rate)  
-    <a href='../interface/setrate.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setrate"></span> <h3>pure module subroutine <a href='../proc/setrate.html'>setRate</a>(this, rate)  
+    <a href="../interface/setrate.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for rate values</p>
 
@@ -807,16 +721,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1136"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -831,7 +745,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-rate~12"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -851,11 +765,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setratemomentum"></span><h3>pure module subroutine <a href='../proc/setratemomentum.html'>setRateMomentum</a>(this, rate)  
-    <a href='../interface/setratemomentum.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setratemomentum"></span> <h3>pure module subroutine <a href='../proc/setratemomentum.html'>setRateMomentum</a>(this, rate)  
+    <a href="../interface/setratemomentum.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for rateMomentum values</p>
 
@@ -863,16 +777,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1138"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -887,7 +801,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-rate~14"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -907,11 +821,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setrateenergy"></span><h3>pure module subroutine <a href='../proc/setrateenergy.html'>setRateEnergy</a>(this, rate)  
-    <a href='../interface/setrateenergy.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setrateenergy"></span> <h3>pure module subroutine <a href='../proc/setrateenergy.html'>setRateEnergy</a>(this, rate)  
+    <a href="../interface/setrateenergy.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for rateEnergy</p>
 
@@ -919,16 +833,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1140"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -943,7 +857,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-rate~16"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -963,11 +877,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setcrosssectioncol"></span><h3>pure module subroutine <a href='../proc/setcrosssectioncol.html'>setCrossSectionCol</a>(this, crossSection, col)  
-    <a href='../interface/setcrosssectioncol.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setcrosssectioncol"></span> <h3>pure module subroutine <a href='../proc/setcrosssectioncol.html'>setCrossSectionCol</a>(this, crossSection, col)  
+    <a href="../interface/setcrosssectioncol.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Set cross-section values in column col   </p>
 
@@ -975,16 +889,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1142"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -999,7 +913,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-crosssection~11"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1014,7 +928,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-col~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1034,11 +948,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setcrosssection"></span><h3>pure module subroutine <a href='../proc/setcrosssection.html'>setCrossSection</a>(this, crossSection)  
-    <a href='../interface/setcrosssection.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setcrosssection"></span> <h3>pure module subroutine <a href='../proc/setcrosssection.html'>setCrossSection</a>(this, crossSection)  
+    <a href="../interface/setcrosssection.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for crossSection</p>
 
@@ -1046,16 +960,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1143"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -1070,7 +984,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-crosssection~12"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1090,11 +1004,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setincludeelectrondensity"></span><h3>pure module subroutine <a href='../proc/setincludeelectrondensity.html'>setIncludeElectronDensity</a>(this, includeDens)  
-    <a href='../interface/setincludeelectrondensity.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setincludeelectrondensity"></span> <h3>pure module subroutine <a href='../proc/setincludeelectrondensity.html'>setIncludeElectronDensity</a>(this, includeDens)  
+    <a href="../interface/setincludeelectrondensity.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for rateContainsElDensity</p>
 
@@ -1102,16 +1016,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1146"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -1126,7 +1040,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-includedens~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1146,11 +1060,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-setcsdim"></span><h3>pure module subroutine <a href='../proc/setcsdim.html'>setCSDim</a>(this, csDim)  
-    <a href='../interface/setcsdim.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-setcsdim"></span> <h3>pure module subroutine <a href='../proc/setcsdim.html'>setCSDim</a>(this, csDim)  
+    <a href="../interface/setcsdim.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Setter for csDim</p>
 
@@ -1158,16 +1072,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1148"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -1182,7 +1096,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-csdim~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1202,11 +1116,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-noupdate"></span><h3>module subroutine <a href='../proc/noupdate.html'>noUpdate</a>(this, varCont, hostModel, hostData, updatePriority)  
-    <a href='../interface/noupdate.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-noupdate~3"></span> <h3>module subroutine <a href='../proc/noupdate~3.html'>noUpdate</a>(this, varCont, hostModel, hostData, updatePriority)  
+    <a href="../interface/noupdate~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Default update routine - does nothing</p>
 
@@ -1214,16 +1128,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~1150"></span>
               class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
@@ -1238,7 +1152,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~117"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1253,7 +1167,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-hostmodel~56"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -1268,7 +1182,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-hostdata~10"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -1283,7 +1197,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-updatepriority~18"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1313,12 +1227,12 @@
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -1328,17 +1242,12 @@
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

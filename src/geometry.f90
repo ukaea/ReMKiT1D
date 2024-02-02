@@ -17,7 +17,7 @@ module geometry_class
     !! Houses geometry object responsible for storing cell widths and Jacobians
 
     use data_kinds                  ,only: rk, ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use god_objects                 ,only: Object
     use assertion_utility           ,only: assert, assertIdentical, assertPure
 

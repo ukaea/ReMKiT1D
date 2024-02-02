@@ -18,7 +18,7 @@ module range_filter_derivation_class
     !! defined ranges 
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray ,IntArray 

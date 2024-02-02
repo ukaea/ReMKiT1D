@@ -45,7 +45,7 @@ module subroutine initCRMVarBoltzTermGenerator(this,envObj,normObj,crmData,distr
 
     type(VarData) ,allocatable :: tempVData 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to CRMVarBoltzTermGenerator constructor")
         call assert(crmData%isDefined(),"Undefined modelbound CRM data passed to CRMVarBoltzTermGenerator constructor")
@@ -115,7 +115,7 @@ module subroutine generateVarBoltzTerms(this,mbData)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(this%isDefined(),"generate called from undefined CRMVarBoltzTermGenerator")
         call assert(present(mbData) ,"generate on CRMVarBoltzTermGenerator requires passed modelbound data")
     end if

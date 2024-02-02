@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>calculation_tree_class &ndash; ReMKiT1D</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,41 +70,45 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.4% of total for modules and submodules.">102 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.4% of total for modules and submodules.">102 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/calculation_tree.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/calculation_tree.f90.html'>calculation_tree.f90</a></li>
-          <li class="active">calculation_tree_class</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/calculation_tree.f90.html'>calculation_tree.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">calculation_tree_class</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -138,14 +119,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#inters-0">Interfaces</a>
-        </h3>
-      </div>
-      <div id="inters-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/calculation_tree_class.html#interface-evaluatenode">evaluateNode</a>
             <a class="list-group-item" href="../module/calculation_tree_class.html#interface-evaluatetree">evaluateTree</a>
             <a class="list-group-item" href="../module/calculation_tree_class.html#interface-flattentree">flattenTree</a>
@@ -160,14 +140,13 @@
     </div>
 
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#types-0">Derived Types</a>
-        </h3>
-      </div>
-      <div id="types-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/calculation_tree_class.html#type-calculationkernel">CalculationKernel</a>
             <a class="list-group-item" href="../module/calculation_tree_class.html#type-flattree">FlatTree</a>
             <a class="list-group-item" href="../module/calculation_tree_class.html#type-calculationnode">CalculationNode</a>
@@ -176,6 +155,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -192,110 +172,49 @@
 
     <div class="col-md-9" id='text'>
       <p>Houses the calculation tree class and the relevant node class. </p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='unary_transforms.html'>unary_transforms</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='basic_interfaces.html'>basic_interfaces</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/support_functions.html'>support_functions</a></li>
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
-                <li><a href='../module/unary_transforms.html'>unary_transforms</a></li>
-                <li><a href='../module/god_objects.html'>god_objects</a></li>
-                <li><a href='../module/support_types.html'>support_types</a></li>
-                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
-                <li><a href='../module/basic_interfaces.html'>basic_interfaces</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
-          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Used by</h3>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li class="list-inline-item"><h5>Descendants:</h5></li>
+                  <li class="list-inline-item"><a href='calculation_tree_procedures.html'>calculation_tree_procedures</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><h5>Descendants:</h5></li>
-                <li><a href='../module/calculation_tree_procedures.html'>calculation_tree_procedures</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#inters-1">Interfaces</a>
-        </h3>
-      </div>
-      <div id="inters-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-evaluatenode">evaluateNode</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-evaluatetree">evaluateTree</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-flattentree">flattenTree</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-initnode">initNode</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-inittree">initTree</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-addchild">addChild</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-initfromflattree">initFromFlatTree</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-destroynode">destroyNode</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#interface-finalizecalculationtree">finalizeCalculationTree</a>
-        </div>
-      </div>
-    </div>
-
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#types-1">Derived Types</a>
-        </h3>
-      </div>
-      <div id="types-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/calculation_tree_class.html#type-calculationkernel">CalculationKernel</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#type-flattree">FlatTree</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#type-calculationnode">CalculationNode</a>
-            <a class="list-group-item" href="../module/calculation_tree_class.html#type-calculationtree">CalculationTree</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
 
 
         <section>
           <h2>Interfaces</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-evaluatenode"></span>
       <h3>        interface
       </h3>
@@ -304,7 +223,7 @@
         <li class="list-group-item">
               <h3>
     public pure recursive module function evaluateNode(this, inputArray) result(res)  
-    <a href='../proc/evaluatenode.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/evaluatenode.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Recursively evaluate nodes, using the inputArray variables for leaf values</p>
@@ -313,16 +232,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~614"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(in)</td>
@@ -337,7 +256,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-inputarray~39"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -363,8 +282,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-evaluatetree"></span>
       <h3>        interface
       </h3>
@@ -373,7 +292,7 @@
         <li class="list-group-item">
               <h3>
     public pure module function evaluateTree(this, inputArray) result(res)  
-    <a href='../proc/evaluatetree.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/evaluatetree.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call tree's root node evaluate</p>
@@ -382,16 +301,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~615"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(in)</td>
@@ -406,7 +325,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-inputarray~40"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -432,8 +351,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-flattentree"></span>
       <h3>        interface
       </h3>
@@ -442,7 +361,7 @@
         <li class="list-group-item">
               <h3>
     public module function flattenTree(this) result(res)  
-    <a href='../proc/flattentree.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/flattentree.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Flatten tree into FlatTree object</p>
@@ -451,16 +370,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~616"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(in)</td>
@@ -486,8 +405,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-initnode"></span>
       <h3>        interface
       </h3>
@@ -496,7 +415,7 @@
         <li class="list-group-item">
               <h3>
     public module subroutine initNode(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
-    <a href='../proc/initnode.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initnode.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Calculation node initialization routine</p>
@@ -505,16 +424,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~611"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(inout)</td>
@@ -529,7 +448,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-additivemode~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -544,7 +463,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-constant~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -559,7 +478,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-leafvarindex~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -574,7 +493,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unaryrealparams~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -589,7 +508,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unaryintparams~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -604,7 +523,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unarylogicalparams~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -619,7 +538,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unarytransformtag"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -640,8 +559,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-inittree"></span>
       <h3>        interface
       </h3>
@@ -650,7 +569,7 @@
         <li class="list-group-item">
               <h3>
     public module subroutine initTree(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
-    <a href='../proc/inittree.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/inittree.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Calculation tree initialization routine</p>
@@ -659,16 +578,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~612"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(inout)</td>
@@ -683,7 +602,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-additivemode~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -698,7 +617,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-constant~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -713,7 +632,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-leafvarindex~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -728,7 +647,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unaryrealparams~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -743,7 +662,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unaryintparams~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -758,7 +677,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unarylogicalparams~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -773,7 +692,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unarytransformtag~2"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -794,8 +713,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-addchild"></span>
       <h3>        interface
       </h3>
@@ -804,7 +723,7 @@
         <li class="list-group-item">
               <h3>
     public module subroutine addChild(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
-    <a href='../proc/addchild.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/addchild.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Initialize a child node of this node with given properties</p>
@@ -813,16 +732,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~613"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(inout),</td>
@@ -837,7 +756,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-additivemode~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -852,7 +771,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-constant~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -867,7 +786,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-leafvarindex~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -882,7 +801,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unaryrealparams~5"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -897,7 +816,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unaryintparams~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -912,7 +831,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unarylogicalparams~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -927,7 +846,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unarytransformtag~3"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -948,8 +867,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-initfromflattree"></span>
       <h3>        interface
       </h3>
@@ -958,7 +877,7 @@
         <li class="list-group-item">
               <h3>
     public module subroutine initFromFlatTree(this, fTree)  
-    <a href='../proc/initfromflattree.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initfromflattree.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Calculation tree initialization routine using a FlatTree object</p>
@@ -967,16 +886,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~617"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(inout)</td>
@@ -991,7 +910,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-ftree~2"></span>
               type(<a href='../type/flattree.html'>FlatTree</a>),
             </td>
 <td>intent(in)</td>
@@ -1012,8 +931,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-destroynode"></span>
       <h3>        interface
       </h3>
@@ -1022,7 +941,7 @@
         <li class="list-group-item">
               <h3>
     public pure recursive module subroutine destroyNode(this)  
-    <a href='../proc/destroynode.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/destroynode.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1031,16 +950,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~618"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(inout)</td>
@@ -1061,8 +980,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-finalizecalculationtree"></span>
       <h3>        interface
       </h3>
@@ -1071,7 +990,7 @@
         <li class="list-group-item">
               <h3>
     public elemental module subroutine finalizeCalculationTree(this)  
-    <a href='../proc/finalizecalculationtree.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/finalizecalculationtree.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1080,16 +999,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~619"></span>
               type(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(inout)</td>
@@ -1116,8 +1035,8 @@
 
         <section>
           <h2>Derived Types</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-calculationkernel"></span>
       <h3>
         type, public&nbsp;::&nbsp;
@@ -1125,23 +1044,23 @@
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>Kernel containing calculation node properties</p>
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-additivemode"></span>
+              <span class="anchor" id="variable-additivemode~2"></span>
               logical,
             </td>
               <td>public</td>
@@ -1192,7 +1111,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unaryrealparams"></span>
+              <span class="anchor" id="variable-unaryrealparams~2"></span>
               real(kind=rk),
             </td>
               <td>public,</td>
@@ -1209,7 +1128,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unaryintparams"></span>
+              <span class="anchor" id="variable-unaryintparams~2"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -1226,7 +1145,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unarylogicalparams"></span>
+              <span class="anchor" id="variable-unarylogicalparams~2"></span>
               logical,
             </td>
               <td>public,</td>
@@ -1267,8 +1186,8 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-flattree"></span>
       <h3>
         type, public&nbsp;::&nbsp;
@@ -1276,18 +1195,18 @@
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>Flattened calculation tree for pointer-safe copying </p>
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -1350,8 +1269,8 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-calculationnode"></span>
       <h3>
         type, public, extends(<a href='../type/object.html'>Object</a>)&nbsp;::&nbsp;
@@ -1359,7 +1278,7 @@
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>Node class for the abstract calculation left child/right sibling tree. Each node has a reference to its leftmost child,
 its sibling to the immediate right, and to its parent. </p><a href="../type/calculationnode.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
@@ -1367,11 +1286,11 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -1461,7 +1380,7 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unarytransform"></span>
+              <span class="anchor" id="variable-unarytransform~2"></span>
               procedure(<a href='../interface/realarrayfunctiongenparam.html'>realArrayFunctionGenParam</a>),
             </td>
               <td>public,</td>
@@ -1486,71 +1405,38 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong>
- =>
-                    <a href='../interface/isdefinedobject.html'>isDefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/isdefinedobject.html'>isDefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong>
- =>
-                    <a href='../interface/makedefinedobject.html'>makeDefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makedefinedobject.html'>makeDefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong>
- =>
-                    <a href='../interface/makeundefinedobject.html'>makeUndefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makeundefinedobject.html'>makeUndefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationnode.html#boundprocedure-addchild'>addChild</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationnode.html#boundprocedure-addchild'>addChild</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationnode.html#boundprocedure-init~90'>init</a></strong>
- =>
-                    <a href='../interface/initnode.html'>initNode</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationnode.html#boundprocedure-init~57'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initnode.html'>initNode</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationnode.html#boundprocedure-evaluate~4'>evaluate</a></strong>
- =>
-                    <a href='../interface/evaluatenode.html'>evaluateNode</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationnode.html#boundprocedure-evaluate~3'>evaluate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatenode.html'>evaluateNode</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationnode.html#boundprocedure-destroy'>destroy</a></strong>
- =>
-                    <a href='../interface/destroynode.html'>destroyNode</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationnode.html#boundprocedure-destroy'>destroy</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/destroynode.html'>destroyNode</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1558,8 +1444,8 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-calculationtree"></span>
       <h3>
         type, public, extends(<a href='../type/object.html'>Object</a>)&nbsp;::&nbsp;
@@ -1567,18 +1453,18 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -1634,71 +1520,38 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong>
- =>
-                    <a href='../interface/isdefinedobject.html'>isDefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/isdefinedobject.html'>isDefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong>
- =>
-                    <a href='../interface/makedefinedobject.html'>makeDefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makedefinedobject.html'>makeDefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong>
- =>
-                    <a href='../interface/makeundefinedobject.html'>makeUndefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makeundefinedobject.html'>makeUndefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationtree.html#boundprocedure-init~91'>init</a></strong>
- =>
-                    <a href='../interface/inittree.html'>initTree</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationtree.html#boundprocedure-init~58'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/inittree.html'>initTree</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationtree.html#boundprocedure-evaluate~5'>evaluate</a></strong>
- =>
-                    <a href='../interface/evaluatetree.html'>evaluateTree</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationtree.html#boundprocedure-evaluate~4'>evaluate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatetree.html'>evaluateTree</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationtree.html#boundprocedure-flatten'>flatten</a></strong>
- =>
-                    <a href='../interface/flattentree.html'>flattenTree</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationtree.html#boundprocedure-flatten'>flatten</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/flattentree.html'>flattenTree</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/calculationtree.html#boundprocedure-initfromflattree'>initFromFlatTree</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/calculationtree.html#boundprocedure-initfromflattree'>initFromFlatTree</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1720,12 +1573,12 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -1735,17 +1588,12 @@ its sibling to the immediate right, and to its parent. </p><a href="../type/calc
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

@@ -17,7 +17,7 @@ module manipulator_support
     !! Contains support for constructing manipulators based on JSON data
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions, assertionLvl
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use composite_manipulator_class            ,only: CompositeManipulator
     use group_evaluator_class                  ,only: GroupEvaluator

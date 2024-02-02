@@ -29,7 +29,7 @@ pure module subroutine initEvaluator(this,resultVarIndex,modelIndices,termNames)
     integer(ik)       ,dimension(:) ,intent(in)     :: modelIndices   !! Indices of models whose named term should be evaluated
     type(StringArray) ,dimension(:) ,intent(in)     :: termNames     !! Name of evaluated term corresponding to each model 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(size(termNames)==size(modelIndices)&
         ,"termNames and modelIndices passed to TermEvaluator constructor must have the same size")
         call assertPure(size(modelIndices)>0,"modelIndices and termNames passed to TermEvaluator constructor must have size > 0")

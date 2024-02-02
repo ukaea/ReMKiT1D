@@ -39,7 +39,7 @@ module subroutine initCustomBuilder(this,env,normObject,modelTag)
 
     class(ModelboundData) ,allocatable :: mbData
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(.not. this%isDefined(),"CustomModelBuilder constructor called for already defined object")
         call assert(env%isDefined(),"Undefined environment wrapper passed to CustomModelBuilder constructor")
@@ -118,7 +118,7 @@ module subroutine addCustomModel(this,modellerObj)
     class(CustomModelBuilder)           ,intent(inout) :: this 
     class(Modeller)                     ,intent(inout) :: modellerObj
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(this%isDefined(),"Attempted to add advection model using undefined builder")
         call assert(modellerObj%isDefined(),"Attempted to add advection model to undefined modeller object")
@@ -255,7 +255,7 @@ module subroutine addTermToModel(this,termJSONPrefix,termTag,env,normObject,mbDa
 
     end do
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(env%externalVars%isVarNameRegistered(stringParams(1)%value),stringParams(1)%name//&
         " not registered in environment wrapper")

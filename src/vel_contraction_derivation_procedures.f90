@@ -30,7 +30,7 @@ module subroutine initContracDeriv(this,h,g,refVSpace,expH)
     type(VSpace)                        ,intent(in)    :: refVSpace !! Reference velocity space
     integer(ik)   ,optional             ,intent(in)    :: expH !! Expected number of harmonics
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(refVSpace%isDefined(),"Undefined velocity space object passed to initContracDeriv")
         call assert(h > 0,"Harmonic index passed to initContracDeriv out of bounds-lower")

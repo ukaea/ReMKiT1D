@@ -145,6 +145,7 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
     type(NamedString) ,allocatable ,dimension(:) :: transitionType
     type(NamedRealArray) ,dimension(1) :: fixedTransitionEnergies
     type(NamedLogical) ,dimension(1) :: activeInelData
+    type(NamedInteger) ,dimension(1) :: elStateID
 
     integer(ik) :: i
 
@@ -182,6 +183,13 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
     call envObj%jsonCont%output(transitionType)
 
     call crmData%init(size(transitionTags(1)%values))
+
+    elStateID(1) = NamedInteger(keyModels//"."//modelTag//"."//keyModelboundData//"."//keyElState,0)
+
+    call envObj%jsonCont%load(elStateID)
+    call envObj%jsonCont%output(elStateID)
+
+    call crmData%setElState(elStateID(1)%value)
 
     do i = 1,size(transitionTags(1)%values)
 
@@ -537,8 +545,8 @@ subroutine addFixedECSTransitionToCRMData(crmData,envObj,tTag,fixedEnergies)
 
     call envObj%jsonCont%load(distributionVarName)
 
-    if (assertions) call assert(envObj%externalVars%isVarNAmeRegistered(distributionVarName(1)%value),distributionVarName(1)%value&
-                                //" not registered in environment wrapper")
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNAmeRegistered(distributionVarName(1)%value),&
+    distributionVarName(1)%value//" not registered in environment wrapper")
 
     call envObj%jsonCont%output(distributionVarName)
 
@@ -548,7 +556,7 @@ subroutine addFixedECSTransitionToCRMData(crmData,envObj,tTag,fixedEnergies)
 
     call envObj%jsonCont%load(takeMomentumMoment)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (takeMomentumMoment(1)%value) call assert(maxCSl(1)%value>0,"Fixed energy/cross-section transition set to take momentum&
                                                     & moment when maximum cross-section harmonic is not 1 or higher")
     end if
@@ -626,8 +634,8 @@ subroutine addVariableECSTransitionToCRMData(crmData,envObj,tTag)
 
     call envObj%jsonCont%load(distributionVarName)
 
-    if (assertions) call assert(envObj%externalVars%isVarNameRegistered(distributionVarName(1)%value),distributionVarName(1)%value&
-                                //" not registered in environment wrapper")
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNameRegistered(distributionVarName(1)%value),&
+    distributionVarName(1)%value//" not registered in environment wrapper")
 
     call envObj%jsonCont%output(distributionVarName)
 
@@ -672,7 +680,7 @@ subroutine addVariableECSTransitionToCRMData(crmData,envObj,tTag)
 
     call envObj%jsonCont%load(takeMomentumMoment)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (takeMomentumMoment(1)%value) call assert(maxval(csLIndices(1)%values)>0,&
                                                     "Fixed energy/cross-section transition set to take momentum&
                                                     & moment when maximum cross-section harmonic is not 1 or higher")
@@ -754,7 +762,7 @@ subroutine addDBTransitionToCRMData(crmData,envObj,tTag,fixedEnergies)
     call envObj%jsonCont%load(distributionVarName)
     call envObj%jsonCont%load(temperatureVarName)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarNameRegistered(distributionVarName(1)%value),distributionVarName(1)%value&
                                 //" not registered in environment wrapper")
         call assert(envObj%externalVars%isVarNameRegistered(temperatureVarName(1)%value),temperatureVarName(1)%value&
@@ -769,7 +777,7 @@ subroutine addDBTransitionToCRMData(crmData,envObj,tTag,fixedEnergies)
 
     call envObj%jsonCont%load(takeMomentumMoment)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (takeMomentumMoment(1)%value) call assert(maxCSl(1)%value>0,"Fixed energy/cross-section transition set to take momentum&
                                                     & moment when maximum cross-section harmonic is not 1 or higher")
     end if
@@ -853,8 +861,8 @@ subroutine addJanevRadRecombTransitionToCRMData(crmData,envObj,tTag,normObj)
     call envObj%jsonCont%load(temperatureVarName)
     call envObj%jsonCont%output(temperatureVarName)
 
-    if (assertions) call assert(envObj%externalVars%isVarNameRegistered(temperatureVarName(1)%value),temperatureVarName(1)%value//&
-                                " not registered in environment wrapper")
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNameRegistered(temperatureVarName(1)%value),&
+    temperatureVarName(1)%value//" not registered in environment wrapper")
 
     temperatureVarIndex = envObj%externalVars%getVarIndex(temperatureVarName(1)%value)
 
@@ -903,7 +911,7 @@ subroutine addJanevCollExIonTransitionToCRMData(crmData,envObj,tTag,normObj)
     call envObj%jsonCont%load(distributionVarName)
     call envObj%jsonCont%output(distributionVarName)
 
-    if (assertions) call assert(envObj%externalVars%isVarNameRegistered(distributionVarName(1)%value),&
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNameRegistered(distributionVarName(1)%value),&
                                 distributionVarName(1)%value//" not registered in environment wrapper")
 
     distVarIndex = envObj%externalVars%getVarIndex(distributionVarName(1)%value)
@@ -970,7 +978,7 @@ subroutine addJanevCollDeexRecombTransitionToCRMData(crmData,envObj,tTag,normObj
     call envObj%jsonCont%load(temperatureVarName)
     call envObj%jsonCont%output(temperatureVarName)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%externalVars%isVarNameRegistered(distributionVarName(1)%value),distributionVarName(1)%value//&
                                 " not registered in environment wrapper")
         call assert(envObj%externalVars%isVarNameRegistered(temperatureVarName(1)%value),temperatureVarName(1)%value//&

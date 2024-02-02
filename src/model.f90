@@ -17,7 +17,7 @@ module model_class
     !! Houses general model class responsible for storing, directly evaluating and manipulating terms
 
     use data_kinds                     ,only: rk, ik
-    use runtime_constants              ,only: debugging, assertions
+    use runtime_constants              ,only: debugging, assertions, assertionLvl
     use god_objects                    ,only: Object
     use assertion_utility              ,only: assert, assertIdentical, assertPure
     use term_abstract_class            ,only: Term 

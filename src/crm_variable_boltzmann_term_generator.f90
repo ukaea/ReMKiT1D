@@ -19,7 +19,7 @@ module crm_variable_boltzmann_term_generator_class
     !! TODO: Could be merged with fixed boltzmann term generator in refactor
 
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions, assertionLvl
     use god_objects                           ,only: Object
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use support_types                         

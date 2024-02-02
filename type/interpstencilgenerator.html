@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>InterpStencilGenerator &ndash; ReMKiT1D </title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,34 +70,38 @@
       <small>Derived Type</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title="<p> 0.7% of total for derived types.</p>Including implementation: 13 statements,  0.6% of total for derived types.">13 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title="<p> 0.7% of total for derived types.</p>Including implementation: 13 statements,  0.6% of total for derived types.">13 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/interp_stencil_gen.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/interp_stencil_gen.f90.html'>interp_stencil_gen.f90</a></li>
-              <li><a href='../module/interp_stencil_gen_class.html'>interp_stencil_gen_class</a></li>
-          <li class="active">InterpStencilGenerator</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/interp_stencil_gen.f90.html'>interp_stencil_gen.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/interp_stencil_gen_class.html'>interp_stencil_gen_class</a></li>
+            <li class="breadcrumb-item active" aria-current="page">InterpStencilGenerator</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -131,23 +112,22 @@
       <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-lininterp~9">linInterp</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-lininterp~15">linInterp</a>
             <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-linexterpl">linExterpL</a>
             <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-linexterpr">linExterpR</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-periodicgrid~4">periodicGrid</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-staggeredgridmode~6">staggeredGridMode</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-containsleftboundary~2">containsLeftBoundary</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-containsrightboundary~2">containsRightBoundary</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-locnumx~21">locNumX</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-periodicgrid~7">periodicGrid</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-staggeredgridmode~8">staggeredGridMode</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-containsleftboundary~6">containsLeftBoundary</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-containsrightboundary~6">containsRightBoundary</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-locnumx~32">locNumX</a>
         </div>
       </div>
     </div>
@@ -167,24 +147,24 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a>
-        </h3>
-      </div>
-      <div id="boundprocs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-calculate~30">calculate</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-init~84">init</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-calculateinplace~14">calculateInPlace</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-calculate~15">calculate</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-init~55">init</a>
+            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-calculateinplace~10">calculateInPlace</a>
         </div>
       </div>
     </div>
 
+  
   
 
 
@@ -193,7 +173,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, extends(<a href='../type/jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: InterpStencilGenerator</h2>
+      <h2>
+        type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: InterpStencilGenerator</h2>
     <p>JaggedArrayGenerator for calculating implicit interpolation stencil between regular and staggered grids. Expects that the
 xStencil is [0,1] for regular to staggered grid interpolation, and [-1,0] for staggered to regular. If non-periodic and
 going from staggered to regular the values are implicitly extrapolated to the first and last cell centres from the edges 
@@ -201,79 +182,16 @@ leading up to the boundary. In this case the generator expects that the left bou
 stencil with [-2,-1]</p>
     <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-        <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-lininterp~9">linInterp</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-linexterpl">linExterpL</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-linexterpr">linExterpR</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-periodicgrid~4">periodicGrid</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-staggeredgridmode~6">staggeredGridMode</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-containsleftboundary~2">containsLeftBoundary</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-containsrightboundary~2">containsRightBoundary</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#variable-locnumx~21">locNumX</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a>
-        </h3>
-      </div>
-      <div id="boundprocs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-isdefined">isDefined</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-makedefined">makeDefined</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-calculate~30">calculate</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-init~84">init</a>
-            <a class="list-group-item" href="../type/interpstencilgenerator.html#boundprocedure-calculateinplace~14">calculateInPlace</a>
-        </div>
-      </div>
-    </div>
-
-  
-
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
     <section>
     <h2>Components</h2>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -295,7 +213,7 @@ stencil with [-2,-1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lininterp~9"></span>
+              <span class="anchor" id="variable-lininterp~15"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -346,7 +264,7 @@ stencil with [-2,-1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicgrid~4"></span>
+              <span class="anchor" id="variable-periodicgrid~7"></span>
               logical,
             </td>
               <td>private</td>
@@ -363,7 +281,7 @@ stencil with [-2,-1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-staggeredgridmode~6"></span>
+              <span class="anchor" id="variable-staggeredgridmode~8"></span>
               logical,
             </td>
               <td>private</td>
@@ -380,7 +298,7 @@ stencil with [-2,-1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-containsleftboundary~2"></span>
+              <span class="anchor" id="variable-containsleftboundary~6"></span>
               logical,
             </td>
               <td>private</td>
@@ -397,7 +315,7 @@ stencil with [-2,-1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-containsrightboundary~2"></span>
+              <span class="anchor" id="variable-containsrightboundary~6"></span>
               logical,
             </td>
               <td>private</td>
@@ -414,7 +332,7 @@ stencil with [-2,-1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~21"></span>
+              <span class="anchor" id="variable-locnumx~32"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -439,33 +357,41 @@ stencil with [-2,-1]</p>
 
       <section>
         <h2>Type-Bound Procedures</h2>
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-isdefined"></span><h3>procedure, public :: <strong>isDefined</strong>  => <a href='../interface/isdefinedobject.html'>isDefinedObject</a>         
-    </h3></div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-isdefined"></span>
+      <h3>
+          procedure, public ::
+  <strong>isDefined</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/isdefinedobject.html'>isDefinedObject</a>
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
     private pure module function isDefinedObject(this) result(defined)  
-    <a href='../proc/isdefinedobject.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
+
   <p>Getter for userDefined</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/object.html'>Object</a>),
+              class(<a href='object.html'>Object</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -490,33 +416,42 @@ stencil with [-2,-1]</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-makedefined"></span><h3>procedure, public :: <strong>makeDefined</strong>  => <a href='../interface/makedefinedobject.html'>makeDefinedObject</a>         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-makedefined"></span>
+      <h3>
+          procedure, public ::
+  <strong>makeDefined</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makedefinedobject.html'>makeDefinedObject</a>
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
     private pure module subroutine makeDefinedObject(this)  
-    <a href='../proc/makedefinedobject.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
+
   <p>Set userDefined to .true.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/object.html'>Object</a>),
+              class(<a href='object.html'>Object</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -536,33 +471,42 @@ stencil with [-2,-1]</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-makeundefined"></span><h3>procedure, public :: <strong>makeUndefined</strong>  => <a href='../interface/makeundefinedobject.html'>makeUndefinedObject</a>         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-makeundefined"></span>
+      <h3>
+          procedure, public ::
+  <strong>makeUndefined</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makeundefinedobject.html'>makeUndefinedObject</a>
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
     private pure module subroutine makeUndefinedObject(this)  
-    <a href='../proc/makeundefinedobject.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
+
   <p>Set userDefined to .false.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/object.html'>Object</a>),
+              class(<a href='object.html'>Object</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -582,33 +526,42 @@ stencil with [-2,-1]</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-calculate~30"></span><h3>procedure, public :: <strong>calculate</strong>          
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calculate~15"></span>
+      <h3>
+          procedure, public ::
+  <strong>calculate</strong>
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
     private module function calculate(this, varCont, mbData, hostModel) result(res)  
-    <a href='../proc/calculate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calculate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
+
   <p>Use in place version of stencil calculation to return values</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/jaggedarraygenerator.html'>JaggedArrayGenerator</a>),
+              class(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -623,7 +576,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+              type(<a href='variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -638,7 +591,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
+              class(<a href='modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -653,7 +606,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
+              class(<a href='modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -670,7 +623,7 @@ stencil with [-2,-1]</p>
 
     <h4>
     Return Value
-    <small>type(<a href='../type/realarray.html'>RealArray</a>), allocatable, dimension(:)</small>
+    <small>type(<a href='realarray.html'>RealArray</a>), allocatable, dimension(:)</small>
     </h4>
     
 
@@ -678,33 +631,42 @@ stencil with [-2,-1]</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-init~84"></span><h3>procedure, public :: <strong>init</strong>  => <a href='../interface/initinterpvalgen.html'>initInterpValGen</a>         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-init~55"></span>
+      <h3>
+          procedure, public ::
+  <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initinterpvalgen.html'>initInterpValGen</a>
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
     private module subroutine initInterpValGen(this, partitionObj, geometryObj, procRank, staggeredGridMode)  
-    <a href='../proc/initinterpvalgen.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initinterpvalgen.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
+
   <p>Central differentiation stencil value generator initialization routine</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/interpstencilgenerator.html'>InterpStencilGenerator</a>),
+              class(<a href='interpstencilgenerator.html'>InterpStencilGenerator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -719,7 +681,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='../type/partition.html'>Partition</a>),
+              type(<a href='partition.html'>Partition</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -734,7 +696,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='../type/geometry.html'>Geometry</a>),
+              type(<a href='geometry.html'>Geometry</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -784,33 +746,42 @@ stencil with [-2,-1]</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-calculateinplace~14"></span><h3>procedure, public :: <strong>calculateInPlace</strong>  => <a href='../interface/calcinterpvals.html'>calcInterpVals</a>         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-calculateinplace~10"></span>
+      <h3>
+          procedure, public ::
+  <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcinterpvals.html'>calcInterpVals</a>
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
     private module subroutine calcInterpVals(this, varCont, res, mbData, hostModel)  
-    <a href='../proc/calcinterpvals.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calcinterpvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
+
   <p>Calculate interpolation stencil values in place (does not depend on varCont)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/interpstencilgenerator.html'>InterpStencilGenerator</a>),
+              class(<a href='interpstencilgenerator.html'>InterpStencilGenerator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -825,7 +796,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+              type(<a href='variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -840,7 +811,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='../type/realarray.html'>RealArray</a>),
+              type(<a href='realarray.html'>RealArray</a>),
             </td>
 <td>intent(inout),</td>
               <td></td>            <td>
@@ -855,7 +826,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
+              class(<a href='modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -870,7 +841,7 @@ stencil with [-2,-1]</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
+              class(<a href='modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -890,6 +861,7 @@ stencil with [-2,-1]</p>
     </ul>
   </div>
 
+          </div>
       </section>
 
     
@@ -900,12 +872,12 @@ stencil with [-2,-1]</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -915,17 +887,12 @@ stencil with [-2,-1]</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

@@ -98,7 +98,9 @@ module key_names
     character(len=*) ,parameter :: keyFixedMatrix = "fixedMatrix"
     character(len=*) ,parameter :: keyFunctionName = "functionName"
     character(len=*) ,parameter :: keyObjGroups = "objGroups"
-
+    character(len=*) ,parameter :: keyData = "data"
+    character(len=*) ,parameter :: keyDims = "dims"
+    character(len=*) ,parameter :: keyValues = "values"
     
     ! Rule keys
     character(len=*) ,parameter :: keyDerivRule = "derivationRule" 
@@ -215,6 +217,7 @@ module key_names
 
     !CRM data
     character(len=*) ,parameter :: keyCRMData = "modelboundCRMData"
+    character(len=*) ,parameter :: keyElState = "electronStateID"
     character(len=*) ,parameter :: keyInelGrid = "inelasticGridData"
     character(len=*) ,parameter :: keyFixedTransitionEnergies = "fixedTransitionEnergies"
     character(len=*) ,parameter :: keyTransitionTags = "transitionTags"
@@ -422,6 +425,9 @@ module key_names
     character(len=*) ,parameter :: keyUnaryRealParams = "unaryRealParams"
     character(len=*) ,parameter :: keyUnaryIntParams = "unaryIntegerParams"
     character(len=*) ,parameter :: keyUnaryLogicalParams = "unaryLogicalParams"
+    character(len=*) ,parameter :: keynDLinInterpDerivation = "nDLinInterpDerivation"
+    character(len=*) ,parameter :: keyGrids = "grids"
+
 
     !Extrapolation keys 
 
@@ -443,6 +449,7 @@ module key_names
     character(len=*) ,parameter :: keyMinSaveInterval = "minimumSaveInterval"
     character(len=*) ,parameter :: keyOutputMode = "outputMode"
     character(len=*) ,parameter :: keyRestart = "restart"
+    character(len=*) ,parameter :: keyResetTime = "resetTime"
     character(len=*) ,parameter :: keyHDF5LoadInit = "loadInitValsFromHDF5"
     character(len=*) ,parameter :: keyInitPath = "initValFilename"
  

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>support_functions &ndash; ReMKiT1D</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,40 +70,44 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.3% of total for modules and submodules.">84 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.3% of total for modules and submodules.">84 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/support_functions.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/support_functions.f90.html'>support_functions.f90</a></li>
-          <li class="active">support_functions</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/support_functions.f90.html'>support_functions.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">support_functions</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -137,14 +118,13 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#inters-0">Interfaces</a>
-        </h3>
-      </div>
-      <div id="inters-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/support_functions.html#interface-findindices">findIndices</a>
             <a class="list-group-item" href="../module/support_functions.html#interface-removename">removeName</a>
             <a class="list-group-item" href="../module/support_functions.html#interface-allcombinations">allCombinations</a>
@@ -161,6 +141,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -179,94 +160,45 @@
 
     <div class="col-md-9" id='text'>
       <p>Contains various support and math functions</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
-                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
-                <li><a href='../module/support_types.html'>support_types</a></li>
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
-          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Used by</h3>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li class="list-inline-item"><h5>Descendants:</h5></li>
+                  <li class="list-inline-item"><a href='support_functions_procedures.html'>support_functions_procedures</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><h5>Descendants:</h5></li>
-                <li><a href='../module/support_functions_procedures.html'>support_functions_procedures</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#inters-1">Interfaces</a>
-        </h3>
-      </div>
-      <div id="inters-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/support_functions.html#interface-findindices">findIndices</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-removename">removeName</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-allcombinations">allCombinations</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-findnearestpointsinarray">findNearestPointsInArray</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-expint1">expInt1</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-removedupeints">removeDupeInts</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-withinbounds">withinBounds</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-flattensorproduct">flatTensorProduct</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-jaggedarray">jaggedArray</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-allpl">allPl</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-shiftedflattensorproduct">shiftedFlatTensorProduct</a>
-            <a class="list-group-item" href="../module/support_functions.html#interface-triangularintarray">triangularIntArray</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
 
 
         <section>
           <h2>Interfaces</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-findindices"></span>
       <h3>public        interface <a href='../interface/findindices.html'>findIndices</a> 
       </h3>
@@ -275,6 +207,7 @@
           <li class="list-group-item">
                 <h3>
     public pure module function findIndicesMatrix(mask) result(indices)  
+    <a href="../proc/findindicesmatrix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Find locations of .true. values in logical mask of rank 2</p>
@@ -283,16 +216,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mask~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -318,6 +251,7 @@
           <li class="list-group-item">
                 <h3>
     public pure module function findIndicesVector(mask) result(indices)  
+    <a href="../proc/findindicesvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Find locations of .true. values in logical mask of rank 1</p>
@@ -326,16 +260,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mask~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -361,8 +295,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-removename"></span>
       <h3>public        interface <a href='../interface/removename.html'>removeName</a> 
       </h3>
@@ -371,6 +305,7 @@
           <li class="list-group-item">
                 <h3>
     public pure elemental module function removeNameIntArray(input) result(output)  
+    <a href="../proc/removenameintarray.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Remove name from named integer array and return IntArray</p>
@@ -379,16 +314,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-input~28"></span>
               type(<a href='../type/namedintegerarray.html'>NamedIntegerArray</a>),
             </td>
 <td>intent(in)</td>
@@ -414,6 +349,7 @@
           <li class="list-group-item">
                 <h3>
     public pure elemental module function removeNameRealArray(input) result(output)  
+    <a href="../proc/removenamerealarray.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Remove name from named real array and return RealArray</p>
@@ -422,16 +358,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-input~29"></span>
               type(<a href='../type/namedrealarray.html'>NamedRealArray</a>),
             </td>
 <td>intent(in)</td>
@@ -457,6 +393,7 @@
           <li class="list-group-item">
                 <h3>
     public pure elemental module function removeNameLogicalArray(input) result(output)  
+    <a href="../proc/removenamelogicalarray.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Remove name from named logical array and return LogicalArray</p>
@@ -465,16 +402,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-input~30"></span>
               type(<a href='../type/namedlogicalarray.html'>NamedLogicalArray</a>),
             </td>
 <td>intent(in)</td>
@@ -500,8 +437,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-allcombinations"></span>
       <h3>        interface
       </h3>
@@ -510,7 +447,7 @@
         <li class="list-group-item">
               <h3>
     public pure module function allCombinations(array) result(res)  
-    <a href='../proc/allcombinations.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/allcombinations.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Convert IntArray(:) vector into a 2D array of shape (size(IntArray),:) containing all possible combination of IntArray(:)%entries.
@@ -520,16 +457,16 @@ Works only for sizes 1 and 3</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array~3"></span>
               type(<a href='../type/intarray.html'>IntArray</a>),
             </td>
 <td>intent(in),</td>
@@ -555,8 +492,8 @@ Works only for sizes 1 and 3</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-findnearestpointsinarray"></span>
       <h3>        interface
       </h3>
@@ -565,7 +502,7 @@ Works only for sizes 1 and 3</p>
         <li class="list-group-item">
               <h3>
     public pure module function findNearestPointsInArray(array, point) result(pair)  
-    <a href='../proc/findnearestpointsinarray.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/findnearestpointsinarray.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Finds indices of two of the values nearest to a point in a monotonic array</p>
@@ -574,16 +511,16 @@ Works only for sizes 1 and 3</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -598,7 +535,7 @@ Works only for sizes 1 and 3</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-point"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -624,8 +561,8 @@ Works only for sizes 1 and 3</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-expint1"></span>
       <h3>        interface
       </h3>
@@ -634,7 +571,7 @@ Works only for sizes 1 and 3</p>
         <li class="list-group-item">
               <h3>
     public elemental module function expInt1(val) result(res)  
-    <a href='../proc/expint1.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/expint1.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Allan and Hastings approximation of E1 exponential integral, with coefficients from routine in:
@@ -648,16 +585,16 @@ LC: QA351.C45.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-val~6"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -683,8 +620,8 @@ LC: QA351.C45.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-removedupeints"></span>
       <h3>        interface
       </h3>
@@ -693,7 +630,7 @@ LC: QA351.C45.</p>
         <li class="list-group-item">
               <h3>
     public pure module function removeDupeInts(array) result(uniques)  
-    <a href='../proc/removedupeints.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/removedupeints.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Removes duplicates from integer array - unoptimized</p>
@@ -702,16 +639,16 @@ LC: QA351.C45.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -737,8 +674,8 @@ LC: QA351.C45.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-withinbounds"></span>
       <h3>        interface
       </h3>
@@ -747,7 +684,7 @@ LC: QA351.C45.</p>
         <li class="list-group-item">
               <h3>
     public pure module function withinBounds(array, lowerBound, upperBound) result(res)  
-    <a href='../proc/withinbounds.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/withinbounds.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Returns map array &gt;= lowerBound .and. array &lt;= upperBound</p>
@@ -756,16 +693,16 @@ LC: QA351.C45.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -780,7 +717,7 @@ LC: QA351.C45.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-lowerbound"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -795,7 +732,7 @@ LC: QA351.C45.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-upperbound~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -821,8 +758,8 @@ LC: QA351.C45.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-flattensorproduct"></span>
       <h3>        interface
       </h3>
@@ -831,7 +768,7 @@ LC: QA351.C45.</p>
         <li class="list-group-item">
               <h3>
     public pure module function flatTensorProduct(array1, array2, array3) result(res)  
-    <a href='../proc/flattensorproduct.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/flattensorproduct.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Takes a 3-fold tensor product of rank-1 real arrays and flattens it</p>
@@ -840,16 +777,16 @@ LC: QA351.C45.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array1"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -864,7 +801,7 @@ LC: QA351.C45.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -879,7 +816,7 @@ LC: QA351.C45.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array3"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -905,8 +842,8 @@ LC: QA351.C45.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-jaggedarray"></span>
       <h3>        interface
       </h3>
@@ -915,7 +852,7 @@ LC: QA351.C45.</p>
         <li class="list-group-item">
               <h3>
     public pure module function jaggedArray(array, mask) result(res)  
-    <a href='../proc/jaggedarray.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/jaggedarray.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Takes rank-2 array and optional mask and produces rank-1 array of realArrays - a jagged array - by masking the first dimension</p>
@@ -924,16 +861,16 @@ LC: QA351.C45.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -948,7 +885,7 @@ LC: QA351.C45.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mask~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -974,8 +911,8 @@ LC: QA351.C45.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-allpl"></span>
       <h3>        interface
       </h3>
@@ -984,7 +921,7 @@ LC: QA351.C45.</p>
         <li class="list-group-item">
               <h3>
     public pure module function allPl(points, maxL) result(res)  
-    <a href='../proc/allpl.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/allpl.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return rank-2 array of Legendre polynomials evaluated at given points. Result shape is (size(points),0:maxL). Uses recursion
@@ -994,16 +931,16 @@ formula.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-points~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1018,7 +955,7 @@ formula.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-maxl~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1044,8 +981,8 @@ formula.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-shiftedflattensorproduct"></span>
       <h3>        interface
       </h3>
@@ -1054,7 +991,7 @@ formula.</p>
         <li class="list-group-item">
               <h3>
     public pure module function shiftedFlatTensorProduct(array1, array2, shiftArray, power) result(res)  
-    <a href='../proc/shiftedflattensorproduct.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/shiftedflattensorproduct.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Takes 2 arrays and produces a flattened tensor product, such that array1's dimension is the inner dimension. If present,
@@ -1065,16 +1002,16 @@ The shifted array1 is then optionally raised to a power.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array1~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1089,7 +1026,7 @@ The shifted array1 is then optionally raised to a power.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-array2~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1104,7 +1041,7 @@ The shifted array1 is then optionally raised to a power.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-shiftarray"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1119,7 +1056,7 @@ The shifted array1 is then optionally raised to a power.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-power"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1145,8 +1082,8 @@ The shifted array1 is then optionally raised to a power.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-triangularintarray"></span>
       <h3>        interface
       </h3>
@@ -1155,7 +1092,7 @@ The shifted array1 is then optionally raised to a power.</p>
         <li class="list-group-item">
               <h3>
     public pure module function triangularIntArray(dim, lower) result(res)  
-    <a href='../proc/triangularintarray.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/triangularintarray.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Returns upper or lower triangular pattern as IntArrays with dimension dim</p>
@@ -1164,16 +1101,16 @@ The shifted array1 is then optionally raised to a power.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-dim~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1188,7 +1125,7 @@ The shifted array1 is then optionally raised to a power.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-lower"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1230,12 +1167,12 @@ The shifted array1 is then optionally raised to a power.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -1245,17 +1182,12 @@ The shifted array1 is then optionally raised to a power.</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

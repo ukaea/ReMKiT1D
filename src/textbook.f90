@@ -17,7 +17,7 @@ module textbook_class
     !! Houses class containing named derivation rules 
 
     use data_kinds                           ,only: rk, ik
-    use runtime_constants                    ,only: debugging, assertions
+    use runtime_constants                    ,only: debugging, assertions, assertionLvl
     use god_objects                          ,only: Object
     use assertion_utility                    ,only: assert, assertIdentical, assertPure
     use derivation_abstract_class            ,only: Derivation, DerivationContainer

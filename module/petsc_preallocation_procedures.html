@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>petsc_preallocation_procedures &ndash; ReMKiT1D</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,41 +70,45 @@
       <small>Submodule</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.4% of total for modules and submodules.">97 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.4% of total for modules and submodules.">97 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/petsc_preallocation_data_procedures.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/petsc_preallocation_data_procedures.f90.html'>petsc_preallocation_data_procedures.f90</a></li>
-          <li class="active">petsc_preallocation_procedures</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/petsc_preallocation_data_procedures.f90.html'>petsc_preallocation_data_procedures.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">petsc_preallocation_procedures</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -143,15 +124,14 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modfuncs-0">Module Functions</a>
-        </h3>
-      </div>
-      <div id="modfuncs-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-isassembled~2">isAssembled</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modfuncs-0"
+         aria-expanded="false" aria-controls="modfuncs-0">
+         <h4 class="card-header bg-primary text-white">Module Functions</h4>
+      </a>
+      <div id="modfuncs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-isassembled~3">isAssembled</a>
             <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getnumnonzerosdiag">getNumNonzerosDiag</a>
             <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getnumnonzerosoffdiag">getNumNonzerosOffDiag</a>
             <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getlocalnumdofs">getLocalNumDoFs</a>
@@ -161,14 +141,13 @@
       </div>
     </div>
 
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modsubs-0">Module Subroutines</a>
-        </h3>
-      </div>
-      <div id="modsubs-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modsubs-0"
+         aria-expanded="false" aria-controls="modsubs-0">
+         <h4 class="card-header bg-primary text-white">Module Subroutines</h4>
+      </a>
+      <div id="modsubs-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-initpetscpreallocationdata">initPetscPreallocationData</a>
             <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-addrowdatatopattern">addRowDataToPattern</a>
             <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-assembledata">assembleData</a>
@@ -177,6 +156,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -189,80 +169,22 @@
 
     <div class="col-md-9" id='text'>
       <p>Contains module procedures associated with the petsc preallocation data class</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li><h5>Ancestors:</h5></li>
+                  <li class="list-inline-item"><a href='petsc_preallocation_data_class.html'>petsc_preallocation_data_class</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><h5>Ancestors:</h5></li>
-                <li><a href='../module/petsc_preallocation_data_class.html'>petsc_preallocation_data_class</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modfuncs-1">Module Functions</a>
-        </h3>
-      </div>
-      <div id="modfuncs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-isassembled~2">isAssembled</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getnumnonzerosdiag">getNumNonzerosDiag</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getnumnonzerosoffdiag">getNumNonzerosOffDiag</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getlocalnumdofs">getLocalNumDoFs</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-gettotalnumdofs">getTotalNumDoFs</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-getlocaldofoffset">getLocalDoFOffset</a>
-        </div>
-      </div>
-    </div>
-
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#modsubs-1">Module Subroutines</a>
-        </h3>
-      </div>
-      <div id="modsubs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-initpetscpreallocationdata">initPetscPreallocationData</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-addrowdatatopattern">addRowDataToPattern</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-assembledata">assembleData</a>
-            <a class="list-group-item" href="../module/petsc_preallocation_procedures.html#proc-deallocatepattern">deallocatePattern</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
 
@@ -274,11 +196,11 @@
 
         <section>
           <h2>Module Functions</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-isassembled~2"></span><h3>pure module function <a href='../proc/isassembled~2.html'>isAssembled</a>(this) result(assembled)  
-    <a href='../interface/isassembled~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-isassembled~3"></span> <h3>pure module function <a href='../proc/isassembled~3.html'>isAssembled</a>(this) result(assembled)  
+    <a href="../interface/isassembled.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Return assembly status of preallocation data</p>
 
@@ -286,16 +208,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~929"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(in)</td>
@@ -320,11 +242,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getnumnonzerosdiag"></span><h3>pure module function <a href='../proc/getnumnonzerosdiag.html'>getNumNonzerosDiag</a>(this) result(numNZDiag)  
-    <a href='../interface/getnumnonzerosdiag.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getnumnonzerosdiag"></span> <h3>pure module function <a href='../proc/getnumnonzerosdiag.html'>getNumNonzerosDiag</a>(this) result(numNZDiag)  
+    <a href="../interface/getnumnonzerosdiag.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Return number of nonzeros in the diagonal part of each row</p>
 
@@ -332,16 +254,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~930"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(in)</td>
@@ -366,11 +288,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getnumnonzerosoffdiag"></span><h3>pure module function <a href='../proc/getnumnonzerosoffdiag.html'>getNumNonzerosOffDiag</a>(this) result(numNZODiag)  
-    <a href='../interface/getnumnonzerosoffdiag.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getnumnonzerosoffdiag"></span> <h3>pure module function <a href='../proc/getnumnonzerosoffdiag.html'>getNumNonzerosOffDiag</a>(this) result(numNZODiag)  
+    <a href="../interface/getnumnonzerosoffdiag.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Return number of nonzeros in the off-diagonal part of each row</p>
 
@@ -378,16 +300,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~931"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(in)</td>
@@ -412,11 +334,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getlocalnumdofs"></span><h3>pure module function <a href='../proc/getlocalnumdofs.html'>getLocalNumDoFs</a>(this) result(locNumDoFs)  
-    <a href='../interface/getlocalnumdofs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getlocalnumdofs"></span> <h3>pure module function <a href='../proc/getlocalnumdofs.html'>getLocalNumDoFs</a>(this) result(locNumDoFs)  
+    <a href="../interface/getlocalnumdofs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Return local number of DoFs in unknown vector</p>
 
@@ -424,16 +346,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~932"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(in)</td>
@@ -458,11 +380,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-gettotalnumdofs"></span><h3>pure module function <a href='../proc/gettotalnumdofs.html'>getTotalNumDoFs</a>(this) result(totalNumDoFs)  
-    <a href='../interface/gettotalnumdofs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-gettotalnumdofs"></span> <h3>pure module function <a href='../proc/gettotalnumdofs.html'>getTotalNumDoFs</a>(this) result(totalNumDoFs)  
+    <a href="../interface/gettotalnumdofs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Return total number of DoFs in unknown vector</p>
 
@@ -470,16 +392,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~933"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(in)</td>
@@ -504,11 +426,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-getlocaldofoffset"></span><h3>pure module function <a href='../proc/getlocaldofoffset.html'>getLocalDoFOffset</a>(this) result(offset)  
-    <a href='../interface/getlocaldofoffset.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getlocaldofoffset"></span> <h3>pure module function <a href='../proc/getlocaldofoffset.html'>getLocalDoFOffset</a>(this) result(offset)  
+    <a href="../interface/getlocaldofoffset.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Return offset of the start of this processors local vector in the global vector</p>
 
@@ -516,16 +438,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~934"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(in)</td>
@@ -555,11 +477,11 @@
 
         <section>
           <h2>Module Subroutines</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-initpetscpreallocationdata"></span><h3>pure module subroutine <a href='../proc/initpetscpreallocationdata.html'>initPetscPreallocationData</a>(this, indexingObj, procRank)  
-    <a href='../interface/initpetscpreallocationdata.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-initpetscpreallocationdata"></span> <h3>pure module subroutine <a href='../proc/initpetscpreallocationdata.html'>initPetscPreallocationData</a>(this, indexingObj, procRank)  
+    <a href="../interface/initpetscpreallocationdata.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Petsc preallocation data object initialization routine</p>
 
@@ -567,16 +489,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~926"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(inout)</td>
@@ -591,7 +513,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indexingobj~13"></span>
               type(<a href='../type/indexing.html'>Indexing</a>),
             </td>
 <td>intent(in)</td>
@@ -606,7 +528,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-procrank~29"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -626,11 +548,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-addrowdatatopattern"></span><h3>pure module subroutine <a href='../proc/addrowdatatopattern.html'>addRowDataToPattern</a>(this, rowData)  
-    <a href='../interface/addrowdatatopattern.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-addrowdatatopattern"></span> <h3>pure module subroutine <a href='../proc/addrowdatatopattern.html'>addRowDataToPattern</a>(this, rowData)  
+    <a href="../interface/addrowdatatopattern.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Add sparse row data structure to total sparsity pattern </p>
 
@@ -638,16 +560,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~927"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(inout)</td>
@@ -662,7 +584,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-rowdata~11"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
 <td>intent(in)</td>
@@ -682,11 +604,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-assembledata"></span><h3>pure module subroutine <a href='../proc/assembledata.html'>assembleData</a>(this)  
-    <a href='../interface/assembledata.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-assembledata"></span> <h3>pure module subroutine <a href='../proc/assembledata.html'>assembleData</a>(this)  
+    <a href="../interface/assembledata.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Assemble preallocation data</p>
 
@@ -694,16 +616,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~928"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(inout)</td>
@@ -723,11 +645,11 @@
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="proc-deallocatepattern"></span><h3>module subroutine <a href='../proc/deallocatepattern.html'>deallocatePattern</a>(this)  
-    <a href='../interface/deallocatepattern.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-deallocatepattern"></span> <h3>module subroutine <a href='../proc/deallocatepattern.html'>deallocatePattern</a>(this)  
+    <a href="../interface/deallocatepattern.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-    <div class="panel-body">
+    <div class="card-body">
           
   <p>Deallocates the COO matrix pattern</p>
 
@@ -735,16 +657,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~935"></span>
               class(<a href='../type/petscpreallocationdata.html'>PETScPreallocationData</a>),
             </td>
 <td>intent(inout)</td>
@@ -774,12 +696,12 @@
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -789,17 +711,12 @@
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

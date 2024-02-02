@@ -18,7 +18,7 @@ module moment_derivation_class
     !! harmonic of f * g, where g is an optional constant velocity vector 
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray 

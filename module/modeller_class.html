@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,82 +12,57 @@
 
     <title>modeller_class &ndash; ReMKiT1D</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">ReMKiT1D </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-              <li><a href='../page/index.html'>Documentation</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Documentation</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/absint.html">Abstract Interfaces</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -93,41 +70,45 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
-            <li id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
-            <li id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.8% of total for modules and submodules.">211 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.8% of total for modules and submodules.">211 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/modeller.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/modeller.f90.html'>modeller.f90</a></li>
-          <li class="active">modeller_class</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/modeller.f90.html'>modeller.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">modeller_class</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -138,25 +119,24 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#inters-0">Interfaces</a>
-        </h3>
-      </div>
-      <div id="inters-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/modeller_class.html#interface-isassembled~3">isAssembled</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/modeller_class.html#interface-isassembled~2">isAssembled</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-evaluatemodeltermgroup">evaluateModelTermGroup</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-evaluatemodeltermbyname">evaluateModelTermByName</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-ismodeltermgroupmixed">isModelTermGroupMixed</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-getevolvedvarintermgroup">getEvolvedVarInTermGroup</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-getcurrenttime~2">getCurrentTime</a>
+            <a class="list-group-item" href="../module/modeller_class.html#interface-getcurrenttime">getCurrentTime</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-istrueeverywhere~2">isTrueEverywhere</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-getglobalmin">getGlobalMin</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-getglobalmax">getGlobalMax</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-initmodeller">initModeller</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-addmodel~2">addModel</a>
+            <a class="list-group-item" href="../module/modeller_class.html#interface-addmodel">addModel</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-copyvarvaluesfrom">copyVarValuesFrom</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-copyvarvaluesto">copyVarValuesTo</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-setintegrator">setIntegrator</a>
@@ -164,34 +144,34 @@
             <a class="list-group-item" href="../module/modeller_class.html#interface-updatemodeltermgroup">updateModelTermGroup</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-calculatematgroupvalsinmodel">calculateMatGroupValsInModel</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-addmodelmatgrouptopetsc">addModelMatGroupToPETSc</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-assemble~2">assemble</a>
+            <a class="list-group-item" href="../module/modeller_class.html#interface-assemble">assemble</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-performcomm">performComm</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-safecommandderiv">safeCommAndDeriv</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-callmanipulator">callManipulator</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-integrate">integrate</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-linearsolvepetsc">linearSolvePETSc</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-calculateidentitymat">calculateIdentityMat</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-updatemodeldata~2">updateModelData</a>
+            <a class="list-group-item" href="../module/modeller_class.html#interface-updatemodeldata">updateModelData</a>
             <a class="list-group-item" href="../module/modeller_class.html#interface-copydatafrommodel">copyDataFromModel</a>
         </div>
       </div>
     </div>
 
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#types-0">Derived Types</a>
-        </h3>
-      </div>
-      <div id="types-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/modeller_class.html#type-modelcontainer">ModelContainer</a>
             <a class="list-group-item" href="../module/modeller_class.html#type-modeller">Modeller</a>
         </div>
       </div>
     </div>
 
+  
   
   
   
@@ -208,135 +188,58 @@
 
     <div class="col-md-9" id='text'>
       <p>Houses modeller class responsible for controlling data manipulation and integration</p>
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
+                  <li class="list-inline-item"><a href='modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='petsc_controller_class.html'>petsc_controller_class</a></li>
+                  <li class="list-inline-item"><a href='mpi_controller_class.html'>mpi_controller_class</a></li>
+                  <li class="list-inline-item"><a href='composite_manipulator_class.html'>composite_manipulator_class</a></li>
+                  <li class="list-inline-item"><a href='composite_integrator_class.html'>composite_integrator_class</a></li>
+                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='status_printing.html'>status_printing</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='../module/mpi_controller_class.html'>mpi_controller_class</a></li>
-                <li><a href='../module/modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
-                <li><a href='../module/assertion_utility.html'>assertion_utility</a></li>
-                <li><a href='../module/composite_integrator_class.html'>composite_integrator_class</a></li>
-                <li><a href='../module/indexing_class.html'>indexing_class</a></li>
-                <li><a href='../module/runtime_constants.html'>runtime_constants</a></li>
-                <li><a href='../module/composite_manipulator_class.html'>composite_manipulator_class</a></li>
-                <li><a href='../module/support_types.html'>support_types</a></li>
-                <li><a href='../module/sparse_row_data_class.html'>sparse_row_data_class</a></li>
-                <li><a href='../module/variable_container_class.html'>variable_container_class</a></li>
-                <li><a href='../module/petsc_controller_class.html'>petsc_controller_class</a></li>
-                <li><a href='../module/status_printing.html'>status_printing</a></li>
-                <li><a href='../module/manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
-                <li><a href='../module/model_class.html'>model_class</a></li>
-                <li><a href='../module/data_kinds.html'>data_kinds</a></li>
-                <li><a href='../module/god_objects.html'>god_objects</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
-          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Used by</h3>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li class="list-inline-item"><h5>Descendants:</h5></li>
+                  <li class="list-inline-item"><a href='modeller_procedures.html'>modeller_procedures</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><h5>Descendants:</h5></li>
-                <li><a href='../module/modeller_procedures.html'>modeller_procedures</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#inters-1">Interfaces</a>
-        </h3>
-      </div>
-      <div id="inters-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/modeller_class.html#interface-isassembled~3">isAssembled</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-evaluatemodeltermgroup">evaluateModelTermGroup</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-evaluatemodeltermbyname">evaluateModelTermByName</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-ismodeltermgroupmixed">isModelTermGroupMixed</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-getevolvedvarintermgroup">getEvolvedVarInTermGroup</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-getcurrenttime~2">getCurrentTime</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-istrueeverywhere~2">isTrueEverywhere</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-getglobalmin">getGlobalMin</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-getglobalmax">getGlobalMax</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-initmodeller">initModeller</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-addmodel~2">addModel</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-copyvarvaluesfrom">copyVarValuesFrom</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-copyvarvaluesto">copyVarValuesTo</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-setintegrator">setIntegrator</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-setmanipulator">setManipulator</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-updatemodeltermgroup">updateModelTermGroup</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-calculatematgroupvalsinmodel">calculateMatGroupValsInModel</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-addmodelmatgrouptopetsc">addModelMatGroupToPETSc</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-assemble~2">assemble</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-performcomm">performComm</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-safecommandderiv">safeCommAndDeriv</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-callmanipulator">callManipulator</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-integrate">integrate</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-linearsolvepetsc">linearSolvePETSc</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-calculateidentitymat">calculateIdentityMat</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-updatemodeldata~2">updateModelData</a>
-            <a class="list-group-item" href="../module/modeller_class.html#interface-copydatafrommodel">copyDataFromModel</a>
-        </div>
-      </div>
-    </div>
-
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#types-1">Derived Types</a>
-        </h3>
-      </div>
-      <div id="types-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/modeller_class.html#type-modelcontainer">ModelContainer</a>
-            <a class="list-group-item" href="../module/modeller_class.html#type-modeller">Modeller</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
 
 
         <section>
           <h2>Interfaces</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
-      <span class="anchor" id="interface-isassembled~3"></span>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-isassembled~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -344,7 +247,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function isAssembled(this) result(assembled)  
-    <a href='../proc/isassembled~3.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isassembled~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return true if modeller is assembled and ready to evolve variables</p>
@@ -353,16 +256,16 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~378"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -388,8 +291,8 @@
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-evaluatemodeltermgroup"></span>
       <h3>        interface
       </h3>
@@ -398,7 +301,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function evaluateModelTermGroup(this, modelIndex, groupIndex, varCont) result(res)  
-    <a href='../proc/evaluatemodeltermgroup.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/evaluatemodeltermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call the evaluateTermGroup routine on model with given index and for given term group - optionally use variable container other
@@ -408,16 +311,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~384"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -432,7 +335,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -447,7 +350,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-groupindex~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -462,7 +365,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~33"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in),</td>
@@ -488,8 +391,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-evaluatemodeltermbyname"></span>
       <h3>        interface
       </h3>
@@ -498,7 +401,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module function evaluateModelTermByName(this, modelIndex, name, varCont) result(res)  
-    <a href='../proc/evaluatemodeltermbyname.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/evaluatemodeltermbyname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call the evaluateTermByName routine on model with given index and for given term name - optionally use variable container other
@@ -508,16 +411,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~385"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -532,7 +435,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -547,7 +450,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-name~35"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -562,7 +465,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~34"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in),</td>
@@ -588,8 +491,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-ismodeltermgroupmixed"></span>
       <h3>        interface
       </h3>
@@ -598,7 +501,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module function isModelTermGroupMixed(this, groupIndex, modelIndex) result(mixed)  
-    <a href='../proc/ismodeltermgroupmixed.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/ismodeltermgroupmixed.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return true if group with given index is mixed in model with given index</p>
@@ -607,16 +510,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~393"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -631,7 +534,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-groupindex~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -646,7 +549,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~11"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -672,8 +575,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-getevolvedvarintermgroup"></span>
       <h3>        interface
       </h3>
@@ -682,7 +585,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module function getEvolvedVarInTermGroup(this, groupIndex, modelIndex) result(name)  
-    <a href='../proc/getevolvedvarintermgroup.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getevolvedvarintermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return variable name for given group index and model index</p>
@@ -691,16 +594,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~394"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -715,7 +618,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-groupindex~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -730,7 +633,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~12"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -756,9 +659,9 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
-      <span class="anchor" id="interface-getcurrenttime~2"></span>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-getcurrenttime"></span>
       <h3>        interface
       </h3>
     </div>
@@ -766,7 +669,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module function getCurrentTime(this) result(time)  
-    <a href='../proc/getcurrenttime~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getcurrenttime.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return current value of the integrator time variable if the integrator object is a composite integrator or the value of the 
@@ -776,16 +679,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~395"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -811,8 +714,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-istrueeverywhere~2"></span>
       <h3>        interface
       </h3>
@@ -821,7 +724,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module function isTrueEverywhere(this, input) result(isTrue)  
-    <a href='../proc/istrueeverywhere~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/istrueeverywhere~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return true if input is true on every processor using the MPI controller of the modeller</p>
@@ -830,16 +733,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~396"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -854,7 +757,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-input~24"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -880,8 +783,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-getglobalmin"></span>
       <h3>        interface
       </h3>
@@ -890,7 +793,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module function getGlobalMin(this, input) result(min)  
-    <a href='../proc/getglobalmin.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getglobalmin.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return minimum value of real input computed on all processes using the MPI controller of the modeller</p>
@@ -899,16 +802,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~397"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -923,7 +826,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-input~25"></span>
               real(kind=rk),
             </td>
 <td>intent(inout)</td>
@@ -949,8 +852,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-getglobalmax"></span>
       <h3>        interface
       </h3>
@@ -959,7 +862,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module function getGlobalMax(this, input) result(max)  
-    <a href='../proc/getglobalmax.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getglobalmax.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return maximum value of real input computed on all processes using the MPI controller of the modeller</p>
@@ -968,16 +871,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~398"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -992,7 +895,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-input~26"></span>
               real(kind=rk),
             </td>
 <td>intent(inout)</td>
@@ -1018,8 +921,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-initmodeller"></span>
       <h3>        interface
       </h3>
@@ -1028,7 +931,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module subroutine initModeller(this, numModels, initVars, mpiCont, petscCont, commData)  
-    <a href='../proc/initmodeller.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initmodeller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Modeller initialization routine</p>
@@ -1037,16 +940,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~376"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1061,7 +964,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-nummodels"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1076,7 +979,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-initvars"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1091,7 +994,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mpicont~50"></span>
               type(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -1106,7 +1009,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-petsccont~3"></span>
               type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
 <td>intent(in),</td>
@@ -1121,7 +1024,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-commdata~2"></span>
               type(<a href='../type/communicationdata.html'>CommunicationData</a>),
             </td>
 <td>intent(in),</td>
@@ -1142,9 +1045,9 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
-      <span class="anchor" id="interface-addmodel~2"></span>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-addmodel"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1152,7 +1055,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module subroutine addModel(this, newModel)  
-    <a href='../proc/addmodel.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/addmodel.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Add a Model to this modeller</p>
@@ -1161,16 +1064,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~377"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1185,7 +1088,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-newmodel"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout),</td>
@@ -1206,8 +1109,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-copyvarvaluesfrom"></span>
       <h3>        interface
       </h3>
@@ -1216,7 +1119,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module subroutine copyVarValuesFrom(this, varCont)  
-    <a href='../proc/copyvarvaluesfrom.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/copyvarvaluesfrom.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Copy values of variables from outside variable container into this modeller's container</p>
@@ -1225,16 +1128,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~379"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1249,7 +1152,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~30"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1270,8 +1173,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-copyvarvaluesto"></span>
       <h3>        interface
       </h3>
@@ -1280,7 +1183,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module subroutine copyVarValuesTo(this, varCont)  
-    <a href='../proc/copyvarvaluesto.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/copyvarvaluesto.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Copy values of variables to outside variable container from this modeller's container</p>
@@ -1289,16 +1192,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~380"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1313,7 +1216,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~31"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1334,8 +1237,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-setintegrator"></span>
       <h3>        interface
       </h3>
@@ -1344,7 +1247,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module subroutine setIntegrator(this, integ)  
-    <a href='../proc/setintegrator.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/setintegrator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Setter for integrator object</p>
@@ -1353,16 +1256,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~381"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1377,7 +1280,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-integ~2"></span>
               class(<a href='../type/manipulator.html'>Manipulator</a>),
             </td>
 <td>intent(in)</td>
@@ -1398,8 +1301,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-setmanipulator"></span>
       <h3>        interface
       </h3>
@@ -1408,7 +1311,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module subroutine setManipulator(this, manip)  
-    <a href='../proc/setmanipulator.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/setmanipulator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Setter for manipulator object</p>
@@ -1417,16 +1320,16 @@ than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~382"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1441,7 +1344,7 @@ than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-manip~7"></span>
               class(<a href='../type/compositemanipulator.html'>CompositeManipulator</a>),
             </td>
 <td>intent(in)</td>
@@ -1462,8 +1365,8 @@ than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-updatemodeltermgroup"></span>
       <h3>        interface
       </h3>
@@ -1472,7 +1375,7 @@ than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module subroutine updateModelTermGroup(this, modelIndex, groupIndex, varCont)  
-    <a href='../proc/updatemodeltermgroup.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatemodeltermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call the update routine of model with given index for the given term group - optionally use variable container other than the
@@ -1482,16 +1385,16 @@ one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~383"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1506,7 +1409,7 @@ one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1521,7 +1424,7 @@ one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-groupindex"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1536,7 +1439,7 @@ one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~32"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in),</td>
@@ -1557,8 +1460,8 @@ one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-calculatematgroupvalsinmodel"></span>
       <h3>        interface
       </h3>
@@ -1567,7 +1470,7 @@ one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private pure module subroutine calculateMatGroupValsInModel(this, modelIndex, groupIndex, varCont)  
-    <a href='../proc/calculatematgroupvalsinmodel.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calculatematgroupvalsinmodel.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Calculate matrix value in implicit term group given by groupIndex in model given by modelIndex, and optionally using variable
@@ -1577,16 +1480,16 @@ container other than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~386"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1601,7 +1504,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~9"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1616,7 +1519,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-groupindex~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1631,7 +1534,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~35"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in),</td>
@@ -1652,8 +1555,8 @@ container other than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-addmodelmatgrouptopetsc"></span>
       <h3>        interface
       </h3>
@@ -1662,7 +1565,7 @@ container other than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module subroutine addModelMatGroupToPETSc(this, modelIndex, groupIndex, mult, petscGroup)  
-    <a href='../proc/addmodelmatgrouptopetsc.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/addmodelmatgrouptopetsc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Send off matrix values of given term group and model to the PETSc controller, multiplied by mult</p>
@@ -1671,16 +1574,16 @@ container other than the one stored in the modeller</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~387"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1695,7 +1598,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~10"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1710,7 +1613,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-groupindex~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1725,7 +1628,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-mult"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -1740,7 +1643,7 @@ container other than the one stored in the modeller</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-petscgroup"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1761,9 +1664,9 @@ container other than the one stored in the modeller</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
-      <span class="anchor" id="interface-assemble~2"></span>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-assemble"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1771,7 +1674,7 @@ container other than the one stored in the modeller</p>
         <li class="list-group-item">
               <h3>
     private module subroutine assemble(this, withIdentityMat)  
-    <a href='../proc/assemble~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/assemble~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure modeller is ready for use. 
@@ -1781,16 +1684,16 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~388"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1805,7 +1708,7 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-withidentitymat"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1826,8 +1729,8 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-performcomm"></span>
       <h3>        interface
       </h3>
@@ -1836,7 +1739,7 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
         <li class="list-group-item">
               <h3>
     private module subroutine performComm(this, commData, varCont, onlyDepth)  
-    <a href='../proc/performcomm.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/performcomm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Perform communications using the modeller's MPI controller - optionally uses external CommunicationData instructions or 
@@ -1846,16 +1749,16 @@ exchanges data in external variable container</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~389"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1870,7 +1773,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-commdata~3"></span>
               type(<a href='../type/communicationdata.html'>CommunicationData</a>),
             </td>
 <td>intent(in),</td>
@@ -1885,7 +1788,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~36"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout),</td>
@@ -1900,7 +1803,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-onlydepth"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1921,8 +1824,8 @@ exchanges data in external variable container</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-safecommandderiv"></span>
       <h3>        interface
       </h3>
@@ -1931,7 +1834,7 @@ exchanges data in external variable container</p>
         <li class="list-group-item">
               <h3>
     private module subroutine safeCommAndDeriv(this, commData, varCont, derivPriority)  
-    <a href='../proc/safecommandderiv.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/safecommandderiv.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Perform communications interlaced with derivation calls of increasing derivation depth</p>
@@ -1940,16 +1843,16 @@ exchanges data in external variable container</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~390"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -1964,7 +1867,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-commdata~4"></span>
               type(<a href='../type/communicationdata.html'>CommunicationData</a>),
             </td>
 <td>intent(in),</td>
@@ -1979,7 +1882,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~37"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout),</td>
@@ -1994,7 +1897,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-derivpriority~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -2015,8 +1918,8 @@ exchanges data in external variable container</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-callmanipulator"></span>
       <h3>        interface
       </h3>
@@ -2025,7 +1928,7 @@ exchanges data in external variable container</p>
         <li class="list-group-item">
               <h3>
     private module subroutine callManipulator(this, priority, inVars, outVars)  
-    <a href='../proc/callmanipulator.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/callmanipulator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call optional CompositeManipulator manipulate routine with inVars and outVars - the default for the optional VariableContainers is the modeller's VariableContainer</p>
@@ -2034,16 +1937,16 @@ exchanges data in external variable container</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~391"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -2058,7 +1961,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-priority~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2073,7 +1976,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-invars"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in),</td>
@@ -2088,7 +1991,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-outvars"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout),</td>
@@ -2109,8 +2012,8 @@ exchanges data in external variable container</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-integrate"></span>
       <h3>        interface
       </h3>
@@ -2119,7 +2022,7 @@ exchanges data in external variable container</p>
         <li class="list-group-item">
               <h3>
     private module subroutine integrate(this, inVars, outVars)  
-    <a href='../proc/integrate.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/integrate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call ianipulator affect routine with inVars and outVars - the default for the optional VariableContainers is the modeller's VariableContainer</p>
@@ -2128,16 +2031,16 @@ exchanges data in external variable container</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~392"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -2152,7 +2055,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-invars~2"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in),</td>
@@ -2167,7 +2070,7 @@ exchanges data in external variable container</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-outvars~2"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout),</td>
@@ -2188,8 +2091,8 @@ exchanges data in external variable container</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-linearsolvepetsc"></span>
       <h3>        interface
       </h3>
@@ -2198,7 +2101,7 @@ exchanges data in external variable container</p>
         <li class="list-group-item">
               <h3>
     private module subroutine linearSolvePETSc(this, knownVec, unknownVec, addIdentityMat, convReason, petscGroup)  
-    <a href='../proc/linearsolvepetsc.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/linearsolvepetsc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Call linearSolve routine on PETScController of this modeller. Creates PETSc objects if they've not yet been created. If 
@@ -2208,16 +2111,16 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~399"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -2232,7 +2135,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-knownvec~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2247,7 +2150,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-unknownvec~2"></span>
               real(kind=rk),
             </td>
 <td>intent(out),</td>
@@ -2262,7 +2165,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-addidentitymat"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -2277,7 +2180,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-convreason"></span>
               integer(kind=ik),
             </td>
 <td>intent(inout)</td>
@@ -2292,7 +2195,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-petscgroup~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -2313,8 +2216,8 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-calculateidentitymat"></span>
       <h3>        interface
       </h3>
@@ -2323,7 +2226,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         <li class="list-group-item">
               <h3>
     private module subroutine calculateIdentityMat(this, indexingObj)  
-    <a href='../proc/calculateidentitymat.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calculateidentitymat.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Initializes the identity matrix of this modeller based on Indexing object</p>
@@ -2332,16 +2235,16 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~400"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -2356,7 +2259,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-indexingobj~6"></span>
               type(<a href='../type/indexing.html'>Indexing</a>),
             </td>
 <td>intent(in)</td>
@@ -2377,9 +2280,9 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
-      <span class="anchor" id="interface-updatemodeldata~2"></span>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-updatemodeldata"></span>
       <h3>        interface
       </h3>
     </div>
@@ -2387,7 +2290,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         <li class="list-group-item">
               <h3>
     private module subroutine updateModelData(this, modelIndex, varCont, updatePriority)  
-    <a href='../proc/updatemodeldata~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatemodeldata~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Update modelbound data of model with given index if that data is allocated</p>
@@ -2396,16 +2299,16 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~401"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -2420,7 +2323,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~13"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2435,7 +2338,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varcont~38"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -2450,7 +2353,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-updatepriority~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -2471,8 +2374,8 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
     </ul>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-copydatafrommodel"></span>
       <h3>        interface
       </h3>
@@ -2481,7 +2384,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         <li class="list-group-item">
               <h3>
     private module subroutine copyDataFromModel(this, modelIndex, varName, container)  
-    <a href='../proc/copydatafrommodel.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/copydatafrommodel.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Copy modelbound variable data with given name from model with given index.</p>
@@ -2490,16 +2393,16 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-this~402"></span>
               class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
@@ -2514,7 +2417,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-modelindex~14"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2529,7 +2432,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-varname"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2544,7 +2447,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" ></span>
+              <span class="anchor" id="variable-container~3"></span>
               real(kind=rk),
             </td>
 <td>intent(inout),</td>
@@ -2571,8 +2474,8 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
 
         <section>
           <h2>Derived Types</h2>
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-modelcontainer"></span>
       <h3>
         type, public&nbsp;::&nbsp;
@@ -2580,23 +2483,23 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>Container for Model objects allowing heterogeneous arrays</p>
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-entry~10"></span>
+              <span class="anchor" id="variable-entry~6"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
               <td>public,</td>
@@ -2620,8 +2523,8 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
     </div>
   </div>
 
-              <div class="panel panel-default">
-    <div class="panel-heading codesum">
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-modeller"></span>
       <h3>
         type, public, extends(<a href='../type/modellersurrogate.html'>ModellerSurrogate</a>)&nbsp;::&nbsp;
@@ -2629,18 +2532,18 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         
       </h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>Central object responsible for storing variables and models, as well as doing integration and data manipulation</p>
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -2696,7 +2599,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~7"></span>
+              <span class="anchor" id="variable-petsccont~2"></span>
               type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
               <td>private,</td>
@@ -2730,7 +2633,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~9"></span>
+              <span class="anchor" id="variable-commdata"></span>
               type(<a href='../type/communicationdata.html'>CommunicationData</a>),
             </td>
               <td>private,</td>
@@ -2781,7 +2684,7 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-manip"></span>
+              <span class="anchor" id="variable-manip~6"></span>
               class(<a href='../type/compositemanipulator.html'>CompositeManipulator</a>),
             </td>
               <td>private,</td>
@@ -2840,235 +2743,143 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong>
- =>
-                    <a href='../interface/isdefinedobject.html'>isDefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/isdefinedobject.html'>isDefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong>
- =>
-                    <a href='../interface/makedefinedobject.html'>makeDefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makedefinedobject.html'>makeDefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong>
- =>
-                    <a href='../interface/makeundefinedobject.html'>makeUndefinedObject</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makeundefinedobject.html'>makeUndefinedObject</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-isassembled~3'>isAssembled</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-isassembled~2'>isAssembled</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-addmodel'>addModel</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-addmodel'>addModel</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-copyvarvaluesto'>copyVarValuesTo</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-copyvarvaluesto'>copyVarValuesTo</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-copyvarvaluesfrom'>copyVarValuesFrom</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-copyvarvaluesfrom'>copyVarValuesFrom</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-callmanipulator'>callManipulator</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-callmanipulator'>callManipulator</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-integrate'>integrate</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-integrate'>integrate</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-setintegrator'>setIntegrator</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-setintegrator'>setIntegrator</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-setmanipulator'>setManipulator</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-setmanipulator'>setManipulator</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-calculateidentitymat'>calculateIdentityMat</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-calculateidentitymat'>calculateIdentityMat</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-updatemodeltermgroup'>updateModelTermGroup</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-updatemodeltermgroup'>updateModelTermGroup</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-updatemodeldata~2'>updateModelData</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-updatemodeldata'>updateModelData</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-calculatematgroupvalsinmodel'>calculateMatGroupValsInModel</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-calculatematgroupvalsinmodel'>calculateMatGroupValsInModel</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-addmodelmatgrouptopetsc'>addModelMatGroupToPETSc</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-addmodelmatgrouptopetsc'>addModelMatGroupToPETSc</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-linearsolvepetsc'>linearSolvePETSc</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-linearsolvepetsc'>linearSolvePETSc</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-evaluatemodeltermgroup'>evaluateModelTermGroup</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-evaluatemodeltermgroup'>evaluateModelTermGroup</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-evaluatemodeltermbyname'>evaluateModelTermByName</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-evaluatemodeltermbyname'>evaluateModelTermByName</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-copydatafrommodel'>copyDataFromModel</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-copydatafrommodel'>copyDataFromModel</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-getevolvedvarintermgroup'>getEvolvedVarInTermGroup</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-getevolvedvarintermgroup'>getEvolvedVarInTermGroup</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-ismodeltermgroupmixed'>isModelTermGroupMixed</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-ismodeltermgroupmixed'>isModelTermGroupMixed</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-getcurrenttime~2'>getCurrentTime</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-getcurrenttime'>getCurrentTime</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-performcomm'>performComm</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-performcomm'>performComm</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-safecommandderiv'>safeCommAndDeriv</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-safecommandderiv'>safeCommAndDeriv</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-istrueeverywhere~2'>isTrueEverywhere</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-istrueeverywhere~2'>isTrueEverywhere</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-assemble~2'>assemble</a></strong>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-assemble'>assemble</a></strong></td>
                 <td></td>
               </tr>
               <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/modeller.html#boundprocedure-init~80'>init</a></strong>
- =>
-                    <a href='../interface/initmodeller.html'>initModeller</a>
-<small>Interface</small>                </td>
+                <td>  procedure, public ::
+  <strong><a href='../type/modeller.html#boundprocedure-init~36'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmodeller.html'>initModeller</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -3090,12 +2901,12 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+        <div class="row justify-content-between">
+          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
             </p>
@@ -3105,17 +2916,12 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

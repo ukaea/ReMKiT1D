@@ -18,7 +18,7 @@ module implicit_PicardBDE_integrator_class
 
     use data_kinds                         ,only: rk ,ik
     use god_objects                        ,only: Object
-    use runtime_constants                  ,only: debugging, assertions
+    use runtime_constants                  ,only: debugging, assertions, assertionLvl
     use assertion_utility                  ,only: assert, assertIdentical, assertPure
     use modeller_surrogate_class           ,only: ModellerSurrogate
     use variable_container_class           ,only: VariableContainer
@@ -42,6 +42,9 @@ module implicit_PicardBDE_integrator_class
         integer(ik) :: minNonlinIters = 5 !! Number of nonlinear iterations below which the number of substeps gets reduced
 
         integer(ik) :: maxRestarts = 3 !! Maximum number of consecutive solver restart attempts before critical failure is announced
+
+        integer(ik) :: hardMaxRestarts = 10 !! Maximum number of consecutive solver restart attempts before critical failure is announced regardless of whether consolidation happened or not
+
         integer(ik) :: restartCount = 0 !! Counter for consecutive number of solver restars 
 
         integer(ik) :: consolidationInterval = 50 !! How many integration calls before currentNumSubsteps is again reduced to 1

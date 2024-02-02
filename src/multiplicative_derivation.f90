@@ -17,7 +17,7 @@ module multiplicative_derivation_class
     !! Houses composite derivation class where two derivation results get multiplied together, optionally applying an elementary function (exp, log, sin, cos) to one of them and raising them to corresponding powers
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray ,IntArray

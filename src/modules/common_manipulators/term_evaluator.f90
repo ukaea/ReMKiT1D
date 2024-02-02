@@ -16,7 +16,7 @@ module term_evaluator_class
     !!
     !! Houses TermEvaluator class, a Manipulator that evaluates terms specified my modelIndex,termName tuples
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions, assertionLvl
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use modeller_surrogate_class              ,only: ModellerSurrogate
     use variable_container_class              ,only: VariableContainer

@@ -51,7 +51,7 @@ module subroutine initGeneralTerm(this,gridObj,partitionObj,indexingObj,procRank
     logical :: nonTrivialRowFun ,nonTrivialColFun
 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(gridObj%isDefined(),"Undefined grid object passed to general matrix term constructor")
         call assert(partitionObj%isDefined(),"Undefined partition object passed to general matrix term constructor")
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to general matrix term constructor")
@@ -70,7 +70,7 @@ module subroutine initGeneralTerm(this,gridObj,partitionObj,indexingObj,procRank
     nonTrivialRowFun = .false.
     nonTrivialColFun = .false.
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (present(vData)) then
             if (allocated(vData%rowVars) .and. allocated(vData%rowVarPowers)) &
             call assert(size(vData%rowVars) == size(vData%rowVarPowers),&
@@ -213,7 +213,7 @@ module subroutine initGeneralTerm(this,gridObj,partitionObj,indexingObj,procRank
     end do
 
     !Check to make sure required variables conform
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (.not. this%kineticRow) call assert(.not. any(this%reqRowVarIsDist),&
         "Required row variable in general matrix term is a distribution when the evolved variable isn't")
 

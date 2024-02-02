@@ -50,7 +50,7 @@ pure module subroutine initDBTransition(this,locNumX,inStates,outStates,energy,d
 
     real(rk) ,allocatable ,dimension(:) :: rateVec
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(refVSpace%isDefined(),&
         "Undefined target VSpace object passed to fixed energy detailed balance transition constructor")
         if (present(momentumMoment)) then 

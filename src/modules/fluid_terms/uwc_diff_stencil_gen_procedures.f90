@@ -38,12 +38,12 @@ logical ,optional                         ,intent(in)     :: staggeredGridMode !
 
     integer(ik) :: inferredGridSize
 
-    if (assertions) call assert(partitionObj%isDefined(),&
+    if (assertions .or. assertionLvl >= 0) call assert(partitionObj%isDefined(),&
     "Undefined partition object passed to central diff val generator constructor")
 
     inferredGridSize = maxval(partitionObj%getMaxX())
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(size(innerJ) == inferredGridSize,"innerJ passed to initUWCDiffStencil does not conform to inferred grid size")
         call assert(size(outerJ) == inferredGridSize,"outerJ passed to initUWCDiffStencil does not conform to inferred grid size")
         call assert(size(linInterp) == inferredGridSize+1,&

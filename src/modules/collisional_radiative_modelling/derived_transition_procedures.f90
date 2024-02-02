@@ -38,7 +38,7 @@ pure module subroutine initDerivedTransition(this,locNumX,inStates,outStates,ene
     class(Derivation) ,optional         ,intent(in)     :: energyRateDeriv !! Derivation object used in energy rate calculation
     integer(ik) ,optional ,dimension(:) ,intent(in)     :: energyRateDerivIndices !! Indices for energy rate derivation
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(rateDeriv%isDefined(),&
         "Derivation object passed to DerivedTransition constructor is not defined")
 

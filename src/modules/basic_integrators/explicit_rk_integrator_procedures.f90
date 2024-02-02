@@ -39,7 +39,7 @@ module subroutine initRKIntegrator(this,modelList,termGroups,order,tableau,evolv
 
     integer(ik)                                         :: i,j
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         
         if (present(termGroups)) call assert(present(modelList),"Term groups object passed to RK integrator constructor without&
                                                                & model list")
@@ -219,7 +219,7 @@ module subroutine integrateRK(this,manipulatedModeller,outputVars,inputVars)
                 if (.not. mixedGroup(i)%entry(j)) then
                     varIndices(i)%entry(j) = inputVars%getVarIndex(manipulatedModeller&
                                                               %getEvolvedVarInTermGroup(termGroups(i)%entry(j),modelIndices(i)))
-                    if (assertions) call assert(.not.inputVars%isStationary(manipulatedModeller&
+                    call assert(.not.inputVars%isStationary(manipulatedModeller&
                     %getEvolvedVarInTermGroup(termGroups(i)%entry(j),modelIndices(i))),&
                     "Explicit RK integrator detected stationary variable among evolved variables - this is unsupported")
                 end if

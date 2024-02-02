@@ -15,7 +15,7 @@ module standard_modeller_assembly
     !! Contains various support routines used in data initialization
 
     use data_kinds                          ,only: rk, ik
-    use runtime_constants                   ,only: debugging, assertions
+    use runtime_constants                   ,only: debugging, assertions, assertionLvl
     use assertion_utility                   ,only: assert, assertIdentical, assertPure
     use json_controller_class               ,only: JSONController 
     use mpi_controller_class                ,only: MPIController ,CommunicationData

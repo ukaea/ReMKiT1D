@@ -34,7 +34,7 @@ module subroutine initGenerator(this,stencilObj,columnVecs,varContColVarNames,mb
 
     call this%fixedStencilGen%init(stencilObj,columnVecs,periodicDim,coordInterval)
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assert(size(varContColVarNames)==stencilObj%getStencilDims(),&
         "varContColVarNames passed to FluidStencilGen1D constructor must conform to stencil size")
         call assert(size(mbColVarNames)==stencilObj%getStencilDims(),&

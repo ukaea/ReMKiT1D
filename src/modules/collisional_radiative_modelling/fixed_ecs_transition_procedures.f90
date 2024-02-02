@@ -40,7 +40,7 @@ pure module subroutine initFixedECSTransition(this,locNumX,inStates,outStates,en
 
     real(rk) ,allocatable ,dimension(:) :: rateVec
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(refVSpace%isDefined(),&
         "Undefined target VSpace object passed to fixed energy/cross-section transition constructor")
         if (present(momentumMoment)) then 

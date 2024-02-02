@@ -17,7 +17,7 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 
-PROJECT(ReMKiT1D VERSION 1.0.0
+PROJECT(ReMKiT1D VERSION 1.1.0
   DESCRIPTION "A Fortran framework for 1D multifluid and kinetic simulations geared towards Scrape-Off Layer plasmas"
   LANGUAGES Fortran)
 

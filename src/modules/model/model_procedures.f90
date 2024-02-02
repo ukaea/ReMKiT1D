@@ -65,7 +65,7 @@ pure module subroutine setNumImplicitTerms(this,numImplicitTerms)
     class(Model)             ,intent(inout)  :: this
     integer(ik)              ,intent(in)     :: numImplicitTerms !! Number of MatrixTerm objects this model expects to be added
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"setNumImplicitTerms called on undefined model object")
         call assertPure(.not. this%setupCounter(1),"setNumImplicitTerms called more than once")
     end if
@@ -84,7 +84,7 @@ pure module subroutine setNumGeneralTerms(this,numGeneralTerms)
     class(Model)             ,intent(inout)  :: this
     integer(ik)              ,intent(in)     :: numGeneralTerms !! Number of general Term objects this model expects to be 
     
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"setNumGeneralTerms called on undefined model object")
         call assertPure(.not. this%setupCounter(2),"setNumGeneralTerms called more than once")
     end if
@@ -104,7 +104,7 @@ pure module subroutine setNumImplicitGroups(this,numImplicitGroups)
 
     integer(ik) :: i 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"setNumImplicitGroups called on undefined model object")
         call assertPure(.not. this%setupCounter(3),"setNumImplicitGroups called more than once")
     end if
@@ -130,7 +130,7 @@ pure module subroutine setNumGeneralGroups(this,numGeneralGroups)
     
     integer(ik) :: i 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"setNumGeneralGroups called on undefined model object")
         call assertPure(.not. this%setupCounter(4),"setNumGeneralGroups called more than once")
     end if
@@ -161,7 +161,7 @@ pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups
 
     integer(ik) :: i ,prevIndex ,prevGeneralTermIndex
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add implicit term to undefined model object")
         call assertPure(impTerm%isDefined(),"Attempted to add undefined implicit term to model object")
         call assertPure(all(this%setupCounter),"Attempted to add implicit term to model object before setting up allocations")
@@ -225,7 +225,7 @@ pure module subroutine addGeneralTerm(this,genTerm,generalGroups,termName)
 
     integer(ik) :: i ,prevIndex ,prevGeneralTermIndex
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add general term to undefined model object")
         call assertPure(genTerm%isDefined(),"Attempted to add undefined general term to model object")
         call assertPure(all(this%setupCounter),"Attempted to add general term to model object before setting up allocations")
@@ -435,7 +435,7 @@ module subroutine assemble(this,petscCont)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(this%isDefined(),"Attempted to assemble undefined model object")
         call assertPure(all(this%setupCounter),"Attempted to assemble model object before setting up allocations")
         if (present(petscCont)) call assert(petscCont%isDefined(),"Attempted to assemble model object using undefined PETSc object")

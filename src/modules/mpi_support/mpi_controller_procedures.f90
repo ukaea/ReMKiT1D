@@ -247,9 +247,10 @@ module subroutine exchangeDistVarInRow(this,varContainer,name)
     end if
     varIndex = varContainer%getVarIndex(name)
     !Fill local buffer
+    !Some MPI implementations will change the buffer bounds on communication, hence the explicit lbound call
     do i = 1,this%rowNumX+2*this%xHaloWidth
-        bufferFirstIndex = (i-1)*this%rowNumH(this%rowRank)*this%numV
-        bufferLastIndex = i*this%rowNumH(this%rowRank)*this%numV-1
+        bufferFirstIndex = (i-1)*this%rowNumH(this%rowRank)*this%numV+lbound(this%distBuffer(this%rowRank)%entry,1)
+        bufferLastIndex = i*this%rowNumH(this%rowRank)*this%numV-1+lbound(this%distBuffer(this%rowRank)%entry,1)
         varEntryFirstIndex = (i-this%xHaloWidth-1)*this%numH*this%numV+this%rowHOffset(this%rowRank)*this%numV + 1
         varEntryLastIndex = (i-this%xHaloWidth-1)*this%numH*this%numV+this%rowHOffset(this%rowRank)*this%numV &
         + this%rowNumH(this%rowRank)*this%numV
@@ -261,13 +262,11 @@ module subroutine exchangeDistVarInRow(this,varContainer,name)
     do i = 0,this%rowSize - 1
         call MPI_Bcast(this%distBuffer(i)%entry,size(this%distBuffer(i)%entry),MPI_Real8,i,this%rowComm)
     end do
-
     !Copy data back from buffer
     do j = 0,this%rowSize - 1
         do i = 1,this%rowNumX+2*this%xHaloWidth
-
-            bufferFirstIndex = (i-1)*this%rowNumH(j)*this%numV 
-            bufferLastIndex = i*this%rowNumH(j)*this%numV-1
+            bufferFirstIndex = (i-1)*this%rowNumH(j)*this%numV +lbound(this%distBuffer(j)%entry,1)
+            bufferLastIndex = i*this%rowNumH(j)*this%numV-1 +lbound(this%distBuffer(j)%entry,1)
             varEntryFirstIndex = (i-this%xHaloWidth-1)*this%numH*this%numV+this%rowHOffset(j)*this%numV + 1
             varEntryLastIndex = (i-this%xHaloWidth-1)*this%numH*this%numV+this%rowHOffset(j)*this%numV &
             + this%rowNumH(j)*this%numV

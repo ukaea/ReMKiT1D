@@ -15,7 +15,7 @@ module partition_class
     !! Houses Partition object responsible for decomposing the x-h domain
 
     use data_kinds                  ,only: rk, ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions ,assertionLvl
     use god_objects                 ,only: Object
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use support_functions           ,only: findIndices ,allCombinations ,removeDupeInts
@@ -60,7 +60,7 @@ module partition_class
 !-----------------------------------------------------------------------------------------------------------------------------------
     interface 
 !-----------------------------------------------------------------------------------------------------------------------------------
-        pure module subroutine initSimplePartition(this,numProcsX,numProcsH,numX,numH) 
+        module subroutine initSimplePartition(this,numProcsX,numProcsH,numX,numH) 
             !! Partition initialization routine - assuming even distributions in x and h directions
 
             class(Partition)          ,intent(inout)  :: this

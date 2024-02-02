@@ -45,7 +45,7 @@ pure module subroutine initModelboundDataVarlike(this,&
     integer(ik) :: i ,j 
     integer(ik) :: minX ,maxX ,numH ,numV ,locNumX
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assertPure(dataList%isDefined(),"Undefined data variable list passed to variable-like modelbound data constructor")
         call assertPure(partitionObj%isDefined(),"Undefined partition object passed to variable-like modelbound data constructor")

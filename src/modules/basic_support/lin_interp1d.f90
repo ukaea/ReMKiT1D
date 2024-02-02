@@ -26,17 +26,21 @@ module lin_interp1D_class
     private
 
     type ,public ,extends(Object) :: Interpolation1D
-        !! Linear interpolation object housing information necessary for linearly interpolating 1D data
+        !! Linear interpolation object housing information necessary for linearly interpolating 1D data. Will fail assertsion if interpolation points are outside of the grid. 
 
         integer(ik) ,allocatable ,dimension(:) ,private :: firstDataIndex !! Array containing the first interpolation index (the second is 1 above the first)
-        real(rk)    ,allocatable ,dimension(:) ,private :: interpWeights !! Array containing interpolation weights for each interpolation point
+        real(rk)    ,allocatable ,dimension(:) ,private :: interpWeights !! Array containing interpolation weights for each interpolation point. Will be set to -1 if the point is outside the grid.
         real(rk)    ,allocatable ,dimension(:) ,private :: interpPoints !! Points at which this interpolation object provides values
+
+        real(rk)    ,allocatable ,dimension(:) ,private :: gridBuffer !! Buffer for grid values used when updating interpolation points
 
         contains
 
         procedure ,public :: getFirstDataIndices
         procedure ,public :: getInterpWeights
         procedure ,public :: getInterpPoints
+
+        procedure ,public :: updateInterpolationPoints
 
         procedure ,public :: interpolate
 
@@ -51,9 +55,17 @@ module lin_interp1D_class
 
             class(Interpolation1D)           ,intent(inout)  :: this
             real(rk) ,dimension(:)           ,intent(in)     :: gridPoints 
-            real(rk) ,dimension(:)           ,intent(in)     :: interpolationPoints
+            real(rk) ,dimension(:) ,optional ,intent(in)     :: interpolationPoints
 
         end subroutine initInterpolation
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module subroutine updateInterpolationPoints(this,interpolationPoints) 
+            !! Updates the interpolation points and weightss
+
+            class(Interpolation1D)           ,intent(inout)  :: this
+            real(rk) ,dimension(:)           ,intent(in)     :: interpolationPoints
+
+        end subroutine updateInterpolationPoints
 !-----------------------------------------------------------------------------------------------------------------------------------
         pure module function getFirstDataIndices (this) result(inds)
             !! Getter for firstDataIndex

@@ -33,7 +33,7 @@ module subroutine initMultDeriv(this,innerDeriv,innerIndices,outerDeriv,outerInd
     real(rk) ,optional                  ,intent(in)    :: outerPower
     character(*) ,optional              ,intent(in)    :: innerFuncName 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(innerDeriv%isDefined(),"innerDeriv passed to initMultDeriv not defined")
         if (present(outerDeriv)) then 
             call assert(outerDeriv%isDefined(),"outerDeriv passed to initMultDeriv not defined")

@@ -33,9 +33,11 @@ module subroutine initInterpValGen(this,partitionObj,geometryObj,procRank,stagge
     real(rk) ,allocatable ,dimension(:) :: dx ,lInterp
     integer(ik) :: minX, maxX
 
-    if (assertions) call assert(partitionObj%isDefined(),"Undefined partition object passed to interp val generator constructor")
+    if (assertions .or. assertionLvl >= 0) call assert(partitionObj%isDefined(),&
+    "Undefined partition object passed to interp val generator constructor")
 
-    if (assertions) call assert(geometryObj%isDefined(),"Undefined geometry object passed to initInteprValGen")
+    if (assertions .or. assertionLvl >= 0) call assert(geometryObj%isDefined(),&
+    "Undefined geometry object passed to initInteprValGen")
 
     this%periodicGrid = geometryObj%isPeriodic()
     dx = geometryObj%getCellWidths()

@@ -37,7 +37,8 @@ module subroutine addJanevRadRecombTransition(crmData,locNumX,endState,temperatu
 
     real(rk) :: multConstNorm ,transitionEnergy
 
-    if (assertions) call assert(crmData%isDefined(),"Undefined CRM Data passed to addJanevRadRecombTransition")
+    if (assertions .or. assertionLvl >= 0) call assert(crmData%isDefined(),&
+    "Undefined CRM Data passed to addJanevRadRecombTransition")
 
     multConstNorm = real(1.0d-20,kind=rk) * timeNorm*densNorm !Prefactor comes from fact Janev routine returns rate in 10^-14 cm^3/s 
 
@@ -79,7 +80,8 @@ module subroutine addJanevCollExIonTransition(crmData,locNumX,startState,endStat
     real(rk) :: transitionEnergy
     integer(ik) :: numV
 
-    if (assertions) call assert(crmData%isDefined(),"Undefined CRM Data passed to addJanevCollExIonTransition")
+    if (assertions .or. assertionLvl >= 0) call assert(crmData%isDefined(),&
+    "Undefined CRM Data passed to addJanevCollExIonTransition")
 
     eGrid = refVSpace%getVGrid() ** 2 * eVTempNorm
     numV = refVSpace%getNumV()
@@ -96,7 +98,8 @@ module subroutine addJanevCollExIonTransition(crmData,locNumX,startState,endStat
         transitionEnergy = transitionEnergy/eVTempNorm
     else
 
-        if (assertions) call assert(endState>startState,"endState must be greater than startState in addJanevCollExIonTransition")
+        if (assertions .or. assertionLvl >= 0) call assert(endState>startState,&
+        "endState must be greater than startState in addJanevCollExIonTransition")
 
         crossSection(:,1) = real(1.0d-20,kind=rk)/csNorm * excitationCrossSectionHydrogen(eGrid,startState,endState)
 
@@ -143,7 +146,8 @@ module subroutine addJanevCollDeexRecombTransition(crmData,locNumX,startState,en
 
     type(SimpleDerivation) :: degeneracyFun
 
-    if (assertions) call assert(crmData%isDefined(),"Undefined CRM Data passed to addJanevCollDeexRecombTransition")
+    if (assertions .or. assertionLvl >= 0) call assert(crmData%isDefined(),&
+    "Undefined CRM Data passed to addJanevCollDeexRecombTransition")
 
     if (startState == 0) then 
 
@@ -167,7 +171,8 @@ module subroutine addJanevCollDeexRecombTransition(crmData,locNumX,startState,en
 
     else
 
-        if (assertions) call assert(endState<startState,"endState must be lower than startState in addJanevCollExIonTransition")
+        if (assertions .or. assertionLvl >= 0) call assert(endState<startState,&
+        "endState must be lower than startState in addJanevCollExIonTransition")
 
         inStates = [0,startState]
         outStates = [0,endState]

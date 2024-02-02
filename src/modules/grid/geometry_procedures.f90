@@ -34,7 +34,7 @@ pure module subroutine initGeometry(this,cellWidths,jLeft,jRight,periodicGrid)
 
     logical :: periodic
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assertPure((size(cellWidths) == size(jLeft)) .and. (size(jLeft) == size(jRight)),&
         "Cell widths and face jacobians passed to geometry initializations must all be of same size")
     end if
@@ -97,7 +97,7 @@ pure module function getCellWidths (this,dualGrid,extendedBoundaryCells) result(
         else if (exBoundaryCells) then
             dx(1) = this%cellWidths(1) + this%cellWidths(2)/2
             dx(size(dx)-1) = this%cellWidths(size(dx)) + this%cellWidths(size(dx)-1)/2
-            dx(size(dx)) = 0
+            dx(size(dx)) = 10*epsilon(dx) ! Set to this to avoid divide by 0 errors
         end if
     end if
 end function getCellWidths
@@ -211,7 +211,7 @@ pure module function getJacobianCentre (this,dualGrid,extendedBoundaryCells) res
             jCentre(size(jCentre)-1) = jCentre(size(jCentre)-1)/(this%cellWidths(size(jCentre))&
                                       +this%cellWidths(size(jCentre)-1)/2)
 
-            jCentre(size(jCentre)) = 0
+            jCentre(size(jCentre)) = 10*epsilon(jCentre) ! Set to this to avoid divide by 0 errors
 
         end if
     end if

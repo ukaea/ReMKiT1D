@@ -11,66 +11,60 @@
 !
 ! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 !-----------------------------------------------------------------------------------------------------------------------------------
-module range_filter_derivation_class
+module lin_interpnd_derivation_class
     !! author: Stefan Mijin 
     !!
-    !! Houses composite derivation class where a derivations result is zeroed out wherever a set of passed variables is not within their
-    !! defined ranges 
+    !! Houses derivation that linearly interpolates on multidimensional data based on some input variable values. 
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions, assertionLvl
+    use runtime_constants           ,only: debugging, assertions
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
-    use support_types               ,only: RealArray ,IntArray 
+    use support_types               ,only: RealArray 
     use derivation_abstract_class   ,only: Derivation
-    use support_functions           ,only: findIndices
+    use lin_interpnd_class          ,only: InterpolationND
+    use flat_nd_data_class          ,only: FlatNDData
+
 
     implicit none
     private
 
-    type ,public ,extends(Derivation) :: RangeFilterDerivation
-        !! Composite derivation class containing a single calculation rule, which is overriden with zeros wherever any one in a set of control
-        !! variables is outside their defined range. If derivIndices isn't passed will pass all indices to the derivation.
+    type ,public ,extends(Derivation) :: NDInterpolationDerivation
+        !! Interpolates n-dimensional data linearly based on n-input variables (must all be the same length)
 
-        class(Derivation) ,allocatable ,private :: derivObj !! Derivation providing default values
-
-        integer(ik) ,allocatable ,dimension(:) ,private :: derivIndices !! Subset of index vector passed to  derivation
-        integer(ik) ,allocatable ,dimension(:) ,private :: controlIndices !! Subset of index vector used to determine which elements should be zeroed out
-
-        type(RealArray) ,allocatable ,dimension(:) ,private :: controlRanges !! Array of size 2 vectors representing the lower and upper bound for each control value
+        type(InterpolationND) ,allocatable :: interpObj !! n-dimensional interpolation object respnsible for interpolation 
+        type(FlatNDData)      ,allocatable :: data !! Data to interpolate on
 
         contains
 
-        procedure ,public :: init => initRangeFilterDeriv
+        procedure ,public :: init => initInterpDeriv
 
-        procedure ,public :: calculate => calculateRangeFilter
+        procedure ,public :: calculate => calculateInterp
 
-    end type RangeFilterDerivation
+    end type NDInterpolationDerivation
 !-----------------------------------------------------------------------------------------------------------------------------------
     interface
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine initRangeFilterDeriv(this,derivObj,controlIndices,controlRanges,derivIndices)
-        !! Initialize range filter derivation object
+    module subroutine initInterpDeriv(this,interpObj,data)
+        !! Initialize n-linear interpolation derivation object
 
-        class(RangeFilterDerivation)        ,intent(inout) :: this
-        class(Derivation)                   ,intent(in)    :: derivObj
-        integer(ik) ,dimension(:)           ,intent(in)    :: controlIndices
-        type(RealArray) ,dimension(:)       ,intent(in)    :: controlRanges
-        integer(ik) ,optional ,dimension(:) ,intent(in)    :: derivIndices
+        class(NDInterpolationDerivation)   ,intent(inout) :: this
+        type(InterpolationND)              ,intent(in)    :: interpObj
+        type(FlatNDData)                   ,intent(in)    :: data
 
-    end subroutine initRangeFilterDeriv  
+    end subroutine initInterpDeriv  
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module function calculateRangeFilter(this,inputArray,indices) result(output)
+    module function calculateInterp(this,inputArray,indices) result(output)
 
-        class(RangeFilterDerivation)       ,intent(inout)    :: this 
+        class(NDInterpolationDerivation)    ,intent(inout) :: this 
         type(RealArray)       ,dimension(:) ,intent(in)    :: inputArray 
         integer(ik)           ,dimension(:) ,intent(in)    :: indices           
         real(rk) ,allocatable ,dimension(:)                :: output
 
-    end function calculateRangeFilter
+    end function calculateInterp
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface 
 !-----------------------------------------------------------------------------------------------------------------------------------
- end module range_filter_derivation_class
+ end module lin_interpnd_derivation_class
 !-----------------------------------------------------------------------------------------------------------------------------------
  

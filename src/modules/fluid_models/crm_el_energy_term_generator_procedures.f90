@@ -43,7 +43,7 @@ module subroutine initCRMElEnergyTermGenerator(this,envObj,crmData,generatorTag,
 
     character(len=80) :: transIndexBuffer
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to CRMElEnergyTermGenerator constructor")
         call assert(crmData%isDefined(),"Undefined modelbound CRM data passed to CRMElEnergyTermGenerator constructor")
@@ -57,13 +57,13 @@ module subroutine initCRMElEnergyTermGenerator(this,envObj,crmData,generatorTag,
     allocate(usedTransitionIndices(0))
     if (present(includedTransitionIndices)) then 
         do i = 1,size(includedTransitionIndices)
-            if (any(crmData%getTransitionIngoingStates(includedTransitionIndices(i)) == 0)) &
+            if (any(crmData%getTransitionIngoingStates(includedTransitionIndices(i)) == crmData%getElState())) &
             usedTransitionIndices = [usedTransitionIndices,includedTransitionIndices(i)]
         end do
     else
 
         do i = 1,crmData%getNumTransitions()
-            if (any(crmData%getTransitionIngoingStates(i) == 0)) &
+            if (any(crmData%getTransitionIngoingStates(i) == crmData%getElState())) &
             usedTransitionIndices = [usedTransitionIndices,i]
         end do
     end if

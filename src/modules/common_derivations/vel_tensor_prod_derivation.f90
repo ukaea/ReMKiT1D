@@ -17,7 +17,7 @@ module vel_tensor_prod_derivation_class
     !! Houses derivation that takes calculates the flattened velocity vector and x vector tensor product, resulting in a single harmonic variable
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray 

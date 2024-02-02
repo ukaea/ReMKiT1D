@@ -17,7 +17,7 @@ module custom_model_builder_class
     !! Houses model builder for user-defined models
 
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions ,assertionLvl
     use god_objects                           ,only: Object
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use support_types                         

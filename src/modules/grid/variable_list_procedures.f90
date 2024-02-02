@@ -129,7 +129,7 @@ pure module subroutine addVar(this,name,isDist,isSingleHarmonic,isScalar,isOnDua
     logical :: distf ,singleH ,scal ,dual,stat
     integer(ik) :: varPriority
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add variable to undefined variable list")
         call assertPure(.not.(this%isVarNameRegistered(name)),&
             "Attempted to add variable with same name as one already in variable list")
@@ -152,7 +152,7 @@ pure module subroutine addVar(this,name,isDist,isSingleHarmonic,isScalar,isOnDua
     stat = .false. 
     if (present(isStationary)) stat = isStationary
     
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(.not. (distf .and. singleH),&
         "Cannot add variable to variable list that is both a distribution and a single harmonic")
         call assertPure(.not. ((distf .or. singleH) .and. scal),&

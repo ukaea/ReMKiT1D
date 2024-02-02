@@ -31,14 +31,14 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     type(NamedString)      ,dimension(2) :: modes 
     type(NamedInteger)     ,dimension(1) :: timestepNum, saveFreq ,restartFreq 
     type(NamedReal)        ,dimension(1) :: targetTime ,minInterval
-    type(NamedLogical)     ,dimension(2) :: restartSwitches
+    type(NamedLogical)     ,dimension(3) :: restartSwitches
     type(NamedLogical)     ,dimension(1) :: loadFromHDF5
     type(NamedString)      ,dimension(1) :: hdf5Filename ,hdf5Filepath
     type(NamedStringArray) ,dimension(1) :: hdf5InputVars
 
     real(rk) :: timeNorm
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to initStandardTimeloop")
         call assert(normObj%isDefined(),"Undefined normalization object passed to initStandardTimeloop")
     end if
@@ -55,6 +55,7 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
 
     restartSwitches(1) = NamedLogical(keyTimeloop//"."//keyRestart//"."//keySave,.false.)
     restartSwitches(2) = NamedLogical(keyTimeloop//"."//keyRestart//"."//keyLoad,.false.)
+    restartSwitches(3) = NamedLogical(keyTimeloop//"."//keyRestart//"."//keyResetTime,.false.)
 
     loadFromHDF5(1) = NamedLogical(keyTimeloop//"."//keyHDF5LoadInit,.false.)
 
@@ -119,6 +120,7 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
 
     this%saveRestart = restartSwitches(1)%value
     this%loadRestart = restartSwitches(2)%value
+    this%resetTimeRestart = restartSwitches(3)%value
     this%loadSerial = loadFromHDF5(1)%value 
 
     if (this%loadSerial) call assert(.not. this%loadRestart,&
@@ -177,6 +179,12 @@ module subroutine loop(this,envObj,modellerObj)
     if (this%loadRestart) then 
         call printMessage("Loading restart files")
         call envObj%hdf5Cont%loadRestartFiles(envObj%mpiCont,this%bufferVars)
+
+        if (this%resetTimeRestart) then 
+            if (this%bufferVars%isVarNameRegistered("time")) then 
+                this%bufferVars%variables(this%bufferVars%getVarIndex("time"))%entry = 0
+            end if
+        end if
         call modellerObj%copyVarValuesFrom(this%bufferVars)
         call printMessage("Restart files loaded")
     end if

@@ -45,7 +45,7 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     
     integer(ik) ,allocatable ,dimension(:) :: procDoFs
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to BDE integrator constructor")
         if (present(termGroups)) call assert(present(modelList),"Term groups object passed to BDE integrator constructor without&
                                                                & model list")
@@ -146,7 +146,10 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
             allocate(dt(1))
             dt = fullTimestep
         end if
-        if (this%internalControlOpts%restartCount > this%internalControlOpts%maxRestarts) error stop "Max BDE restarts reached"
+        if (this%internalControlOpts%restartCount > this%internalControlOpts%hardMaxRestarts) &
+            error stop "Max BDE restarts reached - hard maximum"
+        if (this%internalControlOpts%restartCount > this%internalControlOpts%maxRestarts .and. &
+            this%internalControlOpts%stepsSinceLastConsolidation > 1) error stop "Max BDE restarts reached"
         call tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,dt,solveSuccess)
         if (solveSuccess) then
             this%internalControlOpts%restartCount = 0
@@ -163,7 +166,7 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
    
 end subroutine integrateBDE
 !-----------------------------------------------------------------------------------------------------------------------------------
-function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2Norm) result(conv)
+function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2Norm,convergenceCounter) result(conv)
     !! Checks whether all variables determined by indicesToCheck have converged based on a given nonlinear tolerance
 
     type(RealArray) ,dimension(:) ,intent(in) :: oldVars !! Previous variable values
@@ -172,7 +175,7 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
     real(rk)                      ,intent(in) :: nonlinTol !! Relative convergence tolerances for each variable 
     real(rk)                      ,intent(in) :: absTol !! Absolute tolerance in epsilon units for each variable
     logical                       ,intent(in) :: use2Norm !! True if this should use 2-norm instead of local inf-norm
-
+    integer(ik)     ,dimension(:) ,intent(inout) :: convergenceCounter !! Incremented if the variable with a given index has not yet converged
 
     logical :: conv 
     logical ,allocatable ,dimension(:) :: varConverged
@@ -188,15 +191,29 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
         nonHaloLen = size(newVars(ind)%entry) - haloDataChunkSize
 
         if (use2Norm) then
-            relError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))&
-                    /norm2(oldVars(ind)%entry(1:nonHaloLen))
+
             absError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))
+
+            if (norm2(oldVars(ind)%entry(1:nonHaloLen))>epsilon(absError)*absTol) then
+                relError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))&
+                        /norm2(oldVars(ind)%entry(1:nonHaloLen))
+            else
+                relError = absError
+            end if
         else
-            relError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen)))&
-                    /abs(oldVars(ind)%entry(1:nonHaloLen)))
+
             absError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))))
+
+            if (all(abs(oldVars(ind)%entry(1:nonHaloLen)) > epsilon(absError)*absTol)) then 
+                relError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen)))&
+                    /abs(oldVars(ind)%entry(1:nonHaloLen)))
+                else
+                    relError = absError
+            end if
+            
         end if
         varConverged(i) = relError < nonlinTol .or. absError < epsilon(absError)*absTol
+        if (.not. varConverged(i)) convergenceCounter(i) = convergenceCounter(i) + 1
     end do
 
     conv = all(varConverged)
@@ -300,6 +317,8 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
     real(rk)        ,allocatable ,dimension(:) :: implicitVectorInit
 
     real (rk) :: startingTime 
+    
+    integer(ik)    ,allocatable ,dimension(:)  :: convergenceCounter 
 
     termGroups = this%getTermGroups()
     modelIndices = this%getModelIndices()
@@ -308,6 +327,8 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
     nonTrivialModelDataUpdate = this%hasNonTrivialModelDataUpdate()
     if (nonTrivialModelDataUpdate) modelDataUpdateRules = this%getModelDataUpdateRules()
     nonTrivialConvergenceCheck = allocated(this%convergenceTestVars) 
+
+    if (nonTrivialConvergenceCheck) allocate(convergenceCounter(size(this%convergenceTestVars)))
 
     !Check if communication needed
     commNeeded = this%isCommunicationNeeded()
@@ -330,7 +351,7 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
             if (inputVars%isVarNameRegistered("time")) &
             this%buffer%variables(timeVarIndex)%entry(1) = this%buffer%variables(timeVarIndex)%entry(1) + dt(i)
             tolReached = .false.
-
+            if (nonTrivialConvergenceCheck) convergenceCounter = 1
 
             call this%buffer%copyImplicitVarsToVec(implicitVectorInit,ignoreStationary=.true.)
             do nonlinIter = 1, this%maxIterations
@@ -371,7 +392,7 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
                         this%internalControlOpts%currentNumSubsteps = this%internalControlOpts%currentNumSubsteps &
                                                                     * this%internalControlOpts%stepMultiplier
                         solveSuccess = .false.
-                        this%internalControlOpts%restartCount = this%internalControlOpts%restartCount
+                        this%internalControlOpts%restartCount = this%internalControlOpts%restartCount + 1
                         return
                     else
                         call printNamedValue(this%integratorName//": PETScConvergedReason:",convReason)
@@ -391,7 +412,7 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
                 if (nonTrivialConvergenceCheck) then
                     locConverged = &
                     checkConvergence(oldBufferVals,this%buffer%variables,this%convergenceTestVars,&
-                                    this%nonlinTol,this%absTol,this%use2Norm)
+                                    this%nonlinTol,this%absTol,this%use2Norm,convergenceCounter)
                 else
                     locConverged = (norm2(this%implicitVectorOld-this%implicitVectorNew)/norm2(this%implicitVectorOld)) &
                                 < this%nonlinTol
@@ -411,6 +432,14 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
                     this%internalControlOpts%restartCount = this%internalControlOpts%restartCount + 1
                     return
                 end if
+            end if
+
+            if (nonTrivialConvergenceCheck) then
+                do j = 1, size(convergenceCounter)
+                    if (convergenceCounter(j) == nonlinIter) &
+                        call printMessage(this%integratorName//": convergence bottleneck: "&
+                                    // inputVars%getVarName(this%convergenceTestVars(j)),.true.)
+                end do
             end if
 
             if (solveSuccess) then

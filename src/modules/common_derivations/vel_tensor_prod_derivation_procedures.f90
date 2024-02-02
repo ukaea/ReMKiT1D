@@ -29,7 +29,7 @@ module subroutine initVTProdDeriv(this,refVSpace,velVec,power)
     real(rk) ,optional ,dimension(:)    ,intent(in)    :: velVec !! Optional velocity space vector. Defaults to velocity grid values
     real(rk) ,optional                  ,intent(in)    :: power !! Optional power to raise the shifted velocity vector to. Defaults to 1
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
         call assert(refVSpace%isDefined(),"Undefined refVSpace passed to initVTProdDeriv")
         if (present(velVec)) call assert(size(velVec)==refVSpace%getNumV(),&
         "velVec passed to initVTProdDeriv does not conform to number of velocity grid points")

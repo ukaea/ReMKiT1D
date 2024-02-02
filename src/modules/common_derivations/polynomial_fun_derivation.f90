@@ -17,7 +17,7 @@ module polynomial_fun_derivation_class
     !! Houses derivation taking in a single variable and uses it in a polynomial function
 
     use data_kinds                  ,only: rk ,ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray 

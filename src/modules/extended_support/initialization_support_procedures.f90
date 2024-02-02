@@ -34,7 +34,7 @@ module subroutine initVarListFromJSON(varList,jsonCont,mpiCont,isDerivedList)
     integer(ik) :: i
     logical :: derivList
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. varList%isDefined(),"initVarListFromJSON called on already defined variable list")
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to initVarListFromJSON")
     end if
@@ -71,7 +71,7 @@ subroutine addVarToListFromJSON(varList,jsonCont,mpiCont,isDerivedList,varName)
     type(NamedInteger) ,dimension(1) :: varPriority
     character(:) ,allocatable :: jsonPrefix
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to addVarToListFromJSON")
     end if
 
@@ -118,7 +118,7 @@ module subroutine initGridFromJSON(gridObj,jsonCont,mpiCont,lengthNorm)
 
     integer(ik) :: i 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. gridObj%isDefined(),"initGridFromJSON called on already defined grid object")
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to initGridFromJSON")
     end if
@@ -159,7 +159,7 @@ module subroutine initGridFromJSON(gridObj,jsonCont,mpiCont,lengthNorm)
     call jsonCont%load(gridInMeters)
     call jsonCont%load(intParams)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (constructGridFromWidths(1)%value) then
             call assert(size(cellWidth(1)%values) > 0,"No "//cellWidth(1)%name//" entry found in JSON file by initGridFromJSON &
             &when "//constructGridFromWidths(1)%name//" was read as true")
@@ -224,7 +224,7 @@ module subroutine initPartFromJSON(partObj,gridObj,jsonCont,mpiCont)
 
     integer(ik) :: numX, numH ,numProcs
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. partObj%isDefined(),"initPartFromJSON called on already defined partition object")
         call assert(gridObj%isDefined(),"Undefined grid object passed to initPartFromJSON")
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to initPartFromJSON")
@@ -241,7 +241,7 @@ module subroutine initPartFromJSON(partObj,gridObj,jsonCont,mpiCont)
 
     call jsonCont%load(intParams)
     
-    if (assertions) call assert(intParams(1)%value*intParams(2)%value == numProcs,&
+    if (assertions .or. assertionLvl >= 0) call assert(intParams(1)%value*intParams(2)%value == numProcs,&
     intParams(1)%name//" and "//intParams(2)%name//" in config.json do not conform to total number of MPI processes")
     
     call partObj%initSimplePartition(intParams(1)%value,intParams(2)%value,numX,numH)
@@ -264,7 +264,7 @@ module subroutine initGeometryFromJSON(geometryObj,gridObj,jsonCont,mpiCont)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. geometryObj%isDefined(),"initGeometryFromJSON called on already defined geometry object")
         call assert(gridObj%isDefined(),"Undefined grid object passed to initGeometryFromJSON")
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to initGeometryFromJSON")
@@ -288,7 +288,7 @@ module subroutine initGeometryFromJSON(geometryObj,gridObj,jsonCont,mpiCont)
 
     call jsonCont%load(cellFaceJacobians)
     call jsonCont%load(periodicGrid)
-    if (assertions) &
+    if (assertions .or. assertionLvl >= 0) &
     call assert(size(cellFaceJacobians(1)%values) == size(xGrid)+1,&
     cellFaceJacobians(1)%name//" from config.json do not conform to xGrid")
 
@@ -314,7 +314,7 @@ module subroutine initPETScContFromJSON(petscCont,indexingObj,jsonCont,mpiCont)
 
     type(SolverOptions) :: solOptions
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. petscCont%isDefined(),"initPETScContFromJSON called on already defined controller object")
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to initPETScContFromJSON")
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to initPETScContFromJSON")
@@ -359,7 +359,7 @@ module subroutine initHDF5ContFromJSON(hdf5Cont,varCont,jsonCont,mpiCont)
     type(NamedString)       ,dimension(1) :: filepath
     type(NamedStringArray)  ,dimension(1) :: varNames
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. hdf5Cont%isDefined(),"initHDF5ContFromJSON called on already defined controller object")
         call assert(varCont%isDefined(),"Undefined variable container object passed to initHDF5ContFromJSON")
         call assert(mpiCont%isDefined(),"Undefined MPIController passed to initHDF5ContFromJSON")
@@ -404,7 +404,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
 
     integer(ik) :: i ,numX, numH, numV, minX, maxX
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(.not. varCont%isDefined(),"initVarContFromJSON called on already defined variable container")
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to initVarContFromJSON")
@@ -425,7 +425,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
     numImplicitVars = size(implicitVarNames) 
     numDerivedVars = size(derivedVarNames)
 
-    if (assertions) &
+    if (assertions .or. assertionLvl >= 0) &
     call assert(numImplicitVars + numDerivedVars > 0,"No variables detected in config.json file by initVarContFromJSON")
 
     allocate(derivationReqVarNames(numDerivedVars))
@@ -486,7 +486,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
     do i = 1,numImplicitVars
         if (size(initValsImplicit(i)%values) > 0) then
             if (implicitVars%isVarDist(i)) then 
-                if (assertions) call assert(size(initValsImplicit(i)%values) == numX*numH*numV,&
+                if (assertions .or. assertionLvl >= 0) call assert(size(initValsImplicit(i)%values) == numX*numH*numV,&
                 "Initial value vector "//initValsImplicit(i)%name//" does not conform to grid")
                 varCont%variables(varCont%getVarIndex(implicitVarNames(i)%string))%entry(1:(maxX-minX+1)*numH*numV) = &
                 initValsImplicit(i)%values((minX-1)*numH*numV+1:maxX*numH*numV)
@@ -503,7 +503,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
 
             else if (implicitVars%isVarScalar(i)) then 
 
-                if (assertions) call assert(size(initValsImplicit(i)%values) == 1,&
+                if (assertions .or. assertionLvl >= 0) call assert(size(initValsImplicit(i)%values) == 1,&
                 "Initial value vector "//initValsImplicit(i)%name//" should be size 1")
 
                 varCont%variables(varCont%getVarIndex(implicitVarNames(i)%string))%entry = &
@@ -511,7 +511,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
 
             else
 
-                if (assertions) call assert(size(initValsImplicit(i)%values) == numX,&
+                if (assertions .or. assertionLvl >= 0) call assert(size(initValsImplicit(i)%values) == numX,&
                 "Initial value vector "//initValsImplicit(i)%name//" does not conform to grid")
                 varCont%variables(varCont%getVarIndex(implicitVarNames(i)%string))%entry(1:maxX-minX+1) = &
                 initValsImplicit(i)%values(minX:maxX)
@@ -544,7 +544,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
 
             if (derivedVars%isVarDist(i)) then 
 
-                if (assertions) call assert(size(initValsDerived(i)%values) == numX*numH*numV,&
+                if (assertions .or. assertionLvl >= 0) call assert(size(initValsDerived(i)%values) == numX*numH*numV,&
                 "Initial value vector "//initValsDerived(i)%name//" does not conform to grid")
                 varCont%variables(varCont%getVarIndex(derivedVarNames(i)%string))%entry(1:(maxX-minX+1)*numH*numV) = &
                 initValsDerived(i)%values((minX-1)*numH*numV+1:maxX*numH*numV)
@@ -562,7 +562,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
 
             else if (derivedVars%isVarScalar(i)) then 
 
-                if (assertions) call assert(size(initValsDerived(i)%values) == 1,&
+                if (assertions .or. assertionLvl >= 0) call assert(size(initValsDerived(i)%values) == 1,&
                 "Initial value vector "//initValsDerived(i)%name//" should be size 1")
 
                 varCont%variables(varCont%getVarIndex(derivedVarNames(i)%string))%entry = &
@@ -570,7 +570,7 @@ module subroutine initVarContFromJSON(varCont,indexingObj,partObj,textbookObj,js
 
             else
 
-                if (assertions) call assert(size(initValsDerived(i)%values) == numX,&
+                if (assertions .or. assertionLvl >= 0) call assert(size(initValsDerived(i)%values) == numX,&
                 "Initial value vector "//initValsDerived(i)%name//" does not conform to grid")
                 varCont%variables(varCont%getVarIndex(derivedVarNames(i)%string))%entry(1:maxX-minX+1) = &
                 initValsDerived(i)%values(minX:maxX)
@@ -674,7 +674,7 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
     
     logical ,allocatable ,dimension(:) :: selfIonLambdaAdded
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. textbookObj%isDefined(),"Attempted to initialize standard textbook in already defined texbook object")
         call assert(gridObj%isDefined(),"Undefined grid object passed to initStandardTextbook")
         call assert(partObj%isDefined(),"Undefined partition object passed to initStandardTextbook")
@@ -801,7 +801,7 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
 
     allocate(logLeiDeriv(size(negativeIDs)))
     allocate(selfIonLambdaAdded(size(negativeIDs)))
-    numLiiDerivs = size(negativeIDs) + (size(negativeIDs) - 1)**2
+    numLiiDerivs = size(negativeIDs)**2
     allocate(logLiiDeriv(numLiiDerivs))
     selfIonLambdaAdded = .false.
     k=1
@@ -880,7 +880,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
 
     logical ,allocatable ,dimension(:) :: updatesOnInternalIterationsModelData
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. integratorObj%isDefined(),"Attempted to initialize standard integrator in already defined object")
         call assert(varCont%isDefined(),"Undefined variable container passed to initStandardIntegrator")
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to initStandardIntegrator")
@@ -899,7 +899,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
     call jsonCont%load(stepTags)
     call jsonCont%load(modelTags)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(size(integratorTags(1)%values) > 0,"No integrator tags found by initStandardIntegrator")
         call assert(size(stepTags(1)%values) > 0,"No step tags found by initStandardIntegrator")
         call assert(size(modelTags(1)%values) > 0,"No model tags found by initStandardIntegrator")
@@ -966,7 +966,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         allocate(stringArrayParams(1)%values(0))
         call jsonCont%load(stringArrayParams)
 
-        if (assertions) call assert(size(stringArrayParams(1)%values)>0,"No required variables found for timestep controller in&
+        if (assertions .or. assertionLvl >= 0) call assert(size(stringArrayParams(1)%values)>0,&
+        "No required variables found for timestep controller in&
         & initStandardIntegrator")
 
         call jsonCont%output(stringArrayParams)
@@ -1148,7 +1149,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             end if
         end do
 
-        if (assertions) call assert(found,"An integrator tag supplied to an integration step in initStandardIntegrator is invalid")
+        if (assertions .or. assertionLvl >= 0) call assert(found,&
+        "An integrator tag supplied to an integration step in initStandardIntegrator is invalid")
 
         integratorSteps(i)%integratorIndex = integratorIndex
         if (allocated(realParams)) deallocate(realParams)
@@ -1204,7 +1206,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         end if
         integratorSteps(i)%communicationNeeded = commNeeded
 
-        if (assertions) call assert(size(stringArrayParams(1)%values) > 0,"No evolved models found for an integration step &
+        if (assertions .or. assertionLvl >= 0) call assert(size(stringArrayParams(1)%values) > 0,&
+        "No evolved models found for an integration step &
         &in initStandardIntegrator")
 
         if (allocated(modelIndices)) deallocate(modelIndices)
@@ -1220,7 +1223,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                 end if
             end do
 
-            if (assertions) &
+            if (assertions .or. assertionLvl >= 0) &
             call assert(found,"No model found for evolved model tag in an integration step in initStandardIntegrator")
         end do
 
@@ -1248,7 +1251,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         call jsonCont%load(integerArrayParams)
         call jsonCont%output(integerArrayParams)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             do j = 1, 2 * size(stringArrayParams(1)%values)
                 call assert(all(integerArrayParams(j)%values > 0),&
                 "Non-positive group index detected in integration step in initStandardIntegrator")
@@ -1355,7 +1358,7 @@ module subroutine setDistHarmonic(dist,h,xArr,vArr)
     locNumX = size(xArr)
     numH = size(dist)/(locNumX*numV)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(numH >= h,"Harmonic index passed to setDistHarmonic out of bounds - upper")
         call assert(h >= 1,"Harmonic index passed to setDistHarmonic out of bounds - lower")
 

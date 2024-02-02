@@ -17,7 +17,7 @@ module fluid_stencil_templates
     !! Contains stencil template generation for use in custom model construction
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions, assertionLvl
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use variable_container_class               ,only: VariableContainer, CalculationRule
     use basic_environment_wrapper              ,only: EnvironmentWrapper

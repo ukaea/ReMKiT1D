@@ -17,7 +17,7 @@ module general_mat_term_class
     !! Houses general matrix term
 
     use data_kinds                             ,only: rk, ik
-    use runtime_constants                      ,only: debugging, assertions
+    use runtime_constants                      ,only: debugging, assertions, assertionLvl
     use god_objects                            ,only: Object
     use assertion_utility                      ,only: assert, assertIdentical, assertPure
     use support_types                          ,only: RealArray ,IntArray ,StringArray

@@ -33,7 +33,7 @@ pure module subroutine initGrid(this,x,v,maxL,maxM)
 
     integer(ik)                                      :: i ,j
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(maxL >= 0, "Negative maxL passed to grid constructor")
         call assertPure(maxM >= 0,"Negative maxM passed to grid constructor")
         call assertPure(maxM <= maxL,"Max m number passed to grid constructor must be less than or equal to the max l number")

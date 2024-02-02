@@ -18,7 +18,7 @@ module explicit_rk_integrator_class
 
     use data_kinds                         ,only: rk ,ik
     use god_objects                        ,only: Object
-    use runtime_constants                  ,only: debugging, assertions
+    use runtime_constants                  ,only: debugging, assertions, assertionLvl
     use assertion_utility                  ,only: assert, assertIdentical, assertPure
     use modeller_surrogate_class           ,only: ModellerSurrogate
     use variable_container_class           ,only: VariableContainer

@@ -33,7 +33,7 @@ module subroutine initCompositeManipulatorFromJSON(manip,envObj,normObj)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to initCompositeManipulatorFromJSON")
         call assert(normObj%isDefined(),"Undefined normalization object passed to initCompositeManipulatorFromJSON")
     end if
@@ -116,7 +116,8 @@ module subroutine addGroupEvaluatorToCompositeManipulator(manip,envObj,normObj,j
 
     if (.not. modelFound) error stop "model requested by GroupEvaluator not found"
 
-    if (assertions) call assert(envObj%externalVars%isVarNameRegistered(namedStringParams(1)%value),namedStringParams(1)%value//&
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNameRegistered(namedStringParams(1)%value),&
+    namedStringParams(1)%value//&
     " variable requested by GroupEvaluator not found in environment wrapper")
 
     varIndex = envObj%externalVars%getVarIndex(namedStringParams(1)%value)
@@ -171,7 +172,7 @@ module subroutine addTermEvaluatorToCompositeManipulator(manip,envObj,normObj,js
     call envObj%jsonCont%output(resultVarName)
     call envObj%jsonCont%output(manipPriority)
 
-    if (assertions) call assert(size(termNames(1)%values) == size(modelEvalTags(1)%values),&
+    if (assertions .or. assertionLvl >= 0) call assert(size(termNames(1)%values) == size(modelEvalTags(1)%values),&
                                      modelEvalTags(1)%name//" and "//termNames(1)%name//" must be of the same size")
     
     allocate(modelIndices(size(modelEvalTags(1)%values)))
@@ -190,7 +191,8 @@ module subroutine addTermEvaluatorToCompositeManipulator(manip,envObj,normObj,js
         termNameStrings(i)%string = termNames(1)%values(i)%string
     end do
 
-    if (assertions) call assert(envObj%externalVars%isVarNameRegistered(resultVarName(1)%value),resultVarName(1)%value//&
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNameRegistered(resultVarName(1)%value),&
+    resultVarName(1)%value//&
     " variable requested by TermEvaluator not found in environment wrapper")
 
     varIndex = envObj%externalVars%getVarIndex(resultVarName(1)%value)
@@ -248,7 +250,8 @@ module subroutine addMBDataExtractorToCompositeManipulator(manip,envObj,normObj,
 
     if (.not. modelFound) error stop "model requested by ModelboundDataExtractor not found"
 
-    if (assertions) call assert(envObj%externalVars%isVarNameRegistered(namedStringParams(1)%value),namedStringParams(1)%value//&
+    if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarNameRegistered(namedStringParams(1)%value),&
+    namedStringParams(1)%value//&
     " variable requested by ModelboundDataExtractor not found in environment wrapper")
 
     varIndex = envObj%externalVars%getVarIndex(namedStringParams(1)%value)

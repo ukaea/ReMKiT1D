@@ -33,7 +33,7 @@ module subroutine initGenIntPolyFunDeriv(this,polyPowers,polyCoeffs,maxPowers,fu
 
     integer(ik) :: i
 
-    if (assertions) then
+    if (assertions .or. assertionLvl >= 0) then
 
         call assert(size(polyPowers) == size(polyCoeffs),&
         "polyPowers and polyCoeffs passed to initGenIntPolyFunDeriv must be of same size")

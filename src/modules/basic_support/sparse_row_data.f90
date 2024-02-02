@@ -17,7 +17,7 @@ module sparse_row_data_class
     !! Houses row data class in the form of distinct sparse vectors
 
     use data_kinds                  ,only: rk, ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use god_objects                 ,only: Object
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use support_types               ,only: RealArray ,IntArray

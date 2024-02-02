@@ -21,7 +21,7 @@ implicit none
 !-----------------------------------------------------------------------------------------------------------------------------------
 contains
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine initSimplePartition(this,numProcsX,numProcsH,numX,numH) 
+module subroutine initSimplePartition(this,numProcsX,numProcsH,numX,numH) 
     !! Partition initialization routine - assuming even distributions in x and h directions
 
     class(Partition)          ,intent(inout)  :: this
@@ -32,12 +32,15 @@ pure module subroutine initSimplePartition(this,numProcsX,numProcsH,numX,numH)
 
     integer(ik)                               :: i, j ,k
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(mod(numX,numProcsX) == 0,"Number of x grid points given to partition constructor is not divisible by &
         &number of processes in x direction")
         call assertPure(mod(numH,numProcsH) == 0,"Number of harmonics given to partition constructor is not divisible by &
         &number of processes in h direction")
+        
     end if
+
+    if (numH > 1 .and. numH/numProcsH == 1) print*,"WARNING: 1 harmonic per processor - crash likely in many kinetic runs"
 
     allocate(this%minX(numProcsX*numProcsH))
     allocate(this%maxX(numProcsX*numProcsH))
@@ -73,7 +76,8 @@ pure module subroutine initPartition(this,minX, maxX, minH, maxH)
     integer(ik) ,dimension(:) ,intent(in)     :: minH !! First h-index in each partition
     integer(ik) ,dimension(:) ,intent(in)     :: maxH !! Last x-index in each partition
 
-    if (assertions) call assertPure(all([size(maxX),size(minH),size(maxH)] == size(minX)),"All arrays passed to generic &
+    if (assertions .or. assertionLvl >= 0) call assertPure(all([size(maxX),size(minH),size(maxH)] == size(minX)),&
+    "All arrays passed to generic &
     &partition constructor must be same length")
 
     call this%makeDefined()

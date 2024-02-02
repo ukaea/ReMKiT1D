@@ -17,7 +17,7 @@ module derived_transition_class
     !! Houses fixed energy transition with a rate calculated using a derivation object
 
     use data_kinds                            ,only: rk, ik
-    use runtime_constants                     ,only: debugging, assertions
+    use runtime_constants                     ,only: debugging, assertions, assertionLvl
     use assertion_utility                     ,only: assert, assertIdentical, assertPure
     use god_objects                           ,only: Object
     use model_surrogate_class                 ,only: ModelSurrogate

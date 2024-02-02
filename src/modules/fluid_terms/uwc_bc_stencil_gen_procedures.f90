@@ -38,10 +38,10 @@ module subroutine initUWCBCStencil(this,partitionObj,procRank,innerJ,outerJ,linI
     real(rk)    ,optional                     ,intent(in)     :: fixedLowerBound !! A constant lower bound value (ignored if lowerBoundVarIndex is allocated)
     real(rk)    ,optional                     ,intent(in)     :: linExterp !! Linear extrapolation coefficient for column variables. Computed from linInterp by default
 
-    if (assertions) call assert(partitionObj%isDefined(),&
+    if (assertions .or. assertionLvl >= 0) call assert(partitionObj%isDefined(),&
     "Undefined partition object passed to flux-like boundary val generator constructor")
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         if (present(lowerBoundVarIndex)) call assert(present(interpVarIndex),"If lowerBoundVarIndex passed to initUWCBCStencil&
             & the interpolated/flux jacobian variable index must be passed as well")

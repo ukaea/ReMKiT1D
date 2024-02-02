@@ -43,7 +43,7 @@ module subroutine initCRMElEnergyTermGenerator(this,envObj,crmData,generatorTag,
 
     character(len=80) :: transIndexBuffer
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to CRMElEnergyTermGenerator constructor")
         call assert(crmData%isDefined(),"Undefined modelbound CRM data passed to CRMElEnergyTermGenerator constructor")

@@ -17,7 +17,7 @@ module basic_environment_wrapper
     !! Houses wrapper containing non-modeller objects for streamlined initialization and passing
 
     use data_kinds                  ,only: rk, ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use god_objects                 ,only: Object
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use grid_class                  ,only: Grid

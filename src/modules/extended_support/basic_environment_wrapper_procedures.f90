@@ -123,7 +123,7 @@ module subroutine finishInit(this,textbookObj)
     class(EnvironmentWrapper)  ,intent(inout) :: this
     type(Textbook)             ,intent(in)    :: textbookObj !! Textbook object used to retrieve derivation rules for variable container 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(.not. this%isDefined(),"finishInit called on already defined environment")
         call assert(textbookObj%isDefined(),"Undefined textbook object passed to finishInit")

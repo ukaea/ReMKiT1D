@@ -43,7 +43,7 @@ module subroutine initCRMSecElTermGenerator(this,envObj,crmData,distributionName
 
     character(len=80) :: transIndexBuffer
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to CRMDensTermGenerator constructor")
         call assert(crmData%isDefined(),"Undefined modelbound CRM data passed to CRMDensTermGenerator constructor")
@@ -122,7 +122,7 @@ module subroutine generateSecElSourceTerms(this,mbData)
 
     integer(ik) ,dimension(0) :: dummyXCells
 
-    if (assertions) call assert(this%isDefined(),"generate called from undefined CRMDensTermGenerator")
+    if (assertions .or. assertionLvl >= 0) call assert(this%isDefined(),"generate called from undefined CRMDensTermGenerator")
 
     allocate(genTerms(0))
     allocate(matTerms(size(this%vData)))

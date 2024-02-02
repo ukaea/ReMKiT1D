@@ -42,7 +42,7 @@ pure module subroutine addTransition(this,tr)
     class(ModelboundCRMData)           ,intent(inout)  :: this
     class(Transition)                  ,intent(in)     :: tr
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(this%isDefined(),"Attempted to add transition to undefined modelbound CRM data object")
         call assertPure(tr%isDefined(),"Attempted to add undefined transition to modelbound CRM data object")
         call assertPure(.not. this%allTransitionsAdded,"Attempted to add transition to modelbound CRM object when no free &

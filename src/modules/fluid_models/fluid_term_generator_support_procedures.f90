@@ -37,7 +37,8 @@ module subroutine initCRMDensTermGeneratorFromJSON(termGenObj,modelObj,envObj,js
 
     call modelObj%copyModelData(mbData)
 
-    if (assertions) call assert(allocated(mbData),"initCRMDensTermGeneratorFromJSON unable to detect modelbound data in modelObj")
+    if (assertions .or. assertionLvl >= 0) call assert(allocated(mbData),&
+    "initCRMDensTermGeneratorFromJSON unable to detect modelbound data in modelObj")
 
     select type (mbData)
     class is (ModelboundCRMData)
@@ -94,7 +95,7 @@ module subroutine initCRMElEnergyTermGeneratorFromJSON(termGenObj,modelObj,envOb
 
     call modelObj%copyModelData(mbData)
 
-    if (assertions) call assert(allocated(mbData),&
+    if (assertions .or. assertionLvl >= 0) call assert(allocated(mbData),&
     "initCRMDElEnergyTermGeneratorFromJSON unable to detect modelbound data in modelObj")
 
     select type (mbData)

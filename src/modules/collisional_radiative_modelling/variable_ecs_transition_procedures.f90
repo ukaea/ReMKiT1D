@@ -43,7 +43,7 @@ pure module subroutine initVariableECSTransition(this,locNumX,inStates,outStates
     real(rk) ,allocatable ,dimension(:) :: rateVec
     real(rk) ,allocatable ,dimension(:,:) :: crossSection
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(refVSpace%isDefined(),&
         "Undefined target VSpace object passed to variable energy/cross-section transition constructor")
         if (present(momentumMoment)) then 

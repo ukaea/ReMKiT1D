@@ -17,7 +17,7 @@ module modeller_class
     !! Houses modeller class responsible for controlling data manipulation and integration
 
     use data_kinds                  ,only: rk, ik
-    use runtime_constants           ,only: debugging, assertions
+    use runtime_constants           ,only: debugging, assertions, assertionLvl
     use god_objects                 ,only: Object
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use variable_container_class    ,only: VariableContainer

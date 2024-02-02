@@ -22,6 +22,8 @@ module runtime_constants
     logical, parameter                  :: debugging = .false.
     logical, parameter                  :: assertions = .false.
 #endif
+
+    integer(ik), parameter :: assertionLvl = 0 !! Sets assertion level. 0 is just the lowest cost assertions. When assertions = .true. it overrides this and all assertions are on
   
  !----------------------------------------------------------------------------------------------------------------------------------
  end module runtime_constants

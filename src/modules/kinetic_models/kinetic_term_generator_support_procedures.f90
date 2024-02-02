@@ -44,7 +44,7 @@ module subroutine initCRMFixedBoltzTermGeneratorFromJSON(termGenObj,normObj,mode
 
     call modelObj%copyModelData(mbData)
 
-    if (assertions) call assert(allocated(mbData),&
+    if (assertions .or. assertionLvl >= 0) call assert(allocated(mbData),&
     "initCRMFixedBoltzTermGeneratorFromJSON unable to detect modelbound data in modelObj")
 
     select type (mbData)
@@ -74,7 +74,7 @@ module subroutine initCRMFixedBoltzTermGeneratorFromJSON(termGenObj,normObj,mode
         call envObj%jsonCont%load(evolvedHarmonic)
         call envObj%jsonCont%load(associatedVarIndex)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(size(fixedEnergyIndices(1)%values) > 0,fixedEnergyIndices(1)%name//" must have nonzero size")
             call assert(size(fixedEnergyIndices(1)%values) > 0,includedTransitionIDs(1)%name//" must have nonzero size")
             call assert(envObj%externalVars%isVarNameRegistered(distributionName(1)%value),&
@@ -114,7 +114,7 @@ module subroutine initCRMSecElTermGeneratorFromJSON(termGenObj,modelObj,envObj,j
 
     call modelObj%copyModelData(mbData)
 
-    if (assertions) call assert(allocated(mbData),&
+    if (assertions .or. assertionLvl >= 0) call assert(allocated(mbData),&
     "initCRMSecElTermGeneratorFromJSON unable to detect modelbound data in modelObj")
 
     select type (mbData)
@@ -128,7 +128,7 @@ module subroutine initCRMSecElTermGeneratorFromJSON(termGenObj,modelObj,envObj,j
 
         call envObj%jsonCont%load(distributionName)
         call envObj%jsonCont%load(includedTransitionIDs)
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(envObj%externalVars%isVarNameRegistered(distributionName(1)%value),&
                        distributionName(1)%name//" not registered in environment object")
         end if
@@ -171,7 +171,7 @@ module subroutine initCRMVarBoltzTermGeneratorFromJSON(termGenObj,normObj,modelO
 
     call modelObj%copyModelData(mbData)
 
-    if (assertions) call assert(allocated(mbData),&
+    if (assertions .or. assertionLvl >= 0) call assert(allocated(mbData),&
     "initCRMVarBoltzTermGeneratorFromJSON unable to detect modelbound data in modelObj")
 
     select type (mbData)
@@ -197,7 +197,7 @@ module subroutine initCRMVarBoltzTermGeneratorFromJSON(termGenObj,normObj,modelO
         call envObj%jsonCont%load(evolvedHarmonic)
         call envObj%jsonCont%load(associatedVarIndex)
 
-        if (assertions) then 
+        if (assertions .or. assertionLvl >= 0) then 
             call assert(envObj%externalVars%isVarNameRegistered(distributionName(1)%value),&
                        distributionName(1)%name//" not registered in environment object")
 

@@ -36,7 +36,7 @@ module subroutine initSimpleTimestepController(this,mpiCont,varCont,reqVars,reqV
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(mpiCont%isDefined(),"Undefined MPI controller passed to initSimppleTimestepController")
         call assert(varCont%isDefined(),"Undefined reference variable container passed to initSimppleTimestepController")
         call assert(size(reqVars) == size(reqVarPowers), "reqVars and reqVarPowers passed to initSimpleTimestepController &

@@ -117,7 +117,7 @@ module subroutine initDiagonalStencilTemplateDirect(stencilTemplateObj,envObj,ev
         usedCoords = validXCoords
     end if 
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         do i = 1,size(usedCoords)
             call assert(any(validXCoords == usedCoords(i)),&
             "Unallowed value detected in evolvedXCells in initDiagonalStencilTemplateDirect")
@@ -211,7 +211,7 @@ module subroutine initCentralDifferenceInterpTemplateDirect(stencilTemplateObj,e
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(staggeredRowVar .eqv. staggeredColVar, "centralDifferenceInterpolated stencil requires both the&
         & evolved and implicit variables to be defined on the same grid")
         if (present(interpolatedVarName)) then 
@@ -296,7 +296,8 @@ module subroutine initStaggeredDifferenceTemplateDirect(stencilTemplateObj,envOb
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredRowVar .neqv. staggeredColVar, "staggeredDifference stencil requires that the evolved and&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredRowVar .neqv. staggeredColVar,&
+     "staggeredDifference stencil requires that the evolved and&
     & implicit variables be defined on different grids")
 
     pGrid = envObj%geometryObj%isPeriodic()
@@ -384,10 +385,11 @@ module subroutine initUpwindingDifferenceTemplateDirect(stencilTemplateObj,envOb
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredRowVar .eqv. staggeredColVar, "upwindingDifference stencil requires both the&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredRowVar .eqv. staggeredColVar,&
+     "upwindingDifference stencil requires both the&
     & evolved and implicit variables to be defined on the same grid")
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
             call assert(envObj%externalVars%isVarNameRegistered(fluxJacVar),fluxJacVar//&
                                     " not registered in passed environment wrapper")
     end if
@@ -521,10 +523,10 @@ module subroutine initBCTemplateDirect(stencilTemplateObj,envObj,evolvedVar,impl
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) call assert(staggeredRowVar .eqv. staggeredColVar, "boundaryStencil requires both the&
+    if (assertions .or. assertionLvl >= 0) call assert(staggeredRowVar .eqv. staggeredColVar, "boundaryStencil requires both the&
     & evolved and implicit variables to be defined on the same grid")
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (present(fluxJacVar)) then 
             call assert(envObj%externalVars%isVarNameRegistered(fluxJacVar),fluxJacVar//&
                                     " not registered in passed environment wrapper")
@@ -652,7 +654,7 @@ module subroutine initDiffusionStencil(stencilTemplateObj,envObj,jsonPrefix,evol
     call envObj%jsonCont%output(reqVars)
     call envObj%jsonCont%output(notInterp)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         if (ruleName(1)%value /= keyNone) then 
             call assert(envObj%textbookObj%isDerivationRegistered(ruleName(1)%value),ruleName(1)%name//&
                                     " not registered in passed environment wrapper")
@@ -698,7 +700,7 @@ module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVa
     staggeredRowVar = envObj%externalVars%isVarOnDualGrid(evolvedVar)
     staggeredColVar = envObj%externalVars%isVarOnDualGrid(implicitVar)
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(.not. staggeredRowVar, "diffusionStencil requires both the&
         & evolved and implicit variables to be defined on the regular grid")
         call assert(.not. staggeredColVar, "diffusionStencil requires both the&
@@ -808,7 +810,7 @@ module subroutine initCustomFluid1DStencilDirect(stencilTemplateObj,envObj&
 
     pGrid = envObj%geometryObj%isPeriodic()
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(size(xStencil)==size(varContColVarNames),&
         "varContColVarNames in CustomFluid1DStencil initialization must have the same size as the stencil")
         call assert(size(xStencil)==size(mbColVarNames),&

@@ -17,7 +17,7 @@ module fluid_term_generator_support
     !! Contains routines for initializing various fluid term generators from JSON data
 
     use data_kinds                         ,only: rk, ik
-    use runtime_constants                  ,only: debugging, assertions
+    use runtime_constants                  ,only: debugging, assertions, assertionLvl
     use assertion_utility                  ,only: assert, assertIdentical, assertPure
     use term_generator_abstract_class      ,only: TermGenerator
     use crm_dens_term_generator_class      ,only: CRMDensTermGenerator

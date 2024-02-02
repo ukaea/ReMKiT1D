@@ -30,7 +30,7 @@ pure module subroutine initSparseRowData(this,rowIndices,colVectors)
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assertPure(present(rowIndices) .eqv. present(colVectors),"If sparse row data constructor is called with initial &
         &row/column data both must be included")
 

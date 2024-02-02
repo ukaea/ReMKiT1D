@@ -32,7 +32,7 @@ module subroutine initAdditiveDeriv(this,numDerivs,expectedNumIndices, resultPow
 
     integer(ik) :: i
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then 
         call assert(numDerivs > 0,"numDerivs passed to initAdditiveDeriv must be greated than 0")
     end if
 
@@ -45,7 +45,7 @@ module subroutine initAdditiveDeriv(this,numDerivs,expectedNumIndices, resultPow
     if (present(resultPower)) this%resultPower = resultPower
 
     if (present(linearCoefficients)) then
-        if (assertions) call assert(size(linearCoefficients) == numDerivs,&
+        if (assertions .or. assertionLvl >= 0) call assert(size(linearCoefficients) == numDerivs,&
         "Passed linearCoefficients in initAdditiveDeriv must conform to number of derivations")
 
         this%linearCoefficients = linearCoefficients

@@ -181,7 +181,7 @@ contains
 
         call testTerm%init("n",testVarCont1)
 
-        call testTerm%setEvolvedAndOperatedVar("n")
+        call testTerm%setEvolvedVar("n")
 
         call testTerm%setOperator(testOp)
         

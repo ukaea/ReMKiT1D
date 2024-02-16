@@ -174,7 +174,7 @@ module modeller_class
 
     end subroutine updateModelTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function evaluateModelTermGroup(this,modelIndex,groupIndex,varCont) result(res)
+    module function evaluateModelTermGroup(this,modelIndex,groupIndex,varCont) result(res)
         !! Call the evaluateTermGroup routine on model with given index and for given term group - optionally use variable container other
         !! than the one stored in the modeller
 
@@ -186,7 +186,7 @@ module modeller_class
 
     end function evaluateModelTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function evaluateModelTermByName(this,modelIndex,name,varCont) result(res)
+    module function evaluateModelTermByName(this,modelIndex,name,varCont) result(res)
         !! Call the evaluateTermByName routine on model with given index and for given term name - optionally use variable container other
         !! than the one stored in the modeller
 

@@ -156,7 +156,7 @@ contains
 
         call testTerm%init("n",testEnv%externalVars)
 
-        call testTerm%setEvolvedAndOperatedVar("n","n")
+        call testTerm%setEvolvedVar("n")
         call testOP%makeDefined()
         call testTerm%setOperator(testOp)
 
@@ -311,7 +311,7 @@ contains
 
         call testTerm%init("n",testEnv%externalVars)
 
-        call testTerm%setEvolvedAndOperatedVar("n","n")
+        call testTerm%setEvolvedVar("n")
         call testOP%makeDefined()
         call testTerm%setOperator(testOp)
 

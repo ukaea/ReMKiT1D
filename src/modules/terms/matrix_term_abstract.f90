@@ -220,7 +220,7 @@ module matrix_term_abstract_class
 
     end subroutine addRowValuesToPETScMatrix
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function evaluateMatTerm (this,varCont) result(res)
+    module function evaluateMatTerm (this,varCont) result(res)
         !! Get explicit value for the term by crudely dotting each sparse row with the locally stored implicit variable vector in varCont
 
         class(MatrixTerm)                    ,intent(in) :: this

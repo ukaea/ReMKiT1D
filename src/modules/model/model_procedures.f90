@@ -312,7 +312,7 @@ module subroutine updateTermGroup(this,groupIndex,varCont)
     
 end subroutine updateTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function evaluateTermGroup(this,groupIndex,varCont) result(res)
+module function evaluateTermGroup(this,groupIndex,varCont) result(res)
     !! Evaluate a term group, returning the sum of all explicit results from the term group 
     !! - if groupIndex > size(implicitGroup) it is taken to be in the general group
 
@@ -713,7 +713,7 @@ pure module function getGeneralTermIndex(this,name) result(ind)
 
 end function getGeneralTermIndex
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function evaluateTermByName(this,name,varCont) result(res)
+module function evaluateTermByName(this,name,varCont) result(res)
     !! Evaluate a term by name
 
     class(Model)                         ,intent(in) :: this

@@ -282,8 +282,15 @@ end function unaryShift
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module function unaryContract(input,realParams,intParams,logicalParams) result(output)
     !! Unary wrapper contracting an array with a smaller array. String name "cont". Uses realParams as the contracting array.
-    !! After contraction it uses intParams(1) to determine the expected output size. The input array should be evenly divided by 
-    !! size(realParams) and intParams(1). intParams(2) is then used to determine which sub-array of size intParams(1) is returned
+    !! The input size is assumed to be evenly divided by size(realParams) and by intParams(1). The input does not have to have size 
+    !! equal to size(realParams)*intParams(1). intParams(1) determines the expected size of the output, while intParams(2)
+    !! determines which of the strided slices is returnd. See below for example.
+    !! 
+    !! Contraction is performed on strided slices of the input of length size(realParams). The strides are determined by intParams(1). 
+    !! For example, contracting [1,2,3,4,5,6,7,8] with [1,2] yields the intermediate
+    !! result [5,11,17,23]. Then if intParams(1) is , we are looking to get a result of length 1. If intParams(2) is then 2, we get [11].
+    !! If intParams(1) is 2, we want a result of length 2, sampled evenly from the contracted array (this is useful for ReMKiT1D's
+    !! flattened represenation of distributions). If intParams(2) is 1, we get [5,17], and if intParams(2) is 2, we get [11,23]
 
     real(rk)               ,dimension(:) ,intent(in) :: input 
     real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
@@ -292,12 +299,11 @@ pure module function unaryContract(input,realParams,intParams,logicalParams) res
     real(rk) ,allocatable ,dimension(:)              :: output
 
     integer(ik) :: i ,offset
-    real(rk) ,allocatable ,dimension(:)              :: contractionResult
 
     allocate(output(intParams(1)))
 
     do i = 1,intParams(1)
-        offset = (i-1)*size(realParams)*size(input)/intParams(1) + (intParams(2)-1)*size(realParams)
+        offset = (i-1)*size(input)/intParams(1) + (intParams(2)-1)*size(realParams)
         output(i) = dot_product(input(offset+1:offset+size(realParams)),realParams)
     end do
 end function unaryContract
@@ -319,7 +325,7 @@ pure module function unaryExpand(input,realParams,intParams,logicalParams) resul
     do i = 1,intParams(1)
         do j = 1,size(input)
             offset = (i-1)*size(realParams)*size(input) + (j-1)*size(realParams)
-            output(offset+1:offset+size(realParams)) = input(i)*realParams
+            output(offset+1:offset+size(realParams)) = input(j)*realParams
         end do
     end do
 
@@ -343,9 +349,9 @@ pure module function unarySlopeRatio(input,realParams,intParams,logicalParams) r
 
         output = numerator/denominator 
 
-        where (abs(denominator) < realParams(1) .and. abs(numerator - denominator) > realParams(1))
+        where (abs(denominator) < realParams(1) .and. abs(numerator) > realParams(1))
             
-            output = 0!realParams(2) * sign(real(1,kind=rk),numerator)*sign(real(1,kind=rk),denominator)
+            output = 0
         else where (abs(denominator) < realParams(1) .and. abs(numerator) < realParams(1))
             output = real(1,kind=rk)
 

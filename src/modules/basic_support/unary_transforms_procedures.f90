@@ -63,6 +63,12 @@ module subroutine associateFunctionPointer(name,funcPointer)
         funcPointer => unaryContract
     case("expand")
         funcPointer => unaryExpand
+    case("slopeRatio")
+        funcPointer => unarySlopeRatio
+    case("superbeeLimiter")
+        funcPointer => unarySuperbee
+    case("minmodLimiter")
+        funcPointer => unaryMinmod
     case("none")
         funcPointer => null()
     case default 
@@ -318,6 +324,60 @@ pure module function unaryExpand(input,realParams,intParams,logicalParams) resul
     end do
 
 end function unaryExpand
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module function unarySlopeRatio(input,realParams,intParams,logicalParams) result(output)
+    !! Unary wrapper calculating r_i = (u_i - u_{i-n})/(u_{i+n}-u_i) where n is intParams[1]. If the absolute value of the denominator is less than
+    !! realParams[1], the result will be realParams[2] (with the appropriate sign) if the numerator is not less than realParams[1],
+    !! and 1 otherwise
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+        real(rk) ,allocatable ,dimension(:) :: denominator, numerator 
+
+        numerator = input - unaryShift(input,intParams=intParams)
+        denominator = unaryShift(input,intParams=-intParams) - input 
+
+        output = numerator/denominator 
+
+        where (abs(denominator) < realParams(1) .and. abs(numerator - denominator) > realParams(1))
+            
+            output = 0!realParams(2) * sign(real(1,kind=rk),numerator)*sign(real(1,kind=rk),denominator)
+        else where (abs(denominator) < realParams(1) .and. abs(numerator) < realParams(1))
+            output = real(1,kind=rk)
+
+        end where
+
+    end function unarySlopeRatio
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unarySuperbee(input,realParams,intParams,logicalParams) result(output)
+    !! Unary wrapper for the superbee limiter. 
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+        output = max(real(0,kind=rk),min(2*input,real(1,kind=rk)),min(input,real(2,kind=rk)))
+
+    end function unarySuperbee
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unaryMinmod(input,realParams,intParams,logicalParams) result(output)
+    !! Unary wrapper for the minmod limiter. 
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+        output = max(real(0,kind=rk),min(input,real(1,kind=rk)))
+
+    end function unaryMinmod
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule unary_transforms_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

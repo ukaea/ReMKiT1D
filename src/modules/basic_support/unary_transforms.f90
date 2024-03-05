@@ -224,6 +224,41 @@ module unary_transforms
 
     end function unaryExpand
 !-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unarySlopeRatio(input,realParams,intParams,logicalParams) result(output)
+    !! Unary wrapper calculating r_i = (u_i - u_{i-n})/(u_{i+n}-u_i) where n is intParams[1]. If the absolute value of the denominator is less than
+    !! realParams[1], the result will be realParams[2] (with the appropriate sign) if the numerator is not less than realParams[1],
+    !! and 1 otherwise
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+    end function unarySlopeRatio
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unarySuperbee(input,realParams,intParams,logicalParams) result(output)
+    !! Unary wrapper for the superbee limiter. 
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+    end function unarySuperbee
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unaryMinmod(input,realParams,intParams,logicalParams) result(output)
+    !! Unary wrapper for the minmod limiter. 
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+    end function unaryMinmod
+!-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
 end module unary_transforms

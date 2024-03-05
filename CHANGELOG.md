@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.2.0, 2024-03-05
+
+- Bug fixes
+
+### New Features
+
+-
+### Bug Fixes
+
+- Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 
+
 ## v1.1.0, 2024-02-02
 
 - Solver and integrator improvements

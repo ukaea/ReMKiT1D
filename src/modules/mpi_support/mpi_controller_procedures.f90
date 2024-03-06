@@ -143,6 +143,21 @@ pure module function getXHaloWidth (this) result(xHaloWidth)
 
 end function getXHaloWidth
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module function getComm (this) result(mpiComm)
+    !! Getter for xHaloWidth
+
+    class(MPIController) ,intent(in) :: this
+    type(MPI_Comm)                   :: mpiComm
+
+    
+    if (assertions) then 
+        call assertPure(this%isDefined(),"getComm called on undefined mpi controller")
+    end if
+
+    mpiComm = this%worldComm 
+
+end function getComm
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine broadcastVarInRow(this,varContainer,name) 
     !! Broadcast variable with given name from row rank 0 process to other row processes - to be used only with non-distribution 
     !! variables 

@@ -542,5 +542,78 @@ pure module function isStationary(this,name) result(stationary)
 
 end function isStationary
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine copyNamedVarsToVec(this,vec,names)
+    !! Copy variables into locally indexed vector by name 
+    
+    class(VariableContainer)              ,intent(inout)  :: this
+    real(rk) ,allocatable, dimension(:)   ,intent(inout)  :: vec
+    type(StringArray) ,dimension(:)       ,intent(in) :: names 
+    
+    integer(ik) :: i, totalLen, offset
+    integer(ik) ,allocatable ,dimension(:) :: varIndices, varLens
+
+    if (assertions) call assertPure(this%isDefined(),"copyNamedVarsToVec called from undefined variable container")
+    totalLen = 0 
+    allocate(varIndices(size(names)))
+    allocate(varLens(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+                                        "copyNamedVarsToVec called with name not registered in container")
+
+        varIndices(i) = this%getVarIndex(names(i)%string)
+        varLens(i) = size(this%variables(varIndices(i))%entry) -&
+                        2*(1-lbound(this%variables(varIndices(i))%entry,1))
+
+        totalLen = totalLen + varLens(i)
+    end do
+
+    if (.not. allocated(vec)) then 
+        allocate(vec(totalLen))
+    else if (size(vec) /= totalLen) then
+        deallocate(vec)
+        allocate(vec(totalLen))
+    end if 
+
+    offset = 0
+    do i=1,size(names) 
+        vec(offset+1:offset+varLens(i)) = this%variables(varIndices(i))%entry(1:varLens(i))
+    end do 
+end subroutine copyNamedVarsToVec
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine copyNamedVarsFromVec(this,vec,names)
+    !! Copy variables from locally indexed vector by name 
+    
+    class(VariableContainer)                 ,intent(inout)  :: this
+    real(rk)  ,dimension(:)                  ,intent(in)  :: vec
+    type(StringArray) ,dimension(:)          ,intent(in) :: names 
+
+    integer(ik) :: i, totalLen, offset
+    integer(ik) ,allocatable ,dimension(:) :: varIndices, varLens
+
+    if (assertions) call assertPure(this%isDefined(),"copyNamedVarsFromVec called from undefined variable container")
+    totalLen = 0 
+    allocate(varIndices(size(names)))
+    allocate(varLens(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+            "copyNamedVarsFromVec called with name not registered in container")
+
+        varIndices(i) = this%getVarIndex(names(i)%string)
+        varLens(i) = size(this%variables(varIndices(i))%entry) -&
+                        2*(1-lbound(this%variables(varIndices(i))%entry,1))
+
+        totalLen = totalLen + varLens(i)
+    end do
+
+    if (assertions) call assertPure(size(vec) == totalLen, "copyNamedVarsFromVec called with vector of non-conforming size")
+    
+    offset = 0
+    do i=1,size(names) 
+        this%variables(varIndices(i))%entry(1:varLens(i)) = vec(offset+1:offset+varLens(i)) 
+    end do 
+end subroutine copyNamedVarsFromVec
+!-----------------------------------------------------------------------------------------------------------------------------------
 end submodule variable_container_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

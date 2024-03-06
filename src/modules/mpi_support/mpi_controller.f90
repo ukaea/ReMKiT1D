@@ -77,6 +77,7 @@ module mpi_controller_class
         procedure ,public :: getColRank
         procedure ,public :: getColSize
         procedure ,public :: getXHaloWidth
+        procedure ,public :: getComm
 
         procedure ,public :: calculateRowDistData
         procedure ,public :: initializeNeighbourPairs
@@ -181,6 +182,14 @@ module mpi_controller_class
             integer(ik)                      :: xHaloWidth
  
         end function getXHaloWidth
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getComm (this) result(mpiComm)
+            !! Getter for xHaloWidth
+
+            class(MPIController) ,intent(in) :: this
+            type(MPI_Comm)                   :: mpiComm
+ 
+        end function getComm
 !-----------------------------------------------------------------------------------------------------------------------------------
         module subroutine calculateRowDistData(this,partitionObj,xHaloWidth,numV) 
             !! Initialize distribution DoF data used in exchanging distribution data in a row

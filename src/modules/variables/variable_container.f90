@@ -72,6 +72,8 @@ module variable_container_class
         procedure ,public :: isVarOnDualGrid
         procedure ,public :: getVarDepth
         procedure ,public :: getMaxDepth
+        procedure ,public :: copyNamedVarsToVec
+        procedure ,public :: copyNamedVarsFromVec
 
         procedure ,public :: isStationary
 
@@ -243,6 +245,24 @@ module variable_container_class
             logical                               :: stationary
 
         end function isStationary
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module subroutine copyNamedVarsToVec(this,vec,names)
+            !! Copy variables into locally indexed vector by name 
+            
+            class(VariableContainer)                 ,intent(inout)  :: this
+            real(rk) ,allocatable ,dimension(:)      ,intent(inout)  :: vec
+            type(StringArray) ,dimension(:)          ,intent(in) :: names 
+
+        end subroutine copyNamedVarsToVec
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module subroutine copyNamedVarsFromVec(this,vec,names)
+            !! Copy variables from locally indexed vector by name 
+            
+            class(VariableContainer)                 ,intent(inout)  :: this
+            real(rk)  ,dimension(:)                  ,intent(in)  :: vec
+            type(StringArray) ,dimension(:)          ,intent(in) :: names 
+
+        end subroutine copyNamedVarsFromVec
 !-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface

@@ -555,7 +555,7 @@ pure module function isStationary(this,name) result(stationary)
 
 end function isStationary
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine copyNamedVarsToVec(this,vec,names)
+module subroutine copyNamedVarsToVec(this,vec,names)
     !! Copy variables into locally indexed vector by name 
     
     class(VariableContainer)              ,intent(inout)  :: this
@@ -590,6 +590,7 @@ pure module subroutine copyNamedVarsToVec(this,vec,names)
     offset = 0
     do i=1,size(names) 
         vec(offset+1:offset+varLens(i)) = this%variables(varIndices(i))%entry(1:varLens(i))
+        offset = offset + varLens(i)
     end do 
 end subroutine copyNamedVarsToVec
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -623,6 +624,7 @@ pure module subroutine copyNamedVarsFromVec(this,vec,names)
     offset = 0
     do i=1,size(names) 
         this%variables(varIndices(i))%entry(1:varLens(i)) = vec(offset+1:offset+varLens(i)) 
+        offset = offset + varLens(i)
     end do 
 end subroutine copyNamedVarsFromVec
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -140,7 +140,7 @@ module key_names
     character(len=*) ,parameter :: keyCVODE = "CVODE"
     character(len=*) ,parameter :: keyCVODEGMRESMaxRestarts = "maxRestarts"
     character(len=*) ,parameter :: keyRelTol = "relTol"
-    character(len=*) ,parameter :: keyBBDPreParams = "CVODEPreBBDEParams"
+    character(len=*) ,parameter :: keyBBDPreParams = "CVODEPreBBDParams"
 
     ! Manipulator keys 
 

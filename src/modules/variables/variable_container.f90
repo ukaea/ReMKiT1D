@@ -248,7 +248,7 @@ module variable_container_class
 
         end function isStationary
 !-----------------------------------------------------------------------------------------------------------------------------------
-        pure module subroutine copyNamedVarsToVec(this,vec,names)
+        module subroutine copyNamedVarsToVec(this,vec,names)
             !! Copy variables into locally indexed vector by name 
             
             class(VariableContainer)                 ,intent(inout)  :: this

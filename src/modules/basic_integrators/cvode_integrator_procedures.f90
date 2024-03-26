@@ -132,11 +132,15 @@ contains
                allocate(this%evolvedVars(size(indices)))
                do i = 1,size(indices) 
                    this%evolvedVars(i)%string = inputVars%getVarName(indices(i))
+
                end do
 
-               this%bufferRHS = inputVars 
-               this%bufferY = inputVars
 
+               allocate(this%bufferRHS,source = inputVars) 
+               allocate(this%bufferY,source = inputVars)
+               this%bufferY%variables = inputVars%variables
+               this%bufferRHS%variables = inputVars%variables
+               
                call this%bufferY%copyNamedVarsToVec(this%copyBufferVals,this%evolvedVars)
 
                nlocal = size(this%copyBufferVals)
@@ -205,7 +209,7 @@ contains
             this%yVec = this%copyBufferVals
             ierr = FCVodeReInit(this%cvode, currentTimeVal, this%sunVecY)
             ierr = FCVBBDPrecReInit(this%cvode,mudq,mldq,0.0d0)
-     
+
             t(1) = currentTimeVal
             do i=1,numSteps
                 ierr = FCVode(this%cvode,t(1)+dt(i),this%sunVecY,t,CV_NORMAL)

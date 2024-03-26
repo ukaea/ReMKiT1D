@@ -54,6 +54,7 @@ module initialization_support
     use ccl_diff_derivation_class           ,only: CCLDiffDerivation
     use ccl_drag_derivation_class           ,only: CCLDragDerivation
     use ccl_weight_derivation_class         ,only: CCLWeightDerivation
+    use cvode_integrator_class              ,only: CVODEOptions, CVODEIntegrator
     use status_printing
     use custom_derivation_support 
     use support_types

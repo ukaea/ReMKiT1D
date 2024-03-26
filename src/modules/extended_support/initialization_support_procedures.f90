@@ -842,7 +842,7 @@ end subroutine initStandardTextbook
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonCont,mpiCont)
     !! Initialize standard integrator based on data from a JSON file. The standard integrator is a composit integrator containing
-    !! either RK or BDE integrators. 
+    !! either RK, BDE, or CVODE integrators. 
 
     type(CompositeIntegrator) ,intent(inout) :: integratorObj 
     type(VariableContainer)   ,intent(in)    :: varCont
@@ -854,6 +854,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
     type(SimpleTimestepController)                        :: dtController
     type(ExplicitRKIntegrator) ,allocatable  :: integratorRK 
     type(PicardBDEIntegrator)  ,allocatable  :: integratorBDE
+    type(CVODEIntegrator)      ,allocatable  :: integratorCVODE
+    type(CVODEOptions)         ,allocatable  :: optionsCVODE
 
     type(NamedStringArray)                  ,dimension(1) :: integratorTags, stepTags ,modelTags
     type(NamedString)          ,allocatable ,dimension(:) :: integratorType
@@ -1117,6 +1119,49 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             call integratorObj%addIntegrator(integratorBDE)
 
             deallocate(integratorBDE)
+
+        case ("CVODE")
+            if (allocated(integerParams)) deallocate(integerParams)
+            allocate(integerParams(1))
+
+            integerParams(1) = &
+            NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyCVODEGMRESMaxRestarts,50)
+
+            call jsonCont%load(integerParams)
+            call jsonCont%output(integerParams)
+            
+            if (allocated(realParams)) deallocate(realParams)
+            allocate(realParams(2))
+
+            realParams(1) = &
+            NamedReal(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyRelTol,1d-5)
+
+            realParams(2) = &
+            NamedReal(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAbsTol,1d-10)
+            
+            if (allocated(integerArrayParams)) deallocate(integerArrayParams)
+            allocate(integerArrayParams(1))
+
+            integerArrayParams(1) = &
+            NamedIntegerArray(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyBBDPreParams,[0,0,0,0])
+
+            allocate(optionsCVODE)
+
+            optionsCVODE%maxRestarts = integerParams(1)%value 
+            optionsCVODE%reltol = realParams(1)%value 
+            optionsCVODE%abstol = realParams(2)%value 
+            optionsCVODE%bbdmudq = integerArrayParams(1)%values(1)
+            optionsCVODE%bbdmldq = integerArrayParams(1)%values(2)
+            optionsCVODE%bbdmukeep= integerArrayParams(1)%values(3)
+            optionsCVODE%bbdmlkeep= integerArrayParams(1)%values(4)
+
+            allocate(integratorCVODE)
+            call integratorCVODE%init(mpiCont,optionsCVODE,integratorName=integratorTags(1)%values(i)%string)
+
+            call integratorObj%addIntegrator(integratorCVODE)
+
+            deallocate(integratorCVODE)
+            deallocate(optionsCVODE)
         case default 
             error stop "Undefined integrator type detected in initStandardIntegrator"
         end select

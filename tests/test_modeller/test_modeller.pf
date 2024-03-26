@@ -40,6 +40,7 @@ module test_modeller
     use composite_manipulator_class
     use group_evaluator_class
     use term_evaluator_class
+    use cvode_integrator_class 
 
     implicit none
 
@@ -376,6 +377,101 @@ contains
 
 
     end subroutine test_modeller_composite_int
+
+    @test( npes=[8])
+    subroutine test_modeller_CVODE_int(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController 
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList ,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont
+        type(calculationRule) ,dimension(1) :: cRules
+        class(term) ,allocatable :: genTerm
+        type(testExplicitTerm) :: testTerm
+        class(model) ,allocatable :: testModel
+        type(testOperator) :: testOp
+        type(modeller) :: testModeller
+        type(CVODEIntegrator) :: testIntegrator
+        type(CVODEOptions) :: testOptions
+
+        integer(ik) :: i
+
+        call testMPIController%init(8,1)
+
+        call testPart%initSimplePartition(8,1,24,1)
+        call testGrid%init(real([(i,i=1,24)],kind=rk),real([(i,i=1,5)],kind=rk),0,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call preparePrinter(testMPIController%getWorldRank())
+
+        call testListDerived%init()
+        call testListDerived%addVar("time")
+
+        call cRules(1)%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
+        allocate(testModel)
+        call testModel%init(0,1,0,1)
+
+        testVarCont%variables(1)%entry = 1.0d0
+        testVarCont%variables(2)%entry = 2.0d0
+        testVarCont%variables(3)%entry = 0.0d0
+
+
+        call testTerm%init("n",testVarCont)
+
+        call testTerm%setEvolvedVar("n")
+        call testOP%makeDefined()
+        call testTerm%setOperator(testOp)
+
+        allocate(genTerm,source=testTerm)
+
+        call testModel%addGeneralTerm(genTerm,[1],"1")
+
+        call testModeller%init(1,testVarCont,testMPIController)
+        
+        call testModeller%addModel(testModel)
+
+        call testModeller%assemble()
+
+        @assertTrue(testModeller%isAssembled())
+
+        testOptions%reltol = 1d-12
+        testOptions%abstol = 1d-14 
+        testOptions%bbdmukeep = 0
+        testOptions%bbdmlkeep = 0
+        testOptions%bbdmldq = 0
+        testOptions%bbdmudq = 0
+        testOptions%maxRestarts = 50
+
+        call testIntegrator%init(testMPIController,testOptions,modelList=[1],termGroups=[intArray([1])],&
+                                evolvesTimeVar=.true.,initialTimestep=0.1d0)
+        call testIntegrator%setCommunicationNeeded(.false.)
+        call testIntegrator%setUpdateRules([logicalArray([.false.])])
+
+        @assertEqual(testModeller%getCurrentTime(),0.d0)
+        call testModeller%setIntegrator(testIntegrator)
+        call testModeller%integrate()
+        call testModeller%integrate()
+
+        call testModeller%copyVarValuesTo(testVarCont)
+
+        call assertEqual(testVarCont%variables(3)%entry(1),0.2d0)
+        call assertEqual(testVarCont%variables(1)%entry(1),1.49182469764d0,tolerance=1d-10)
+        call assertEqual(testVarCont%variables(2)%entry(1),2.0d0)
+
+
+
+    end subroutine test_modeller_CVODE_int
+
 
     pure function testMapping(inputArray) result(output)
 

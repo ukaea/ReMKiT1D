@@ -100,7 +100,7 @@ contains
 
             call testTerm2%init("n",testVarCont)
 
-            call testTerm2%setEvolvedAndOperatedVar("n")
+            call testTerm2%setEvolvedVar("n")
 
             call testTerm2%setOperator(testOp)
 

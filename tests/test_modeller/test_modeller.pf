@@ -150,7 +150,7 @@ contains
         type(solverOptions) :: solOptions 
         type(CompositeManipulator) :: testManipulator
         type(GroupEvaluator) :: testEvaluator
-        type(TermEvaluator) :: testEvaluator2
+        type(TermEvaluator) :: testEvaluator2, testEvaluatorAccumulate
 
         integer(ik) :: i ,xOffset
 
@@ -220,13 +220,15 @@ contains
 
         call testModeller%init(1,testVarCont,testMPIController,testPETScController)
 
-        call testManipulator%init(2)
+        call testManipulator%init(3)
 
         call testEvaluator%init(5,1,2)
         call testEvaluator2%init(6,[1],[StringArray("1")])
+        call testEvaluatorAccumulate%init(6,[1],[StringArray("1")],.true.)
 
         call testManipulator%addManipulator(testEvaluator,0)
         call testManipulator%addManipulator(testEvaluator2,0)
+        call testManipulator%addManipulator(testEvaluatorAccumulate,4)
 
         call testModeller%setManipulator(testManipulator)
         
@@ -253,6 +255,11 @@ contains
         call assertEqual(testVarCont%variables(3)%entry(1),-1d0/0.9d0,tolerance=1d-12)
         call assertEqual(testVarCont%variables(5)%entry,testModeller%evaluateModelTermGroup(1,2,testVarCont),tolerance=1d-12)
         call assertEqual(testVarCont%variables(6)%entry,testModeller%evaluateModelTermGroup(1,2,testVarCont),tolerance=1d-12)
+
+        call testModeller%callManipulator(4)
+
+        call testModeller%copyVarValuesTo(testVarCont)
+        call assertEqual(testVarCont%variables(6)%entry,2*testModeller%evaluateModelTermGroup(1,2,testVarCont),tolerance=1d-12)
 
         call testPETScController%finalize()
 

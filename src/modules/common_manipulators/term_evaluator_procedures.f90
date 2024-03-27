@@ -21,13 +21,14 @@ implicit none
 !-----------------------------------------------------------------------------------------------------------------------------------
 contains
 !!-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine initEvaluator(this,resultVarIndex,modelIndices,termNames) 
+pure module subroutine initEvaluator(this,resultVarIndex,modelIndices,termNames,accumulate) 
     !! TermEvaluator initialization routine
 
     class(TermEvaluator)            ,intent(inout)  :: this
     integer(ik)                     ,intent(in)     :: resultVarIndex !! Index of variable to write the result in
     integer(ik)       ,dimension(:) ,intent(in)     :: modelIndices   !! Indices of models whose named term should be evaluated
     type(StringArray) ,dimension(:) ,intent(in)     :: termNames     !! Name of evaluated term corresponding to each model 
+    logical           ,optional     ,intent(in)     :: accumulate    !! Optional flag to make the evaluator accumulate values instead of overriding them
 
     if (assertions .or. assertionLvl >= 0) then 
         call assertPure(size(termNames)==size(modelIndices)&
@@ -37,6 +38,8 @@ pure module subroutine initEvaluator(this,resultVarIndex,modelIndices,termNames)
     this%resultVarIndex = resultVarIndex 
     this%evaluatedModelIndex = modelIndices 
     this%evaluatedTermName = termNames
+
+    if (present(accumulate)) this%accumulate=accumulate
 
     call this%makeDefined()
 
@@ -61,7 +64,10 @@ module subroutine evaluate(this,manipulatedModeller,outputVars,inputVars)
 
     select type (manipulatedModeller)
     type is (Modeller)
-        outputVars%variables(this%resultVarIndex)%entry = &
+
+        if (.not. this%accumulate) outputVars%variables(this%resultVarIndex)%entry = 0
+
+        outputVars%variables(this%resultVarIndex)%entry = outputVars%variables(this%resultVarIndex)%entry +&
         manipulatedModeller%evaluateModelTermByName(this%evaluatedModelIndex(1),this%evaluatedTermName(1)%string,inputVars)
 
         do i = 2,size(this%evaluatedModelIndex)

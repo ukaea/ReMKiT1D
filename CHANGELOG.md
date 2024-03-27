@@ -3,10 +3,21 @@
 ## v1.2.0, 2024-03-05
 
 - Bug fixes
+- Added CVODE integrator as an option
+- Added new unary transformations
+- New variable and manipulator features
+
+### Breaking Changes
+
+- New explicit term interface incompatible with the previous one (relevant only for existing tests)
 
 ### New Features
 
--
+- Basic CVODE integrator adde
+- Added slope limiter related unary transformations 
+- Variables can now be copied into/from arrays by passing a list of variable names to the container
+- Manipulators now called before first time step
+
 ### Bug Fixes
 
 - Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 

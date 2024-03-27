@@ -18,6 +18,7 @@
 - Variables can now be copied into/from arrays by passing a list of variable names to the container
 - Manipulators now called before first time step
 - The term evaluator manipulator can now accumulate values into the evaluation variable instead of overwriting it
+- The term evaluator can now also explicitly request model and term updates (less fine-grained control than integrators)
 
 ### Bug Fixes
 

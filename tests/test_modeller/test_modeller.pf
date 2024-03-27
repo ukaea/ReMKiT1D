@@ -223,7 +223,7 @@ contains
         call testManipulator%init(3)
 
         call testEvaluator%init(5,1,2)
-        call testEvaluator2%init(6,[1],[StringArray("1")])
+        call testEvaluator2%init(6,[1],[StringArray("1")],update=.true.)
         call testEvaluatorAccumulate%init(6,[1],[StringArray("1")],.true.)
 
         call testManipulator%addManipulator(testEvaluator,0)
@@ -239,6 +239,11 @@ contains
         call testModeller%assemble(withIdentityMat=.true.)
 
         @assertTrue(testModeller%isAssembled())
+        
+        call testModeller%callManipulator(0) 
+
+        call testModeller%copyVarValuesTo(testVarCont)
+        call assertEqual(testVarCont%variables(6)%entry(1:3),real([1,1,1],kind=rk),tolerance=1d-12)
 
         call testIntegrator%init(testIndexing,testMPIController%getWorldRank(),convergenceIndices=[1,3],&
         modelList=[1],termGroups=[intArray([1,2])],evolvesTimeVar=.true.,initialTimestep=0.1d0)

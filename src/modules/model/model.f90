@@ -79,9 +79,11 @@ module model_class
         procedure ,public :: addGeneralTerm
 
         procedure ,public :: updateTermGroup
+        procedure ,public :: updateTermByName
         procedure ,public :: evaluateTermGroup 
         procedure ,public :: evaluateTermByName
         procedure ,public :: calculateMatGroupValues
+        procedure ,public :: calculateMatValsByName
         procedure ,public :: addMatGroupValsToPETSc
         procedure ,public :: assemble
 
@@ -350,6 +352,24 @@ module model_class
         real(rk) ,allocatable ,dimension(:)              :: res
 
     end function evaluateTermByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine calculateMatValsByName(this,name,varCont) 
+        !! Calculate matrix values of a term by name
+
+        class(Model)                         ,intent(inout) :: this
+        character(*)                         ,intent(in)    :: name
+        type(VariableContainer)              ,intent(in)    :: varCont 
+
+    end subroutine calculateMatValsByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine updateTermByName(this,name,varCont)
+        !! Update a term by name 
+
+        class(Model)            ,intent(inout)  :: this
+        character(*)            ,intent(in)     :: name
+        type(VariableContainer) ,intent(in)     :: varCont 
+
+    end subroutine updateTermByName
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

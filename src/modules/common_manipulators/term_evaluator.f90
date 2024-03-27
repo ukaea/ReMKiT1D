@@ -30,12 +30,14 @@ module term_evaluator_class
     type ,public ,extends(Manipulator) :: TermEvaluator
         !! Manipulator that evaluates a specific model,term pairs and writes the total result into variable with given index
         !! Optionally accumulates the values in the variable instead of overriding them.
+        !! Optionally performs its own update calls on the models/terms
 
         integer(ik)                                  ,private :: resultVarIndex 
         integer(ik)       ,allocatable ,dimension(:) ,private :: evaluatedModelIndex 
         type(StringArray) ,allocatable ,dimension(:) ,private :: evaluatedTermName
 
         logical ,private :: accumulate = .false. !! If true will accumulate values instead of overriding them
+        logical ,private :: update = .false. !! Update the model and terms being accessed
 
         contains
 
@@ -47,7 +49,7 @@ module term_evaluator_class
     interface
 !-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine initEvaluator(this,resultVarIndex,modelIndices,termNames,accumulate) 
+    pure module subroutine initEvaluator(this,resultVarIndex,modelIndices,termNames,accumulate,update) 
         !! TermEvaluator initialization routine
 
         class(TermEvaluator)            ,intent(inout)  :: this
@@ -55,6 +57,7 @@ module term_evaluator_class
         integer(ik)       ,dimension(:) ,intent(in)     :: modelIndices   !! Indices of models whose named term should be evaluated
         type(StringArray) ,dimension(:) ,intent(in)     :: termNames     !! Name of evaluated term corresponding to each model 
         logical           ,optional     ,intent(in)     :: accumulate    !! Optional flag to make the evaluator accumulate values instead of overriding them
+        logical           ,optional     ,intent(in)     :: update    !! Optional flag to make the evaluator update the model and terms being accessed
 
     end subroutine initEvaluator
 !-----------------------------------------------------------------------------------------------------------------------------------

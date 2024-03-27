@@ -741,5 +741,64 @@ module function evaluateTermByName(this,name,varCont) result(res)
 
 end function evaluateTermByName
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine calculateMatValsByName(this,name,varCont) 
+    !! Calculate matrix values of a term by name
+
+    class(Model)                         ,intent(inout) :: this
+    character(*)                         ,intent(in)    :: name
+    type(VariableContainer)              ,intent(in)    :: varCont 
+
+    integer(ik) :: termIndex
+
+    if (assertions) then 
+        call assertPure(this%isDefined(),"Attempted to calculate matrix of term in undefined model object")
+        call assertPure(this%isAssembled(),"Attempted to calculate matrix of term in unassembled model object")
+        call assertPure(varCont%isDefined(),&
+        "Attempted to calculat matrix of term in model object by passing undefined variable container")
+        call assertPure(this%isTermNameRegistered(name),&
+            "Attempted to calculate matrix of term whose name is not registered in model object")
+    end if
+
+    if (this%isTermNameImplicit(name)) then 
+        termIndex = this%getImplicitTermIndex(name)
+        call this%implicitTerms(termIndex)%entry%calculateValues(varCont)
+    end if
+
+end subroutine calculateMatValsByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine updateTermByName(this,name,varCont)
+    !! Update a term by name 
+
+    class(Model)            ,intent(inout)  :: this
+    character(*)            ,intent(in)     :: name
+    type(VariableContainer) ,intent(in)     :: varCont 
+
+    integer(ik) :: i ,trueGroupIndex ,termIndex
+
+    if (assertions) then 
+        call assertPure(this%isDefined(),"Attempted to update term in undefined model object")
+        call assertPure(this%isAssembled(),"Attempted to update term in unassembled model object")
+        call assertPure(varCont%isDefined(),&
+        "Attempted to update term in model object by passing undefined variable container")
+    end if
+
+    if (this%isTermNameImplicit(name)) then 
+        termIndex = this%getImplicitTermIndex(name)
+        if (allocated(this%modelData)) then 
+            call this%implicitTerms(termIndex)%entry%update(varCont,this%modelData,hostModel=this)
+        else
+            call this%implicitTerms(termIndex)%entry%update(varCont,hostModel=this)
+        end if
+    else
+        termIndex = this%getGeneralTermIndex(name)
+        if (allocated(this%modelData)) then 
+            call this%generalTerms(termIndex)%entry%update(varCont,this%modelData,hostModel=this)
+        else
+            call this%generalTerms(termIndex)%entry%update(varCont,hostModel=this)
+        end if
+    end if
+
+end subroutine updateTermByName
+!-----------------------------------------------------------------------------------------------------------------------------------
 end submodule model_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

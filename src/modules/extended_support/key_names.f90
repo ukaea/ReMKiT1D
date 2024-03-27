@@ -101,6 +101,8 @@ module key_names
     character(len=*) ,parameter :: keyData = "data"
     character(len=*) ,parameter :: keyDims = "dims"
     character(len=*) ,parameter :: keyValues = "values"
+    character(len=*) ,parameter :: keyUpdate = "update"
+    character(len=*) ,parameter :: keyAccumulate = "accumulate"
     
     ! Rule keys
     character(len=*) ,parameter :: keyDerivRule = "derivationRule" 

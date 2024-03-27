@@ -147,6 +147,30 @@ module subroutine updateModelTermGroup(this,modelIndex,groupIndex,varCont)
 
 end subroutine updateModelTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine updateModelTermByName(this,modelIndex,termName,varCont)
+    !! Call the update routine of model with given index for the given term name- optionally use variable container other than the
+    !! one stored in the modeller
+
+    class(Modeller)                   ,intent(inout)  :: this
+    integer(ik)                       ,intent(in)     :: modelIndex
+    character(*)                      ,intent(in)     :: termName
+    type(VariableContainer) ,optional ,intent(in)     :: varCont
+
+    if (assertions) then 
+        call assert(this%isDefined(),"Attempted to update model term in undefined modeller object")
+        call assert(this%isAssembled(),"Attempted to update model term in unassembled modeller object")
+        if (present(varCont)) call assert(varCont%isDefined(),"Attempted to update model term in modeller object by passing&
+        & undefined variable container")
+    end if
+
+    if (present(varCont)) then 
+        call this%models(modelIndex)%entry%updateTermByName(termName,varCont)
+    else
+        call this%models(modelIndex)%entry%updateTermByName(termName,this%vars)
+    end if
+
+end subroutine updateModelTermByName
+!-----------------------------------------------------------------------------------------------------------------------------------
 module function evaluateModelTermGroup(this,modelIndex,groupIndex,varCont) result(res)
     !! Call the evaluateTermGroup routine on model with given index and for given term group - optionally use variable container other
     !! than the one stored in the modeller
@@ -220,6 +244,30 @@ pure module subroutine calculateMatGroupValsInModel(this,modelIndex,groupIndex,v
     end if
 
 end subroutine calculateMatGroupValsInModel
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine calculateMatValsByTermName(this,modelIndex,termName,varCont)
+    !! Calculate matrix value in implicit term in model given by modelIndex, and optionally using variable
+    !! container other than the one stored in the modeller
+
+    class(Modeller)                   ,intent(inout)  :: this
+    integer(ik)                       ,intent(in)     :: modelIndex
+    character(*)                      ,intent(in)     :: termName
+    type(VariableContainer) ,optional ,intent(in)     :: varCont
+
+    if (assertions) then 
+        call assertPure(this%isDefined(),"Attempted to calculate mat term in undefined modeller object")
+        call assertPure(this%isAssembled(),"Attempted to calculate mat term in unassembled modeller object")
+        if (present(varCont)) call assertPure(varCont%isDefined(),"Attempted to calculate mat term in modeller object by passing&
+        & undefined variable container")
+    end if
+
+    if (present(varCont)) then 
+        call this%models(modelIndex)%entry%calculateMatValsByName(termName,varCont)
+    else
+        call this%models(modelIndex)%entry%calculateMatValsByName(termName,this%vars)
+    end if
+
+end subroutine calculateMatValsByTermName
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine addModelMatGroupToPETSc(this,modelIndex,groupIndex,mult,petscGroup)
     !! Send off matrix values of given term group and model to the PETSc controller, multiplied by mult

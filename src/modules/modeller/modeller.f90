@@ -78,8 +78,10 @@ module modeller_class
         procedure ,public :: calculateIdentityMat
 
         procedure ,public :: updateModelTermGroup
+        procedure ,public :: updateModelTermByName
         procedure ,public :: updateModelData
         procedure ,public :: calculateMatGroupValsInModel
+        procedure ,public :: calculateMatValsByTermName
         procedure ,public :: addModelMatGroupToPETSc
         procedure ,public :: linearSolvePETSc
         procedure ,public :: evaluateModelTermGroup
@@ -174,6 +176,17 @@ module modeller_class
 
     end subroutine updateModelTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine updateModelTermByName(this,modelIndex,termName,varCont)
+        !! Call the update routine of model with given index for the given term name- optionally use variable container other than the
+        !! one stored in the modeller
+
+        class(Modeller)                   ,intent(inout)  :: this
+        integer(ik)                       ,intent(in)     :: modelIndex
+        character(*)                      ,intent(in)     :: termName
+        type(VariableContainer) ,optional ,intent(in)     :: varCont
+
+    end subroutine updateModelTermByName
+!-----------------------------------------------------------------------------------------------------------------------------------
     module function evaluateModelTermGroup(this,modelIndex,groupIndex,varCont) result(res)
         !! Call the evaluateTermGroup routine on model with given index and for given term group - optionally use variable container other
         !! than the one stored in the modeller
@@ -208,6 +221,17 @@ module modeller_class
         type(VariableContainer) ,optional ,intent(in)     :: varCont
 
     end subroutine calculateMatGroupValsInModel
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine calculateMatValsByTermName(this,modelIndex,termName,varCont)
+        !! Calculate matrix value in implicit term in model given by modelIndex, and optionally using variable
+        !! container other than the one stored in the modeller
+
+        class(Modeller)                   ,intent(inout)  :: this
+        integer(ik)                       ,intent(in)     :: modelIndex
+        character(*)                      ,intent(in)     :: termName
+        type(VariableContainer) ,optional ,intent(in)     :: varCont
+
+    end subroutine calculateMatValsByTermName
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine addModelMatGroupToPETSc(this,modelIndex,groupIndex,mult,petscGroup)
         !! Send off matrix values of given term group and model to the PETSc controller, multiplied by mult

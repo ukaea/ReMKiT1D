@@ -173,7 +173,6 @@ contains
 
                ierr = FCVodeSStolerances(this%cvode,rtol,atol)
 
-
                ierr = FCVBBDPrecInit(this%cvode, nlocal, mudq, mldq, mu, ml, 0.d0, &
                                         c_funloc(rhsGFun), c_null_ptr)
             else 
@@ -288,6 +287,8 @@ contains
             call this%bufferY%calculateDerivedVars(derivPriority=0)
         end if 
 
+        call this%bufferRHS%zeroVars(this%evolvedVars)
+
         do j = 1,size(modelIndices)
             if (nonTrivialModelDataUpdate) then 
                 if (modelDataUpdateRules(j)) &
@@ -302,6 +303,7 @@ contains
                                                                      ,termGroups(j)%entry(k)&
                                                                      ,this%bufferY)
                 this%bufferRHS%variables(varIndices(j)%entry(k))%entry = &
+                this%bufferRHS%variables(varIndices(j)%entry(k))%entry + & 
                 manipulatedModeller%evaluateModelTermGroup(modelIndices(j),termGroups(j)%entry(k),this%bufferY)
             end do
         end do
@@ -332,8 +334,8 @@ contains
       ierrLoc = rhs(t, sunvecY, sunvecG, uData)
 
       retval = 0              ! Return with success
-      return
     end function rhsGFun
+    
     end subroutine integrateCVODE
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine initCVODEIntegrator(this,mpiCont,options,modelList,termGroups,&

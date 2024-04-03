@@ -258,7 +258,7 @@ pure module function getVarIndex(this,name) result(ind)
         end if
     end do
 
-    if (assertions) call assertPure(found,"Attempted to getVarIndex with name not in variable list")
+    if (assertions) call assertPure(found,"Attempted to getVarIndex with name "//name//" not in variable list")
 
 end function getVarIndex
 !-----------------------------------------------------------------------------------------------------------------------------------

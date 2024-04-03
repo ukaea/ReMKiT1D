@@ -76,6 +76,7 @@ module variable_container_class
         procedure ,public :: copyNamedVarsToVec
         procedure ,public :: copyNamedVarsFromVec
         procedure ,public :: getVarLens 
+        procedure ,public :: zeroVars
 
         procedure ,public :: isStationary
 
@@ -274,6 +275,14 @@ module variable_container_class
             integer(ik) ,allocatable ,dimension(:)                :: lens 
 
         end function getVarLens
+!-----------------------------------------------------------------------------------------------------------------------------------
+        module subroutine zeroVars(this,names)
+            !! Zero all named variable values - useful for buffer containers
+
+            class(VariableContainer)             ,intent(inout)  :: this
+            type(StringArray) ,dimension(:)      ,intent(in)     :: names 
+
+        end subroutine zeroVars
 !-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface

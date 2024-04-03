@@ -1144,7 +1144,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
 
             integerArrayParams(1) = &
             NamedIntegerArray(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyBBDPreParams,[0,0,0,0])
-
+            
             allocate(optionsCVODE)
 
             optionsCVODE%maxRestarts = integerParams(1)%value 
@@ -1156,7 +1156,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             optionsCVODE%bbdmlkeep= integerArrayParams(1)%values(4)
 
             allocate(integratorCVODE)
-            call integratorCVODE%init(mpiCont,optionsCVODE,integratorName=integratorTags(1)%values(i)%string)
+            call integratorCVODE%init(mpiCont,optionsCVODE,&
+                integratorName=integratorTags(1)%values(i)%string)%values)
 
             call integratorObj%addIntegrator(integratorCVODE)
 

@@ -64,6 +64,7 @@ module cvode_integrator_class
 
         type(VariableContainer) ,allocatable               ,private :: bufferRHS ,bufferY !! ReMKiT1D variable containers corresponding to the RHS and solutions - enable derivation and communication calls
         real(rk)                ,allocatable ,dimension(:) ,private :: copyBufferVals !! Buffer for moving data between the C pointers and the ReMKiT1D variable containers 
+        real(rk)                ,allocatable ,dimension(:) ,private :: errorWeights !! Weight multipliers associated with each element of yVec
         type(StringArray)       ,allocatable ,dimension(:) ,private :: evolvedVars !! List of variables evolved by this solver
 
         type(MPI_Comm) ,private :: mpiComm !! MPI communicator object needed by some CVODE routines

@@ -195,6 +195,10 @@ contains
         
         testInts = testVarCont1%getVarLens(varNames(2:4)) 
         @assertEqual(testInts,[3,90,3]) 
+
+        call testVarCont1%zeroVars(varNames(1:2))
+        @assertTrue(all(abs(testVarCont1%variables(1)%entry) < 1d-12))
+        @assertTrue(all(abs(testVarCont1%variables(2)%entry) < 1d-12))
     end subroutine test1
 
     module function testCalculate(this,inputArray,indices) result(output)

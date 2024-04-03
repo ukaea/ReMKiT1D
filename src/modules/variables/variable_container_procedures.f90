@@ -647,5 +647,29 @@ pure module function getVarLens(this,names) result(lens)
     end do
 end function getVarLens
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine zeroVars(this,names)
+    !! Zero all named variable values - useful for buffer containers
+
+    class(VariableContainer)             ,intent(inout)  :: this
+    type(StringArray) ,dimension(:)      ,intent(in)     :: names 
+    integer(ik) :: i
+    integer(ik) ,allocatable ,dimension(:) :: varIndices
+
+    if (assertions) call assertPure(this%isDefined(),"zeroVars called from undefined variable container")
+    allocate(varIndices(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+            "zeroVars called with name not registered in container")
+
+        varIndices(i) = this%getVarIndex(names(i)%string)
+    end do
+
+    do i=1,size(names) 
+        this%variables(varIndices(i))%entry = 0 
+    end do 
+
+end subroutine zeroVars
+!-----------------------------------------------------------------------------------------------------------------------------------
 end submodule variable_container_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

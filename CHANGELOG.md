@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.0, 2024-03-05
+## v1.2.0, 2024-04-04
 
 - Bug fixes
 - Added CVODE integrator as an option
@@ -19,6 +19,7 @@
 - Manipulators now called before first time step
 - The term evaluator manipulator can now accumulate values into the evaluation variable instead of overwriting it
 - The term evaluator can now also explicitly request model and term updates (less fine-grained control than integrators)
+- Variables can now be zeroed with a passed list of names
 
 ### Bug Fixes
 

@@ -105,7 +105,8 @@ contains
             do i = 1, size(modelIndices)
                 allocate(varIndices(i)%entry(size(termGroups(i)%entry)))
                 do j = 1, size(termGroups(i)%entry)
-                    call assert (.not. manipulatedModeller%isModelTermGroupMixed(termGroups(i)%entry(j),modelIndices(i)))
+                    call assert (.not. manipulatedModeller%isModelTermGroupMixed(termGroups(i)%entry(j),modelIndices(i)),&
+                        "CVODE integrator does not support mixed term groups")
                     varIndices(i)%entry(j) = inputVars%getVarIndex(manipulatedModeller&
                                                                   %getEvolvedVarInTermGroup(termGroups(i)%entry(j),modelIndices(i)))
                     call assert(.not.inputVars%isStationary(manipulatedModeller&

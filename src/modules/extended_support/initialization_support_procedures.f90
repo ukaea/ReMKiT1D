@@ -1157,7 +1157,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
 
             allocate(integratorCVODE)
             call integratorCVODE%init(mpiCont,optionsCVODE,&
-                integratorName=integratorTags(1)%values(i)%string)%values)
+                integratorName=integratorTags(1)%values(i)%string)
 
             call integratorObj%addIntegrator(integratorCVODE)
 

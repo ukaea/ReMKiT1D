@@ -143,6 +143,14 @@ module key_names
     character(len=*) ,parameter :: keyCVODEGMRESMaxRestarts = "maxRestarts"
     character(len=*) ,parameter :: keyRelTol = "relTol"
     character(len=*) ,parameter :: keyBBDPreParams = "CVODEPreBBDParams"
+    character(len=*) ,parameter :: keyCVODEAM = "CVODEUseAdamsMoulton"
+    character(len=*) ,parameter :: keyCVODEStabDet = "CVODEUseStabLimDet"
+    character(len=*) ,parameter :: keyCVODEMaxOrder = "CVODEMaxOrder"
+    character(len=*) ,parameter :: keyCVODEMaxInternalSteps = "CVODEMaxInternalSteps"
+    character(len=*) ,parameter :: keyCVODEMaxStep = "CVODEMaxStepSize"
+    character(len=*) ,parameter :: keyCVODEMinStep = "CVODEMinStepSize"
+    character(len=*) ,parameter :: keyCVODEInitStep = "CVODEInitStepSize"
+    
 
     ! Manipulator keys 
 
@@ -192,6 +200,9 @@ module key_names
     character(len=*) ,parameter :: keyRealTimePeriod = "realTimePeriod"
     character(len=*) ,parameter :: keySkipPattern = "skipPattern"
     character(len=*) ,parameter :: keyMultCopyTermName = "multCopyTermName"
+    character(len=*) ,parameter :: keyReqMBVarName = "requiredMBVarName"
+    character(len=*) ,parameter :: keyMatrixTerm = "matrixTerm"
+    character(len=*) ,parameter :: keyDerivationTerm = "derivationTerm"
 
     ! Term generator keys 
 
@@ -458,7 +469,6 @@ module key_names
     character(len=*) ,parameter :: keyResetTime = "resetTime"
     character(len=*) ,parameter :: keyHDF5LoadInit = "loadInitValsFromHDF5"
     character(len=*) ,parameter :: keyInitPath = "initValFilename"
- 
 !----------------------------------------------------------------------------------------------------------------------------------
 end module key_names
 !----------------------------------------------------------------------------------------------------------------------------------

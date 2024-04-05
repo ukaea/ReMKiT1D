@@ -50,7 +50,7 @@ contains
         type(CommunicationData) :: commData
 
         integer(c_int) :: ierr
-        integer(c_int) :: maxres 
+        integer(c_int) :: maxres, lastOrder(1) 
         integer(c_long) :: nlocal, neq, mu, ml, mudq, mldq, numCVODESteps(1)
         integer(c_int) :: iPretype0 = 1 !! Preconditioner type (left)
         integer(c_int) :: iGStype = 1 !! Gram-Schmidt orthoganlization type (classical)
@@ -153,10 +153,25 @@ contains
                
                this%rhsVec(1:nlocal) => FN_VGetArrayPointer(this%sunVecYDot)
                this%yVec(1:nlocal) => FN_VGetArrayPointer(this%sunVecY)
+                
+               if (this%options%amMethod) then 
+                   this%cvode = FCVodeCreate(CV_ADAMS, this%sunctx)
+               else
+                   this%cvode = FCVodeCreate(CV_BDF, this%sunctx)
+               end if
 
-               this%cvode = FCVodeCreate(CV_BDF, this%sunctx)
                
                ierr = FCVodeInit(this%cvode,c_funloc(rhs), currentTimeVal, this%sunVecY)
+
+               ierr = FCVodeSetMaxOrd(this%cvode,this%options%maxOrder)
+
+               if (this%options%stabLimitDet) ierr = FCVodeSetStabLimDet(this%cvode,SUNTRUE)
+               
+               ierr = FCVodeSetMaxNumSteps(this%cvode,int(this%options%maxInternalSteps,kind=c_long))
+
+               if (this%options%minTimestep > 0) ierr = FCVodeSetMinStep(this%cvode, this%options%minTimestep) 
+               if (this%options%maxTimestep > 0) ierr = FCVodeSetMaxStep(this%cvode, this%options%maxTimestep) 
+               if (this%options%startingTimestep >0) ierr = FCVodeSetInitStep(this%cvode, this%options%startingTimestep)
 
                this%sunls => FSUNLinSol_SPGMR(this%sunVecY,iPretype0,0,this%sunctx)
                this%sunmat => null()
@@ -216,6 +231,8 @@ contains
                 
                 ierr = FCVodeGetNumSteps(this%cvode,numCVODESteps)
                 call printNamedValue(this%integratorName//": CVODE number of steps",int(numCVODESteps(1),kind=ik))
+                ierr = FCVodeGetLastOrder(this%cvode,lastOrder)
+                call printNamedValue(this%integratorName//": Last internal step order",int(lastOrder(1),kind=ik))
                 if (numSteps > 1) then
                     this%yVec => FN_VGetArrayPointer(this%sunvecY)
                     this%copyBufferVals = this%yVec

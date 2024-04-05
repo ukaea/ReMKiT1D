@@ -462,7 +462,8 @@ contains
         testOptions%bbdmlkeep = 0
         testOptions%bbdmldq = 0
         testOptions%bbdmudq = 0
-        testOptions%maxRestarts = 50
+        testOptions%maxRestarts = 0
+        testOptions%maxOrder = 5
 
         call testIntegrator%init(testMPIController,testOptions,modelList=[1],termGroups=[intArray([1])],&
                                 evolvesTimeVar=.true.,initialTimestep=0.1d0)

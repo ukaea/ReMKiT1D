@@ -50,6 +50,19 @@ module cvode_integrator_class
         real(rk) :: abstol !! Linear solver absolute tolerance 
 
         integer(ik) :: maxRestarts !! Maximum number of GMRES restarts
+        
+        logical :: amMethod = .false.!! True if using Adams Moulton (default is BDF)
+
+        integer(ik) :: maxOrder !! Maximum order of method 
+        
+        logical :: stabLimitDet = .false. !! True if using stability limit detection 
+
+        integer(ik) :: maxInternalSteps = 500 !! Maximum number of internal steps 
+
+        real(rk) :: maxTimestep = 0.d0!! Maximum timestep size 
+        real(rk) :: minTimestep = 0.d0 !! Minimum timestep size 
+
+        real(rk) :: startingTimestep = 0.0d0 !! Starting timestep (if <0 then chosen by CVODE) 
 
     end type CVODEOptions
 
@@ -64,7 +77,6 @@ module cvode_integrator_class
 
         type(VariableContainer) ,allocatable               ,private :: bufferRHS ,bufferY !! ReMKiT1D variable containers corresponding to the RHS and solutions - enable derivation and communication calls
         real(rk)                ,allocatable ,dimension(:) ,private :: copyBufferVals !! Buffer for moving data between the C pointers and the ReMKiT1D variable containers 
-        real(rk)                ,allocatable ,dimension(:) ,private :: errorWeights !! Weight multipliers associated with each element of yVec
         type(StringArray)       ,allocatable ,dimension(:) ,private :: evolvedVars !! List of variables evolved by this solver
 
         type(MPI_Comm) ,private :: mpiComm !! MPI communicator object needed by some CVODE routines

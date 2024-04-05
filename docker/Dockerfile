@@ -1,6 +1,6 @@
 FROM rhub/ubuntu-gcc-devel:latest
 LABEL maintainer="stefan.mijin@ukaea.uk"
-LABEL version="1.0.0"
+LABEL version="1.2.0"
 LABEL description="Docker container for ReMKiT1D CI"
 
 # Disable Prompt During Packages Installation
@@ -103,7 +103,19 @@ RUN cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCM
 RUN make install
 WORKDIR /home
 
+# ReMKiT1D v1.2.0+ requires sundials 
+RUN git clone https://github.com/LLNL/sundials.git
+WORKDIR sundials 
+RUN mkdir build 
+WORKDIR build 
+
+RUN cmake .. -DENABLE_MPI=ON -DCMAKE_INSTALL_PREFIX=/home/installs/sundials -DENABLE_LAPACK=ON -DBUILD_FORTRAN_MODULE_INTERFACE=ON -DCMAKE_C_COMPILER=gcc-11
+RUN make install
+
+WORKDIR /home
+
 RUN echo LD_LIBRARY_PATH=/home/mpich-install/lib:$LD_LIBRARY_PATH
+RUN echo LD_LIBRARY_PATH=/home/sundials/lib:$LD_LIBRARY_PATH
 
 # Add the PATH to assist CMake and Make Find the Required Compilation Files
 ENV PFUNIT_DIR=/home/installs/pFUnit
@@ -112,4 +124,6 @@ ENV PETSC_ARCH=arch-linux-c-opt
 ENV PATH=$PATH:/home/installs/
 ENV PATH=$PATH:/home/installs/petsc
 ENV PATH=$PATH:/home/installs/hdf5
+ENV PATH=$PATH:/home/installs/sundials
 ENV PATH=$PATH:/home/installs/json-fortran/jsonfortran-gnu-8.2.5
+ENV SUNDIALS_DIR=/home/installs/sundials/lib/cmake/sundials

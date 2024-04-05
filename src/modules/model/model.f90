@@ -79,9 +79,11 @@ module model_class
         procedure ,public :: addGeneralTerm
 
         procedure ,public :: updateTermGroup
+        procedure ,public :: updateTermByName
         procedure ,public :: evaluateTermGroup 
         procedure ,public :: evaluateTermByName
         procedure ,public :: calculateMatGroupValues
+        procedure ,public :: calculateMatValsByName
         procedure ,public :: addMatGroupValsToPETSc
         procedure ,public :: assemble
 
@@ -196,7 +198,7 @@ module model_class
 
     end subroutine updateTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function evaluateTermGroup(this,groupIndex,varCont) result(res)
+    module function evaluateTermGroup(this,groupIndex,varCont) result(res)
         !! Evaluate a term group, returning the sum of all explicit results from the term group 
         !! - if groupIndex > size(implicitGroup) it is taken to be in the general group
 
@@ -341,7 +343,7 @@ module model_class
 
     end function getGeneralTermIndex
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function evaluateTermByName(this,name,varCont) result(res)
+    module function evaluateTermByName(this,name,varCont) result(res)
         !! Evaluate a term by name
 
         class(Model)                         ,intent(in) :: this
@@ -350,6 +352,24 @@ module model_class
         real(rk) ,allocatable ,dimension(:)              :: res
 
     end function evaluateTermByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine calculateMatValsByName(this,name,varCont) 
+        !! Calculate matrix values of a term by name
+
+        class(Model)                         ,intent(inout) :: this
+        character(*)                         ,intent(in)    :: name
+        type(VariableContainer)              ,intent(in)    :: varCont 
+
+    end subroutine calculateMatValsByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine updateTermByName(this,name,varCont)
+        !! Update a term by name 
+
+        class(Model)            ,intent(inout)  :: this
+        character(*)            ,intent(in)     :: name
+        type(VariableContainer) ,intent(in)     :: varCont 
+
+    end subroutine updateTermByName
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -30,6 +30,16 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
         modeller
         mpi_support
         IO_support
+        MPI::MPI_Fortran
+        SUNDIALS::cvode
+        SUNDIALS::fcvode_mod
+        SUNDIALS::core
+        SUNDIALS::fcore_mod
+        SUNDIALS::fnvecparallel_mod
+        SUNDIALS::nvecparallel
+        SUNDIALS::nvecserial
+        SUNDIALS::fnvecserial_mod
+        SUNDIALS::fsunlinsolspgmr_mod
   PRIVATE
         ${BUILD_TYPE_Fortran_FLAGS}
 )

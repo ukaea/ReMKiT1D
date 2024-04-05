@@ -134,6 +134,7 @@ module subroutine initVarContainer(this,&
     numV = indexingObj%getNumV()
 
     allocate(this%variables(implicitVars%getNumVars()+derivedVars%getNumVars()))
+    allocate(this%varLens(size(this%variables)))
     do i = 1,size(this%implicitVarIndices)
         if (implicitVars%isVarDist(i)) then 
             allocate(this%implicitVarIndices(i)%entry(locNumX*locNumH*numV))
@@ -155,6 +156,8 @@ module subroutine initVarContainer(this,&
                 end do
             end do
 
+            this%varLens(i) = locNumX*numH*numV
+
         else if (implicitVars%isVarScalar(i)) then
             error stop "Implicit scalar variables in variable container are not supported"
         else if (minH == 1) then
@@ -170,6 +173,8 @@ module subroutine initVarContainer(this,&
                 this%implicitToLocIndex(i)%entry(j) = j
             end do
 
+            this%varLens(i) = locNumX
+
         else 
 
             allocate(this%implicitVarIndices(i)%entry(0))
@@ -179,6 +184,8 @@ module subroutine initVarContainer(this,&
             call random_number(randomNum)
             this%variables(i)%entry(1-xHaloWidth:0) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells
             this%variables(i)%entry(locNumX+1:locNumX+xHaloWidth) = real(randomNum+1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
+
+            this%varLens(i) = locNumX
 
         end if
     end do
@@ -191,10 +198,14 @@ module subroutine initVarContainer(this,&
             
             this%variables(i+size(this%implicitVarIndices))%entry(locNumX*numH*numV+1:(locNumX+xHaloWidth)*numH*numV) &
             = real(1,kind=rk) !Initialize halos to avoid NaNs in ghost cells 
+
+            this%varLens(i+size(this%implicitVarIndices)) = locNumX*numH*numV
             
         else if (derivedVars%isVarScalar(i)) then
             allocate(this%variables(i+size(this%implicitVarIndices))%entry(1))
             this%variables(i+size(this%implicitVarIndices))%entry = 0 
+
+            this%varLens(i+size(this%implicitVarIndices)) = 1
         else
             allocate(this%variables(i+size(this%implicitVarIndices))%entry(1-xHaloWidth:locNumX+xHaloWidth))
             this%variables(i+size(this%implicitVarIndices))%entry = 0 
@@ -547,6 +558,122 @@ pure module function isStationary(this,name) result(stationary)
     end if 
 
 end function isStationary
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine copyNamedVarsToVec(this,vec,names)
+    !! Copy variables into locally indexed vector by name 
+    
+    class(VariableContainer)              ,intent(inout)  :: this
+    real(rk) ,allocatable, dimension(:)   ,intent(inout)  :: vec
+    type(StringArray) ,dimension(:)       ,intent(in) :: names 
+    
+    integer(ik) :: i, totalLen, offset
+    integer(ik) ,allocatable ,dimension(:) :: varIndices, varLens
+
+    if (assertions) call assertPure(this%isDefined(),"copyNamedVarsToVec called from undefined variable container")
+    totalLen = 0 
+    allocate(varIndices(size(names)))
+    allocate(varLens(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+                                        "copyNamedVarsToVec called with name not registered in container")
+
+        varIndices(i) = this%getVarIndex(names(i)%string)
+        varLens(i) = this%varLens(varIndices(i))
+
+        totalLen = totalLen + varLens(i)
+    end do
+
+    if (.not. allocated(vec)) then 
+        allocate(vec(totalLen))
+    else if (size(vec) /= totalLen) then
+        deallocate(vec)
+        allocate(vec(totalLen))
+    end if 
+
+    offset = 0
+    do i=1,size(names) 
+        vec(offset+1:offset+varLens(i)) = this%variables(varIndices(i))%entry(1:varLens(i))
+        offset = offset + varLens(i)
+    end do 
+end subroutine copyNamedVarsToVec
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine copyNamedVarsFromVec(this,vec,names)
+    !! Copy variables from locally indexed vector by name 
+    
+    class(VariableContainer)                 ,intent(inout)  :: this
+    real(rk)  ,dimension(:)                  ,intent(in)  :: vec
+    type(StringArray) ,dimension(:)          ,intent(in) :: names 
+
+    integer(ik) :: i, totalLen, offset
+    integer(ik) ,allocatable ,dimension(:) :: varIndices, varLens
+
+    if (assertions) call assertPure(this%isDefined(),"copyNamedVarsFromVec called from undefined variable container")
+    totalLen = 0 
+    allocate(varIndices(size(names)))
+    allocate(varLens(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+            "copyNamedVarsFromVec called with name not registered in container")
+
+        varIndices(i) = this%getVarIndex(names(i)%string)
+        varLens(i) = this%varLens(varIndices(i))
+
+        totalLen = totalLen + varLens(i)
+    end do
+
+    if (assertions) call assertPure(size(vec) == totalLen, "copyNamedVarsFromVec called with vector of non-conforming size")
+    
+    offset = 0
+    do i=1,size(names) 
+        this%variables(varIndices(i))%entry(1:varLens(i)) = vec(offset+1:offset+varLens(i)) 
+        offset = offset + varLens(i)
+    end do 
+end subroutine copyNamedVarsFromVec
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module function getVarLens(this,names) result(lens)
+    !! Get lengths of variable data vectors (not including halos) based on a list of names
+    
+    class(VariableContainer)                 ,intent(in)  :: this
+    type(StringArray) ,dimension(:)          ,intent(in)  :: names 
+    integer(ik) ,allocatable ,dimension(:)                :: lens 
+
+    integer(ik) :: i
+    allocate(lens(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+                                        "copyNamedVarsToVec called with name not registered in container")
+        
+        lens(i) = this%varLens(this%getVarIndex(names(i)%string))
+
+    end do
+end function getVarLens
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine zeroVars(this,names)
+    !! Zero all named variable values - useful for buffer containers
+
+    class(VariableContainer)             ,intent(inout)  :: this
+    type(StringArray) ,dimension(:)      ,intent(in)     :: names 
+    integer(ik) :: i
+    integer(ik) ,allocatable ,dimension(:) :: varIndices
+
+    if (assertions) call assertPure(this%isDefined(),"zeroVars called from undefined variable container")
+    allocate(varIndices(size(names)))
+    do i=1,size(names)
+        
+        if (assertions) call assertPure(this%isVarNameRegistered(names(i)%string),&
+            "zeroVars called with name not registered in container")
+
+        varIndices(i) = this%getVarIndex(names(i)%string)
+    end do
+
+    do i=1,size(names) 
+        this%variables(varIndices(i))%entry = 0 
+    end do 
+
+end subroutine zeroVars
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule variable_container_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

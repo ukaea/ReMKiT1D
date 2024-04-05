@@ -1,19 +1,22 @@
 # CHANGELOG
 
-## v1.2.0, 2024-04-04
+## v1.2.0, 2024-04-05
 
-- Bug fixes
 - Added CVODE integrator as an option
+- Added new derivation-based explicit term
 - Added new unary transformations
 - New variable and manipulator features
+- Bug fixes
 
 ### Breaking Changes
 
+- Due to the need to now differentiate between term types in JSON input, pre v1.2.0 config files will not work with 1.2.0
 - New explicit term interface incompatible with the previous one (relevant only for existing tests)
 
 ### New Features
 
-- Basic CVODE integrator adde
+- Basic CVODE integrator added
+- Derivation-based explicit term added. This takes a derivation and an optinal modelbound variable and evaluates to the product of the derivation result and the variable
 - Added slope limiter related unary transformations 
 - Variables can now be copied into/from arrays by passing a list of variable names to the container
 - Manipulators now called before first time step

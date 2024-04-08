@@ -27,6 +27,7 @@
 ### Bug Fixes
 
 - Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 
+- Fized segfault on finalize when no PETSc obj used
 
 ## v1.1.0, 2024-02-02
 

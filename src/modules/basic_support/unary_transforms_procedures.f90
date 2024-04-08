@@ -325,7 +325,7 @@ pure module function unaryExpand(input,realParams,intParams,logicalParams) resul
     do i = 1,intParams(1)
         do j = 1,size(input)
             offset = (i-1)*size(realParams)*size(input) + (j-1)*size(realParams)
-            output(offset+1:offset+size(realParams)) = input(i)*realParams
+            output(offset+1:offset+size(realParams)) = input(j)*realParams
         end do
     end do
 

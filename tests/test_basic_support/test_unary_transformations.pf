@@ -78,9 +78,9 @@ contains
         real(rk) ,allocatable ,dimension(:) :: testData 
 
         testData = real([1,1,1,2,2,2,0,1],kind=rk) 
-        testVec = unarySlopeRatio(testData,intParams=[1],realParams=real([1e-6],kind=rk))
+        testVec = unarySlopeRatio(testData,intParams=[1],realParams=real([1e-6,1e2],kind=rk))
         
-        @assertEqual(testVec,real([1,1,0,0,1,0,-2,0],kind=rk))
+        @assertEqual(testVec,real([1,1,0,100,1,0,-2,100],kind=rk))
 
     end subroutine test_unary_slope_ratio
 

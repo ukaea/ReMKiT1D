@@ -325,7 +325,7 @@ pure module function unaryExpand(input,realParams,intParams,logicalParams) resul
     do i = 1,intParams(1)
         do j = 1,size(input)
             offset = (i-1)*size(realParams)*size(input) + (j-1)*size(realParams)
-            output(offset+1:offset+size(realParams)) = input(j)*realParams
+            output(offset+1:offset+size(realParams)) = input(i)*realParams
         end do
     end do
 
@@ -349,10 +349,10 @@ pure module function unarySlopeRatio(input,realParams,intParams,logicalParams) r
 
         output = numerator/denominator 
 
-        where (abs(denominator) < realParams(1) .and. abs(numerator) > realParams(1))
+        where (abs(denominator) < realParams(1) .and. abs(numerator - denominator) > realParams(1))
             
-            output = 0
-        else where (abs(denominator) < realParams(1) .and. abs(numerator) < realParams(1))
+            output = realParams(2) * sign(real(1,kind=rk),numerator)*sign(real(1,kind=rk),denominator)
+        else where (abs(denominator) < realParams(1) .and. abs(numerator - denominator) < realParams(1))
             output = real(1,kind=rk)
 
         end where

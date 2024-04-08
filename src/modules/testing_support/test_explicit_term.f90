@@ -29,6 +29,7 @@ module test_explicit_term_class
         contains
 
         procedure ,public :: init => initTestExplicitTerm
+        procedure ,public :: outerFun => testFun
 
     end type TestExplicitTerm
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -41,6 +42,15 @@ module test_explicit_term_class
         type(VariableContainer)       ,intent(in)     :: varCont
 
         end subroutine initTestExplicitTerm
+!-----------------------------------------------------------------------------------------------------------------------------------
+module function testFun(this,varCont) result(res)
+
+    class(TestExplicitTerm)             ,intent(in)   :: this
+    type(VariableContainer)         ,intent(in)   :: varCont
+
+    real(rk) ,allocatable           ,dimension(:) :: res  
+
+end function testFun
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

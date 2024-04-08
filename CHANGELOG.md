@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## v1.2.0, 2024-04-05
+
+- Added CVODE integrator as an option
+- Added new derivation-based explicit term
+- Added new unary transformations
+- New variable and manipulator features
+- Bug fixes
+
+### Breaking Changes
+
+- Due to the need to now differentiate between term types in JSON input, pre v1.2.0 config files will not work with 1.2.0
+- New explicit term interface incompatible with the previous one (relevant only for existing tests)
+
+### New Features
+
+- Basic CVODE integrator added
+- Derivation-based explicit term added. This takes a derivation and an optinal modelbound variable and evaluates to the product of the derivation result and the variable
+- Added slope limiter related unary transformations 
+- Variables can now be copied into/from arrays by passing a list of variable names to the container
+- Manipulators now called before first time step
+- The term evaluator manipulator can now accumulate values into the evaluation variable instead of overwriting it
+- The term evaluator can now also explicitly request model and term updates (less fine-grained control than integrators)
+- Variables can now be zeroed with a passed list of names
+
+### Bug Fixes
+
+- Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 
+
 ## v1.1.0, 2024-02-02
 
 - Solver and integrator improvements

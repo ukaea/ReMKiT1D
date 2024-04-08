@@ -25,10 +25,11 @@ Libraries:
 - pFUnit - only if unit testing required 
 - PETSc - tested with versions 3.16 and 3.17 (3.18 not compatible) - requires hypre
 - json-fortran - currently using version 8.2.5
+- sundials (as of v.1.2.0)
 
 Make sure that all libraries have been compiled using the same compiler/mpi distribution. 
 
-The code has so far been tested on Ubuntu and MacOS. 
+The code has so far been tested on Linux (including WSL) and MacOS. 
 
 ## Building prerequisites 
 
@@ -103,6 +104,17 @@ cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_
 make install
 ```
 
+Install the sundials library:
+
+```
+git clone https://github.com/LLNL/sundials.git
+cd sundials 
+mkdir build 
+cd build 
+cmake .. -DENABLE_MPI=ON -DCMAKE_INSTALL_PREFIX=/home/installs/sundials -DENABLE_LAPACK=ON -DBUILD_FORTRAN_MODULE_INTERFACE=ON -DCMAKE_C_COMPILER=gcc-11
+make install
+```
+
 Set the environmental variables
 
 ```
@@ -113,7 +125,10 @@ export PATH=$PATH:/home/installs/petsc
 export PATH=$PATH:/home/installs/hdf5
 export PATH=$PATH:/home/installs/json-fortran/jsonfortran-gnu-8.2.5
 export PATH=$PATH:/home/mpich-install/bin:$PATH
+export PATH=$PATH:/home/installs/sundials
 export LD_LIBRARY_PATH=/home/mpich-install/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/home/sundials/lib:$LD_LIBRARY_PATH
+export SUNDIALS_DIR=/home/installs/sundials/lib/cmake/sundials
 ```
 NOTE: Some of the above paths might have to be set differently depending on your system setup and you might have to define the ones you need after the corresponding installation. Another option is to export the paths before the start of the installation process. 
 

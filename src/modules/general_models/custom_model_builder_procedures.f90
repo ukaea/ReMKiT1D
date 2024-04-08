@@ -35,7 +35,7 @@ module subroutine initCustomBuilder(this,env,normObject,modelTag)
 
     type(NamedScalarContainer) :: scalarParams 
     type(NamedArrayContainer)  :: arrayParams
-    integer(ik) :: i 
+    integer(ik) :: i, numImplicitTerms
 
     class(ModelboundData) ,allocatable :: mbData
 
@@ -80,8 +80,12 @@ module subroutine initCustomBuilder(this,env,normObject,modelTag)
     allocate(this%modelBuffer)
 
     call this%outputUsedParams(env%jsonCont,env%mpiCont)
+    
+    !! TODO: This right now assumes that term generators do not generate general terms
+    numImplicitTerms = countImplicitTerms(keyModels//"."//modelTag,arrayParams%stringData(1)%values,env)
 
-    call this%modelBuffer%init(numGeneralTerms=0,numImplicitGroups=scalarParams%intData(1)%value,&
+    call this%modelBuffer%init(numGeneralTerms = size(arrayParams%stringData(1)%values) - numImplicitTerms,&
+                               numImplicitGroups=scalarParams%intData(1)%value,&
                                numGeneralGroups=scalarParams%intData(2)%value)
 
     ! Add modelbound data
@@ -93,7 +97,7 @@ module subroutine initCustomBuilder(this,env,normObject,modelTag)
 
     if (allocated(mbData)) then
         ! Add any generated terms and finish modelBuffer initialization
-        call this%applyTermGenerator(env,normObject,modelTag,size(arrayParams%stringData(1)%values),mbData=mbData)
+        call this%applyTermGenerator(env,normObject,modelTag,numImplicitTerms,mbData=mbData)
         ! Adding each custom term
         do i = 1, size(arrayParams%stringData(1)%values)
             call printMessage("Adding term: "//arrayParams%stringData(1)%values(i)%string//" to "//modelTag)
@@ -102,7 +106,7 @@ module subroutine initCustomBuilder(this,env,normObject,modelTag)
         end do
     else
         ! Add any generated terms and finish modelBuffer initialization
-        call this%applyTermGenerator(env,normObject,modelTag,size(arrayParams%stringData(1)%values))
+        call this%applyTermGenerator(env,normObject,modelTag,numImplicitTerms)
         ! Adding each custom term
         do i = 1, size(arrayParams%stringData(1)%values)
             call printMessage("Adding term: "//arrayParams%stringData(1)%values(i)%string//" to "//modelTag)
@@ -111,6 +115,36 @@ module subroutine initCustomBuilder(this,env,normObject,modelTag)
     end if
 
 end subroutine initCustomBuilder
+!-----------------------------------------------------------------------------------------------------------------------------------
+function countImplicitTerms(termJSONPrefix,termTags,env) result(res) 
+
+    character(*)                              ,intent(in)     :: termJSONPrefix 
+    type(StringArray) ,dimension(:)           ,intent(in)     :: termTags 
+    class(EnvironmentWrapper)                 ,intent(inout)  :: env 
+    
+    integer(ik)                                               :: res 
+    type(NamedString) ,allocatable ,dimension(:) :: termType
+
+    integer(ik) :: i 
+
+    allocate(termType(size(termTags)))
+    
+    res = 0 
+
+    do i = 1,size(termTags) 
+
+        termType(i) = NamedString(termJSONPrefix//"."//termTags(i)%string//"."//keyTermType,"")
+
+    end do
+
+    call env%jsonCont%load(termType)
+    call env%jsonCont%output(termType)
+
+    do i = 1,size(termTags) 
+        if (termType(i)%value == keyMatrixTerm) res = res + 1 
+    end do
+
+end function countImplicitTerms
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine addCustomModel(this,modellerObj) 
     !! Adds the model built by the builder and resets the builder to become undefined for further use
@@ -132,6 +166,142 @@ end subroutine addCustomModel
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine addTermToModel(this,termJSONPrefix,termTag,env,normObject,mbData) 
     !! Adds individual term to model buffer based on JSON file data
+
+    class(CustomModelBuilder)                 ,intent(inout)  :: this 
+    character(*)                              ,intent(in)     :: termJSONPrefix 
+    character(*)                              ,intent(in)     :: termTag 
+    class(EnvironmentWrapper)                 ,intent(inout)  :: env 
+    class(Normalization)                      ,intent(in)     :: normObject
+    class(ModelboundData) ,optional           ,intent(in)     :: mbData
+
+    type(NamedString) ,allocatable ,dimension(:) :: termType
+    allocate(termType(1))
+    termType(1) = NamedString(termJSONPrefix//"."//termTag//"."//keyTermType,"")
+    
+    call env%jsonCont%load(termType)
+    call env%jsonCont%output(termType)
+
+
+    select case (termType(1)%value)
+
+    case(keyMatrixTerm)
+        call addMatrixTermToModel(this,termJSONPrefix,termTag,env,normObject,mbData)
+    case(keyDerivationTerm)
+        call addDerivationTermToModel(this,termJSONPrefix,termTag,env,normObject,mbData)
+    case default
+        error stop "Unsupported term type "//termType(1)%value//" detected in addTermToModel"
+    end select 
+    
+end subroutine addTermToModel
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine applyTermGenerator(this,env,normObject,modelTag,currentNumTerms,mbData) 
+    !! Checks for associated term generator in JSON file and applies to custom model
+
+    class(CustomModelBuilder)                 ,intent(inout)  :: this 
+    class(EnvironmentWrapper)                 ,intent(inout)  :: env 
+    class(Normalization)                      ,intent(in)     :: normObject !! Reference normalization object
+    character(*)                              ,intent(in)     :: modelTag !! Tag of this model
+    integer(ik)                               ,intent(in)     :: currentNumTerms
+    class(ModelboundData) ,optional           ,intent(in)     :: mbData
+
+    type(NamedString) ,allocatable ,dimension(:) :: generatorType
+    type(NamedStringArray) ,dimension(1) :: generatorTags
+
+    type(NamedIntegerArray) ,allocatable ,dimension(:) :: generatedTermImplicitGroups
+
+    integer(ik) :: numGeneratedImpTerms ,i ,j
+
+    class(TermGeneratorContainer) ,allocatable ,dimension(:) :: tGenerators 
+
+    type(IntArray) ,allocatable ,dimension(:) :: iTermIGroups
+
+    generatorTags(1)%name = keyModels//"."//modelTag//"."//keyTermGenerators//"."//keyTags
+    allocate(generatorTags(1)%values(0))
+
+    call env%jsonCont%load(generatorTags)
+    call env%jsonCont%output(generatorTags)
+
+    allocate(generatorType(size(generatorTags(1)%values)))
+    allocate(generatedTermImplicitGroups(size(generatorTags(1)%values)))
+
+    do i = 1,size(generatorTags(1)%values)
+        generatorType(i) = NamedString(keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                       "."//generatorTags(1)%values(i)%string//"."//keyType,keyNone)
+
+        generatedTermImplicitGroups(i) = NamedIntegerArray(keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                                           "."//generatorTags(1)%values(i)%string//"."//keyImplicitTermGroups,[1])
+    end do
+
+    call env%jsonCont%load(generatorType)
+    call env%jsonCont%output(generatorType)
+    call env%jsonCont%load(generatedTermImplicitGroups)
+    call env%jsonCont%output(generatedTermImplicitGroups)
+
+    allocate(tGenerators(size(generatorTags(1)%values)))
+
+    numGeneratedImpTerms = 0 
+
+    do i = 1,size(generatorTags(1)%values)
+        if (generatorType(i)%value /= keyNone) then 
+
+            call printMessage("Applying term generator: "//generatorTags(1)%values(i)%string//" to "//modelTag)
+            !Add supported generator calls here
+            select case (generatorType(i)%value)
+            case (keyCRMDensTermGen)
+                call initCRMDensTermGeneratorFromJSON(tGenerators(i)%entry,this%modelBuffer,env,&
+                                                      keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                                      "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
+            case (keyCRMElEnergyTermGen)
+                call initCRMElEnergyTermGeneratorFromJSON(tGenerators(i)%entry,this%modelBuffer,env,&
+                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
+            case (keyCRMBoltzTermGen)
+                call initCRMFixedBoltzTermGeneratorFromJSON(tGenerators(i)%entry,normObject,this%modelBuffer,env,&
+                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
+            case (keyCRMVarBoltzTermGen)
+                call initCRMVarBoltzTermGeneratorFromJSON(tGenerators(i)%entry,normObject,this%modelBuffer,env,&
+                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
+            case (keyCRMSecElTermGen)
+                call initCRMSecElTermGeneratorFromJSON(tGenerators(i)%entry,this%modelBuffer,env,&
+                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
+                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
+            case default 
+                error stop "applyTermGenerator in CustomModelBuilder detected unsupported term generator type"
+            end select
+            
+            if (present(mbData)) then 
+                call tGenerators(i)%entry%generate(mbData)
+            else
+                call tGenerators(i)%entry%generate()
+            end if
+            numGeneratedImpTerms = numGeneratedImpTerms + tGenerators(i)%entry%getNumImplicitTerms()
+
+        end if
+
+    end do
+
+    call this%modelBuffer%setNumImplicitTerms(numGeneratedImpTerms+currentNumTerms)
+
+    do i = 1,size(generatorTags(1)%values)
+        if (generatorType(i)%value /= keyNone) then 
+
+            if (tGenerators(i)%entry%getNumImplicitTerms() > 0) then 
+                if (allocated(iTermIGroups)) deallocate(iTermIGroups)
+                allocate(iTermIGroups(tGenerators(i)%entry%getNumImplicitTerms()))
+                do j = 1, tGenerators(i)%entry%getNumImplicitTerms()
+                    iTermIGroups(j)%entry = generatedTermImplicitGroups(i)%values
+                end do
+                call tGenerators(i)%entry%moveTerms(this%modelBuffer,impTermImpGroups=iTermIGroups)
+            end if
+
+        end if
+    end do
+end subroutine applyTermGenerator
+!-----------------------------------------------------------------------------------------------------------------------------------
+subroutine addMatrixTermToModel(this,termJSONPrefix,termTag,env,normObject,mbData) 
+    !! Adds individual matrix term to model buffer based on JSON file data
 
     class(CustomModelBuilder)                 ,intent(inout)  :: this 
     character(*)                              ,intent(in)     :: termJSONPrefix 
@@ -354,113 +524,86 @@ module subroutine addTermToModel(this,termJSONPrefix,termTag,env,normObject,mbDa
     call this%modelBuffer%addImplicitTerm(termBuffer,intArrayParams(1)%values,intArrayParams(2)%values,termTag,&
                                           skipPattern=logicalParams(2)%value)
 
-end subroutine addTermToModel
+end subroutine addMatrixTermToModel
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine applyTermGenerator(this,env,normObject,modelTag,currentNumTerms,mbData) 
-    !! Checks for associated term generator in JSON file and applies to custom model
+subroutine addDerivationTermToModel(this,termJSONPrefix,termTag,env,normObject,mbData) 
+    !! Adds individual derivation term to model buffer based on JSON file data
 
     class(CustomModelBuilder)                 ,intent(inout)  :: this 
+    character(*)                              ,intent(in)     :: termJSONPrefix 
+    character(*)                              ,intent(in)     :: termTag 
     class(EnvironmentWrapper)                 ,intent(inout)  :: env 
-    class(Normalization)                      ,intent(in)     :: normObject !! Reference normalization object
-    character(*)                              ,intent(in)     :: modelTag !! Tag of this model
-    integer(ik)                               ,intent(in)     :: currentNumTerms
+    class(Normalization)                      ,intent(in)     :: normObject
     class(ModelboundData) ,optional           ,intent(in)     :: mbData
 
-    type(NamedString) ,allocatable ,dimension(:) :: generatorType
-    type(NamedStringArray) ,dimension(1) :: generatorTags
+    class(Term) ,allocatable :: termBuffer
 
-    type(NamedIntegerArray) ,allocatable ,dimension(:) :: generatedTermImplicitGroups
+    type(DerivationTerm)             :: genTerm
 
-    integer(ik) :: numGeneratedImpTerms ,i ,j
+    class(Derivation) ,allocatable :: derivObj
+    type(NamedString)       ,allocatable ,dimension(:) :: stringParams ! evolvedVar, derivRule, reqMBVar
 
-    class(TermGeneratorContainer) ,allocatable ,dimension(:) :: tGenerators 
+    type(NamedStringArray)  ,allocatable ,dimension(:) :: stringArrayParams ! derivReqVars
+    type(NamedIntegerArray) ,allocatable ,dimension(:) :: intArrayParams ! generalTermGroups
 
-    type(IntArray) ,allocatable ,dimension(:) :: iTermIGroups
+    integer(ik) :: i 
+    
+    integer(ik) ,allocatable ,dimension(:) :: derivReqIndices
+    
+    allocate(stringParams(3))
 
-    generatorTags(1)%name = keyModels//"."//modelTag//"."//keyTermGenerators//"."//keyTags
-    allocate(generatorTags(1)%values(0))
+    stringParams(1) = NamedString(termJSONPrefix//"."//termTag//"."//keyEvolvedVar,"")
+    stringParams(2) = NamedString(termJSONPrefix//"."//termTag//"."//keyRuleName,"")
+    stringParams(3) = NamedString(termJSONPrefix//"."//termTag//"."//keyReqMBVarName,keyNone)
 
-    call env%jsonCont%load(generatorTags)
-    call env%jsonCont%output(generatorTags)
+    allocate(stringArrayParams(1))
 
-    allocate(generatorType(size(generatorTags(1)%values)))
-    allocate(generatedTermImplicitGroups(size(generatorTags(1)%values)))
+    stringArrayParams(1)%name = termJSONPrefix//"."//termTag//"."//keyReqVarNames
+    allocate(stringArrayParams(1)%values(0))
+    allocate(intArrayParams(1))
 
-    do i = 1,size(generatorTags(1)%values)
-        generatorType(i) = NamedString(keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                       "."//generatorTags(1)%values(i)%string//"."//keyType,keyNone)
+    intArrayParams(1) = NamedIntegerArray(termJSONPrefix//"."//termTag//"."//keyGeneralTermGroups,[1])
 
-        generatedTermImplicitGroups(i) = NamedIntegerArray(keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                                           "."//generatorTags(1)%values(i)%string//"."//keyImplicitTermGroups,[1])
-    end do
+    call env%jsonCont%load(stringParams)
+    call env%jsonCont%load(stringArrayParams)
+    call env%jsonCont%load(intArrayParams)
 
-    call env%jsonCont%load(generatorType)
-    call env%jsonCont%output(generatorType)
-    call env%jsonCont%load(generatedTermImplicitGroups)
-    call env%jsonCont%output(generatedTermImplicitGroups)
+    if (assertions .or. assertionLvl >= 0) then 
 
-    allocate(tGenerators(size(generatorTags(1)%values)))
+        call assert(env%externalVars%isVarNameRegistered(stringParams(1)%value),stringParams(1)%name//&
+        " not registered in environment wrapper")
 
-    numGeneratedImpTerms = 0 
+        
+        do i = 1,size(stringArrayParams(1)%values)
+            call assert(env%externalVars%isVarNameRegistered(stringArrayParams(1)%values(i)%string),&
+            "Variable with name "//stringArrayParams(1)%values(i)%string//" not registered in environment wrapper")
+        end do
 
-    do i = 1,size(generatorTags(1)%values)
-        if (generatorType(i)%value /= keyNone) then 
+    end if
+    
+    call env%textbookObj%copyDerivation(stringParams(2)%value,derivObj)
+    
+    allocate(derivReqIndices(size(stringArrayParams(1)%values)))
+    do i = 1,size(stringArrayParams(1)%values) 
+        derivReqIndices(i) = env%externalVars%getVarIndex(stringArrayParams(1)%values(i)%string)
+    end do     
+    if (stringParams(3)%value /= keyNone) then 
 
-            call printMessage("Applying term generator: "//generatorTags(1)%values(i)%string//" to "//modelTag)
-            !Add supported generator calls here
-            select case (generatorType(i)%value)
-            case (keyCRMDensTermGen)
-                call initCRMDensTermGeneratorFromJSON(tGenerators(i)%entry,this%modelBuffer,env,&
-                                                      keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                                      "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
-            case (keyCRMElEnergyTermGen)
-                call initCRMElEnergyTermGeneratorFromJSON(tGenerators(i)%entry,this%modelBuffer,env,&
-                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
-            case (keyCRMBoltzTermGen)
-                call initCRMFixedBoltzTermGeneratorFromJSON(tGenerators(i)%entry,normObject,this%modelBuffer,env,&
-                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
-            case (keyCRMVarBoltzTermGen)
-                call initCRMVarBoltzTermGeneratorFromJSON(tGenerators(i)%entry,normObject,this%modelBuffer,env,&
-                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
-            case (keyCRMSecElTermGen)
-                call initCRMSecElTermGeneratorFromJSON(tGenerators(i)%entry,this%modelBuffer,env,&
-                                                        keyModels//"."//modelTag//"."//keyTermGenerators//&
-                                                        "."//generatorTags(1)%values(i)%string,generatorTags(1)%values(i)%string)
-            case default 
-                error stop "applyTermGenerator in CustomModelBuilder detected unsupported term generator type"
-            end select
-            
-            if (present(mbData)) then 
-                call tGenerators(i)%entry%generate(mbData)
-            else
-                call tGenerators(i)%entry%generate()
-            end if
-            numGeneratedImpTerms = numGeneratedImpTerms + tGenerators(i)%entry%getNumImplicitTerms()
+        call genTerm%init(env%gridObj,env%partitionObj,env%mpiCont%getWorldRank(),&
+        stringParams(1)%value ,env%externalVars,derivObj,derivReqIndices,stringParams(3)%value)
 
-        end if
+    else
 
-    end do
+        call genTerm%init(env%gridObj,env%partitionObj,env%mpiCont%getWorldRank(),&
+        stringParams(1)%value ,env%externalVars,derivObj,derivReqIndices)
 
-    call this%modelBuffer%setNumImplicitTerms(numGeneratedImpTerms+currentNumTerms)
+    end if
 
-    do i = 1,size(generatorTags(1)%values)
-        if (generatorType(i)%value /= keyNone) then 
+    allocate(termBuffer,source=genTerm)
+    call this%modelBuffer%addGeneralTerm(termBuffer,intArrayParams(1)%values,termTag)
 
-            if (tGenerators(i)%entry%getNumImplicitTerms() > 0) then 
-                if (allocated(iTermIGroups)) deallocate(iTermIGroups)
-                allocate(iTermIGroups(tGenerators(i)%entry%getNumImplicitTerms()))
-                do j = 1, tGenerators(i)%entry%getNumImplicitTerms()
-                    iTermIGroups(j)%entry = generatedTermImplicitGroups(i)%values
-                end do
-                call tGenerators(i)%entry%moveTerms(this%modelBuffer,impTermImpGroups=iTermIGroups)
-            end if
-
-        end if
-    end do
-end subroutine applyTermGenerator
+end subroutine addDerivationTermToModel
+!-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule custom_model_builder_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

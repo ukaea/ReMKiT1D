@@ -197,6 +197,7 @@ module subroutine loop(this,envObj,modellerObj)
     end if
 
     call modellerObj%safeCommAndDeriv()
+    call modellerObj%callManipulator(4) 
     call modellerObj%copyVarValuesTo(this%bufferVars)
     currentTime = 0
     timeElapsedSinceLastOutput = 0

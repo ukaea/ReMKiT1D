@@ -1,0 +1,114 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_unary_transformations
+
+    use pfunit
+    use unary_transforms
+    use support_types
+    use basic_interfaces
+    use data_kinds        ,only: ik, rk
+
+    implicit none
+
+contains
+
+    @test
+    subroutine test_unary_shift
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([1,2,3,4],kind=rk) 
+
+        testVec = unaryShift(testData,intParams=[1])
+
+        @assertEqual(testVec,real([4,1,2,3],kind=rk),tolerance=1e-15)
+        testVec = unaryShift(testData,intParams=[-1])
+
+        @assertEqual(testVec,real([2,3,4,1],kind=rk),tolerance=1e-15)
+
+    end subroutine test_unary_shift
+
+    @test
+    subroutine test_unary_contract
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([1,2,3,4,5,6,7,8],kind=rk) 
+        !! This should contract the above into [5,11,17,23], and then pick out the second strided subarray of length 2
+        testVec = unaryContract(testData,intParams=[2,2],realParams=real([1,2],kind=rk))
+        
+        @assertEqual(testVec,real([11,23],kind=rk))
+
+    end subroutine test_unary_contract
+
+    @test
+    subroutine test_unary_expand
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([1,2],kind=rk) 
+        !! This should expand the above into [1,1,2,2,1,1,2,2]
+        testVec = unaryExpand(testData,intParams=[2],realParams=real([1,1],kind=rk))
+        
+        @assertEqual(testVec,real([1,1,2,2,1,1,2,2],kind=rk))
+
+    end subroutine test_unary_expand
+
+    @test
+    subroutine test_unary_slope_ratio
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([1,1,1,2,2,2,0,1],kind=rk) 
+        testVec = unarySlopeRatio(testData,intParams=[1],realParams=real([1e-6,1e2],kind=rk))
+        
+        @assertEqual(testVec,real([1,1,0,100,1,0,-2,100],kind=rk))
+
+    end subroutine test_unary_slope_ratio
+
+    @test
+    subroutine test_unary_superbee
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([-1.0,0.3,0.6,1.0,1.2,3.0],kind=rk) 
+        testVec = unarySuperbee(testData)
+        
+        @assertEqual(testVec,real([0.0,0.6,1.0,1.0,1.2,2.0],kind=rk))
+
+    end subroutine test_unary_superbee
+
+    @test
+    subroutine test_unary_minmod
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([-1.0,0.3,1.0,1.2],kind=rk) 
+        testVec = unaryMinmod(testData)
+        
+        @assertEqual(testVec,real([0.0,0.3,1.0,1.0],kind=rk))
+
+    end subroutine test_unary_minmod
+end module

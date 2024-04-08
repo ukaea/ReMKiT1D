@@ -38,13 +38,12 @@ module subroutine simpleUpdate(this,varCont,modelData,hostModel)
 
 end subroutine simpleUpdate
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function unityFun(this,varCont,indexingData) result(res)
+module function unityFun(this,varCont) result(res)
     !! Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
-    !! variable container and indexing data to construct a vector conforming to the evolved variable
+    !! variable container to construct a vector conforming to the evolved variable
 
     class(ExplicitTerm)             ,intent(in)   :: this
     type(VariableContainer)         ,intent(in)   :: varCont
-    type(ExplicitTermIndexingData)  ,intent(in)   :: indexingData
 
     real(rk) ,allocatable           ,dimension(:) :: res  
 
@@ -53,7 +52,7 @@ pure module function unityFun(this,varCont,indexingData) result(res)
         call assertPure(varCont%isDefined(),"Called unityFun by passing undefined variable container")
     end if
 
-    allocate(res,mold=varCont%variables(varCont%getVarIndex(indexingData%evolvedVarName))%entry)
+    allocate(res,mold=varCont%variables(varCont%getVarIndex(this%evolvedVarName))%entry)
     res = real(1.0d00,kind=rk)
 
 end function unityFun
@@ -69,63 +68,17 @@ pure module subroutine setOperator(this,op)
 
 end subroutine setOperator
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine setNormalizationConst(this,norm) 
-    !! Setter for normalizationConst
-
-    class(ExplicitTerm)       ,intent(inout)  :: this
-    real(rk)                  ,intent(in)     :: norm
-
-    this%normalizationConst = norm
-
-end subroutine setNormalizationConst
-!-----------------------------------------------------------------------------------------------------------------------------------
-pure module function getNormalizationConst (this) result(norm)
-    !! Getter for normalizationConst
-
-    class(ExplicitTerm)  ,intent(in) :: this
-    real(rk)                         :: norm
-
-end function getNormalizationConst
-!-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine setReqVars(this,reqVars,varCont) 
-    !! Set variable names required by the multiplicative function and find their indices in variable container
-
-    class(ExplicitTerm)               ,intent(inout)  :: this
-    type(StringArray) ,dimension(:)   ,intent(in)     :: reqVars
-    type(VariableContainer)           ,intent(in)     :: varCont
-
-    integer(ik) :: i
-
-    if (assertions) &
-    call assertPure(varCont%isDefined(),"Called setReqVars for explicit term by passing undefined variable container")
-    
-
-    allocate(this%indexingData%reqVarIndices(size(reqVars)))
-
-    do i = 1, size(reqVars)
-        this%indexingData%reqVarIndices(i) = varCont%getVarIndex(reqVars(i)%string)
-    end do
-
-
-end subroutine setReqVars
-!-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine setEvolvedAndOperatedVar(this,evolvedVarName,operatedVarName) 
-    !! Set evolved and operated (if applicable) variable names
+pure module subroutine setEvolvedVar(this,evolvedVarName)
+    !! Set evolved variable names
 
     class(ExplicitTerm)       ,intent(inout)  :: this
     character(*)              ,intent(in)     :: evolvedVarName
-    character(*)   ,optional  ,intent(in)     :: operatedVarName
 
-    this%indexingData%evolvedVarName = evolvedVarName
-    if (present(operatedVarName)) then
-        this%indexingData%operatedVarName = operatedVarName
-    else
-        this%indexingData%operatedVarName = evolvedVarName
-    end if
+    this%evolvedVarName = evolvedVarName
 
-end subroutine setEvolvedAndOperatedVar
+end subroutine setEvolvedVar
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function evaluateExpTerm (this,varCont) result(res)
+module function evaluateExpTerm (this,varCont) result(res)
     !! Evaluates the term as multConst * multFun [* operatorTerm%actOn(<operatedVar>)] depending on whether the Operator is allocated
 
     class(ExplicitTerm)                  ,intent(in) :: this
@@ -137,33 +90,11 @@ pure module function evaluateExpTerm (this,varCont) result(res)
         call assertPure(varCont%isDefined(),&
         "Attempted to calculate explicit term by passing undefined variable container")
     end if
-        res = this%multConst * this%multFun(varCont,this%indexingData)
+        res = this%outerFun(varCont)
     if (allocated(this%termOperator)) & 
-        res = res * this%termOperator%actOn(varCont%variables(varCont%getVarIndex(this%indexingData%operatedVarName))%entry)
+        res = res * this%termOperator%actOn(this%innerFun(varCont))
 
 end function evaluateExpTerm
-!-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine setMultConst(this,multConst) 
-    !! Setter for multConst
-
-    class(ExplicitTerm)           ,intent(inout)  :: this
-    real(rk)        ,dimension(:) ,intent(in)     :: multConst
-    
-    this%multConst = multConst
-
-end subroutine setMultConst
-!-----------------------------------------------------------------------------------------------------------------------------------
-pure module function getMultConst (this) result(multConst)
-    !! Getter for multConst
-
-    class(ExplicitTerm)                          ,intent(in) :: this
-    real(rk)          ,allocatable ,dimension(:)             :: multConst
-
-    if (assertions) call assertPure(this%isDefined(),"Attempted to get multiplicative constants from undefined explicit term")
-
-    multConst = this%multConst
-
-end function getMultConst
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module function getEvolvedVarName(this) result(name)
     !! Get name of the evolved variable of this term
@@ -173,7 +104,7 @@ pure module function getEvolvedVarName(this) result(name)
 
     if (assertions) call assertPure(this%isDefined(),"Attempted to get evolved variable name from undefined explicit term")
 
-    name = this%indexingData%evolvedVarName
+    name = this%evolvedVarName
 
 end function getEvolvedVarName
 !-----------------------------------------------------------------------------------------------------------------------------------

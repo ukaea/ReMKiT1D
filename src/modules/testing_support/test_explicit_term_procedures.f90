@@ -28,13 +28,18 @@ pure module subroutine initTestExplicitTerm(this,evolvedVarName,varCont)
 
     call this%makeDefined()
 
-    allocate(multConst,mold=varCont%variables(varCont%getVarIndex(evolvedVarName))%entry)
-
-    multConst = 1.00d00
-
-    call this%setMultConst(multConst)
-
 end subroutine initTestExplicitTerm
+!-----------------------------------------------------------------------------------------------------------------------------------
+module function testFun(this,varCont) result(res)
+
+    class(TestExplicitTerm)             ,intent(in)   :: this
+    type(VariableContainer)         ,intent(in)   :: varCont
+
+    real(rk) ,allocatable           ,dimension(:) :: res  
+
+    res=varCont%variables(varCont%getVarIndex(this%getVarName()))%entry
+
+end function testFun
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule test_explicit_term_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

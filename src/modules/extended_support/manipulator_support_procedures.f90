@@ -142,6 +142,7 @@ module subroutine addTermEvaluatorToCompositeManipulator(manip,envObj,normObj,js
     type(NamedString)  ,dimension(1) :: resultVarName 
     type(NamedStringArray) ,dimension(1) :: modelEvalTags, termNames 
     type(NamedStringArray) ,dimension(1) :: modelTags
+    type(NamedLogical) ,dimension(2) :: evalOptions
 
     integer(ik) :: i ,j ,varIndex
 
@@ -161,16 +162,21 @@ module subroutine addTermEvaluatorToCompositeManipulator(manip,envObj,normObj,js
     
     manipPriority(1) = NamedInteger(jsonPrefix//"."//keyPriority,0)
 
+    evalOptions(1) = NamedLogical(jsonPrefix//"."//keyUpdate,.false.)
+    evalOptions(2) = NamedLogical(jsonPrefix//"."//keyAccumulate,.false.)
+
     call envObj%jsonCont%load(modelTags)
     call envObj%jsonCont%load(modelEvalTags)
     call envObj%jsonCont%load(termNames)
     call envObj%jsonCont%load(resultVarName)
     call envObj%jsonCont%load(manipPriority)
+    call envObj%jsonCont%load(evalOptions)
 
     call envObj%jsonCont%output(modelEvalTags)
     call envObj%jsonCont%output(termNames)
     call envObj%jsonCont%output(resultVarName)
     call envObj%jsonCont%output(manipPriority)
+    call envObj%jsonCont%output(evalOptions)
 
     if (assertions .or. assertionLvl >= 0) call assert(size(termNames(1)%values) == size(modelEvalTags(1)%values),&
                                      modelEvalTags(1)%name//" and "//termNames(1)%name//" must be of the same size")
@@ -197,7 +203,8 @@ module subroutine addTermEvaluatorToCompositeManipulator(manip,envObj,normObj,js
 
     varIndex = envObj%externalVars%getVarIndex(resultVarName(1)%value)
 
-    call evalManip%init(varIndex,modelIndices,termNameStrings)
+    call evalManip%init(varIndex,modelIndices,termNameStrings,&
+        accumulate = evalOptions(1)%value, update = evalOptions(2)%value)
 
     call manip%addManipulator(evalManip,manipPriority(1)%value)
     

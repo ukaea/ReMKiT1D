@@ -16,7 +16,7 @@
 ### New Features
 
 - Basic CVODE integrator added
-- Derivation-based explicit term added. This takes a derivation and an optinal modelbound variable and evaluates to the product of the derivation result and the variable
+- Derivation-based explicit term added. This takes a derivation and an optional modelbound variable and evaluates to the product of the derivation result and the variable
 - Added slope limiter related unary transformations 
 - Variables can now be copied into/from arrays by passing a list of variable names to the container
 - Manipulators now called before first time step

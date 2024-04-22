@@ -1018,7 +1018,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         case ("BDE")
 
             if (allocated(integerParams)) deallocate(integerParams)
-            allocate(integerParams(6))
+            allocate(integerParams(7))
 
             integerParams(1) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyMaxNonlinIters,100)
             integerParams(2) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAssociatedPETScGroup,1)
@@ -1031,6 +1031,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             integerParams(6) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyMinNumNonlinInters,5)
 
+            integerParams(7) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
+                                            //"."//keyInternalStepControl//"."//keyMaxBDERestarts,3)
 
             call jsonCont%load(integerParams)
             call jsonCont%output(integerParams)
@@ -1085,7 +1087,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                             ,intContOptions=InternalControllerOptions(integerParams(3)%value,&
                                                                                       integerParams(4)%value,&
                                                                                       integerParams(5)%value,&
-                                                                                      integerParams(6)%value)&
+                                                                                      integerParams(6)%value,&
+                                                                                      integerParams(7)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string)
                 else
                     call integratorBDE%init(indexingObj,mpiCont%getWorldRank(),nonlinTol=realParams(1)%value&

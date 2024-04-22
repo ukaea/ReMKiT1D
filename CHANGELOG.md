@@ -23,11 +23,13 @@
 - The term evaluator manipulator can now accumulate values into the evaluation variable instead of overwriting it
 - The term evaluator can now also explicitly request model and term updates (less fine-grained control than integrators)
 - Variables can now be zeroed with a passed list of names
+- Added option to explicitly change the maximum number of BDE integrator restarts (still hard-capped to 10)
 
 ### Bug Fixes
 
 - Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 
-- Fized segfault on finalize when no PETSc obj used
+- Fixed segfault on finalize when no PETSc obj used
+- Fixed weird segfault caused by having 0 implicit terms and adding a second general term to a group
 
 ## v1.1.0, 2024-02-02
 

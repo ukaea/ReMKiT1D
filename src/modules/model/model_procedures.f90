@@ -199,8 +199,11 @@ pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups
             prevGeneralTermIndex = this%generalTermGroup(generalGroups(i))%entry(prevIndex)
             if (.not. this%generalGroupMixed(generalGroups(i))) then 
                 if (prevGeneralTermIndex > size(this%implicitTerms)) then
+                    !Weird gfortran bug workaround (if the following is used to index the array directly when size(this%implicitTerms)=0
+                    !a segfault occurs)
+                    prevGeneralTermIndex = prevGeneralTermIndex - size(this%implicitTerms)
                     this%generalGroupMixed(generalGroups(i)) = this%implicitTerms(this%numAddedMatrixTerms)%entry%getVarName() /=&
-                    this%generalTerms(prevGeneralTermIndex - size(this%implicitTerms))%entry%getVarName()
+                    this%generalTerms(prevGeneralTermIndex)%entry%getVarName()
                 else
                     this%generalGroupMixed(generalGroups(i)) = this%implicitTerms(this%numAddedMatrixTerms)%entry%getVarName() /=&
                     this%implicitTerms(prevGeneralTermIndex)%entry%getVarName()
@@ -249,8 +252,11 @@ pure module subroutine addGeneralTerm(this,genTerm,generalGroups,termName)
                 !Determine whether the group is mixed based on previous term added to the group
                 if (.not. this%generalGroupMixed(generalGroups(i))) then 
                     if (prevGeneralTermIndex > size(this%implicitTerms)) then
+                        !Weird gfortran bug workaround (if the following is used to index the array directly when size(this%implicitTerms)=0
+                        !a segfault occurs)
+                        prevGeneralTermIndex = prevGeneralTermIndex - size(this%implicitTerms)
                         this%generalGroupMixed(generalGroups(i)) = this%generalTerms(this%numAddedGeneralTerms)%entry%getVarName() &
-                        /= this%generalTerms(prevGeneralTermIndex - size(this%implicitTerms))%entry%getVarName()
+                        /= this%generalTerms(prevGeneralTermIndex)%entry%getVarName()
                     else
                         this%generalGroupMixed(generalGroups(i)) = this%generalTerms(this%numAddedGeneralTerms)%entry%getVarName() &
                         /= this%implicitTerms(prevGeneralTermIndex)%entry%getVarName()

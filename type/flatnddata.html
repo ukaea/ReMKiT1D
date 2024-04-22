@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.6% of total for derived types.</p>Including implementation: 11 statements,  0.5% of total for derived types.">11 statements</a>
             </li>
 
@@ -120,8 +119,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/flatnddata.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/flatnddata.html#variable-dims~3">dims</a>
-            <a class="list-group-item" href="../type/flatnddata.html#variable-data~5">data</a>
+            <a class="list-group-item" href="../type/flatnddata.html#variable-dims">dims</a>
+            <a class="list-group-item" href="../type/flatnddata.html#variable-data~4">data</a>
         </div>
       </div>
     </div>
@@ -155,7 +154,7 @@
             <a class="list-group-item" href="../type/flatnddata.html#boundprocedure-get1dslice">get1DSlice</a>
             <a class="list-group-item" href="../type/flatnddata.html#boundprocedure-get1dsliceindices">get1DSliceIndices</a>
             <a class="list-group-item" href="../type/flatnddata.html#boundprocedure-getdims">getDims</a>
-            <a class="list-group-item" href="../type/flatnddata.html#boundprocedure-init~81">init</a>
+            <a class="list-group-item" href="../type/flatnddata.html#boundprocedure-init~40">init</a>
             <a class="list-group-item" href="../type/flatnddata.html#boundprocedure-directinit">directInit</a>
         </div>
       </div>
@@ -170,7 +169,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='object.html'>Object</a>) :: FlatNDData</h2>
     <p>Flat representation of multidimensional data allowing for multidimensional indexing using vector notation - i.e. dataObj%getValue([1,2,3]) = someData(1,2,3). Allows for dimensionality agnostic implementations of various algorithms.</p>
     <br>
@@ -206,7 +205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~3"></span>
+              <span class="anchor" id="variable-dims"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -223,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~5"></span>
+              <span class="anchor" id="variable-data~4"></span>
               real(kind=rk),
             </td>
               <td>public,</td>
@@ -736,7 +735,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~81"></span>
+      <span class="anchor" id="boundprocedure-init~40"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initflatnddata.html'>initFlatNDData</a>
@@ -899,7 +898,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

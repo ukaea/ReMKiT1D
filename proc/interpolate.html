@@ -77,22 +77,21 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">17 statements</a>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.0% of total for procedures.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/lin_interpnd_procedures.f90"> Source File</a>
+              <a href="../src/lin_interp1d_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lin_interpnd_procedures.f90.html'>lin_interpnd_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/lin_interpnd_procedures.html'>lin_interpnd_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lin_interp1d_procedures.f90.html'>lin_interp1d_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/lin_interp1d_procedures.html'>lin_interp1d_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">interpolate</li>
           </ol>
         </nav>
@@ -143,7 +142,7 @@
 </h2>
     
 
-    <p>Interpolate FlatNDData onto interpolation points using weighted averages of vertices of the containing hypercube</p>
+    <p>Interpolate input array defined on the same grid as the Interpolation1D object at points </p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~205"></span>
-              class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
+              <span class="anchor" id="variable-this~546"></span>
+              class(<a href='../type/interpolation1d.html'>Interpolation1D</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -174,12 +173,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-targetarray"></span>
-              type(<a href='../type/flatnddata.html'>FlatNDData</a>),
+              <span class="anchor" id="variable-targetarray~3"></span>
+              real(kind=rk),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              dimension(:)
             </td>
             <td>::</td>
             <td><strong>targetArray</strong></td>
@@ -192,7 +191,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-interpvals"></span>
+          <span class="anchor" id="variable-interpvals~3"></span>
           real(kind=rk), allocatable, dimension(:)
         </small>
       </h3>
@@ -218,7 +217,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

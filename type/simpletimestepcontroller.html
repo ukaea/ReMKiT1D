@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.6% of total for derived types.</p>Including implementation: 11 statements,  0.5% of total for derived types.">11 statements</a>
             </li>
 
@@ -120,12 +119,12 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-mpicont~79">mpiCont</a>
+            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-mpicont~31">mpiCont</a>
             <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-reqvarindices">reqVarIndices</a>
-            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-reqvarpowers~2">reqVarPowers</a>
-            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-multconst~20">multConst</a>
-            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-usemaxval~2">useMaxVal</a>
-            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-rescaletimestep~2">rescaleTimestep</a>
+            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-reqvarpowers">reqVarPowers</a>
+            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-multconst~5">multConst</a>
+            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-usemaxval">useMaxVal</a>
+            <a class="list-group-item" href="../type/simpletimestepcontroller.html#variable-rescaletimestep">rescaleTimestep</a>
         </div>
       </div>
     </div>
@@ -155,7 +154,7 @@
             <a class="list-group-item" href="../type/simpletimestepcontroller.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/simpletimestepcontroller.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/simpletimestepcontroller.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/simpletimestepcontroller.html#boundprocedure-init~58">init</a>
+            <a class="list-group-item" href="../type/simpletimestepcontroller.html#boundprocedure-init~25">init</a>
             <a class="list-group-item" href="../type/simpletimestepcontroller.html#boundprocedure-evaluatetimestep">evaluateTimestep</a>
         </div>
       </div>
@@ -170,7 +169,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='timestepcontroller.html'>TimestepController</a>) :: SimpleTimestepController</h2>
     <p>Timestep controller that calculates the timestep using the min (max) value of a product of variables raised to corresponding
 powers. Variables are assumed fluid-like.</p>
@@ -207,7 +206,7 @@ powers. Variables are assumed fluid-like.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mpicont~79"></span>
+              <span class="anchor" id="variable-mpicont~31"></span>
               type(<a href='mpicontroller.html'>MPIController</a>),
             </td>
               <td>private</td>
@@ -241,7 +240,7 @@ powers. Variables are assumed fluid-like.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reqvarpowers~2"></span>
+              <span class="anchor" id="variable-reqvarpowers"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -258,7 +257,7 @@ powers. Variables are assumed fluid-like.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~20"></span>
+              <span class="anchor" id="variable-multconst~5"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -275,7 +274,7 @@ powers. Variables are assumed fluid-like.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-usemaxval~2"></span>
+              <span class="anchor" id="variable-usemaxval"></span>
               logical,
             </td>
               <td>private</td>
@@ -292,7 +291,7 @@ powers. Variables are assumed fluid-like.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rescaletimestep~2"></span>
+              <span class="anchor" id="variable-rescaletimestep"></span>
               logical,
             </td>
               <td>private</td>
@@ -490,7 +489,7 @@ powers. Variables are assumed fluid-like.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~58"></span>
+      <span class="anchor" id="boundprocedure-init~25"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initsimpletimestepcontroller.html'>initSimpleTimestepController</a>
@@ -748,7 +747,10 @@ powers. Variables are assumed fluid-like.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

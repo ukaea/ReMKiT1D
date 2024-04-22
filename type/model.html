@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 2.3% of total for derived types.</p>Including implementation: 43 statements,  2.0% of total for derived types.">43 statements</a>
             </li>
 
@@ -128,12 +127,12 @@
             <a class="list-group-item" href="../type/model.html#variable-generalgroupmixed">generalGroupMixed</a>
             <a class="list-group-item" href="../type/model.html#variable-implicitterms">implicitTerms</a>
             <a class="list-group-item" href="../type/model.html#variable-generalterms">generalTerms</a>
-            <a class="list-group-item" href="../type/model.html#variable-assembled">assembled</a>
+            <a class="list-group-item" href="../type/model.html#variable-assembled~3">assembled</a>
             <a class="list-group-item" href="../type/model.html#variable-setupcounter">setupCounter</a>
             <a class="list-group-item" href="../type/model.html#variable-modeldata~3">modelData</a>
             <a class="list-group-item" href="../type/model.html#variable-implicittermnames">implicitTermNames</a>
             <a class="list-group-item" href="../type/model.html#variable-generaltermnames">generalTermNames</a>
-            <a class="list-group-item" href="../type/model.html#variable-skippattern">skipPattern</a>
+            <a class="list-group-item" href="../type/model.html#variable-skippattern~2">skipPattern</a>
         </div>
       </div>
     </div>
@@ -182,7 +181,7 @@
             <a class="list-group-item" href="../type/model.html#boundprocedure-setnumgeneralterms">setNumGeneralTerms</a>
             <a class="list-group-item" href="../type/model.html#boundprocedure-setnumimplicitgroups">setNumImplicitGroups</a>
             <a class="list-group-item" href="../type/model.html#boundprocedure-setnumgeneralgroups">setNumGeneralGroups</a>
-            <a class="list-group-item" href="../type/model.html#boundprocedure-init~3">init</a>
+            <a class="list-group-item" href="../type/model.html#boundprocedure-init~23">init</a>
             <a class="list-group-item" href="../type/model.html#boundprocedure-getimplicittermrowdata">getImplicitTermRowData</a>
             <a class="list-group-item" href="../type/model.html#boundprocedure-getimplicittermindexingdata">getImplicitTermIndexingData</a>
             <a class="list-group-item" href="../type/model.html#boundprocedure-istermnameregistered">isTermNameRegistered</a>
@@ -202,7 +201,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='modelsurrogate.html'>ModelSurrogate</a>) :: Model</h2>
     <p>Object storing, evaluating, and manipulating various term objects, with terms categorized as either implicit (MatrixTerm objects)
 or general (Term objects). </p>
@@ -379,7 +378,7 @@ variable - used to forbid explicit evaluation of such terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-assembled"></span>
+              <span class="anchor" id="variable-assembled~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -464,7 +463,7 @@ variable - used to forbid explicit evaluation of such terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-skippattern"></span>
+              <span class="anchor" id="variable-skippattern~2"></span>
               logical,
             </td>
               <td>private,</td>
@@ -674,7 +673,7 @@ variable - used to forbid explicit evaluation of such terms</p>
               <h3>interface </h3>
                   <h3>
     private pure module function isAssembled(this) result(assembled)  
-    <a href="../proc/isassembled.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isassembled~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Check if model is assembled and ready to use</p>
@@ -1430,7 +1429,7 @@ variable - used to forbid explicit evaluation of such terms</p>
               <h3>interface </h3>
                   <h3>
     private module subroutine assemble(this, petscCont)  
-    <a href="../proc/assemble.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/assemble~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure model is ready for use</p>
@@ -1790,7 +1789,7 @@ variable - used to forbid explicit evaluation of such terms</p>
               <h3>interface </h3>
                   <h3>
     private module subroutine updateModelData(this, varCont, updatePriority)  
-    <a href="../proc/updatemodeldata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatemodeldata~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Update this model's modelbound data if allocated</p>
@@ -2228,7 +2227,7 @@ variable - used to forbid explicit evaluation of such terms</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~3"></span>
+      <span class="anchor" id="boundprocedure-init~23"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmodel.html'>initModel</a>
@@ -2801,7 +2800,10 @@ variable - used to forbid explicit evaluation of such terms</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

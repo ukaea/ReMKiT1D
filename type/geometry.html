@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.9% of total for derived types.</p>Including implementation: 16 statements,  0.7% of total for derived types.">16 statements</a>
             </li>
 
@@ -124,8 +123,8 @@
             <a class="list-group-item" href="../type/geometry.html#variable-jacobianleft">jacobianLeft</a>
             <a class="list-group-item" href="../type/geometry.html#variable-jacobianright">jacobianRight</a>
             <a class="list-group-item" href="../type/geometry.html#variable-jacobiancentre">jacobianCentre</a>
-            <a class="list-group-item" href="../type/geometry.html#variable-lininterp~26">linInterp</a>
-            <a class="list-group-item" href="../type/geometry.html#variable-periodicgrid~9">periodicGrid</a>
+            <a class="list-group-item" href="../type/geometry.html#variable-lininterp~21">linInterp</a>
+            <a class="list-group-item" href="../type/geometry.html#variable-periodicgrid~7">periodicGrid</a>
         </div>
       </div>
     </div>
@@ -161,7 +160,7 @@
             <a class="list-group-item" href="../type/geometry.html#boundprocedure-getjacobiancentre">getJacobianCentre</a>
             <a class="list-group-item" href="../type/geometry.html#boundprocedure-isperiodic~3">isPeriodic</a>
             <a class="list-group-item" href="../type/geometry.html#boundprocedure-getlininterp">getLinInterp</a>
-            <a class="list-group-item" href="../type/geometry.html#boundprocedure-init~83">init</a>
+            <a class="list-group-item" href="../type/geometry.html#boundprocedure-init~46">init</a>
         </div>
       </div>
     </div>
@@ -175,7 +174,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='object.html'>Object</a>) :: Geometry</h2>
     <p>Geometry object storing spatial cell widths, cell face and cell centre jacobians, as well as linear interpolation coefficients</p>
     <br>
@@ -279,7 +278,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lininterp~26"></span>
+              <span class="anchor" id="variable-lininterp~21"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -296,7 +295,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicgrid~9"></span>
+              <span class="anchor" id="variable-periodicgrid~7"></span>
               logical,
             </td>
               <td>private</td>
@@ -975,7 +974,7 @@ true will extend dual grid cells at boundaries to the boundaries themselves if n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~83"></span>
+      <span class="anchor" id="boundprocedure-init~46"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgeometry.html'>initGeometry</a>
@@ -1098,7 +1097,10 @@ true will extend dual grid cells at boundaries to the boundaries themselves if n
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 2.0% of total for derived types.</p>Including implementation: 38 statements,  1.8% of total for derived types.">38 statements</a>
             </li>
 
@@ -120,16 +119,16 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/modeller.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-vars~43">vars</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-vars~23">vars</a>
             <a class="list-group-item" href="../type/modeller.html#variable-models">models</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-petsccont~9">petscCont</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-petsccont~7">petscCont</a>
             <a class="list-group-item" href="../type/modeller.html#variable-mpicont">MPICont</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-commdata~11">commData</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-commdata~7">commData</a>
             <a class="list-group-item" href="../type/modeller.html#variable-identitymat">identityMat</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-integ~4">integ</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-manip~3">manip</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-integ~2">integ</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-manip~11">manip</a>
             <a class="list-group-item" href="../type/modeller.html#variable-nummodelsadded">numModelsAdded</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-assembled~6">assembled</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-assembled~5">assembled</a>
         </div>
       </div>
     </div>
@@ -178,12 +177,12 @@
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-copydatafrommodel">copyDataFromModel</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-getevolvedvarintermgroup">getEvolvedVarInTermGroup</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-ismodeltermgroupmixed">isModelTermGroupMixed</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-getcurrenttime~2">getCurrentTime</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-getcurrenttime">getCurrentTime</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-performcomm">performComm</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-safecommandderiv">safeCommAndDeriv</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-istrueeverywhere~2">isTrueEverywhere</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-istrueeverywhere">isTrueEverywhere</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-assemble~2">assemble</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-init~47">init</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-init~26">init</a>
         </div>
       </div>
     </div>
@@ -197,7 +196,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='modellersurrogate.html'>ModellerSurrogate</a>) :: Modeller</h2>
     <p>Central object responsible for storing variables and models, as well as doing integration and data manipulation</p>
     <br>
@@ -233,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vars~43"></span>
+              <span class="anchor" id="variable-vars~23"></span>
               type(<a href='variablecontainer.html'>VariableContainer</a>),
             </td>
               <td>private</td>
@@ -267,7 +266,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~9"></span>
+              <span class="anchor" id="variable-petsccont~7"></span>
               type(<a href='petsccontroller.html'>PETScController</a>),
             </td>
               <td>private,</td>
@@ -301,7 +300,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~11"></span>
+              <span class="anchor" id="variable-commdata~7"></span>
               type(<a href='communicationdata.html'>CommunicationData</a>),
             </td>
               <td>private,</td>
@@ -335,7 +334,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integ~4"></span>
+              <span class="anchor" id="variable-integ~2"></span>
               class(<a href='manipulator.html'>Manipulator</a>),
             </td>
               <td>private,</td>
@@ -352,7 +351,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-manip~3"></span>
+              <span class="anchor" id="variable-manip~11"></span>
               class(<a href='compositemanipulator.html'>CompositeManipulator</a>),
             </td>
               <td>private,</td>
@@ -386,7 +385,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-assembled~6"></span>
+              <span class="anchor" id="variable-assembled~5"></span>
               logical(kind=ik),
             </td>
               <td>private</td>
@@ -596,7 +595,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module function isAssembled(this) result(assembled)  
-    <a href="../proc/isassembled~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isassembled.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return true if modeller is assembled and ready to evolve variables</p>
@@ -1362,7 +1361,7 @@ one stored in the modeller</p>
               <h3>interface </h3>
                   <h3>
     private module subroutine updateModelData(this, modelIndex, varCont, updatePriority)  
-    <a href="../proc/updatemodeldata~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatemodeldata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Update modelbound data of model with given index if that data is allocated</p>
@@ -2289,7 +2288,7 @@ than the one stored in the modeller</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getcurrenttime~2"></span>
+      <span class="anchor" id="boundprocedure-getcurrenttime"></span>
       <h3>
           procedure, public ::
   <strong>getCurrentTime</strong>
@@ -2551,7 +2550,7 @@ exchanges data in external variable container</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-istrueeverywhere~2"></span>
+      <span class="anchor" id="boundprocedure-istrueeverywhere"></span>
       <h3>
           procedure, public ::
   <strong>isTrueEverywhere</strong>
@@ -2638,7 +2637,7 @@ exchanges data in external variable container</p>
               <h3>interface </h3>
                   <h3>
     private module subroutine assemble(this, withIdentityMat)  
-    <a href="../proc/assemble~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/assemble.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure modeller is ready for use. 
@@ -2697,7 +2696,7 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~47"></span>
+      <span class="anchor" id="boundprocedure-init~26"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmodeller.html'>initModeller</a>
@@ -2835,7 +2834,10 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

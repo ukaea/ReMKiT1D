@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.7% of total for derived types.</p>Including implementation: 43 statements,  2.0% of total for derived types.">14 statements</a>
             </li>
 
@@ -120,13 +119,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#variable-transitionenergy~5">transitionEnergy</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#variable-transitionenergy~3">transitionEnergy</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-vspaceref">vSpaceRef</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-takemomentummoment">takeMomentumMoment</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-l1harmonicind">l1HarmonicInd</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-distfunvarindex">distFunVarIndex</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#variable-locnumx~25">locNumX</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#variable-fixedwindex~6">fixedWIndex</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#variable-locnumx~14">locNumX</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#variable-fixedwindex">fixedWIndex</a>
         </div>
       </div>
     </div>
@@ -184,9 +183,9 @@
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-setcsdim">setCSDim</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-getcsdim">getCSDim</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-getratesize">getRateSize</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-init~72">init</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-update~8">update</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-gettransitionenergy~3">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-init~51">init</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-update~6">update</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-gettransitionenergy~5">getTransitionEnergy</a>
         </div>
       </div>
     </div>
@@ -200,7 +199,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='transition.html'>Transition</a>) :: FixedECSTransition</h2>
     <p>Transition object with a fixed transition energy and cross-section, which takes moments of a distribution function to
 calculate rates</p>
@@ -237,7 +236,7 @@ calculate rates</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~5"></span>
+              <span class="anchor" id="variable-transitionenergy~3"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -323,7 +322,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~25"></span>
+              <span class="anchor" id="variable-locnumx~14"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -340,7 +339,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedwindex~6"></span>
+              <span class="anchor" id="variable-fixedwindex"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1712,7 +1711,7 @@ the first moment of the l = 1 harmonic</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~72"></span>
+      <span class="anchor" id="boundprocedure-init~51"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initfixedecstransition.html'>initFixedECSTransition</a>
@@ -1917,7 +1916,7 @@ the first moment of the l = 1 harmonic</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~8"></span>
+      <span class="anchor" id="boundprocedure-update~6"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updaterates~2.html'>updateRates</a>
@@ -2032,10 +2031,10 @@ the first moment of the l = 1 harmonic</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy~3"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy~5"></span>
       <h3>
           procedure, public ::
-  <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~2.html'>getEnergy</a>
+  <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~3.html'>getEnergy</a>
         
       </h3>
     </div>
@@ -2044,7 +2043,7 @@ the first moment of the l = 1 harmonic</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Returns array representing energy cost of this transition</p>
@@ -2100,7 +2099,10 @@ the first moment of the l = 1 harmonic</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

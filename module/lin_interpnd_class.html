@@ -78,8 +78,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title=" 0.2% of total for modules and submodules.">54 statements</a>
             </li>
 
@@ -129,9 +128,9 @@
             <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-getfirstdataindicesfordim">getFirstDataIndicesForDim</a>
             <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-getinterpweightsfordim">getInterpWeightsForDim</a>
             <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-getinterppointsfordim">getInterpPointsForDim</a>
-            <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-interpolate">interpolate</a>
-            <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-initinterpolation">initInterpolation</a>
-            <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-updateinterpolationpoints">updateInterpolationPoints</a>
+            <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-interpolate~2">interpolate</a>
+            <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-initinterpolation~2">initInterpolation</a>
+            <a class="list-group-item" href="../module/lin_interpnd_class.html#interface-updateinterpolationpoints~2">updateInterpolationPoints</a>
         </div>
       </div>
     </div>
@@ -172,13 +171,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='flat_nd_data_class.html'>flat_nd_data_class</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='lin_interp1d_class.html'>lin_interp1D_class</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='flat_nd_data_class.html'>flat_nd_data_class</a></li>
               </ul>
             </li>
         </ul>
@@ -234,7 +233,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~476"></span>
+              <span class="anchor" id="variable-this~520"></span>
               class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(in)</td>
@@ -249,7 +248,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dim~7"></span>
+              <span class="anchor" id="variable-dim~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -303,7 +302,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~477"></span>
+              <span class="anchor" id="variable-this~521"></span>
               class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(in)</td>
@@ -318,7 +317,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dim~8"></span>
+              <span class="anchor" id="variable-dim~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -372,7 +371,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~478"></span>
+              <span class="anchor" id="variable-this~522"></span>
               class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(in)</td>
@@ -387,7 +386,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dim~9"></span>
+              <span class="anchor" id="variable-dim~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -415,7 +414,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-interpolate"></span>
+      <span class="anchor" id="interface-interpolate~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -423,7 +422,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function interpolate(this, targetArray) result(interpVals)  
-    <a href="../proc/interpolate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/interpolate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Interpolate FlatNDData onto interpolation points using weighted averages of vertices of the containing hypercube</p>
@@ -441,7 +440,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~479"></span>
+              <span class="anchor" id="variable-this~523"></span>
               class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(in)</td>
@@ -484,7 +483,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-initinterpolation"></span>
+      <span class="anchor" id="interface-initinterpolation~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -492,7 +491,7 @@
         <li class="list-group-item">
               <h3>
     private pure module subroutine initInterpolation(this, interpolationObjs)  
-    <a href="../proc/initinterpolation.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initinterpolation~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Initialization routine for ND interpolation object</p>
@@ -510,7 +509,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~474"></span>
+              <span class="anchor" id="variable-this~518"></span>
               class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(inout)</td>
@@ -525,7 +524,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-interpolationobjs~2"></span>
+              <span class="anchor" id="variable-interpolationobjs"></span>
               type(<a href='../type/interpolation1d.html'>Interpolation1D</a>),
             </td>
 <td>intent(in),</td>
@@ -548,7 +547,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-updateinterpolationpoints"></span>
+      <span class="anchor" id="interface-updateinterpolationpoints~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -556,7 +555,7 @@
         <li class="list-group-item">
               <h3>
     private pure module subroutine updateInterpolationPoints(this, interpolationPoints)  
-    <a href="../proc/updateinterpolationpoints.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updateinterpolationpoints~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Update the interpolation points and weights of all individual 1D interpolation objects and the weights/data indices used</p>
@@ -574,7 +573,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~475"></span>
+              <span class="anchor" id="variable-this~519"></span>
               class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(inout)</td>
@@ -589,7 +588,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-interpolationpoints~2"></span>
+              <span class="anchor" id="variable-interpolationpoints~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -765,17 +764,17 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/interpolationnd.html#boundprocedure-updateinterpolationpoints'>updateInterpolationPoints</a></strong></td>
+  <strong><a href='../type/interpolationnd.html#boundprocedure-updateinterpolationpoints~2'>updateInterpolationPoints</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/interpolationnd.html#boundprocedure-interpolate'>interpolate</a></strong></td>
+  <strong><a href='../type/interpolationnd.html#boundprocedure-interpolate~2'>interpolate</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/interpolationnd.html#boundprocedure-init~32'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initinterpolation.html'>initInterpolation</a></td>
+  <strong><a href='../type/interpolationnd.html#boundprocedure-init~32'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initinterpolation~2.html'>initInterpolation</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -798,7 +797,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

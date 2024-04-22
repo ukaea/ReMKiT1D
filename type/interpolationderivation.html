@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 1.0% of total for derived types.</p>Including implementation: 19 statements,  0.9% of total for derived types.">19 statements</a>
             </li>
 
@@ -120,19 +119,19 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/interpolationderivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-lininterp~15">linInterp</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-lininterp~16">linInterp</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#variable-lininterpdual">linInterpDual</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-linexterp~5">linExterp</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-linexterp~2">linExterp</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#variable-linexterprdual">linExterpRDual</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#variable-linexterpldual">linExterpLDual</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-periodicgrid~3">periodicGrid</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-periodicgrid~6">periodicGrid</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#variable-inverseinterp~2">inverseInterp</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-distinterp~2">distInterp</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-containsleftboundary~4">containsLeftBoundary</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-containsrightboundary~4">containsRightBoundary</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-locnumx~21">locNumX</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-numv~17">numV</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#variable-numh~8">numH</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-distinterp~3">distInterp</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-containsleftboundary~5">containsLeftBoundary</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-containsrightboundary~5">containsRightBoundary</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-locnumx~10">locNumX</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-numv~15">numV</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#variable-numh~11">numH</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#variable-oddharmonic">oddHarmonic</a>
         </div>
       </div>
@@ -163,7 +162,7 @@
             <a class="list-group-item" href="../type/interpolationderivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/interpolationderivation.html#boundprocedure-init~44">init</a>
+            <a class="list-group-item" href="../type/interpolationderivation.html#boundprocedure-init~37">init</a>
             <a class="list-group-item" href="../type/interpolationderivation.html#boundprocedure-calculate~16">calculate</a>
         </div>
       </div>
@@ -178,7 +177,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: InterpolationDerivation</h2>
     <p>Derivation that interpolates a variable from the original to the dual grid, or vise versa. Distributions are interpolated
 by assuming that even l harmonics live on the original grid and odd harmonics on the dual grid. </p>
@@ -215,7 +214,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lininterp~15"></span>
+              <span class="anchor" id="variable-lininterp~16"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -249,7 +248,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linexterp~5"></span>
+              <span class="anchor" id="variable-linexterp~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -300,7 +299,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicgrid~3"></span>
+              <span class="anchor" id="variable-periodicgrid~6"></span>
               logical,
             </td>
               <td>private</td>
@@ -334,7 +333,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distinterp~2"></span>
+              <span class="anchor" id="variable-distinterp~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -351,7 +350,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-containsleftboundary~4"></span>
+              <span class="anchor" id="variable-containsleftboundary~5"></span>
               logical,
             </td>
               <td>private</td>
@@ -368,7 +367,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-containsrightboundary~4"></span>
+              <span class="anchor" id="variable-containsrightboundary~5"></span>
               logical,
             </td>
               <td>private</td>
@@ -385,7 +384,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~21"></span>
+              <span class="anchor" id="variable-locnumx~10"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -402,7 +401,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~17"></span>
+              <span class="anchor" id="variable-numv~15"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -419,7 +418,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~8"></span>
+              <span class="anchor" id="variable-numh~11"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -634,7 +633,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~44"></span>
+      <span class="anchor" id="boundprocedure-init~37"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initinterpderiv~2.html'>initInterpDeriv</a>
@@ -646,7 +645,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
               <h3>interface </h3>
                   <h3>
     private module subroutine initInterpDeriv(this, geometryObj, gridObj, minX, maxX, inverseInterp, distInterp)  
-    <a href="../proc/initinterpderiv.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initinterpderiv~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Initialize interpolation derivation object</p>
@@ -791,7 +790,7 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
               <h3>interface </h3>
                   <h3>
     private module function calculateInterp(this, inputArray, indices) result(output)  
-    <a href="../proc/calculateinterp.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calculateinterp~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -877,7 +876,10 @@ by assuming that even l harmonics live on the original grid and odd harmonics on
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

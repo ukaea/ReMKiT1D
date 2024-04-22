@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.4% of total for derived types.</p>Including implementation: 8 statements,  0.4% of total for derived types.">8 statements</a>
             </li>
 
@@ -120,9 +119,9 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/polyfunderiv.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/polyfunderiv.html#variable-polypowers~5">polyPowers</a>
-            <a class="list-group-item" href="../type/polyfunderiv.html#variable-polycoeffs~5">polyCoeffs</a>
-            <a class="list-group-item" href="../type/polyfunderiv.html#variable-constcoeff~3">constCoeff</a>
+            <a class="list-group-item" href="../type/polyfunderiv.html#variable-polypowers">polyPowers</a>
+            <a class="list-group-item" href="../type/polyfunderiv.html#variable-polycoeffs">polyCoeffs</a>
+            <a class="list-group-item" href="../type/polyfunderiv.html#variable-constcoeff">constCoeff</a>
         </div>
       </div>
     </div>
@@ -152,8 +151,8 @@
             <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-init~52">init</a>
-            <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-calculate~18">calculate</a>
+            <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-init~38">init</a>
+            <a class="list-group-item" href="../type/polyfunderiv.html#boundprocedure-calculate~17">calculate</a>
         </div>
       </div>
     </div>
@@ -167,7 +166,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: PolyFunDeriv</h2>
     <p>Derivation taking in a single variable v and returning c0 + sum(c_i<em>v</em><em>p_i), where p are powers and c polynomial coefficents,
 Can optionally take as many conforming variables as there are coefficients and return c0 + sum(c_i</em>v_i**p_i)</p>
@@ -204,7 +203,7 @@ Can optionally take as many conforming variables as there are coefficients and r
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polypowers~5"></span>
+              <span class="anchor" id="variable-polypowers"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -221,7 +220,7 @@ Can optionally take as many conforming variables as there are coefficients and r
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polycoeffs~5"></span>
+              <span class="anchor" id="variable-polycoeffs"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -238,7 +237,7 @@ Can optionally take as many conforming variables as there are coefficients and r
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-constcoeff~3"></span>
+              <span class="anchor" id="variable-constcoeff"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -436,7 +435,7 @@ Can optionally take as many conforming variables as there are coefficients and r
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~52"></span>
+      <span class="anchor" id="boundprocedure-init~38"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initpolyfunderiv.html'>initPolyFunDeriv</a>
@@ -536,7 +535,7 @@ Can optionally take as many conforming variables as there are coefficients and r
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~18"></span>
+      <span class="anchor" id="boundprocedure-calculate~17"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatepolyfun.html'>calculatePolyFun</a>
@@ -634,7 +633,10 @@ Can optionally take as many conforming variables as there are coefficients and r
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

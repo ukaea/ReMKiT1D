@@ -78,8 +78,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title=" 0.2% of total for modules and submodules.">44 statements</a>
             </li>
 
@@ -168,16 +167,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='stencil1d_class.html'>stencil1d_class</a></li>
+                  <li class="list-inline-item"><a href='stencil_generator1d_class.html'>stencil_generator1d_class</a></li>
+                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
                   <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
                   <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
-                  <li class="list-inline-item"><a href='stencil1d_class.html'>stencil1d_class</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='stencil_generator1d_class.html'>stencil_generator1d_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
               </ul>
             </li>
@@ -216,7 +215,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine initGenerator(this, stencilObj, columnVecs, varContColVarNames, mbColVarNames, periodicDim, coordInterval)  
-    <a href="../proc/initgenerator~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initgenerator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>1D fluid variable stencil value generator initialization routine</p>
@@ -234,7 +233,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~878"></span>
+              <span class="anchor" id="variable-this~1024"></span>
               class(<a href='../type/fluidstencilgen1d.html'>FluidStencilGen1D</a>),
             </td>
 <td>intent(inout)</td>
@@ -249,7 +248,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stencilobj~2"></span>
+              <span class="anchor" id="variable-stencilobj~3"></span>
               type(<a href='../type/stencil1d.html'>Stencil1D</a>),
             </td>
 <td>intent(in)</td>
@@ -264,7 +263,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-columnvecs~4"></span>
+              <span class="anchor" id="variable-columnvecs~5"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -279,7 +278,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcontcolvarnames~4"></span>
+              <span class="anchor" id="variable-varcontcolvarnames~5"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -294,7 +293,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbcolvarnames~4"></span>
+              <span class="anchor" id="variable-mbcolvarnames~5"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -309,7 +308,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicdim~3"></span>
+              <span class="anchor" id="variable-periodicdim~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -324,7 +323,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordinterval~3"></span>
+              <span class="anchor" id="variable-coordinterval~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -355,7 +354,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine calcVals(this, varCont, res, mbData, hostModel)  
-    <a href="../proc/calcvals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calcvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Calculate variable fluid 1D stencil values in place (does not depend on hostModel)</p>
@@ -373,7 +372,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~879"></span>
+              <span class="anchor" id="variable-this~1025"></span>
               class(<a href='../type/fluidstencilgen1d.html'>FluidStencilGen1D</a>),
             </td>
 <td>intent(inout)</td>
@@ -388,7 +387,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~96"></span>
+              <span class="anchor" id="variable-varcont~110"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -403,7 +402,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-res~96"></span>
+              <span class="anchor" id="variable-res~116"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(inout),</td>
@@ -418,7 +417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~43"></span>
+              <span class="anchor" id="variable-mbdata~57"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -433,7 +432,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~39"></span>
+              <span class="anchor" id="variable-hostmodel~50"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -520,7 +519,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcontcolvarnames~3"></span>
+              <span class="anchor" id="variable-varcontcolvarnames~4"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -537,7 +536,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbcolvarnames~3"></span>
+              <span class="anchor" id="variable-mbcolvarnames~4"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -629,17 +628,17 @@ dependence on fluid variables in the passed variable container or modelbound dat
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/jaggedarraygenerator.html#boundprocedure-calculate~13'>calculate</a></strong></td>
+  <strong><a href='../type/jaggedarraygenerator.html#boundprocedure-calculate~34'>calculate</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/fluidstencilgen1d.html#boundprocedure-init~66'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenerator~2.html'>initGenerator</a></td>
+  <strong><a href='../type/fluidstencilgen1d.html#boundprocedure-init~85'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenerator~2.html'>initGenerator</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/fluidstencilgen1d.html#boundprocedure-calculateinplace~12'>calculateInPlace</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvals~2.html'>calcVals</a></td>
+  <strong><a href='../type/fluidstencilgen1d.html#boundprocedure-calculateinplace~15'>calculateInPlace</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvals~2.html'>calcVals</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -662,7 +661,10 @@ dependence on fluid variables in the passed variable container or modelbound dat
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

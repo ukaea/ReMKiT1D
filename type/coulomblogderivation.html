@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.7% of total for derived types.</p>Including implementation: 13 statements,  0.6% of total for derived types.">13 statements</a>
             </li>
 
@@ -120,13 +119,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/coulomblogderivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-electronlog~2">electronLog</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionlog~2">ionLog</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionz~2">ionZ</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionz2~2">ionZ2</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionmassratio~2">ionMassRatio</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-locnumx~23">locNumX</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-densnorm~6">densNorm</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-electronlog">electronLog</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionlog">ionLog</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionz">ionZ</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionz2">ionZ2</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-ionmassratio">ionMassRatio</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-locnumx~8">locNumX</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#variable-densnorm~2">densNorm</a>
             <a class="list-group-item" href="../type/coulomblogderivation.html#variable-tempnorm~2">tempNorm</a>
         </div>
       </div>
@@ -157,8 +156,8 @@
             <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-init~65">init</a>
-            <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-calculate~23">calculate</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-init~34">init</a>
+            <a class="list-group-item" href="../type/coulomblogderivation.html#boundprocedure-calculate~14">calculate</a>
         </div>
       </div>
     </div>
@@ -172,7 +171,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: CoulombLogDerivation</h2>
     <p>Returns values of the coulomb log based on electron density and temperature variables (and optionally ionization). 
 The passed indices are assumed to be in T,n,Z order if ee or ei logarithm, or in n1,n2,T1,T2 order if ii logarithm. 
@@ -210,7 +209,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-electronlog~2"></span>
+              <span class="anchor" id="variable-electronlog"></span>
               logical,
             </td>
               <td>private</td>
@@ -227,7 +226,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ionlog~2"></span>
+              <span class="anchor" id="variable-ionlog"></span>
               logical,
             </td>
               <td>private</td>
@@ -244,7 +243,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ionz~2"></span>
+              <span class="anchor" id="variable-ionz"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -261,7 +260,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ionz2~2"></span>
+              <span class="anchor" id="variable-ionz2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -278,7 +277,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ionmassratio~2"></span>
+              <span class="anchor" id="variable-ionmassratio"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -295,7 +294,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~23"></span>
+              <span class="anchor" id="variable-locnumx~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -312,7 +311,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-densnorm~6"></span>
+              <span class="anchor" id="variable-densnorm~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -527,7 +526,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~65"></span>
+      <span class="anchor" id="boundprocedure-init~34"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcoulomblogderiv.html'>initCoulombLogDeriv</a>
@@ -702,7 +701,7 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~23"></span>
+      <span class="anchor" id="boundprocedure-calculate~14"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatecoulomblog.html'>calculateCoulombLog</a>
@@ -800,7 +799,10 @@ Assumes that density is normalized to m^{-3} units, and temperature to eV.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

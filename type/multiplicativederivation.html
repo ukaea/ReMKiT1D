@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.6% of total for derived types.</p>Including implementation: 12 statements,  0.6% of total for derived types.">12 statements</a>
             </li>
 
@@ -120,13 +119,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/multiplicativederivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-outerderiv">outerDeriv</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerderiv">innerDeriv</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-outerindices">outerIndices</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerindices">innerIndices</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerfuncname">innerFuncName</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerpower">innerPower</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-outerpower">outerPower</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-outerderiv~2">outerDeriv</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerderiv~2">innerDeriv</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-outerindices~2">outerIndices</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerindices~2">innerIndices</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerfuncname~2">innerFuncName</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-innerpower~2">innerPower</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#variable-outerpower~2">outerPower</a>
         </div>
       </div>
     </div>
@@ -156,8 +155,8 @@
             <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-init~26">init</a>
-            <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-calculate~11">calculate</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-init~45">init</a>
+            <a class="list-group-item" href="../type/multiplicativederivation.html#boundprocedure-calculate~19">calculate</a>
         </div>
       </div>
     </div>
@@ -171,7 +170,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: MultiplicativeDerivation</h2>
     <p>Composite derivation class containing two calculation rules applied additively. Both derivations must return 
 same length array. Optionally applies one of several intrinsic functions to "inner" derivation result before multiplication.</p>
@@ -208,7 +207,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outerderiv"></span>
+              <span class="anchor" id="variable-outerderiv~2"></span>
               class(<a href='derivation.html'>Derivation</a>),
             </td>
               <td>private,</td>
@@ -225,7 +224,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-innerderiv"></span>
+              <span class="anchor" id="variable-innerderiv~2"></span>
               class(<a href='derivation.html'>Derivation</a>),
             </td>
               <td>private,</td>
@@ -242,7 +241,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outerindices"></span>
+              <span class="anchor" id="variable-outerindices~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -259,7 +258,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-innerindices"></span>
+              <span class="anchor" id="variable-innerindices~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -276,7 +275,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-innerfuncname"></span>
+              <span class="anchor" id="variable-innerfuncname~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -293,7 +292,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-innerpower"></span>
+              <span class="anchor" id="variable-innerpower~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -310,7 +309,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outerpower"></span>
+              <span class="anchor" id="variable-outerpower~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -508,7 +507,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~26"></span>
+      <span class="anchor" id="boundprocedure-init~45"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmultderiv.html'>initMultDeriv</a>
@@ -668,7 +667,7 @@ same length array. Optionally applies one of several intrinsic functions to "inn
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~11"></span>
+      <span class="anchor" id="boundprocedure-calculate~19"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatemultiplicative.html'>calculateMultiplicative</a>
@@ -766,7 +765,10 @@ same length array. Optionally applies one of several intrinsic functions to "inn
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

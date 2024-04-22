@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.7% of total for derived types.</p>Including implementation: 14 statements,  0.6% of total for derived types.">14 statements</a>
             </li>
 
@@ -126,8 +125,8 @@
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-modelboundc~4">modelboundC</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-modelboundinterp~4">modelboundInterp</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-cfatzero~5">cfAtZero</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-numv~35">numV</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-locnumx~37">locNumX</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-numv~23">numV</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-locnumx~24">locNumX</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-vgridwidths~3">vGridWidths</a>
         </div>
       </div>
@@ -158,9 +157,9 @@
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-init~87">init</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculateinplace~17">calculateInPlace</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculate~34">calculate</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-init~62">init</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculateinplace~11">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -174,7 +173,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: DDVStencilGenerator</h2>
     <p>JaggedArrayGenerator for calculating d/dv type stencils for single harmonics. Automatically includes spatial dependence.
 Has options for custom velocity grid interpolation of the distribution function and definition of the velocity
@@ -317,7 +316,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~35"></span>
+              <span class="anchor" id="variable-numv~23"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -334,7 +333,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~37"></span>
+              <span class="anchor" id="variable-locnumx~24"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -549,7 +548,7 @@ Defaults to interpolation values from vSpace. </p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~34"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -654,7 +653,7 @@ Defaults to interpolation values from vSpace. </p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~87"></span>
+      <span class="anchor" id="boundprocedure-init~62"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initddvvalgen.html'>initDDVValGen</a>
@@ -844,7 +843,7 @@ Defaults to interpolation values from vSpace. </p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~17"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~11"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcddvvals.html'>calcDDVVals</a>
@@ -967,7 +966,10 @@ Defaults to interpolation values from vSpace. </p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

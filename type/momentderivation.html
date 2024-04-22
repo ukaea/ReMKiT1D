@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.6% of total for derived types.</p>Including implementation: 11 statements,  0.5% of total for derived types.">11 statements</a>
             </li>
 
@@ -120,11 +119,11 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/momentderivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/momentderivation.html#variable-varpowers~8">varPowers</a>
-            <a class="list-group-item" href="../type/momentderivation.html#variable-multconst~18">multConst</a>
-            <a class="list-group-item" href="../type/momentderivation.html#variable-morder~4">mOrder</a>
-            <a class="list-group-item" href="../type/momentderivation.html#variable-h~8">h</a>
-            <a class="list-group-item" href="../type/momentderivation.html#variable-g~6">g</a>
+            <a class="list-group-item" href="../type/momentderivation.html#variable-varpowers~7">varPowers</a>
+            <a class="list-group-item" href="../type/momentderivation.html#variable-multconst~19">multConst</a>
+            <a class="list-group-item" href="../type/momentderivation.html#variable-morder~3">mOrder</a>
+            <a class="list-group-item" href="../type/momentderivation.html#variable-h~6">h</a>
+            <a class="list-group-item" href="../type/momentderivation.html#variable-g~5">g</a>
             <a class="list-group-item" href="../type/momentderivation.html#variable-vspacecopy">vSpaceCopy</a>
         </div>
       </div>
@@ -155,8 +154,8 @@
             <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-init~55">init</a>
-            <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-calculate~19">calculate</a>
+            <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-init~58">init</a>
+            <a class="list-group-item" href="../type/momentderivation.html#boundprocedure-calculate~21">calculate</a>
         </div>
       </div>
     </div>
@@ -170,7 +169,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: MomentDerivation</h2>
     <p>Moment derivation object. First step in derivation is taking the mOrder-th moment of the h-th harmonic of the first passed
 variable (assumes that it is a distribution), optionally multiplied by constant velocity space vector g. The results is then
@@ -208,7 +207,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varpowers~8"></span>
+              <span class="anchor" id="variable-varpowers~7"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -225,7 +224,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~18"></span>
+              <span class="anchor" id="variable-multconst~19"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -242,7 +241,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-morder~4"></span>
+              <span class="anchor" id="variable-morder~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -259,7 +258,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-h~8"></span>
+              <span class="anchor" id="variable-h~6"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -276,7 +275,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~6"></span>
+              <span class="anchor" id="variable-g~5"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -492,7 +491,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~55"></span>
+      <span class="anchor" id="boundprocedure-init~58"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmomentderiv.html'>initMomentDeriv</a>
@@ -637,7 +636,7 @@ optionally multiplied by a constant and a product of fluid variables raised to p
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~19"></span>
+      <span class="anchor" id="boundprocedure-calculate~21"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatemomentderiv.html'>calculateMomentDeriv</a>
@@ -735,7 +734,10 @@ optionally multiplied by a constant and a product of fluid variables raised to p
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

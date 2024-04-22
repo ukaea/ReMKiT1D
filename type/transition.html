@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 1.6% of total for derived types.</p>Including implementation: 30 statements,  1.4% of total for derived types.">30 statements</a>
             </li>
 
@@ -122,12 +121,12 @@
             <a class="list-group-item" href="../type/transition.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/transition.html#variable-ingoingstates">ingoingStates</a>
             <a class="list-group-item" href="../type/transition.html#variable-outgoingstates">outgoingStates</a>
-            <a class="list-group-item" href="../type/transition.html#variable-rate~14">rate</a>
+            <a class="list-group-item" href="../type/transition.html#variable-rate">rate</a>
             <a class="list-group-item" href="../type/transition.html#variable-ratemomentum">rateMomentum</a>
             <a class="list-group-item" href="../type/transition.html#variable-rateenergy">rateEnergy</a>
-            <a class="list-group-item" href="../type/transition.html#variable-crosssection~8">crossSection</a>
+            <a class="list-group-item" href="../type/transition.html#variable-crosssection">crossSection</a>
             <a class="list-group-item" href="../type/transition.html#variable-ratecontainseldensity">rateContainsElDensity</a>
-            <a class="list-group-item" href="../type/transition.html#variable-csdim~4">csDim</a>
+            <a class="list-group-item" href="../type/transition.html#variable-csdim">csDim</a>
         </div>
       </div>
     </div>
@@ -174,8 +173,8 @@
             <a class="list-group-item" href="../type/transition.html#boundprocedure-setcsdim">setCSDim</a>
             <a class="list-group-item" href="../type/transition.html#boundprocedure-getcsdim">getCSDim</a>
             <a class="list-group-item" href="../type/transition.html#boundprocedure-getratesize">getRateSize</a>
-            <a class="list-group-item" href="../type/transition.html#boundprocedure-update~10">update</a>
-            <a class="list-group-item" href="../type/transition.html#boundprocedure-gettransitionenergy~5">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/transition.html#boundprocedure-update">update</a>
+            <a class="list-group-item" href="../type/transition.html#boundprocedure-gettransitionenergy">getTransitionEnergy</a>
         </div>
       </div>
     </div>
@@ -189,8 +188,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
-        type, public, extends(<a href='object.html'>Object</a>) :: Transition</h2>
+      <h2 id="type-def-statement">
+        type, public, abstract, extends(<a href='object.html'>Object</a>) :: Transition</h2>
     <p>Represents a process in which an ingoing set of particles(states) is transformed into an outgoing set and to which 
 quantities representing particle/momentum/energy exchange rates can be meaningfully assigned. Optionally, a Transition can have
 a cross-section object of rank 2 to accommodate anisotropic differential cross-sections.</p>
@@ -261,7 +260,7 @@ a cross-section object of rank 2 to accommodate anisotropic differential cross-s
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rate~14"></span>
+              <span class="anchor" id="variable-rate"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -312,7 +311,7 @@ a cross-section object of rank 2 to accommodate anisotropic differential cross-s
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-crosssection~8"></span>
+              <span class="anchor" id="variable-crosssection"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -347,7 +346,7 @@ density factor from taking the rate moment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csdim~4"></span>
+              <span class="anchor" id="variable-csdim"></span>
               integer,
             </td>
               <td>private</td>
@@ -1690,10 +1689,10 @@ density factor from taking the rate moment</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~10"></span>
+      <span class="anchor" id="boundprocedure-update"></span>
       <h3>
           procedure, public ::
-  <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/noupdate~2.html'>noUpdate</a>
+  <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/noupdate.html'>noUpdate</a>
         
       </h3>
     </div>
@@ -1805,7 +1804,7 @@ density factor from taking the rate moment</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy~5"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy"></span>
       <h3>
           procedure(<a href='../interface/returnenergy.html'>returnEnergy</a>), public, deferred ::
   <strong>getTransitionEnergy</strong>
@@ -1871,7 +1870,10 @@ density factor from taking the rate moment</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

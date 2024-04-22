@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 1.2% of total for derived types.</p>Including implementation: 23 statements,  1.1% of total for derived types.">23 statements</a>
             </li>
 
@@ -120,15 +119,15 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/indexing.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-procdofs~4">procDoFs</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-procdofs~2">procDoFs</a>
             <a class="list-group-item" href="../type/indexing.html#variable-varoffset">varOffset</a>
             <a class="list-group-item" href="../type/indexing.html#variable-xdofs">xDoFs</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numv~15">numV</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numx~3">numX</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numh~6">numH</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numv~8">numV</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numx~4">numX</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numh~8">numH</a>
             <a class="list-group-item" href="../type/indexing.html#variable-part">part</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-varlist~3">varList</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-xhalowidth~5">xHaloWidth</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-varlist~4">varList</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-xhalowidth~2">xHaloWidth</a>
             <a class="list-group-item" href="../type/indexing.html#variable-periodicindexing">periodicIndexing</a>
         </div>
       </div>
@@ -168,7 +167,7 @@
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-finddistindex">findDistIndex</a>
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-findlocalxindex">findLocalXIndex</a>
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-maptoglobalindices">mapToGlobalIndices</a>
-            <a class="list-group-item" href="../type/indexing.html#boundprocedure-init~39">init</a>
+            <a class="list-group-item" href="../type/indexing.html#boundprocedure-init~15">init</a>
         </div>
       </div>
     </div>
@@ -182,7 +181,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='object.html'>Object</a>) :: Indexing</h2>
     <p>Indexing object containing local and global indexing rules </p>
     <br>
@@ -218,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-procdofs~4"></span>
+              <span class="anchor" id="variable-procdofs~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -269,7 +268,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~15"></span>
+              <span class="anchor" id="variable-numv~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -286,7 +285,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numx~3"></span>
+              <span class="anchor" id="variable-numx~4"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -303,7 +302,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~6"></span>
+              <span class="anchor" id="variable-numh~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -337,7 +336,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varlist~3"></span>
+              <span class="anchor" id="variable-varlist~4"></span>
               type(<a href='variablelist.html'>VariableList</a>),
             </td>
               <td>private</td>
@@ -354,7 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~5"></span>
+              <span class="anchor" id="variable-xhalowidth~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1353,7 +1352,7 @@ given variable name</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~39"></span>
+      <span class="anchor" id="boundprocedure-init~15"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initindexing.html'>initIndexing</a>
@@ -1476,7 +1475,10 @@ given variable name</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.9% of total for derived types.</p>Including implementation: 17 statements,  0.8% of total for derived types.">17 statements</a>
             </li>
 
@@ -120,18 +119,18 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-outerj~10">outerJ</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-lininterp~13">linInterp</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-linexterp~3">linExterp</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-innerj~10">innerJ</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-leftboundary~14">leftBoundary</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-extrapolate~4">extrapolate</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-minx~8">minX</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-maxx~8">maxX</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-inferredgridsize">inferredGridSize</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-interpvarindex~2">interpVarIndex</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-outerj~13">outerJ</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-lininterp~18">linInterp</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-linexterp~4">linExterp</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-innerj~13">innerJ</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-leftboundary~10">leftBoundary</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-extrapolate~3">extrapolate</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-minx~15">minX</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-maxx~15">maxX</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-inferredgridsize~3">inferredGridSize</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-interpvarindex~4">interpVarIndex</a>
             <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-lowerboundvarindex~2">lowerBoundVarIndex</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-fixedlowerbound~7">fixedLowerBound</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#variable-fixedlowerbound~4">fixedLowerBound</a>
         </div>
       </div>
     </div>
@@ -161,9 +160,9 @@
             <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-calculate~13">calculate</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-calculate~34">calculate</a>
             <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-init~42">init</a>
-            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-calculateinplace~10">calculateInPlace</a>
+            <a class="list-group-item" href="../type/uwcbcstencilvalgenerator.html#boundprocedure-calculateinplace~6">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -177,7 +176,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: UWCBCStencilValGenerator</h2>
     <p>JaggedArrayGenerator for calculating a flux-like boundary condition stencil. Can take 2 variable indices, one for a flux jacobian
 variable and the other for a lower jacobian bound variable. If the flux jacobian is present it is extrapolated to the boundary and the stencil 
@@ -218,7 +217,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outerj~10"></span>
+              <span class="anchor" id="variable-outerj~13"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -235,7 +234,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lininterp~13"></span>
+              <span class="anchor" id="variable-lininterp~18"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -252,7 +251,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linexterp~3"></span>
+              <span class="anchor" id="variable-linexterp~4"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -269,7 +268,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-innerj~10"></span>
+              <span class="anchor" id="variable-innerj~13"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -286,7 +285,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-leftboundary~14"></span>
+              <span class="anchor" id="variable-leftboundary~10"></span>
               logical,
             </td>
               <td>private</td>
@@ -303,7 +302,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-extrapolate~4"></span>
+              <span class="anchor" id="variable-extrapolate~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -320,7 +319,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-minx~8"></span>
+              <span class="anchor" id="variable-minx~15"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -337,7 +336,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxx~8"></span>
+              <span class="anchor" id="variable-maxx~15"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -354,7 +353,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inferredgridsize"></span>
+              <span class="anchor" id="variable-inferredgridsize~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -371,7 +370,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-interpvarindex~2"></span>
+              <span class="anchor" id="variable-interpvarindex~4"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -405,7 +404,7 @@ Will return size(0) stencil if the current processor does not contain the corres
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedlowerbound~7"></span>
+              <span class="anchor" id="variable-fixedlowerbound~4"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -603,7 +602,7 @@ Will return size(0) stencil if the current processor does not contain the corres
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~34"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -928,7 +927,7 @@ Will return size(0) stencil if the current processor does not contain the corres
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~10"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~6"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcuwcbcvals.html'>calcUWCBCVals</a>
@@ -1051,7 +1050,10 @@ Will return size(0) stencil if the current processor does not contain the corres
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

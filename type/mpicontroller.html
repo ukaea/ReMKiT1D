@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 2.5% of total for derived types.</p>Including implementation: 47 statements,  2.2% of total for derived types.">47 statements</a>
             </li>
 
@@ -129,12 +128,12 @@
             <a class="list-group-item" href="../type/mpicontroller.html#variable-rowsize">rowSize</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-colrank">colRank</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-colsize">colSize</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-rownumx">rowNumX</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-rownumx~2">rowNumX</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-colnumx">colNumX</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-xdispls">xDispls</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-xhalowidth~2">xHaloWidth</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-numv~5">numV</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-numh~5">numH</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-xhalowidth~10">xHaloWidth</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-numv~25">numV</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-numh~17">numH</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-rownumh">rowNumH</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-rowhoffset">rowHOffset</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-distbuffer">distBuffer</a>
@@ -189,10 +188,10 @@
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-gathervar">gatherVar</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-scattervar">scatterVar</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-setuprows">setUpRows</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-istrueeverywhere">isTrueEverywhere</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-istrueeverywhere~2">isTrueEverywhere</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-allreducemax">allreduceMax</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-allreducemin">allreduceMin</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-init~22">init</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-init~76">init</a>
         </div>
       </div>
     </div>
@@ -206,7 +205,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='object.html'>Object</a>) :: MPIController</h2>
     <p>Provides a centralized interface with MPI and various support routines compatible with ReMKiT1D needs</p>
     <br>
@@ -395,7 +394,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rownumx"></span>
+              <span class="anchor" id="variable-rownumx~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -446,7 +445,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~2"></span>
+              <span class="anchor" id="variable-xhalowidth~10"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -463,7 +462,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~5"></span>
+              <span class="anchor" id="variable-numv~25"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -480,7 +479,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~5"></span>
+              <span class="anchor" id="variable-numh~17"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -2262,7 +2261,7 @@ size, otherwise it is assumed it is of the correct size.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-istrueeverywhere"></span>
+      <span class="anchor" id="boundprocedure-istrueeverywhere~2"></span>
       <h3>
           procedure, public ::
   <strong>isTrueEverywhere</strong>
@@ -2487,7 +2486,7 @@ size, otherwise it is assumed it is of the correct size.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~22"></span>
+      <span class="anchor" id="boundprocedure-init~76"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmpicontroller.html'>initMPIController</a>
@@ -2580,7 +2579,10 @@ size, otherwise it is assumed it is of the correct size.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

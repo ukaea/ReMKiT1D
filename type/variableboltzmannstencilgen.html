@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.6% of total for derived types.</p>Including implementation: 11 statements,  0.5% of total for derived types.">11 statements</a>
             </li>
 
@@ -120,12 +119,12 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-vgridcopy~5">vGridCopy</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-transitionindex~10">transitionIndex</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-lnum~7">lNum</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-vgridcopy~2">vGridCopy</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-transitionindex~4">transitionIndex</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-lnum~4">lNum</a>
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-bufferw">bufferW</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-absorptionterm~10">absorptionTerm</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-superelasticterm~6">superelasticTerm</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-absorptionterm~3">absorptionTerm</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-superelasticterm~2">superelasticTerm</a>
         </div>
       </div>
     </div>
@@ -155,9 +154,9 @@
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-init~80">init</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculateinplace~15">calculateInPlace</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculate~34">calculate</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-init~48">init</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculateinplace~8">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -171,7 +170,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: VariableBoltzmannStencilGen</h2>
     <p>JaggedArrayGenerator for calculating velocity component of Boltzmann collision operator emission/absorption terms with variable inelastic mappings.
 Expects upper/lower triangular vStencil (depending on energy sign), otherwise vStencil = [0]. 
@@ -210,7 +209,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridcopy~5"></span>
+              <span class="anchor" id="variable-vgridcopy~2"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -227,7 +226,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindex~10"></span>
+              <span class="anchor" id="variable-transitionindex~4"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -244,7 +243,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lnum~7"></span>
+              <span class="anchor" id="variable-lnum~4"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -278,7 +277,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterm~10"></span>
+              <span class="anchor" id="variable-absorptionterm~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -295,7 +294,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-superelasticterm~6"></span>
+              <span class="anchor" id="variable-superelasticterm~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -493,7 +492,7 @@ Assumes no halo in cross-section.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~34"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -598,7 +597,7 @@ Assumes no halo in cross-section.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~80"></span>
+      <span class="anchor" id="boundprocedure-init~48"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initvarboltzgen.html'>initVarBoltzGen</a>
@@ -728,7 +727,7 @@ Assumes no halo in cross-section.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~15"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~8"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvarboltzvals.html'>calcVarBoltzVals</a>
@@ -851,7 +850,10 @@ Assumes no halo in cross-section.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.7% of total for derived types.</p>Including implementation: 13 statements,  0.6% of total for derived types.">13 statements</a>
             </li>
 
@@ -122,12 +121,12 @@
             <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-usedxcoords">usedXCoords</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-buffera">bufferA</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-modelbounda">modelboundA</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-adfatzero~2">adfAtZero</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-numv~8">numV</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-locnumx~5">locNumX</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-vgridwidths">vGridWidths</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-dvplus~2">dvPlus</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-modelbounda~2">modelboundA</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-adfatzero~3">adfAtZero</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-numv~19">numV</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-locnumx~13">locNumX</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-vgridwidths~2">vGridWidths</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-dvplus~3">dvPlus</a>
         </div>
       </div>
     </div>
@@ -157,9 +156,9 @@
             <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-init~25">init</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculateinplace~5">calculateInPlace</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculate~34">calculate</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-init~47">init</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculateinplace~7">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -173,7 +172,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: VDiffStencilGen</h2>
     <p>JaggedArrayGenerator for calculating d(Ad/dv)/dv type stencils. Formally a d/dv term where the flux is
 A*df/dv where df/dv at cell edge n+1/2 is (f_{n+1}-f_{n})/(v_{n+1}-v_{n}).
@@ -246,7 +245,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelbounda"></span>
+              <span class="anchor" id="variable-modelbounda~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -263,7 +262,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-adfatzero~2"></span>
+              <span class="anchor" id="variable-adfatzero~3"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -280,7 +279,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~8"></span>
+              <span class="anchor" id="variable-numv~19"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -297,7 +296,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~5"></span>
+              <span class="anchor" id="variable-locnumx~13"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -314,7 +313,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridwidths"></span>
+              <span class="anchor" id="variable-vgridwidths~2"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -331,7 +330,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dvplus~2"></span>
+              <span class="anchor" id="variable-dvplus~3"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -529,7 +528,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~34"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -634,7 +633,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~25"></span>
+      <span class="anchor" id="boundprocedure-init~47"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initvdiffvalgen.html'>initVDiffValGen</a>
@@ -794,7 +793,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~5"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~7"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvdiffvals.html'>calcVDiffVals</a>
@@ -917,7 +916,10 @@ Assumes that the velocity stencil is [-1,0,1]</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

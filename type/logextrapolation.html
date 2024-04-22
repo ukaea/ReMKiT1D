@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.5% of total for derived types.</p>Including implementation: 9 statements,  0.4% of total for derived types.">9 statements</a>
             </li>
 
@@ -121,8 +120,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/logextrapolation.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/logextrapolation.html#variable-logexterp">logExterp</a>
-            <a class="list-group-item" href="../type/logextrapolation.html#variable-lininterp~23">linInterp</a>
-            <a class="list-group-item" href="../type/logextrapolation.html#variable-exterpcoords~2">exterpCoords</a>
+            <a class="list-group-item" href="../type/logextrapolation.html#variable-lininterp~20">linInterp</a>
+            <a class="list-group-item" href="../type/logextrapolation.html#variable-exterpcoords~3">exterpCoords</a>
             <a class="list-group-item" href="../type/logextrapolation.html#variable-interpolate~3">interpolate</a>
         </div>
       </div>
@@ -157,12 +156,12 @@
             <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-setleftboundary">setLeftBoundary</a>
             <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-setstaggeredvars">setStaggeredVars</a>
             <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-sethalowidth">setHaloWidth</a>
-            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-hasboundary">hasBoundary</a>
-            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-isleftboundary">isLeftBoundary</a>
+            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-hasboundary~2">hasBoundary</a>
+            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-isleftboundary~2">isLeftBoundary</a>
             <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-usesstaggeredvars">usesStaggeredVars</a>
             <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-gethalowidth">getHaloWidth</a>
-            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-init~57">init</a>
-            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-extrapolate~6">extrapolate</a>
+            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-init~43">init</a>
+            <a class="list-group-item" href="../type/logextrapolation.html#boundprocedure-extrapolate~5">extrapolate</a>
         </div>
       </div>
     </div>
@@ -176,7 +175,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='extrapolation.html'>Extrapolation</a>) :: LogExtrapolation</h2>
     <p>Linear extrapolation object</p>
     <br>
@@ -229,7 +228,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lininterp~23"></span>
+              <span class="anchor" id="variable-lininterp~20"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -246,7 +245,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exterpcoords~2"></span>
+              <span class="anchor" id="variable-exterpcoords~3"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -772,7 +771,7 @@ Associated with the second coordinate</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-hasboundary"></span>
+      <span class="anchor" id="boundprocedure-hasboundary~2"></span>
       <h3>
           procedure, public ::
   <strong>hasBoundary</strong>
@@ -832,7 +831,7 @@ Associated with the second coordinate</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-isleftboundary"></span>
+      <span class="anchor" id="boundprocedure-isleftboundary~2"></span>
       <h3>
           procedure, public ::
   <strong>isLeftBoundary</strong>
@@ -1012,7 +1011,7 @@ Associated with the second coordinate</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~57"></span>
+      <span class="anchor" id="boundprocedure-init~43"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initlogextrap.html'>initLogExtrap</a>
@@ -1187,7 +1186,7 @@ Associated with the second coordinate</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-extrapolate~6"></span>
+      <span class="anchor" id="boundprocedure-extrapolate~5"></span>
       <h3>
           procedure, public ::
   <strong>extrapolate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/extrapolatelog.html'>extrapolateLog</a>
@@ -1270,7 +1269,10 @@ Associated with the second coordinate</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

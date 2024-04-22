@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.7% of total for derived types.</p>Including implementation: 14 statements,  0.6% of total for derived types.">14 statements</a>
             </li>
 
@@ -119,18 +118,18 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-integratorindex">integratorIndex</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-groupindices">groupIndices</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-modelindices~5">modelIndices</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-integratorindex~2">integratorIndex</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-groupindices~2">groupIndices</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-modelindices~8">modelIndices</a>
             <a class="list-group-item" href="../type/integratorcallstep.html#variable-globalstepfraction">globalStepFraction</a>
             <a class="list-group-item" href="../type/integratorcallstep.html#variable-allowtimeevolution">allowTimeEvolution</a>
             <a class="list-group-item" href="../type/integratorcallstep.html#variable-useinitialinput">useInitialInput</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-communicationneeded">communicationNeeded</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-nontrivialupdate~3">nonTrivialUpdate</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-nontrivialmodeldataupdate~3">nonTrivialModelDataUpdate</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-commdata~7">commData</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-updatesoninternaliterations">updatesOnInternalIterations</a>
-            <a class="list-group-item" href="../type/integratorcallstep.html#variable-updatesoninternaliterationsmodeldata">updatesOnInternalIterationsModelData</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-communicationneeded~2">communicationNeeded</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-nontrivialupdate~13">nonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-nontrivialmodeldataupdate~5">nonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-commdata~17">commData</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-updatesoninternaliterations~2">updatesOnInternalIterations</a>
+            <a class="list-group-item" href="../type/integratorcallstep.html#variable-updatesoninternaliterationsmodeldata~2">updatesOnInternalIterationsModelData</a>
         </div>
       </div>
     </div>
@@ -160,7 +159,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public :: IntegratorCallStep</h2>
     <p>Object containing data pertaining to single integration step</p>
     <br>
@@ -179,7 +178,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-integratorindex"></span>
+              <span class="anchor" id="variable-integratorindex~2"></span>
               integer(kind=ik),
             </td>
               <td>public</td>
@@ -196,7 +195,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindices"></span>
+              <span class="anchor" id="variable-groupindices~2"></span>
               type(<a href='intarray.html'>IntArray</a>),
             </td>
               <td>public,</td>
@@ -213,7 +212,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelindices~5"></span>
+              <span class="anchor" id="variable-modelindices~8"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -281,7 +280,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-communicationneeded"></span>
+              <span class="anchor" id="variable-communicationneeded~2"></span>
               logical,
             </td>
               <td>public</td>
@@ -298,7 +297,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialupdate~3"></span>
+              <span class="anchor" id="variable-nontrivialupdate~13"></span>
               logical,
             </td>
               <td>public</td>
@@ -315,7 +314,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialmodeldataupdate~3"></span>
+              <span class="anchor" id="variable-nontrivialmodeldataupdate~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -332,7 +331,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~7"></span>
+              <span class="anchor" id="variable-commdata~17"></span>
               type(<a href='communicationdata.html'>CommunicationData</a>),
             </td>
               <td>public</td>
@@ -349,7 +348,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatesoninternaliterations"></span>
+              <span class="anchor" id="variable-updatesoninternaliterations~2"></span>
               type(<a href='logicalarray.html'>LogicalArray</a>),
             </td>
               <td>public,</td>
@@ -366,7 +365,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatesoninternaliterationsmodeldata"></span>
+              <span class="anchor" id="variable-updatesoninternaliterationsmodeldata~2"></span>
               logical,
             </td>
               <td>public,</td>
@@ -399,7 +398,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

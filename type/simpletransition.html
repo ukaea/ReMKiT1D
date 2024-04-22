@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.3% of total for derived types.</p>Including implementation: 6 statements,  0.3% of total for derived types.">6 statements</a>
             </li>
 
@@ -120,7 +119,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/simpletransition.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/simpletransition.html#variable-transitionenergy~7">transitionEnergy</a>
+            <a class="list-group-item" href="../type/simpletransition.html#variable-transitionenergy~2">transitionEnergy</a>
         </div>
       </div>
     </div>
@@ -167,9 +166,9 @@
             <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-setcsdim">setCSDim</a>
             <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-getcsdim">getCSDim</a>
             <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-getratesize">getRateSize</a>
-            <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-update~10">update</a>
-            <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-init~96">init</a>
-            <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-gettransitionenergy~7">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-update">update</a>
+            <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-init~11">init</a>
+            <a class="list-group-item" href="../type/simpletransition.html#boundprocedure-gettransitionenergy~3">getTransitionEnergy</a>
         </div>
       </div>
     </div>
@@ -183,7 +182,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='transition.html'>Transition</a>) :: SimpleTransition</h2>
     <p>Simple transition object with a fixed rate and energy, and single ingoing and outgoing state. The default energy rate is
 set to rate*energy, and the momentum rate is 0</p>
@@ -220,7 +219,7 @@ set to rate*energy, and the momentum rate is 0</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~7"></span>
+              <span class="anchor" id="variable-transitionenergy~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -1563,10 +1562,10 @@ set to rate*energy, and the momentum rate is 0</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~10"></span>
+      <span class="anchor" id="boundprocedure-update"></span>
       <h3>
           procedure, public ::
-  <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/noupdate~2.html'>noUpdate</a>
+  <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/noupdate.html'>noUpdate</a>
         
       </h3>
     </div>
@@ -1678,7 +1677,7 @@ set to rate*energy, and the momentum rate is 0</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~96"></span>
+      <span class="anchor" id="boundprocedure-init~11"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initsimpletransition.html'>initSimpleTransition</a>
@@ -1808,10 +1807,10 @@ set to rate*energy, and the momentum rate is 0</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy~7"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy~3"></span>
       <h3>
           procedure, public ::
-  <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~5.html'>getEnergy</a>
+  <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~2.html'>getEnergy</a>
         
       </h3>
     </div>
@@ -1820,7 +1819,7 @@ set to rate*energy, and the momentum rate is 0</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Returns array representing energy cost of this transition</p>
@@ -1876,7 +1875,10 @@ set to rate*energy, and the momentum rate is 0</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.5% of total for derived types.</p>Including implementation: 10 statements,  0.5% of total for derived types.">10 statements</a>
             </li>
 
@@ -120,7 +119,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/boundedextderivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedlowerbound~3">fixedLowerBound</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedlowerbound~6">fixedLowerBound</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedupperbound">fixedUpperBound</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#variable-expectlowerboundvar">expectLowerBoundVar</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#variable-expectupperboundvar">expectUpperBoundVar</a>
@@ -154,8 +153,8 @@
             <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-init~20">init</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-calculate~8">calculate</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-init~60">init</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-calculate~22">calculate</a>
         </div>
       </div>
     </div>
@@ -169,7 +168,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: BoundedExtDerivation</h2>
     <p>Calculates extrapolated value of a fluid quantity at a boundary cell edge, optionally applying a lower and/or upper bound to the extrapolated value.
 Accepts scalar variables for lower/upper bounds. Expects 1-3 variables, The first expected variable name is the interpolated variable. 
@@ -209,7 +208,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedlowerbound~3"></span>
+              <span class="anchor" id="variable-fixedlowerbound~6"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -475,7 +474,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~20"></span>
+      <span class="anchor" id="boundprocedure-init~60"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initbext.html'>initBExt</a>
@@ -635,7 +634,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~8"></span>
+      <span class="anchor" id="boundprocedure-calculate~22"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatebext.html'>calculateBExt</a>
@@ -733,7 +732,10 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

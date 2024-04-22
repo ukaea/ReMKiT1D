@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.5% of total for derived types.</p>Including implementation: 9 statements,  0.4% of total for derived types.">9 statements</a>
             </li>
 
@@ -121,9 +120,9 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-columnvectors">columnVectors</a>
-            <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-periodicdim">periodicDim</a>
+            <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-periodicdim~2">periodicDim</a>
             <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-presentcolumns">presentColumns</a>
-            <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-coordinterval">coordInterval</a>
+            <a class="list-group-item" href="../type/stencilgenerator1d.html#variable-coordinterval~2">coordInterval</a>
         </div>
       </div>
     </div>
@@ -153,9 +152,9 @@
             <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-init~12">init</a>
-            <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-calculateinplace~2">calculateInPlace</a>
+            <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-calculate~34">calculate</a>
+            <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-init~78">init</a>
+            <a class="list-group-item" href="../type/stencilgenerator1d.html#boundprocedure-calculateinplace~12">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -169,7 +168,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: StencilGenerator1D</h2>
     <p>JaggedArrayGenerator for calculating a fixed stencil based on fixed column-wise value vectors and a Stencil1D object. Each column value vector is associated with its entry in the Stencil1D object.</p>
     <br>
@@ -222,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicdim"></span>
+              <span class="anchor" id="variable-periodicdim~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -256,7 +255,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordinterval"></span>
+              <span class="anchor" id="variable-coordinterval~2"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -454,7 +453,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~34"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -559,7 +558,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~12"></span>
+      <span class="anchor" id="boundprocedure-init~78"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenerator.html'>initGenerator</a>
@@ -571,7 +570,7 @@
               <h3>interface </h3>
                   <h3>
     private module subroutine initGenerator(this, stencilObj, columnVecs, periodicDim, coordInterval)  
-    <a href="../proc/initgenerator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initgenerator~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>1D fixed stencil value generator initialization routine</p>
@@ -674,7 +673,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~2"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~12"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvals.html'>calcVals</a>
@@ -686,7 +685,7 @@
               <h3>interface </h3>
                   <h3>
     private module subroutine calcVals(this, varCont, res, mbData, hostModel)  
-    <a href="../proc/calcvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calcvals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Calculate fixed 1D stencil values in place (does not depend on varCont,mbData, or hostModel)</p>
@@ -797,7 +796,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

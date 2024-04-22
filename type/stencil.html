@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.5% of total for derived types.</p>Including implementation: 9 statements,  0.4% of total for derived types.">9 statements</a>
             </li>
 
@@ -120,10 +119,10 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/stencil.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/stencil.html#variable-xstencil~8">xStencil</a>
-            <a class="list-group-item" href="../type/stencil.html#variable-vstencil~2">vStencil</a>
-            <a class="list-group-item" href="../type/stencil.html#variable-hstencil~2">hStencil</a>
-            <a class="list-group-item" href="../type/stencil.html#variable-xperiodic~11">xPeriodic</a>
+            <a class="list-group-item" href="../type/stencil.html#variable-xstencil">xStencil</a>
+            <a class="list-group-item" href="../type/stencil.html#variable-vstencil">vStencil</a>
+            <a class="list-group-item" href="../type/stencil.html#variable-hstencil">hStencil</a>
+            <a class="list-group-item" href="../type/stencil.html#variable-xperiodic~2">xPeriodic</a>
         </div>
       </div>
     </div>
@@ -153,8 +152,8 @@
             <a class="list-group-item" href="../type/stencil.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/stencil.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/stencil.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/stencil.html#boundprocedure-mapcoords~2">mapCoords</a>
-            <a class="list-group-item" href="../type/stencil.html#boundprocedure-init~100">init</a>
+            <a class="list-group-item" href="../type/stencil.html#boundprocedure-mapcoords">mapCoords</a>
+            <a class="list-group-item" href="../type/stencil.html#boundprocedure-init~7">init</a>
         </div>
       </div>
     </div>
@@ -168,7 +167,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='object.html'>Object</a>) :: Stencil</h2>
     <p>Stencil object for construction of matrix patterns by mapping row coordinates to sets of column coordinates </p>
     <br>
@@ -204,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xstencil~8"></span>
+              <span class="anchor" id="variable-xstencil"></span>
               type(<a href='stencil1d.html'>Stencil1D</a>),
             </td>
               <td>private</td>
@@ -221,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vstencil~2"></span>
+              <span class="anchor" id="variable-vstencil"></span>
               type(<a href='stencil1d.html'>Stencil1D</a>),
             </td>
               <td>private,</td>
@@ -238,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hstencil~2"></span>
+              <span class="anchor" id="variable-hstencil"></span>
               type(<a href='stencil1d.html'>Stencil1D</a>),
             </td>
               <td>private,</td>
@@ -255,7 +254,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xperiodic~11"></span>
+              <span class="anchor" id="variable-xperiodic~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -453,7 +452,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-mapcoords~2"></span>
+      <span class="anchor" id="boundprocedure-mapcoords"></span>
       <h3>
           procedure, public ::
   <strong>mapCoords</strong>
@@ -543,10 +542,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~100"></span>
+      <span class="anchor" id="boundprocedure-init~7"></span>
       <h3>
           procedure, public ::
-  <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initstencil~2.html'>initStencil</a>
+  <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initstencil.html'>initStencil</a>
         
       </h3>
     </div>
@@ -696,7 +695,10 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

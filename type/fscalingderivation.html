@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.7% of total for derived types.</p>Including implementation: 13 statements,  0.6% of total for derived types.">13 statements</a>
             </li>
 
@@ -120,13 +119,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/fscalingderivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-exterpcoords~3">exterpCoords</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-hasboundary~2">hasBoundary</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-leftboundary~22">leftBoundary</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-numv~26">numV</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-numh~15">numH</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-staggeredvars~11">staggeredVars</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#variable-extrapolatetoboundary~2">extrapolateToBoundary</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-exterpcoords">exterpCoords</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-hasboundary">hasBoundary</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-leftboundary">leftBoundary</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-numv">numV</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-numh">numH</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-staggeredvars">staggeredVars</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#variable-extrapolatetoboundary">extrapolateToBoundary</a>
         </div>
       </div>
     </div>
@@ -156,8 +155,8 @@
             <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-init~74">init</a>
-            <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-calculate~25">calculate</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-init">init</a>
+            <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-calculate">calculate</a>
             <a class="list-group-item" href="../type/fscalingderivation.html#boundprocedure-getscalingfactors">getScalingFactors</a>
         </div>
       </div>
@@ -172,7 +171,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='matderivation.html'>MatDerivation</a>) :: FScalingDerivation</h2>
     <p>Extrapolates a distribution function to the boundary or last cell centre as a (numH,numV) matrix. Assumes that there are no m&gt;0 harmonics for staggered grids.
 Expects 1-4 variables. The first is the extrapolated distribution, the second the density vector. The third is the staggered density
@@ -211,7 +210,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exterpcoords~3"></span>
+              <span class="anchor" id="variable-exterpcoords"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -228,7 +227,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hasboundary~2"></span>
+              <span class="anchor" id="variable-hasboundary"></span>
               logical,
             </td>
               <td>private</td>
@@ -245,7 +244,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-leftboundary~22"></span>
+              <span class="anchor" id="variable-leftboundary"></span>
               logical,
             </td>
               <td>private</td>
@@ -262,7 +261,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~26"></span>
+              <span class="anchor" id="variable-numv"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -279,7 +278,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~15"></span>
+              <span class="anchor" id="variable-numh"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -296,7 +295,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-staggeredvars~11"></span>
+              <span class="anchor" id="variable-staggeredvars"></span>
               logical,
             </td>
               <td>private</td>
@@ -313,7 +312,7 @@ only if extrapolating to the boundary.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-extrapolatetoboundary~2"></span>
+              <span class="anchor" id="variable-extrapolatetoboundary"></span>
               logical,
             </td>
               <td>private</td>
@@ -511,7 +510,7 @@ only if extrapolating to the boundary.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~74"></span>
+      <span class="anchor" id="boundprocedure-init"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initfscaling.html'>initFScaling</a>
@@ -656,7 +655,7 @@ only if extrapolating to the boundary.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~25"></span>
+      <span class="anchor" id="boundprocedure-calculate"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatefscaling.html'>calculateFScaling</a>
@@ -844,7 +843,10 @@ only if extrapolating to the boundary.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

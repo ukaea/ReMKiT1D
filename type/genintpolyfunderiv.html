@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.5% of total for derived types.</p>Including implementation: 10 statements,  0.5% of total for derived types.">10 statements</a>
             </li>
 
@@ -120,11 +119,11 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-polypowers~7">polyPowers</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-polycoeffs~7">polyCoeffs</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-multconst~30">multConst</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-maxpowers~3">maxPowers</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-funcname~4">funcName</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-polypowers~4">polyPowers</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-polycoeffs~4">polyCoeffs</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-multconst~22">multConst</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-maxpowers">maxPowers</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#variable-funcname">funcName</a>
         </div>
       </div>
     </div>
@@ -154,8 +153,8 @@
             <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-init~89">init</a>
-            <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-calculate~30">calculate</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-init~66">init</a>
+            <a class="list-group-item" href="../type/genintpolyfunderiv.html#boundprocedure-calculate~24">calculate</a>
         </div>
       </div>
     </div>
@@ -169,7 +168,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='derivation.html'>Derivation</a>) :: GenIntPolyFunDeriv</h2>
     <p>Derivation taking in multiple variables and calculating multConst*fun(sum coef_i prod vars^powers) where prod vars^powers is
 shorthand for a product of multiple variables raised to corresponding powers. Basically behaves like a multiplicative derivation where the
@@ -207,7 +206,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polypowers~7"></span>
+              <span class="anchor" id="variable-polypowers~4"></span>
               type(<a href='intarray.html'>IntArray</a>),
             </td>
               <td>private,</td>
@@ -224,7 +223,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polycoeffs~7"></span>
+              <span class="anchor" id="variable-polycoeffs~4"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -241,7 +240,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~30"></span>
+              <span class="anchor" id="variable-multconst~22"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -258,7 +257,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxpowers~3"></span>
+              <span class="anchor" id="variable-maxpowers"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -275,7 +274,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-funcname~4"></span>
+              <span class="anchor" id="variable-funcname"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -473,7 +472,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~89"></span>
+      <span class="anchor" id="boundprocedure-init~66"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenintpolyfunderiv.html'>initGenIntPolyFunDeriv</a>
@@ -603,7 +602,7 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~30"></span>
+      <span class="anchor" id="boundprocedure-calculate~24"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculategenintpolyfun.html'>calculateGenIntPolyFun</a>
@@ -701,7 +700,10 @@ inner derivation is a massive sum of simple derivation outputs with integer powe
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

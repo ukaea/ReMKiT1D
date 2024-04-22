@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 0.6% of total for derived types.</p>Including implementation: 11 statements,  0.5% of total for derived types.">11 statements</a>
             </li>
 
@@ -121,8 +120,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-fixedstencilgen">fixedStencilGen</a>
-            <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-varcontcolvarnames~3">varContColVarNames</a>
-            <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-mbcolvarnames~3">mbColVarNames</a>
+            <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-varcontcolvarnames~4">varContColVarNames</a>
+            <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-mbcolvarnames~4">mbColVarNames</a>
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-varcontvarindices">varContVarIndices</a>
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-fixedstencilvals">fixedStencilVals</a>
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#variable-columnvaluebuffers">columnValueBuffers</a>
@@ -155,9 +154,9 @@
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-init~66">init</a>
-            <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-calculateinplace~12">calculateInPlace</a>
+            <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-calculate~34">calculate</a>
+            <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-init~85">init</a>
+            <a class="list-group-item" href="../type/fluidstencilgen1d.html#boundprocedure-calculateinplace~15">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -171,7 +170,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>) :: FluidStencilGen1D</h2>
     <p>JaggedArrayGenerator for extending the fixed stencil capabilities of StencilGenerator1D to allow for an additional multiplicative
 dependence on fluid variables in the passed variable container or modelbound data. Allows associating different variables to each column.</p>
@@ -225,7 +224,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcontcolvarnames~3"></span>
+              <span class="anchor" id="variable-varcontcolvarnames~4"></span>
               type(<a href='stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -242,7 +241,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbcolvarnames~3"></span>
+              <span class="anchor" id="variable-mbcolvarnames~4"></span>
               type(<a href='stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -491,7 +490,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~34"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -596,7 +595,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~66"></span>
+      <span class="anchor" id="boundprocedure-init~85"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenerator~2.html'>initGenerator</a>
@@ -608,7 +607,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
               <h3>interface </h3>
                   <h3>
     private module subroutine initGenerator(this, stencilObj, columnVecs, varContColVarNames, mbColVarNames, periodicDim, coordInterval)  
-    <a href="../proc/initgenerator~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initgenerator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>1D fluid variable stencil value generator initialization routine</p>
@@ -741,7 +740,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~12"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~15"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvals~2.html'>calcVals</a>
@@ -753,7 +752,7 @@ dependence on fluid variables in the passed variable container or modelbound dat
               <h3>interface </h3>
                   <h3>
     private module subroutine calcVals(this, varCont, res, mbData, hostModel)  
-    <a href="../proc/calcvals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calcvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Calculate variable fluid 1D stencil values in place (does not depend on hostModel)</p>
@@ -864,7 +863,10 @@ dependence on fluid variables in the passed variable container or modelbound dat
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

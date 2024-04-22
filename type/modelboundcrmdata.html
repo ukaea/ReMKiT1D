@@ -77,8 +77,7 @@
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
                  title="<p> 1.7% of total for derived types.</p>Including implementation: 31 statements,  1.4% of total for derived types.">31 statements</a>
             </li>
 
@@ -166,17 +165,17 @@
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionratemomentum">getTransitionRateMomentum</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionrateenergy">getTransitionRateEnergy</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitioncrosssection">getTransitionCrossSection</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionenergy~2">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionenergy~4">getTransitionEnergy</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getnumtransitions">getNumTransitions</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-ratesincludeeldensity">ratesIncludeElDensity</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getpopulationchangematrix">getPopulationChangeMatrix</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getrequireddensitydata">getRequiredDensityData</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getelstate">getElState</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-setelstate">setElState</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-update~5">update</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-copydata~3">copyData</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getdatadim~3">getDataDim</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-init~41">init</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-update~4">update</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-copydata">copyData</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getdatadim">getDataDim</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-init~30">init</a>
         </div>
       </div>
     </div>
@@ -190,7 +189,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public, extends(<a href='modelbounddata.html'>ModelboundData</a>) :: ModelboundCRMData</h2>
     <p>Object responsible for storing and providing centralized access to transition objects and, optionally, inelastic grid data</p>
     <br>
@@ -1408,7 +1407,7 @@ Assumes upper triangular structure for wRes if E is positive and lower if it's n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy~2"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy~4"></span>
       <h3>
           procedure, public ::
   <strong>getTransitionEnergy</strong>
@@ -1935,7 +1934,7 @@ The result can then be used to determine density variables and their powers requ
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~5"></span>
+      <span class="anchor" id="boundprocedure-update~4"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updatecrmdata.html'>updateCRMData</a>
@@ -2035,7 +2034,7 @@ The result can then be used to determine density variables and their powers requ
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-copydata~3"></span>
+      <span class="anchor" id="boundprocedure-copydata"></span>
       <h3>
           procedure, public ::
   <strong>copyData</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/crmcopy.html'>crmCopy</a>
@@ -2121,7 +2120,7 @@ and corresponds to rate type (0-particles,1-momentum,2-energy), and transIndex i
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getdatadim~3"></span>
+      <span class="anchor" id="boundprocedure-getdatadim"></span>
       <h3>
           procedure, public ::
   <strong>getDataDim</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getdatadimcrm.html'>getDataDimCRM</a>
@@ -2196,7 +2195,7 @@ and corresponds to rate type (0-particles,1-momentum,2-energy), and transIndex i
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~41"></span>
+      <span class="anchor" id="boundprocedure-init~30"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmdata.html'>initCRMData</a>
@@ -2274,7 +2273,10 @@ and corresponds to rate type (0-particles,1-momentum,2-energy), and transIndex i
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>ReMKiT1D was developed by Stefan Mijin<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+          <div class="col">
+            <p>
+              ReMKiT1D
+ was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

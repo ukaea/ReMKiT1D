@@ -1,11 +1,12 @@
 # CHANGELOG
 
-## v1.2.0, 2024-04-05
+## v1.2.0, 2024-04-26
 
 - Added CVODE integrator as an option
 - Added new derivation-based explicit term
 - Added new unary transformations
 - New variable and manipulator features
+- New timeloop mode - output-driven timeloop
 - Bug fixes
 
 ### Breaking Changes
@@ -24,6 +25,7 @@
 - The term evaluator can now also explicitly request model and term updates (less fine-grained control than integrators)
 - Variables can now be zeroed with a passed list of names
 - Added option to explicitly change the maximum number of BDE integrator restarts (still hard-capped to 10)
+- Another timeloop mode has been added where the output points are set, and the code makes sure they coincide with integrator steps. If the output point is sufficiently far away, the standard timestep behaviour is recovered. 
 
 ### Bug Fixes
 

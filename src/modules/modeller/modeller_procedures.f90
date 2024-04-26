@@ -530,12 +530,14 @@ module subroutine callManipulator(this,priority,inVars,outVars)
 
 end subroutine callManipulator
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine integrate(this,inVars,outVars)
-    !! Call integrator affect routine with inVars and outVars - the default for the optional VariableContainers is the modeller's VariableContainer
+module subroutine integrate(this,inVars,outVars,requestedTimestep)
+    !! Call manipulator affect routine with inVars and outVars - the default for the optional VariableContainers is the modeller's VariableContainer
+    !! Optionally request a timestep length (only available with composite integrators)
 
     class(Modeller)                   ,intent(inout) :: this
     type(VariableContainer) ,optional ,intent(in)    :: inVars
     type(VariableContainer) ,optional ,intent(inout) :: outVars
+    real(rk)                ,optional ,intent(in)    :: requestedTimestep
 
     if (assertions) then 
         call assert(this%isDefined(),"Attempted to call integrator from undefined modeller")
@@ -544,6 +546,20 @@ module subroutine integrate(this,inVars,outVars)
         if (present(outVars)) call assert(outVars%isDefined(),"outVars passed to callIntegrator not defined")
     end if
 
+    if (present(requestedTimestep)) then 
+
+        select type (integrator=>this%integ)
+
+        type is (CompositeIntegrator) 
+            call integrator%setRequestedTimestep(requestedTimestep)
+
+
+        class default
+            error stop "Requested timesteps in modeller integrator call available only for CompositeIntegrator"
+        end select
+
+
+    end if
     if (present(inVars)) then 
         if (present(outVars)) then 
             call this%integ%affect(this,outVars,inVars)

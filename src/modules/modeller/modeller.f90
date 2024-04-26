@@ -284,12 +284,14 @@ module modeller_class
 
     end subroutine callManipulator
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine integrate(this,inVars,outVars)
-        !! Call ianipulator affect routine with inVars and outVars - the default for the optional VariableContainers is the modeller's VariableContainer
+    module subroutine integrate(this,inVars,outVars,requestedTimestep)
+        !! Call manipulator affect routine with inVars and outVars - the default for the optional VariableContainers is the modeller's VariableContainer
+        !! Optionally request a timestep length (only available with composite integrators)
 
         class(Modeller)                   ,intent(inout) :: this
         type(VariableContainer) ,optional ,intent(in)    :: inVars
         type(VariableContainer) ,optional ,intent(inout) :: outVars
+        real(rk)                ,optional ,intent(in)    :: requestedTimestep
 
     end subroutine integrate
 !-----------------------------------------------------------------------------------------------------------------------------------

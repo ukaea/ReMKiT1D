@@ -35,8 +35,10 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     type(NamedLogical)     ,dimension(1) :: loadFromHDF5
     type(NamedString)      ,dimension(1) :: hdf5Filename ,hdf5Filepath
     type(NamedStringArray) ,dimension(1) :: hdf5InputVars
+    type(NamedRealArray)   ,dimension(1) :: outputDrivenPoints
 
     real(rk) :: timeNorm
+    integer(ik) :: i
 
     if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to initStandardTimeloop")
@@ -65,6 +67,9 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     hdf5InputVars(1)%name = keyHDF5//"."//keyInputVars
     hdf5InputVars(1)%values = envObj%externalVars%getAllVarNames()
 
+    outputDrivenPoints(1)%name = keyTimeloop//"."//keyOutputPoints
+    allocate(outputDrivenPoints(1)%values(0))
+
     call envObj%jsonCont%load(modes)
 
     timeNorm = normObj%getNormalizationValue(keyTimeNorm)
@@ -90,6 +95,25 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
         call envObj%jsonCont%output(targetTime)
 
         this%targetTime = targetTime(1)%value/timeNorm
+
+    case (keyOutputDrivenMode)
+
+        this%modeTimeloop = 2 
+        call envObj%jsonCont%load(outputDrivenPoints)
+        call envObj%jsonCont%output(outputDrivenPoints)
+
+        if (assertions .or. assertionLvl >= 0) then 
+            call assert(size(outputDrivenPoints(1)%values)>0,&
+                "Output points must be supplied for output-driven timelooop mode")
+            call assert(outputDrivenPoints(1)%values(1)>0,&
+                "Output points must all be strictly positive for output-driven timeloop mode")
+            do i=2,size(outputDrivenPoints(1)%values)
+               call assert(outputDrivenPoints(1)%values(i)>outputDrivenPoints(1)%values(i-1),&
+                   "Output points must be monotonic for output-driven timeloop mode") 
+           end do
+        end if
+
+        this%outputPoints = outputDrivenPoints(1)%values
 
     case default 
         error stop "Unrecognized timeloop mode detected in initStandardTimeloop"
@@ -168,6 +192,9 @@ module subroutine loop(this,envObj,modellerObj)
 
     logical :: outputVals ,dumpRestart ,endOfLoopReached
 
+    integer(ik) :: currentOutputPoint
+    real(rk)    :: requestedStep
+
 
     if (assertions) then 
         call assert(this%isDefined(),"loop called on undefined Timeloop object")
@@ -217,6 +244,8 @@ module subroutine loop(this,envObj,modellerObj)
 
     endOfLoopReached = .false.
 
+    currentOutputPoint = 1
+
     do 
 
         previousTime = currentTime
@@ -228,7 +257,15 @@ module subroutine loop(this,envObj,modellerObj)
         call printMessage(trim(tmpstring))
         tmpstring=''
         
-        call modellerObj%integrate()
+        if (this%modeTimeloop == 2) then 
+            
+            requestedStep = this%outputPoints(currentOutputPoint) - currentTime
+            
+            print*,currentOutputPoint,requestedStep
+            call modellerObj%integrate(requestedTimestep=requestedStep)
+        else
+            call modellerObj%integrate()
+        end if
         call modellerObj%callManipulator(3) ! Call manipulators with priority 3 or lower
         call modellerObj%safeCommAndDeriv()
 
@@ -252,6 +289,8 @@ module subroutine loop(this,envObj,modellerObj)
             endOfLoopReached = timestepIndex >= this%numTimesteps
         case (1)
             endOfLoopReached = currentTime > this%targetTime
+        case (2)
+            endOfLoopReached = currentTime > this%outputPoints(size(this%outputPoints)) - 10*epsilon(currentTime)
         end select
 
         select case (this%modeSave)
@@ -261,6 +300,11 @@ module subroutine loop(this,envObj,modellerObj)
             outputVals = timeElapsedSinceLastOutput > this%minSaveInterval
         end select
 
+        if (this%modeTimeloop == 2) then 
+            !Using separate counters for genera output and this to avoid potential out-of-bounds issues
+            outputVals = currentTime > this%outputPoints(currentOutputPoint) - 10*epsilon(currentTime)
+            if (outputVals) currentOutputPoint = currentOutputPoint + 1
+        end if
         if (endOfLoopReached) outputVals = .true.
 
         if (outputVals) then 

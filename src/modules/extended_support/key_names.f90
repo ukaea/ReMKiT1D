@@ -470,6 +470,9 @@ module key_names
     character(len=*) ,parameter :: keyResetTime = "resetTime"
     character(len=*) ,parameter :: keyHDF5LoadInit = "loadInitValsFromHDF5"
     character(len=*) ,parameter :: keyInitPath = "initValFilename"
+    character(len=*) ,parameter :: keyOutputDrivenMode = "outputDriven"
+    character(len=*) ,parameter :: keyOutputPoints = "outputPoints"
+
 !----------------------------------------------------------------------------------------------------------------------------------
 end module key_names
 !----------------------------------------------------------------------------------------------------------------------------------

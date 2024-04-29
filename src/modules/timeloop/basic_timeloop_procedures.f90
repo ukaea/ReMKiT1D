@@ -261,7 +261,6 @@ module subroutine loop(this,envObj,modellerObj)
             
             requestedStep = this%outputPoints(currentOutputPoint) - currentTime
             
-            print*,currentOutputPoint,requestedStep
             call modellerObj%integrate(requestedTimestep=requestedStep)
         else
             call modellerObj%integrate()
@@ -290,7 +289,7 @@ module subroutine loop(this,envObj,modellerObj)
         case (1)
             endOfLoopReached = currentTime > this%targetTime
         case (2)
-            endOfLoopReached = currentTime > this%outputPoints(size(this%outputPoints)) - 10*epsilon(currentTime)
+            endOfLoopReached = currentTime > this%outputPoints(size(this%outputPoints)) - 1d-12*currentTime
         end select
 
         select case (this%modeSave)
@@ -302,7 +301,7 @@ module subroutine loop(this,envObj,modellerObj)
 
         if (this%modeTimeloop == 2) then 
             !Using separate counters for genera output and this to avoid potential out-of-bounds issues
-            outputVals = currentTime > this%outputPoints(currentOutputPoint) - 10*epsilon(currentTime)
+            outputVals = currentTime > this%outputPoints(currentOutputPoint) - 1d-12*currentTime
             if (outputVals) currentOutputPoint = currentOutputPoint + 1
         end if
         if (endOfLoopReached) outputVals = .true.

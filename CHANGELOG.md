@@ -7,6 +7,7 @@
 - Added new unary transformations
 - New variable and manipulator features
 - New timeloop mode - output-driven timeloop
+- New restart option - initial output index
 - Bug fixes
 
 ### Breaking Changes
@@ -26,6 +27,7 @@
 - Variables can now be zeroed with a passed list of names
 - Added option to explicitly change the maximum number of BDE integrator restarts (still hard-capped to 10)
 - Another timeloop mode has been added where the output points are set, and the code makes sure they coincide with integrator steps. If the output point is sufficiently far away, the standard timestep behaviour is recovered. 
+- It is now possible to set the initial output index. This is useful when restarting, allowing the user to avoid overwriting previous output files.
 
 ### Bug Fixes
 

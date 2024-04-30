@@ -472,6 +472,7 @@ module key_names
     character(len=*) ,parameter :: keyInitPath = "initValFilename"
     character(len=*) ,parameter :: keyOutputDrivenMode = "outputDriven"
     character(len=*) ,parameter :: keyOutputPoints = "outputPoints"
+    character(len=*) ,parameter :: keyInitialOutputIndex = "initialOutputIndex"
 
 !----------------------------------------------------------------------------------------------------------------------------------
 end module key_names

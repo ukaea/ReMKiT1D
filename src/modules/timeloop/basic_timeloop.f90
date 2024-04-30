@@ -48,6 +48,7 @@ module basic_timeloop_class
         logical     ,private :: saveRestart !! True if restart files should be saved 
         logical     ,private :: resetTimeRestart !! True if on loaded restart the time variable (if present) should be reset to 0 
         integer(ik) ,private :: restartFrequency !! Number of steps between restart saves
+        integer(ik) ,private :: initialOutputIndex !! Initial output index (useful when restarting so no files are overwritten)
 
         character(:)      ,allocatable       ,private :: loadFilename !! Serial load filename - default "ReMKiT1DVarInput"
         

@@ -29,7 +29,7 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     class(Normalization)      ,intent(in)    :: normObj  
 
     type(NamedString)      ,dimension(2) :: modes 
-    type(NamedInteger)     ,dimension(1) :: timestepNum, saveFreq ,restartFreq 
+    type(NamedInteger)     ,dimension(1) :: timestepNum, saveFreq ,restartFreq, initialOutputIndex 
     type(NamedReal)        ,dimension(1) :: targetTime ,minInterval
     type(NamedLogical)     ,dimension(3) :: restartSwitches
     type(NamedLogical)     ,dimension(1) :: loadFromHDF5
@@ -49,6 +49,7 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     modes(2) = NamedString(keyTimeloop//"."//keyOutputMode,keyFixedSteps)
 
     timestepNum(1) = NamedInteger(keyTimeloop//"."//keyNumTimestep,1)
+    initialOutputIndex(1) = NamedInteger(keyTimeloop//"."//keyRestart//"."//keyInitialOutputIndex,0)
     saveFreq(1) = NamedInteger(keyTimeloop//"."//keySaveInterval,1)
     restartFreq(1) = NamedInteger(keyTimeloop//"."//keyRestart//"."//keyFrequency,1)
 
@@ -118,6 +119,11 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     case default 
         error stop "Unrecognized timeloop mode detected in initStandardTimeloop"
     end select
+
+    call envObj%jsonCont%load(initialOutputIndex)
+    call envObj%jsonCont%output(initialOutputIndex)
+    
+    this%initialOutputIndex = initialOutputIndex(1)%value
 
     select case(modes(2)%value)
     case (keyFixedSteps)
@@ -231,15 +237,19 @@ module subroutine loop(this,envObj,modellerObj)
     timestepIndex = 0 
     timestepsSinceLastOutput = 0
     timestepsSinceLastRestartDump = 0 
-    outputIndex = 0
+    outputIndex = this%initialOutputIndex
     if (this%bufferVars%isVarNameRegistered("time")) &
     currentTime = this%bufferVars%variables(this%bufferVars%getVarIndex("time"))%entry(1)
 
-    call printMessage("Outputting initial values and grid")
-    call envObj%hdf5Cont%outputVarsSerial(envObj%mpiCont,this%bufferVars,IDNum=outputIndex)
-    call envObj%hdf5Cont%outputGridDataSerial(envObj%mpiCont,envObj%gridObj)
-    call printMessage("Initial values and grid written do hdf5 files")
-
+    if (outputIndex == 0) then 
+        call printMessage("Outputting initial values and grid")
+        call envObj%hdf5Cont%outputVarsSerial(envObj%mpiCont,this%bufferVars,IDNum=outputIndex)
+        call envObj%hdf5Cont%outputGridDataSerial(envObj%mpiCont,envObj%gridObj)
+        call printMessage("Initial values and grid written do hdf5 files")
+    else
+        call printMessage("Nonzero initial output index given - not outputting initial values") 
+        outputIndex = outputIndex - 1
+    end if
     call printMessage("Entering loop")
 
     endOfLoopReached = .false.

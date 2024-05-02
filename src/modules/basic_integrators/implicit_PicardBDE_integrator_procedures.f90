@@ -188,7 +188,7 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
     do i = 1, size(indicesToCheck)
         ind = indicesToCheck(i)
         haloDataChunkSize = 1 - lbound(newVars(ind)%entry,1)
-        nonHaloLen = size(newVars(ind)%entry) - haloDataChunkSize
+        nonHaloLen = size(newVars(ind)%entry) - 2*haloDataChunkSize
 
         if (use2Norm) then
 

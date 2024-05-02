@@ -266,6 +266,18 @@ module unary_transforms
 
     end function unaryMinmod
 !-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function absFloor(input,realParams,intParams,logicalParams) result(output)
+    !! Floor value filter unary wrapper, uses the absolute value of the first real param as the floor value.
+    !! The result it sign(input) * max(abs(input),abs(realParams(1)))
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+    end function absFloor
+!-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
 end module unary_transforms

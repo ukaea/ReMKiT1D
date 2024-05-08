@@ -15,7 +15,7 @@ For an overview of both the Fortran framework and the Python interface see the [
 ## Prerequisites
 
 Building and compiling: 
-- CMake 3.14 or higher (CMake 3.19 found to have issues with HDF5)
+- CMake 3.14 or higher (CMake 3.19 found to have issues with HDF5) - note that sundials might require 3.18 or higher
 - gfortran-11 (fully tested, current default)
 - ifort (should work, but not used in current version)
 

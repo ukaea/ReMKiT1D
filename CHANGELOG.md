@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.0, 2024-04-26
+## v1.2.0, 2024-05-09
 
 - Added CVODE integrator as an option
 - Added new derivation-based explicit term
@@ -29,6 +29,7 @@
 - Another timeloop mode has been added where the output points are set, and the code makes sure they coincide with integrator steps. If the output point is sufficiently far away, the standard timestep behaviour is recovered. 
 - It is now possible to set the initial output index. This is useful when restarting, allowing the user to avoid overwriting previous output files.
 - New unary transform for flooring variables
+- Timeloops now state which output index is written to
 
 ### Bug Fixes
 

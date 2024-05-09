@@ -320,7 +320,7 @@ module subroutine loop(this,envObj,modellerObj)
             call modellerObj%callManipulator(4) ! Call manipulators with priority 4 or lower
             call modellerObj%safeCommAndDeriv()
             outputIndex = outputIndex + 1
-            call printMessage("Outputting variable data")
+            call printNamedValue("Outputting variable data to output file with index",outputIndex)
             call modellerObj%copyVarValuesTo(this%bufferVars)
             call envObj%hdf5Cont%outputVarsSerial(envObj%mpiCont,this%bufferVars,IDNum = outputIndex)
             timestepsSinceLastOutput = 0

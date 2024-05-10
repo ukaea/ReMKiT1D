@@ -231,6 +231,12 @@ module subroutine integrateRK(this,manipulatedModeller,outputVars,inputVars)
         this%intermediateValues(:,RKOrder+1) = inputVars%variables
         do i = 1,numSteps 
             this%buffer%variables = this%intermediateValues(:,RKOrder+1)
+            call manipulatedModeller%callManipulator(0,this%buffer,this%buffer)
+            if (commNeeded) then 
+                call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
+            else
+                call this%buffer%calculateDerivedVars(derivPriority=0)
+            end if 
             do j = 1,size(modelIndices)
                 call manipulatedModeller%updateModelData(modelIndices(j),this%buffer)
                 do k = 1,size(termGroups(j)%entry)

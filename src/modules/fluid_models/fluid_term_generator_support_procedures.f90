@@ -111,7 +111,7 @@ module subroutine initCRMElEnergyTermGeneratorFromJSON(termGenObj,modelObj,envOb
         call envObj%jsonCont%load(includedTransitionIDs)
 
         if (size(includedTransitionIDs(1)%values) > 0) then
-            call termGenBuffer%init(envObj,mbData,electronEnergyVarName(1)%value,generatorTag,&
+            call termGenBuffer%init(envObj,mbData,generatorTag,electronEnergyVarName(1)%value,&
                                     includedTransitionIndices=includedTransitionIDs(1)%values)
         else
             call termGenBuffer%init(envObj,mbData,generatorTag,electronEnergyVarName(1)%value)

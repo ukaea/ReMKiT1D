@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.0, 2024-05-09
+## v1.2.0, 2024-05-10
 
 - Added CVODE integrator as an option
 - Added new derivation-based explicit term
@@ -36,6 +36,8 @@
 - Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 
 - Fixed segfault on finalize when no PETSc obj used
 - Fixed weird segfault caused by having 0 implicit terms and adding a second general term to a group
+- Fixed missing communication call in RK integrator
+- Fixed wrong order of arguments in electron energy source term generator
 
 ## v1.1.0, 2024-02-02
 

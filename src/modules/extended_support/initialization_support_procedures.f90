@@ -1048,11 +1048,13 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             call jsonCont%output(logicalParams)
 
             if (allocated(realParams)) deallocate(realParams)
-            allocate(realParams(2))
+            allocate(realParams(3))
 
             realParams(1) = NamedReal(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyNonlinTol,&
                                       real(1.0d-12,kind=rk))
             realParams(2) = NamedReal(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAbsTol,&
+                                      real(1,kind=rk))
+            realParams(3) = NamedReal(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyRelaxationWeight,&
                                       real(1,kind=rk))
 
             call jsonCont%load(realParams)
@@ -1089,13 +1091,15 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                                                                       integerParams(5)%value,&
                                                                                       integerParams(6)%value,&
                                                                                       integerParams(7)%value)&
-                                            ,integratorName=integratorTags(1)%values(i)%string)
+                                            ,integratorName=integratorTags(1)%values(i)%string&
+                                            ,relaxationWeight=realParams(3)%value)
                 else
                     call integratorBDE%init(indexingObj,mpiCont%getWorldRank(),nonlinTol=realParams(1)%value&
                                             ,absTol=realParams(2)%value,maxIters=integerParams(1)%value&
                                             ,convergenceIndices=convIndices,petscGroup=integerParams(2)%value&
                                             ,use2Norm=logicalParams(1)%value&
-                                            ,integratorName=integratorTags(1)%values(i)%string)
+                                            ,integratorName=integratorTags(1)%values(i)%string&
+                                            ,relaxationWeight=realParams(3)%value)
                 end if
 
             else
@@ -1108,13 +1112,15 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                                                                       integerParams(4)%value,&
                                                                                       integerParams(5)%value,&
                                                                                       integerParams(6)%value)&
-                                            ,integratorName=integratorTags(1)%values(i)%string)
+                                            ,integratorName=integratorTags(1)%values(i)%string&
+                                            ,relaxationWeight=realParams(3)%value)
                     
                 else
                     call integratorBDE%init(indexingObj,mpiCont%getWorldRank(),nonlinTol=realParams(1)%value&
                                             ,absTol=realParams(2)%value,maxIters=integerParams(1)%value&
                                             ,petscGroup=integerParams(2)%value,use2Norm=logicalParams(1)%value&
-                                            ,integratorName=integratorTags(1)%values(i)%string)
+                                            ,integratorName=integratorTags(1)%values(i)%string&
+                                            ,relaxationWeight=realParams(3)%value)
                 end if
 
             end if

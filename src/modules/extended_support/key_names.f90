@@ -140,6 +140,7 @@ module key_names
     character(len=*) ,parameter :: keyUseInitialInput = "useInitialInput"
     character(len=*) ,parameter :: keyAllowTimeEvolution = "allowTimeEvolution"
     character(len=*) ,parameter :: keyInitialTimestep = "initialTimestep"
+    character(len=*) ,parameter :: keyRelaxationWeight = "relaxationWeight"
     character(len=*) ,parameter :: keyCVODE = "CVODE"
     character(len=*) ,parameter :: keyCVODEGMRESMaxRestarts = "maxRestarts"
     character(len=*) ,parameter :: keyRelTol = "relTol"

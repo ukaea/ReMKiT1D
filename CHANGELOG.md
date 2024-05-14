@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.0, 2024-05-10
+## v1.2.0, 2024-05-14
 
 - Added CVODE integrator as an option
 - Added new derivation-based explicit term
@@ -8,6 +8,7 @@
 - New variable and manipulator features
 - New timeloop mode - output-driven timeloop
 - New restart option - initial output index
+- Support for under- and over-relaxation in BDE integrator
 - Bug fixes
 
 ### Breaking Changes
@@ -30,6 +31,7 @@
 - It is now possible to set the initial output index. This is useful when restarting, allowing the user to avoid overwriting previous output files.
 - New unary transform for flooring variables
 - Timeloops now state which output index is written to
+- BDE integrators can now have under- and over-relaxation set through a relaxation weight argument. A value <1 is under-relaxation, and >1 is over-relaxation.
 
 ### Bug Fixes
 

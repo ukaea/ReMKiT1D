@@ -271,6 +271,18 @@ Assumes that the cross-section values in the transitions include any nonlinear n
 Otherwise returns 0.</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../type/cvodeintegrator.html'>CVODEIntegrator</a></td>
+                 <td><a href='../module/cvode_integrator_class.html'>cvode_integrator_class</a></td>
+                 <td><a href='../type/integrator.html'>Integrator</a></td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/cvodeoptions.html'>CVODEOptions</a></td>
+                 <td><a href='../module/cvode_integrator_class.html'>cvode_integrator_class</a></td>
+                 <td>None</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../type/d2dv2derivation.html'>D2DV2Derivation</a></td>
                  <td><a href='../module/d2dv2_derivation_class.html'>d2dv2_derivation_class</a></td>
                  <td><a href='../type/derivation.html'>Derivation</a></td>
@@ -319,6 +331,12 @@ Assumes that the velocity stencil is [-1,0,1]</p></td>
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../type/derivationterm.html'>DerivationTerm</a></td>
+                 <td><a href='../module/derivation_explicit_term_class.html'>derivation_explicit_term_class</a></td>
+                 <td><a href='../type/explicitterm.html'>ExplicitTerm</a></td>
+                 <td><p>Term of the form modelbound variable * derivation result, where the modelbound variable is optional </p></td>
+               </tr>
+			   <tr>
                  <td><a href='../type/derivedtransition.html'>DerivedTransition</a></td>
                  <td><a href='../module/derived_transition_class.html'>derived_transition_class</a></td>
                  <td><a href='../type/transition.html'>Transition</a></td>
@@ -356,12 +374,6 @@ cell. Assumes the indices are in Te,Ti order</p></td>
                  <td><a href='../module/explicit_term_abstract_class.html'>explicit_term_abstract_class</a></td>
                  <td><a href='../type/term.html'>Term</a></td>
                  <td><p>Abstract term providing basic interfaces for build terms used in explicit timestepping</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../type/explicittermindexingdata.html'>ExplicitTermIndexingData</a></td>
-                 <td><a href='../module/explicit_term_abstract_class.html'>explicit_term_abstract_class</a></td>
-                 <td>None</td>
-                 <td><p>Indexing data used by the default abstract explicit term</p></td>
                </tr>
 			   <tr>
                  <td><a href='../type/extrapolation.html'>Extrapolation</a></td>
@@ -1003,7 +1015,9 @@ set to rate*energy, and the momentum rate is 0</p></td>
                  <td><a href='../type/termevaluator.html'>TermEvaluator</a></td>
                  <td><a href='../module/term_evaluator_class.html'>term_evaluator_class</a></td>
                  <td><a href='../type/manipulator.html'>Manipulator</a></td>
-                 <td><p>Manipulator that evaluates a specific model,term pairs and writes the total result into variable with given index</p></td>
+                 <td><p>Manipulator that evaluates a specific model,term pairs and writes the total result into variable with given index
+Optionally accumulates the values in the variable instead of overriding them.
+Optionally performs its own update calls on the models/terms</p></td>
                </tr>
 			   <tr>
                  <td><a href='../type/termgenerator.html'>TermGenerator</a></td>

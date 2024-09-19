@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for modules and submodules.">47 statements</a>
+                 title=" 0.2% of total for modules and submodules.">49 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -167,18 +167,18 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='normalization_abstract_class.html'>normalization_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='status_printing.html'>status_printing</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='basic_environment_wrapper.html'>basic_environment_wrapper</a></li>
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='hdf5_controller_class.html'>hdf5_controller_class</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='key_names.html'>key_names</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='modeller_class.html'>modeller_class</a></li>
+                  <li class="list-inline-item"><a href='hdf5_controller_class.html'>hdf5_controller_class</a></li>
+                  <li class="list-inline-item"><a href='status_printing.html'>status_printing</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='key_names.html'>key_names</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='normalization_abstract_class.html'>normalization_abstract_class</a></li>
               </ul>
             </li>
         </ul>
@@ -234,7 +234,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~987"></span>
+              <span class="anchor" id="variable-this~909"></span>
               class(<a href='../type/timeloop.html'>Timeloop</a>),
             </td>
 <td>intent(inout)</td>
@@ -249,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~118"></span>
+              <span class="anchor" id="variable-envobj~74"></span>
               class(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -264,7 +264,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-normobj~30"></span>
+              <span class="anchor" id="variable-normobj~25"></span>
               class(<a href='../type/normalization.html'>Normalization</a>),
             </td>
 <td>intent(in)</td>
@@ -313,7 +313,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~988"></span>
+              <span class="anchor" id="variable-this~910"></span>
               class(<a href='../type/timeloop.html'>Timeloop</a>),
             </td>
 <td>intent(inout)</td>
@@ -328,7 +328,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~119"></span>
+              <span class="anchor" id="variable-envobj~75"></span>
               class(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -343,7 +343,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modellerobj~4"></span>
+              <span class="anchor" id="variable-modellerobj~6"></span>
               type(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
@@ -424,7 +424,7 @@
                 <td></td>
                 <td></td>
             <td>
-<p>Loop mode: 0 - fixed step number, 1 - target elapsed time (default 0)</p>
+<p>Loop mode: 0 - fixed step number, 1 - target elapsed time (default 0), 2 - output-driven mode</p>
             </td>
         </tr>
         <tr>
@@ -514,6 +514,23 @@
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-outputpoints"></span>
+              real(kind=rk),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>outputPoints</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>List of points to output (will use smaller timesteps if necessary)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-loadrestart"></span>
               logical,
             </td>
@@ -599,6 +616,23 @@
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-initialoutputindex~2"></span>
+              integer(kind=ik),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>initialOutputIndex</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Initial output index (useful when restarting so no files are overwritten)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-loadfilename"></span>
               character(len=:),
             </td>
@@ -674,7 +708,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/timeloop.html#boundprocedure-init~82'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initstandardtimeloop.html'>initStandardTimeloop</a></td>
+  <strong><a href='../type/timeloop.html#boundprocedure-init~74'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initstandardtimeloop.html'>initStandardTimeloop</a></td>
                 <td></td>
               </tr>
               <tr>

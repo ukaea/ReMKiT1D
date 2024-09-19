@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">81 statements</a>
+                 title=" 0.3% of total for modules and submodules.">87 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -129,6 +129,7 @@
             <a class="list-group-item" href="../module/composite_integrator_class.html#interface-addintegrator">addIntegrator</a>
             <a class="list-group-item" href="../module/composite_integrator_class.html#interface-addintegrationstage">addIntegrationStage</a>
             <a class="list-group-item" href="../module/composite_integrator_class.html#interface-settimestepcontroller~2">setTimestepController</a>
+            <a class="list-group-item" href="../module/composite_integrator_class.html#interface-setrequestedtimestep">setRequestedTimestep</a>
             <a class="list-group-item" href="../module/composite_integrator_class.html#interface-integrateall">integrateAll</a>
         </div>
       </div>
@@ -172,17 +173,17 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='integrator_abstract_class.html'>integrator_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='mpi_controller_class.html'>mpi_controller_class</a></li>
-                  <li class="list-inline-item"><a href='timestep_controller_abstract_class.html'>timestep_controller_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='mpi_controller_class.html'>mpi_controller_class</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='timestep_controller_abstract_class.html'>timestep_controller_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='integrator_abstract_class.html'>integrator_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
               </ul>
             </li>
         </ul>
@@ -220,7 +221,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getCurrentTime(this) result(time)  
-    <a href="../proc/getcurrenttime~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getcurrenttime.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Getter for currentTime</p>
@@ -238,7 +239,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~906"></span>
+              <span class="anchor" id="variable-this~1191"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(in)</td>
@@ -292,7 +293,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~905"></span>
+              <span class="anchor" id="variable-this~1190"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -307,7 +308,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initialtime~2"></span>
+              <span class="anchor" id="variable-initialtime~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -322,7 +323,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initialtimestep~7"></span>
+              <span class="anchor" id="variable-initialtimestep~10"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -337,7 +338,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numintegrators"></span>
+              <span class="anchor" id="variable-numintegrators~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -352,7 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dtcontroller~8"></span>
+              <span class="anchor" id="variable-dtcontroller~11"></span>
               class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
             </td>
 <td>intent(in),</td>
@@ -401,7 +402,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~907"></span>
+              <span class="anchor" id="variable-this~1192"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -416,7 +417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integ~4"></span>
+              <span class="anchor" id="variable-integ~5"></span>
               class(<a href='../type/integrator.html'>Integrator</a>),
             </td>
 <td>intent(in)</td>
@@ -465,7 +466,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~908"></span>
+              <span class="anchor" id="variable-this~1193"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -480,7 +481,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integstage"></span>
+              <span class="anchor" id="variable-integstage~2"></span>
               type(<a href='../type/integratorcallstep.html'>IntegratorCallStep</a>),
             </td>
 <td>intent(in)</td>
@@ -529,7 +530,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~909"></span>
+              <span class="anchor" id="variable-this~1194"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -544,7 +545,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-controller~3"></span>
+              <span class="anchor" id="variable-controller~4"></span>
               class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
             </td>
 <td>intent(in)</td>
@@ -553,6 +554,70 @@
             </td>
             <td>::</td>
             <td><strong>controller</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-setrequestedtimestep"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module subroutine setRequestedTimestep(this, timestep)  
+    <a href="../proc/setrequestedtimestep.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Setter for requestedTimestep</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~1195"></span>
+              class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-timestep~11"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>timestep</strong></td>
             <td>
                 
             </td>
@@ -594,7 +659,7 @@ an allocated timestep controller.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~910"></span>
+              <span class="anchor" id="variable-this~1196"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -609,7 +674,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-manipulatedmodeller~13"></span>
+              <span class="anchor" id="variable-manipulatedmodeller~18"></span>
               class(<a href='../type/modellersurrogate.html'>ModellerSurrogate</a>),
             </td>
 <td>intent(inout)</td>
@@ -624,7 +689,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outputvars~13"></span>
+              <span class="anchor" id="variable-outputvars~18"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -639,7 +704,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputvars~23"></span>
+              <span class="anchor" id="variable-inputvars~30"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -691,7 +756,7 @@ an allocated timestep controller.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-entry~8"></span>
+              <span class="anchor" id="variable-entry~10"></span>
               class(<a href='../type/integrator.html'>Integrator</a>),
             </td>
               <td>public,</td>
@@ -740,7 +805,7 @@ an allocated timestep controller.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-integratorindex~2"></span>
+              <span class="anchor" id="variable-integratorindex~3"></span>
               integer(kind=ik),
             </td>
               <td>public</td>
@@ -774,7 +839,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelindices~8"></span>
+              <span class="anchor" id="variable-modelindices~9"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -859,7 +924,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialupdate~13"></span>
+              <span class="anchor" id="variable-nontrivialupdate~14"></span>
               logical,
             </td>
               <td>public</td>
@@ -876,7 +941,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialmodeldataupdate~5"></span>
+              <span class="anchor" id="variable-nontrivialmodeldataupdate~6"></span>
               logical,
             </td>
               <td>public</td>
@@ -893,7 +958,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~17"></span>
+              <span class="anchor" id="variable-commdata~18"></span>
               type(<a href='../type/communicationdata.html'>CommunicationData</a>),
             </td>
               <td>public</td>
@@ -1061,7 +1126,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initialtimestep~6"></span>
+              <span class="anchor" id="variable-initialtimestep~9"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -1074,6 +1139,23 @@ an allocated timestep controller.</p>
                 <td></td>
             <td>
 <p>Initial timestep value</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-requestedtimestep~3"></span>
+              real(kind=rk),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>requestedTimestep</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Externally requested timestep, the global timestep will be set to the minimum between this value and the initialTimestep</p>
             </td>
         </tr>
         <tr>
@@ -1129,7 +1211,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dtcontroller~7"></span>
+              <span class="anchor" id="variable-dtcontroller~10"></span>
               class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
             </td>
               <td>private,</td>
@@ -1170,7 +1252,7 @@ an allocated timestep controller.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/compositeintegrator.html#boundprocedure-affect~7'>affect</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/integrateall.html'>integrateAll</a></td>
+  <strong><a href='../type/compositeintegrator.html#boundprocedure-affect~8'>affect</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/integrateall.html'>integrateAll</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1195,7 +1277,12 @@ an allocated timestep controller.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/compositeintegrator.html#boundprocedure-init~77'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcompositeintegrator.html'>initCompositeIntegrator</a></td>
+  <strong><a href='../type/compositeintegrator.html#boundprocedure-setrequestedtimestep'>setRequestedTimestep</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/compositeintegrator.html#boundprocedure-init~98'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcompositeintegrator.html'>initCompositeIntegrator</a></td>
                 <td></td>
               </tr>
           </tbody>

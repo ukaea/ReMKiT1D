@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 1.0% of total for derived types.</p>Including implementation: 19 statements,  0.9% of total for derived types.">19 statements</a>
+                 title="<p> 1.1% of total for derived types.</p>Including implementation: 21 statements,  0.9% of total for derived types.">21 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -125,11 +125,13 @@
             <a class="list-group-item" href="../type/timeloop.html#variable-modesave">modeSave</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-savesteps">saveSteps</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-minsaveinterval">minSaveInterval</a>
+            <a class="list-group-item" href="../type/timeloop.html#variable-outputpoints">outputPoints</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-loadrestart">loadRestart</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-loadserial">loadSerial</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-saverestart">saveRestart</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-resettimerestart">resetTimeRestart</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-restartfrequency">restartFrequency</a>
+            <a class="list-group-item" href="../type/timeloop.html#variable-initialoutputindex~2">initialOutputIndex</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-loadfilename">loadFilename</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-buffervars">bufferVars</a>
             <a class="list-group-item" href="../type/timeloop.html#variable-inputhdf5controller">inputHDF5Controller</a>
@@ -162,7 +164,7 @@
             <a class="list-group-item" href="../type/timeloop.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/timeloop.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/timeloop.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/timeloop.html#boundprocedure-init~82">init</a>
+            <a class="list-group-item" href="../type/timeloop.html#boundprocedure-init~74">init</a>
             <a class="list-group-item" href="../type/timeloop.html#boundprocedure-loop">loop</a>
         </div>
       </div>
@@ -225,7 +227,7 @@
                 <td></td>
                 <td></td>
             <td>
-                <p>Loop mode: 0 - fixed step number, 1 - target elapsed time (default 0)</p>
+                <p>Loop mode: 0 - fixed step number, 1 - target elapsed time (default 0), 2 - output-driven mode</p>
             </td>
         </tr>
         <tr>
@@ -315,6 +317,23 @@
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-outputpoints"></span>
+              real(kind=rk),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>outputPoints</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>List of points to output (will use smaller timesteps if necessary)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-loadrestart"></span>
               logical,
             </td>
@@ -396,6 +415,23 @@
                 <td></td>
             <td>
                 <p>Number of steps between restart saves</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-initialoutputindex~2"></span>
+              integer(kind=ik),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>initialOutputIndex</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Initial output index (useful when restarting so no files are overwritten)</p>
             </td>
         </tr>
         <tr>
@@ -632,7 +668,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~82"></span>
+      <span class="anchor" id="boundprocedure-init~74"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initstandardtimeloop.html'>initStandardTimeloop</a>

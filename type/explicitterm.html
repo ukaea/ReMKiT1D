@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 1.0% of total for derived types.</p>Including implementation: 18 statements,  0.8% of total for derived types.">18 statements</a>
+                 title="<p> 0.6% of total for derived types.</p>Including implementation: 12 statements,  0.5% of total for derived types.">12 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -119,9 +119,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/explicitterm.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/explicitterm.html#variable-multconst~14">multConst</a>
-            <a class="list-group-item" href="../type/explicitterm.html#variable-normalizationconst">normalizationConst</a>
-            <a class="list-group-item" href="../type/explicitterm.html#variable-indexingdata~3">indexingData</a>
+            <a class="list-group-item" href="../type/explicitterm.html#variable-evolvedvarname~2">evolvedVarName</a>
             <a class="list-group-item" href="../type/explicitterm.html#variable-termoperator">termOperator</a>
         </div>
       </div>
@@ -153,16 +151,12 @@
             <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-makeundefined">makeUndefined</a>
             <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-setoperator">setOperator</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-setnormalizationconst">setNormalizationConst</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-getnormalizationconst">getNormalizationConst</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-setreqvars">setReqVars</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-setevolvedandoperatedvar">setEvolvedAndOperatedVar</a>
+            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-setevolvedvar">setEvolvedVar</a>
             <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-evaluate~3">evaluate</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-getmultconst">getMultConst</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-setmultconst">setMultConst</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-multfun">multFun</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-update~5">update</a>
-            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-getvarname">getVarName</a>
+            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-outerfun~2">outerFun</a>
+            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-innerfun">innerFun</a>
+            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-update~9">update</a>
+            <a class="list-group-item" href="../type/explicitterm.html#boundprocedure-getvarname~2">getVarName</a>
         </div>
       </div>
     </div>
@@ -212,53 +206,19 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~14"></span>
-              real(kind=rk),
+              <span class="anchor" id="variable-evolvedvarname~2"></span>
+              character(len=:),
             </td>
               <td>private,</td>
             <td>
-              allocatable, dimension(:)
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>multConst</strong></td>
+            <td><strong>evolvedVarName</strong></td>
                 <td></td>
                 <td></td>
             <td>
-                <p>Multiplicative constant with size conforming to the variable being evolved</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-normalizationconst"></span>
-              real(kind=rk),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>normalizationConst</strong></td>
-<td> =</td>
-                <td>real(1.0d0, kind=rk)</td>
-            <td>
-                <p>Normalization constant of this term </p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indexingdata~3"></span>
-              type(<a href='explicittermindexingdata.html'>ExplicitTermIndexingData</a>),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indexingData</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                <p>Indexing data used by this term </p>
+                <p>Name of evolved variable </p>
             </td>
         </tr>
         <tr>
@@ -531,10 +491,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-setnormalizationconst"></span>
+      <span class="anchor" id="boundprocedure-setevolvedvar"></span>
       <h3>
           procedure, public ::
-  <strong>setNormalizationConst</strong>
+  <strong>setEvolvedVar</strong>
         
       </h3>
     </div>
@@ -542,226 +502,11 @@
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private pure module subroutine setNormalizationConst(this, norm)  
-    <a href="../proc/setnormalizationconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private pure module subroutine setEvolvedVar(this, evolvedVarName)  
+    <a href="../proc/setevolvedvar.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  <p>Setter for normalizationConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              real(kind=rk),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>norm</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getnormalizationconst"></span>
-      <h3>
-          procedure, public ::
-  <strong>getNormalizationConst</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module function getNormalizationConst(this) result(norm)  
-    <a href="../proc/getnormalizationconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Getter for normalizationConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-setreqvars"></span>
-      <h3>
-          procedure, public ::
-  <strong>setReqVars</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module subroutine setReqVars(this, reqVars, varCont)  
-    <a href="../proc/setreqvars.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Set variable names required by the multiplicative function and find their indices in variable container</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              type(<a href='stringarray.html'>StringArray</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>reqVars</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              type(<a href='variablecontainer.html'>VariableContainer</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>varCont</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-setevolvedandoperatedvar"></span>
-      <h3>
-          procedure, public ::
-  <strong>setEvolvedAndOperatedVar</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module subroutine setEvolvedAndOperatedVar(this, evolvedVarName, operatedVarName)  
-    <a href="../proc/setevolvedandoperatedvar.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Set evolved and operated (if applicable) variable names</p>
+  <p>Set evolved variable name</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -804,21 +549,6 @@
                 
             </td>
         </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              character(len=*),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>operatedVarName</strong></td>
-            <td>
-                
-            </td>
-        </tr>
     </tbody>
   </table>
 
@@ -842,11 +572,11 @@
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private pure module function evaluateExpTerm(this, varCont) result(res)  
+    private module function evaluateExpTerm(this, varCont) result(res)  
     <a href="../proc/evaluateexpterm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
-  <p>Evaluates the term as multConst * multFun [* operatorTerm%actOn(<operatedVar>)] depending on whether the Operator is allocated</p>
+  <p>Evaluates the term as outerFun * [* operatorTerm%actOn(innerFun)] depending on whether the Operator is allocated</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -906,140 +636,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getmultconst"></span>
-      <h3>
-          procedure, public ::
-  <strong>getMultConst</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module function getMultConst(this) result(multConst)  
-    <a href="../proc/getmultconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Getter for multConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-setmultconst"></span>
-      <h3>
-          procedure, public ::
-  <strong>setMultConst</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module subroutine setMultConst(this, multConst)  
-    <a href="../proc/setmultconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Setter for multConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>multConst</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-multfun"></span>
+      <span class="anchor" id="boundprocedure-outerfun~2"></span>
       <h3>
           procedure, private ::
-  <strong>multFun</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unityfun.html'>unityFun</a>
+  <strong>outerFun</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unityfun.html'>unityFun</a>
         
       </h3>
     </div>
@@ -1047,12 +647,12 @@
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private pure module function unityFun(this, varCont, indexingData) result(res)  
+    private module function unityFun(this, varCont) result(res)  
     <a href="../proc/unityfun.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
-variable container and indexing data to construct a vector conforming to the evolved variable</p>
+variable container to construct a vector conforming to the evolved variable</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1095,17 +695,78 @@ variable container and indexing data to construct a vector conforming to the evo
                 
             </td>
         </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-innerfun"></span>
+      <h3>
+          procedure, private ::
+  <strong>innerFun</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unityfun.html'>unityFun</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private module function unityFun(this, varCont) result(res)  
+    <a href="../proc/unityfun.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
+variable container to construct a vector conforming to the evolved variable</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='explicittermindexingdata.html'>ExplicitTermIndexingData</a>),
+              class(<a href='explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>indexingData</strong></td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>varCont</strong></td>
             <td>
                 
             </td>
@@ -1127,7 +788,7 @@ variable container and indexing data to construct a vector conforming to the evo
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~5"></span>
+      <span class="anchor" id="boundprocedure-update~9"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/simpleupdate.html'>simpleUpdate</a>
@@ -1227,7 +888,7 @@ variable container and indexing data to construct a vector conforming to the evo
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getvarname"></span>
+      <span class="anchor" id="boundprocedure-getvarname~2"></span>
       <h3>
           procedure, public ::
   <strong>getVarName</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getevolvedvarname.html'>getEvolvedVarName</a>

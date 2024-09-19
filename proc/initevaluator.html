@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">14 statements</a>
+                 title=" 0.0% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,8 +137,8 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module subroutine initEvaluator(this, resultVarIndex, modelIndices, termNames)  
-    <a href="../interface/initevaluator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure module subroutine initEvaluator(this, resultVarIndex, modelIndices, termNames, accumulate, update)  
+    <a href="../interface/initevaluator~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
@@ -158,7 +158,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~804"></span>
+              <span class="anchor" id="variable-this~889"></span>
               class(<a href='../type/termevaluator.html'>TermEvaluator</a>),
             </td>
 <td>intent(inout)</td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-resultvarindex~5"></span>
+              <span class="anchor" id="variable-resultvarindex~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelindices~7"></span>
+              <span class="anchor" id="variable-modelindices~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -214,6 +214,36 @@
             <td><strong>termNames</strong></td>
             <td>
                 <p>Name of evaluated term corresponding to each model </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accumulate~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>accumulate</strong></td>
+            <td>
+                <p>Optional flag to make the evaluator accumulate values instead of overriding them</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-update~11"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>update</strong></td>
+            <td>
+                <p>Optional flag to make the evaluator update the model and terms being accessed</p>
             </td>
         </tr>
     </tbody>

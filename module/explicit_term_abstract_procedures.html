@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">92 statements</a>
+                 title=" 0.2% of total for modules and submodules.">54 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,9 +131,7 @@
       <div id="modfuncs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-unityfun">unityFun</a>
-            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-getnormalizationconst">getNormalizationConst</a>
             <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-evaluateexpterm">evaluateExpTerm</a>
-            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-getmultconst">getMultConst</a>
             <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-getevolvedvarname">getEvolvedVarName</a>
         </div>
       </div>
@@ -148,10 +146,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-simpleupdate">simpleUpdate</a>
             <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-setoperator">setOperator</a>
-            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-setnormalizationconst">setNormalizationConst</a>
-            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-setreqvars">setReqVars</a>
-            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-setevolvedandoperatedvar">setEvolvedAndOperatedVar</a>
-            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-setmultconst">setMultConst</a>
+            <a class="list-group-item" href="../module/explicit_term_abstract_procedures.html#proc-setevolvedvar">setEvolvedVar</a>
         </div>
       </div>
     </div>
@@ -197,13 +192,13 @@
         <section>
           <h2>Module Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-unityfun"></span> <h3>pure module function <a href='../proc/unityfun.html'>unityFun</a>(this, varCont, indexingData) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-unityfun"></span> <h3>module function <a href='../proc/unityfun.html'>unityFun</a>(this, varCont) result(res)  
     <a href="../interface/unityfun.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
   <p>Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
-variable container and indexing data to construct a vector conforming to the evolved variable</p>
+variable container to construct a vector conforming to the evolved variable</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -218,7 +213,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~762"></span>
+              <span class="anchor" id="variable-this~806"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -233,7 +228,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~81"></span>
+              <span class="anchor" id="variable-varcont~85"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -242,21 +237,6 @@ variable container and indexing data to construct a vector conforming to the evo
             </td>
             <td>::</td>
             <td><strong>varCont</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indexingdata~8"></span>
-              type(<a href='../type/explicittermindexingdata.html'>ExplicitTermIndexingData</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indexingData</strong></td>
             <td>
 
             </td>
@@ -274,53 +254,7 @@ variable container and indexing data to construct a vector conforming to the evo
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getnormalizationconst"></span> <h3>pure module function <a href='../proc/getnormalizationconst.html'>getNormalizationConst</a>(this) result(norm)  
-    <a href="../interface/getnormalizationconst.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Getter for normalizationConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~765"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-evaluateexpterm"></span> <h3>pure module function <a href='../proc/evaluateexpterm.html'>evaluateExpTerm</a>(this, varCont) result(res)  
+    <div class="card-header codesum"><span class="anchor" id="proc-evaluateexpterm"></span> <h3>module function <a href='../proc/evaluateexpterm.html'>evaluateExpTerm</a>(this, varCont) result(res)  
     <a href="../interface/evaluateexpterm.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
@@ -340,7 +274,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~768"></span>
+              <span class="anchor" id="variable-this~809"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -355,7 +289,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~83"></span>
+              <span class="anchor" id="variable-varcont~86"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -364,52 +298,6 @@ variable container and indexing data to construct a vector conforming to the evo
             </td>
             <td>::</td>
             <td><strong>varCont</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getmultconst"></span> <h3>pure module function <a href='../proc/getmultconst.html'>getMultConst</a>(this) result(multConst)  
-    <a href="../interface/getmultconst.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Getter for multConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~770"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
             <td>
 
             </td>
@@ -447,7 +335,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~771"></span>
+              <span class="anchor" id="variable-this~810"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -498,7 +386,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~761"></span>
+              <span class="anchor" id="variable-this~805"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -513,7 +401,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~80"></span>
+              <span class="anchor" id="variable-varcont~84"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -528,7 +416,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~9"></span>
+              <span class="anchor" id="variable-modeldata~12"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -543,7 +431,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~32"></span>
+              <span class="anchor" id="variable-hostmodel~34"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -584,7 +472,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~763"></span>
+              <span class="anchor" id="variable-this~807"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -599,7 +487,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-op~2"></span>
+              <span class="anchor" id="variable-op"></span>
               class(<a href='../type/operator.html'>Operator</a>),
             </td>
 <td>intent(in)</td>
@@ -620,12 +508,12 @@ variable container and indexing data to construct a vector conforming to the evo
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-setnormalizationconst"></span> <h3>pure module subroutine <a href='../proc/setnormalizationconst.html'>setNormalizationConst</a>(this, norm)  
-    <a href="../interface/setnormalizationconst.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-setevolvedvar"></span> <h3>pure module subroutine <a href='../proc/setevolvedvar.html'>setEvolvedVar</a>(this, evolvedVarName)  
+    <a href="../interface/setevolvedvar.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
-  <p>Setter for normalizationConst</p>
+  <p>Set evolved variable names</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -640,7 +528,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~764"></span>
+              <span class="anchor" id="variable-this~808"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -655,134 +543,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-norm~4"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>norm</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-setreqvars"></span> <h3>pure module subroutine <a href='../proc/setreqvars.html'>setReqVars</a>(this, reqVars, varCont)  
-    <a href="../interface/setreqvars.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Set variable names required by the multiplicative function and find their indices in variable container</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~766"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-reqvars~5"></span>
-              type(<a href='../type/stringarray.html'>StringArray</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>reqVars</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-varcont~82"></span>
-              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>varCont</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-setevolvedandoperatedvar"></span> <h3>pure module subroutine <a href='../proc/setevolvedandoperatedvar.html'>setEvolvedAndOperatedVar</a>(this, evolvedVarName, operatedVarName)  
-    <a href="../interface/setevolvedandoperatedvar.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Set evolved and operated (if applicable) variable names</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~767"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-evolvedvarname~3"></span>
+              <span class="anchor" id="variable-evolvedvarname"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -791,77 +552,6 @@ variable container and indexing data to construct a vector conforming to the evo
             </td>
             <td>::</td>
             <td><strong>evolvedVarName</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-operatedvarname~3"></span>
-              character(len=*),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>operatedVarName</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-setmultconst"></span> <h3>pure module subroutine <a href='../proc/setmultconst.html'>setMultConst</a>(this, multConst)  
-    <a href="../interface/setmultconst.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Setter for multConst</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~769"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-multconst~17"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>multConst</strong></td>
             <td>
 
             </td>

@@ -23,7 +23,8 @@ contains
 !-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,maxIters,convergenceIndices,&
-    modelList,termGroups,evolvesTimeVar,dtController,initialTimestep,use2Norm,petscGroup,intContOptions,integratorName)
+    modelList,termGroups,evolvesTimeVar,dtController,initialTimestep&
+    ,use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight)
     !! BDE integrator constructor 
 
     class(PicardBDEIntegrator)                ,intent(inout) :: this
@@ -42,6 +43,7 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     integer(ik)    ,optional                  ,intent(in)    :: petscGroup !! PETSc obj group this solver should interact with (defaults to 1)
     type(InternalControllerOptions) ,optional ,intent(in)    :: intContOptions !! InternalControlOptions (if present turns on internal control)
     character(*)                    ,optional ,intent(in)    :: integratorName !! Name of integrator used in printing
+    real(rk)                  ,optional       ,intent(in)    :: relaxationWeight !! relaxationWeight
     
     integer(ik) ,allocatable ,dimension(:) :: procDoFs
 
@@ -95,6 +97,9 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     if (present(integratorName)) this%integratorName = integratorName
     call this%setNonTrivialModelDataUpdate(.false.)
     call this%setNonTrivialUpdate(.false.)
+
+    this%relaxationWeight = 1.0d0 
+    if (present(relaxationWeight)) this%relaxationWeight = relaxationWeight
     call this%makeDefined()
 
 end subroutine initBDEIntegrator
@@ -188,7 +193,7 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
     do i = 1, size(indicesToCheck)
         ind = indicesToCheck(i)
         haloDataChunkSize = 1 - lbound(newVars(ind)%entry,1)
-        nonHaloLen = size(newVars(ind)%entry) - haloDataChunkSize
+        nonHaloLen = size(newVars(ind)%entry) - 2*haloDataChunkSize
 
         if (use2Norm) then
 
@@ -213,6 +218,7 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
             
         end if
         varConverged(i) = relError < nonlinTol .or. absError < epsilon(absError)*absTol
+        !if (.not. varConverged(i)) print*,i,varConverged(i),relError,absError
         if (.not. varConverged(i)) convergenceCounter(i) = convergenceCounter(i) + 1
     end do
 
@@ -400,6 +406,9 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
                     end if
                 end if
                 oldBufferVals = this%buffer%variables
+
+                this%implicitVectorNew = this%relaxationWeight*this%implicitVectorNew &
+                                        + (1.0d0-this%relaxationWeight)*this%implicitVectorOld
                 call this%buffer%extractImplicitVars(this%implicitVectorNew)
                 call manipulatedModeller%callManipulator(0,this%buffer,this%buffer)
                 if (commNeeded) then 

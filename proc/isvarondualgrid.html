@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">7 statements</a>
+                 title=" 0.0% of total for procedures.">13 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/variable_list_procedures.f90"> Source File</a>
+              <a href="../src/variable_container_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/variable_list_procedures.f90.html'>variable_list_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/variable_list_procedures.html'>variable_list_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/variable_container_procedures.f90.html'>variable_container_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/variable_container_procedures.html'>variable_container_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">isVarOnDualGrid</li>
           </ol>
         </nav>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module function isVarOnDualGrid(this, ind) result(dual)  
-    <a href="../interface/isvarondualgrid.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure module function isVarOnDualGrid(this, name) result(dual)  
+    <a href="../interface/isvarondualgrid~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Check whether variable with given index is a on dual grid</p>
+    <p>Check whether variable with given name is on dual grid</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~265"></span>
-              class(<a href='../type/variablelist.html'>VariableList</a>),
+              <span class="anchor" id="variable-this~11"></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -173,15 +173,15 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ind~24"></span>
-              integer(kind=ik),
+              <span class="anchor" id="variable-name~4"></span>
+              character(len=*),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>ind</strong></td>
+            <td><strong>name</strong></td>
             <td>
                 
             </td>
@@ -191,7 +191,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-dual~2"></span>
+          <span class="anchor" id="variable-dual"></span>
           logical
         </small>
       </h3>

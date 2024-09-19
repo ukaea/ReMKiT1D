@@ -79,19 +79,19 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">82 statements</a>
+                 title=" 0.3% of total for modules and submodules.">91 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/crm_el_energy_term_generator_procedures.f90"> Source File</a>
+              <a href="../src/crm_dens_term_generator_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/crm_el_energy_term_generator_procedures.f90.html'>crm_el_energy_term_generator_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/crm_dens_term_generator_procedures.f90.html'>crm_dens_term_generator_procedures.f90</a></li>
             <li class="breadcrumb-item active" aria-current="page">crm_dens_term_generator_procedures</li>
           </ol>
         </nav>
@@ -131,9 +131,9 @@
       </a>
       <div id="modsubs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/crm_dens_term_generator_procedures.html#proc-initcrmelenergytermgenerator">initCRMElEnergyTermGenerator</a>
-            <a class="list-group-item" href="../module/crm_dens_term_generator_procedures.html#proc-generateelenergysourceterms">generateElEnergySourceTerms</a>
-            <a class="list-group-item" href="../module/crm_dens_term_generator_procedures.html#proc-finalizecrmelenergygenerator">finalizeCRMElEnergyGenerator</a>
+            <a class="list-group-item" href="../module/crm_dens_term_generator_procedures.html#proc-initcrmdenstermgenerator">initCRMDensTermGenerator</a>
+            <a class="list-group-item" href="../module/crm_dens_term_generator_procedures.html#proc-generatepartsourceterms">generatePartSourceTerms</a>
+            <a class="list-group-item" href="../module/crm_dens_term_generator_procedures.html#proc-finalizecrmdensgenerator">finalizeCRMDensGenerator</a>
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <p>Contains procedures associated with the CRMElEnergyTermGenerator class</p>
+      <p>Contains procedures associated with the CRMDensTermGenerator class</p>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
@@ -158,7 +158,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='crm_el_energy_term_generator_class.html'>crm_el_energy_term_generator_class</a></li>
+                  <li class="list-inline-item"><a href='crm_dens_term_generator_class.html'>crm_dens_term_generator_class</a></li>
               </ul>
             </li>
         </ul>
@@ -180,12 +180,12 @@
         <section>
           <h2>Module Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-initcrmelenergytermgenerator"></span> <h3>module subroutine <a href='../proc/initcrmelenergytermgenerator.html'>initCRMElEnergyTermGenerator</a>(this, envObj, crmData, generatorTag, electronEnergyVarName, includedTransitionIndices)  
-    <a href="../interface/initcrmelenergytermgenerator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-initcrmdenstermgenerator"></span> <h3>module subroutine <a href='../proc/initcrmdenstermgenerator.html'>initCRMDensTermGenerator</a>(this, envObj, crmData, generatorTag, evolvedSpeciesIDs, includedTransitionIndices)  
+    <a href="../interface/initcrmdenstermgenerator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
-  <p>Constructor routine for CRM energy source/sink term generator </p>
+  <p>Constructor routine for CRM particle source term generator </p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -200,8 +200,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~555"></span>
-              class(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
+              <span class="anchor" id="variable-this~1132"></span>
+              class(<a href='../type/crmdenstermgenerator.html'>CRMDensTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -215,7 +215,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~58"></span>
+              <span class="anchor" id="variable-envobj~122"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(in),</td>
@@ -230,7 +230,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-crmdata~3"></span>
+              <span class="anchor" id="variable-crmdata~22"></span>
               type(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -245,7 +245,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generatortag~7"></span>
+              <span class="anchor" id="variable-generatortag~20"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -260,22 +260,23 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-electronenergyvarname~2"></span>
-              character(len=*),
+              <span class="anchor" id="variable-evolvedspeciesids~3"></span>
+              integer(kind=ik),
             </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
             </td>
             <td>::</td>
-            <td><strong>electronEnergyVarName</strong></td>
+            <td><strong>evolvedSpeciesIDs</strong></td>
             <td>
-<p>Name of electron energy variable (used as evolved var)</p>
+<p>Optional list of species IDs for which this 
+generator will build source. Defaults to all species.</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-includedtransitionindices~3"></span>
+              <span class="anchor" id="variable-includedtransitionindices~10"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -287,7 +288,7 @@
             <td>
 <p>Optional list of transitions to be included 
 in source calculations by this generator.
-Defaults to all transitions that include electrons in ingoingStates</p>
+Defaults to all transitions</p>
             </td>
         </tr>
     </tbody>
@@ -298,12 +299,12 @@ Defaults to all transitions that include electrons in ingoingStates</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-generateelenergysourceterms"></span> <h3>module subroutine <a href='../proc/generateelenergysourceterms.html'>generateElEnergySourceTerms</a>(this, mbData)  
-    <a href="../interface/generateelenergysourceterms.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-generatepartsourceterms"></span> <h3>module subroutine <a href='../proc/generatepartsourceterms.html'>generatePartSourceTerms</a>(this, mbData)  
+    <a href="../interface/generatepartsourceterms.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
-  <p>Generates and allocates parent implicit energy source terms </p>
+  <p>Generates and allocates parent implicit particle source terms </p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -318,8 +319,8 @@ Defaults to all transitions that include electrons in ingoingStates</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~556"></span>
-              class(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
+              <span class="anchor" id="variable-this~1133"></span>
+              class(<a href='../type/crmdenstermgenerator.html'>CRMDensTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -333,7 +334,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~26"></span>
+              <span class="anchor" id="variable-mbdata~66"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -354,8 +355,8 @@ Defaults to all transitions that include electrons in ingoingStates</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-finalizecrmelenergygenerator"></span> <h3>elemental module subroutine <a href='../proc/finalizecrmelenergygenerator.html'>finalizeCRMElEnergyGenerator</a>(this)  
-    <a href="../interface/finalizecrmelenergygenerator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-finalizecrmdensgenerator"></span> <h3>elemental module subroutine <a href='../proc/finalizecrmdensgenerator.html'>finalizeCRMDensGenerator</a>(this)  
+    <a href="../interface/finalizecrmdensgenerator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -374,8 +375,8 @@ Defaults to all transitions that include electrons in ingoingStates</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~557"></span>
-              type(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
+              <span class="anchor" id="variable-this~1134"></span>
+              type(<a href='../type/crmdenstermgenerator.html'>CRMDensTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

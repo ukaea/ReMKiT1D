@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 2.5% of total for derived types.</p>Including implementation: 47 statements,  2.2% of total for derived types.">47 statements</a>
+                 title="<p> 2.5% of total for derived types.</p>Including implementation: 48 statements,  2.1% of total for derived types.">48 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,9 +131,9 @@
             <a class="list-group-item" href="../type/mpicontroller.html#variable-rownumx~2">rowNumX</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-colnumx">colNumX</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-xdispls">xDispls</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-xhalowidth~10">xHaloWidth</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-numv~25">numV</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#variable-numh~17">numH</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-xhalowidth~8">xHaloWidth</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-numv~26">numV</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#variable-numh~15">numH</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-rownumh">rowNumH</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-rowhoffset">rowHOffset</a>
             <a class="list-group-item" href="../type/mpicontroller.html#variable-distbuffer">distBuffer</a>
@@ -175,6 +175,7 @@
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-getcolrank">getColRank</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-getcolsize">getColSize</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-getxhalowidth">getXHaloWidth</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-getcomm">getComm</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-calculaterowdistdata">calculateRowDistData</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-initializeneighbourpairs">initializeNeighbourPairs</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-broadcastvarinrow">broadcastVarInRow</a>
@@ -191,7 +192,7 @@
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-istrueeverywhere~2">isTrueEverywhere</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-allreducemax">allreduceMax</a>
             <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-allreducemin">allreduceMin</a>
-            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-init~76">init</a>
+            <a class="list-group-item" href="../type/mpicontroller.html#boundprocedure-init~61">init</a>
         </div>
       </div>
     </div>
@@ -445,7 +446,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~10"></span>
+              <span class="anchor" id="variable-xhalowidth~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -462,7 +463,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~25"></span>
+              <span class="anchor" id="variable-numv~26"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -479,7 +480,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~17"></span>
+              <span class="anchor" id="variable-numh~15"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1173,6 +1174,66 @@ for periodic domain </p>
     <h4>
     Return Value
     <small>integer(kind=ik)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-getcomm"></span>
+      <h3>
+          procedure, public ::
+  <strong>getComm</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getComm(this) result(mpiComm)  
+    <a href="../proc/getcomm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Getter for xHaloWidth</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='mpicontroller.html'>MPIController</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(MPI_Comm)</small>
     </h4>
     
 
@@ -2273,7 +2334,7 @@ size, otherwise it is assumed it is of the correct size.</p>
               <h3>interface </h3>
                   <h3>
     private module function isTrueEverywhere(this, input) result(isTrue)  
-    <a href="../proc/istrueeverywhere~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/istrueeverywhere.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return true if input is true on every processor</p>
@@ -2486,7 +2547,7 @@ size, otherwise it is assumed it is of the correct size.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~76"></span>
+      <span class="anchor" id="boundprocedure-init~61"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmpicontroller.html'>initMPIController</a>

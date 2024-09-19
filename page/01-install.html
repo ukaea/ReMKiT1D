@@ -72,7 +72,7 @@
         <div class="col">
           <ul class="list-inline" style="margin-bottom:0px; display:inline">
               <li class="list-inline-item" id="author"><i class="fa fa-pencil"></i> Stefan Mijin</li>
-              <li class="list-inline-item" id="date"><i class="fa fa-calendar-o"></i> 21.06.2023.</li>
+              <li class="list-inline-item" id="date"><i class="fa fa-calendar-o"></i> 19.09.2024.</li>
           </ul>
         </div>
         <div class="col">
@@ -104,13 +104,27 @@
       </div>
 
     <div class="col-9" id='text'>
-      <h2>Building prerequisites</h2>
+      <h2>Prerequisites</h2>
+<p>Building and compiling: 
+- CMake 3.14 or higher (CMake 3.19 found to have issues with HDF5) - note that sundials might require 3.18 or higher
+- gfortran-11 (fully tested, current default)
+- ifort (should work, but not used in current version)</p>
+<p>Libraries: 
+- MPI - tested with mpich-3.4.1
+- HDF5 
+- pFUnit - only if unit testing required 
+- PETSc - tested with versions 3.16 and 3.17 (3.18 not compatible) - requires hypre
+- json-fortran - currently using version 8.2.5
+- sundials (as of v.1.2.0)</p>
+<p>Make sure that all libraries have been compiled using the same compiler/mpi distribution. </p>
+<p>The code has so far been tested on Linux (including WSL) and MacOS. </p>
+<h2>Building prerequisites</h2>
 <p>On Ubuntu, the following commands can be used to build all of the prerequisites. Keep in mind conflicts might occur depending on the state of your system. First run</p>
 <div class="codehilite"><pre><span></span><code>sudo apt-get install g++-11 gcc-11 gfortran-11 libblas-dev liblapack-dev m4 gcovr python-pip
 sudo pip install ford
 </code></pre></div>
 
-<p>Make sure that the correct CMake version is installed (there are possible conflicts with newer versions). For example, to install CMake 3.18.0:</p>
+<p>Make sure that the correct CMake version is installed. For example, to install CMake 3.18.0:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">wget</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Kitware</span><span class="o">/</span><span class="n">CMake</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v3</span><span class="o">.</span><span class="mf">18.0</span><span class="o">/</span><span class="n">cmake</span><span class="o">-</span><span class="mf">3.18</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">tar</span><span class="w"> </span><span class="o">-</span><span class="n">zvxf</span><span class="w"> </span><span class="n">cmake</span><span class="o">-</span><span class="mf">3.18</span><span class="o">.</span><span class="mf">0.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
 <span class="n">cd</span><span class="w"> </span><span class="o">./</span><span class="n">cmake</span><span class="o">-</span><span class="mf">3.18</span><span class="o">.</span><span class="mi">0</span>
@@ -163,7 +177,16 @@ cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_
 make install
 </code></pre></div>
 
-<p>et the environmental variables</p>
+<p>Install the sundials library:</p>
+<div class="codehilite"><pre><span></span><code>git clone https://github.com/LLNL/sundials.git
+cd sundials 
+mkdir build 
+cd build 
+cmake .. -DENABLE_MPI=ON -DCMAKE_INSTALL_PREFIX=/home/installs/sundials -DENABLE_LAPACK=ON -DBUILD_FORTRAN_MODULE_INTERFACE=ON -DCMAKE_C_COMPILER=gcc-11
+make install
+</code></pre></div>
+
+<p>Set the environmental variables</p>
 <div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">PFUNIT_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">pFUnit</span>
 <span class="k">export</span><span class="w"> </span><span class="n">PETSC_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">petsc</span>
 <span class="k">export</span><span class="w"> </span><span class="n">PETSC_ARCH</span><span class="o">=</span><span class="n">arch</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">opt</span>
@@ -171,7 +194,10 @@ make install
 <span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">hdf5</span>
 <span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">json</span><span class="o">-</span><span class="n">fortran</span><span class="o">/</span><span class="n">jsonfortran</span><span class="o">-</span><span class="n">gnu</span><span class="o">-</span><span class="mf">8.2</span><span class="o">.</span><span class="mi">5</span>
 <span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="o">/</span><span class="n">bin</span><span class="p">:</span><span class="o">$</span><span class="n">PATH</span>
+<span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=$</span><span class="n">PATH</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">sundials</span>
 <span class="k">export</span><span class="w"> </span><span class="n">LD_LIBRARY_PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">mpich</span><span class="o">-</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="p">:</span><span class="o">$</span><span class="n">LD_LIBRARY_PATH</span>
+<span class="k">export</span><span class="w"> </span><span class="n">LD_LIBRARY_PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">sundials</span><span class="o">/</span><span class="n">lib</span><span class="p">:</span><span class="o">$</span><span class="n">LD_LIBRARY_PATH</span>
+<span class="k">export</span><span class="w"> </span><span class="n">SUNDIALS_DIR</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">installs</span><span class="o">/</span><span class="n">sundials</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">cmake</span><span class="o">/</span><span class="n">sundials</span>
 </code></pre></div>
 
 <p>NOTE: Some of the above paths might have to be set differently depending on your system setup and you might have to define the ones you need after the corresponding installation. Another option is to export the paths before the start of the installation process. </p>
@@ -190,7 +216,6 @@ cd build
 <div class="codehilite"><pre><span></span><code>cmake ..
 </code></pre></div>
 
-<p>For test coverage enabled run with <code>-DCMAKE_BUILD_TYPE=TESTING</code></p>
 <ol>
 <li>Run make and make test (if pFUnit enabled)</li>
 </ol>

@@ -29,14 +29,16 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     class(Normalization)      ,intent(in)    :: normObj  
 
     type(NamedString)      ,dimension(2) :: modes 
-    type(NamedInteger)     ,dimension(1) :: timestepNum, saveFreq ,restartFreq 
+    type(NamedInteger)     ,dimension(1) :: timestepNum, saveFreq ,restartFreq, initialOutputIndex 
     type(NamedReal)        ,dimension(1) :: targetTime ,minInterval
     type(NamedLogical)     ,dimension(3) :: restartSwitches
     type(NamedLogical)     ,dimension(1) :: loadFromHDF5
     type(NamedString)      ,dimension(1) :: hdf5Filename ,hdf5Filepath
     type(NamedStringArray) ,dimension(1) :: hdf5InputVars
+    type(NamedRealArray)   ,dimension(1) :: outputDrivenPoints
 
     real(rk) :: timeNorm
+    integer(ik) :: i
 
     if (assertions .or. assertionLvl >= 0) then 
         call assert(envObj%isDefined(),"Undefined environment wrapper passed to initStandardTimeloop")
@@ -47,6 +49,7 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
     modes(2) = NamedString(keyTimeloop//"."//keyOutputMode,keyFixedSteps)
 
     timestepNum(1) = NamedInteger(keyTimeloop//"."//keyNumTimestep,1)
+    initialOutputIndex(1) = NamedInteger(keyTimeloop//"."//keyRestart//"."//keyInitialOutputIndex,0)
     saveFreq(1) = NamedInteger(keyTimeloop//"."//keySaveInterval,1)
     restartFreq(1) = NamedInteger(keyTimeloop//"."//keyRestart//"."//keyFrequency,1)
 
@@ -64,6 +67,9 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
 
     hdf5InputVars(1)%name = keyHDF5//"."//keyInputVars
     hdf5InputVars(1)%values = envObj%externalVars%getAllVarNames()
+
+    outputDrivenPoints(1)%name = keyTimeloop//"."//keyOutputPoints
+    allocate(outputDrivenPoints(1)%values(0))
 
     call envObj%jsonCont%load(modes)
 
@@ -91,9 +97,33 @@ module subroutine initStandardTimeloop(this,envObj,normObj)
 
         this%targetTime = targetTime(1)%value/timeNorm
 
+    case (keyOutputDrivenMode)
+
+        this%modeTimeloop = 2 
+        call envObj%jsonCont%load(outputDrivenPoints)
+        call envObj%jsonCont%output(outputDrivenPoints)
+
+        if (assertions .or. assertionLvl >= 0) then 
+            call assert(size(outputDrivenPoints(1)%values)>0,&
+                "Output points must be supplied for output-driven timelooop mode")
+            call assert(outputDrivenPoints(1)%values(1)>0,&
+                "Output points must all be strictly positive for output-driven timeloop mode")
+            do i=2,size(outputDrivenPoints(1)%values)
+               call assert(outputDrivenPoints(1)%values(i)>outputDrivenPoints(1)%values(i-1),&
+                   "Output points must be monotonic for output-driven timeloop mode") 
+           end do
+        end if
+
+        this%outputPoints = outputDrivenPoints(1)%values
+
     case default 
         error stop "Unrecognized timeloop mode detected in initStandardTimeloop"
     end select
+
+    call envObj%jsonCont%load(initialOutputIndex)
+    call envObj%jsonCont%output(initialOutputIndex)
+    
+    this%initialOutputIndex = initialOutputIndex(1)%value
 
     select case(modes(2)%value)
     case (keyFixedSteps)
@@ -168,6 +198,9 @@ module subroutine loop(this,envObj,modellerObj)
 
     logical :: outputVals ,dumpRestart ,endOfLoopReached
 
+    integer(ik) :: currentOutputPoint
+    real(rk)    :: requestedStep
+
 
     if (assertions) then 
         call assert(this%isDefined(),"loop called on undefined Timeloop object")
@@ -197,24 +230,31 @@ module subroutine loop(this,envObj,modellerObj)
     end if
 
     call modellerObj%safeCommAndDeriv()
+    call modellerObj%callManipulator(4) 
     call modellerObj%copyVarValuesTo(this%bufferVars)
     currentTime = 0
     timeElapsedSinceLastOutput = 0
     timestepIndex = 0 
     timestepsSinceLastOutput = 0
     timestepsSinceLastRestartDump = 0 
-    outputIndex = 0
+    outputIndex = this%initialOutputIndex
     if (this%bufferVars%isVarNameRegistered("time")) &
     currentTime = this%bufferVars%variables(this%bufferVars%getVarIndex("time"))%entry(1)
 
-    call printMessage("Outputting initial values and grid")
-    call envObj%hdf5Cont%outputVarsSerial(envObj%mpiCont,this%bufferVars,IDNum=outputIndex)
-    call envObj%hdf5Cont%outputGridDataSerial(envObj%mpiCont,envObj%gridObj)
-    call printMessage("Initial values and grid written do hdf5 files")
-
+    if (outputIndex == 0) then 
+        call printMessage("Outputting initial values and grid")
+        call envObj%hdf5Cont%outputVarsSerial(envObj%mpiCont,this%bufferVars,IDNum=outputIndex)
+        call envObj%hdf5Cont%outputGridDataSerial(envObj%mpiCont,envObj%gridObj)
+        call printMessage("Initial values and grid written do hdf5 files")
+    else
+        call printMessage("Nonzero initial output index given - not outputting initial values") 
+        outputIndex = outputIndex - 1
+    end if
     call printMessage("Entering loop")
 
     endOfLoopReached = .false.
+
+    currentOutputPoint = 1
 
     do 
 
@@ -227,7 +267,14 @@ module subroutine loop(this,envObj,modellerObj)
         call printMessage(trim(tmpstring))
         tmpstring=''
         
-        call modellerObj%integrate()
+        if (this%modeTimeloop == 2) then 
+            
+            requestedStep = this%outputPoints(currentOutputPoint) - currentTime
+            
+            call modellerObj%integrate(requestedTimestep=requestedStep)
+        else
+            call modellerObj%integrate()
+        end if
         call modellerObj%callManipulator(3) ! Call manipulators with priority 3 or lower
         call modellerObj%safeCommAndDeriv()
 
@@ -251,6 +298,8 @@ module subroutine loop(this,envObj,modellerObj)
             endOfLoopReached = timestepIndex >= this%numTimesteps
         case (1)
             endOfLoopReached = currentTime > this%targetTime
+        case (2)
+            endOfLoopReached = currentTime > this%outputPoints(size(this%outputPoints)) - 1d-12*currentTime
         end select
 
         select case (this%modeSave)
@@ -260,13 +309,18 @@ module subroutine loop(this,envObj,modellerObj)
             outputVals = timeElapsedSinceLastOutput > this%minSaveInterval
         end select
 
+        if (this%modeTimeloop == 2) then 
+            !Using separate counters for genera output and this to avoid potential out-of-bounds issues
+            outputVals = currentTime > this%outputPoints(currentOutputPoint) - 1d-12*currentTime
+            if (outputVals) currentOutputPoint = currentOutputPoint + 1
+        end if
         if (endOfLoopReached) outputVals = .true.
 
         if (outputVals) then 
             call modellerObj%callManipulator(4) ! Call manipulators with priority 4 or lower
             call modellerObj%safeCommAndDeriv()
             outputIndex = outputIndex + 1
-            call printMessage("Outputting variable data")
+            call printNamedValue("Outputting variable data to output file with index",outputIndex)
             call modellerObj%copyVarValuesTo(this%bufferVars)
             call envObj%hdf5Cont%outputVarsSerial(envObj%mpiCont,this%bufferVars,IDNum = outputIndex)
             timestepsSinceLastOutput = 0

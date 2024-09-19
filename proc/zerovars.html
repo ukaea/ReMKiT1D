@@ -10,7 +10,7 @@
     <meta name="author" content="Stefan Mijin" >
     <link rel="icon" href="../favicon.png">
 
-    <title>setEvolvedAndOperatedVar &ndash; ReMKiT1D</title>
+    <title>zeroVars &ndash; ReMKiT1D</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -66,7 +66,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>setEvolvedAndOperatedVar
+    <h1>zeroVars
       <small>Module Subroutine</small>
       
     </h1>
@@ -78,21 +78,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">11 statements</a>
+                 title=" 0.0% of total for procedures.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/explicit_term_abstract_procedures.f90"> Source File</a>
+              <a href="../src/variable_container_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/explicit_term_abstract_procedures.f90.html'>explicit_term_abstract_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/explicit_term_abstract_procedures.html'>explicit_term_abstract_procedures</a></li>
-            <li class="breadcrumb-item active" aria-current="page">setEvolvedAndOperatedVar</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/variable_container_procedures.f90.html'>variable_container_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/variable_container_procedures.html'>variable_container_procedures</a></li>
+            <li class="breadcrumb-item active" aria-current="page">zeroVars</li>
           </ol>
         </nav>
       </div>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module subroutine setEvolvedAndOperatedVar(this, evolvedVarName, operatedVarName)  
-    <a href="../interface/setevolvedandoperatedvar.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module subroutine zeroVars(this, names)  
+    <a href="../interface/zerovars.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Set evolved and operated (if applicable) variable names</p>
+    <p>Zero all named variable values - useful for buffer containers</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~767"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
+              <span class="anchor" id="variable-this~21"></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,30 +173,15 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvarname~3"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>evolvedVarName</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-operatedvarname~3"></span>
-              character(len=*),
+              <span class="anchor" id="variable-names~7"></span>
+              type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
-              <td>optional</td>            <td>
-              
+              <td></td>            <td>
+              dimension(:)
             </td>
             <td>::</td>
-            <td><strong>operatedVarName</strong></td>
+            <td><strong>names</strong></td>
             <td>
                 
             </td>

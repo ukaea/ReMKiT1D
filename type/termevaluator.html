@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.4% of total for derived types.</p>Including implementation: 8 statements,  0.4% of total for derived types.">8 statements</a>
+                 title="<p> 0.5% of total for derived types.</p>Including implementation: 10 statements,  0.4% of total for derived types.">10 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -119,9 +119,11 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/termevaluator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/termevaluator.html#variable-resultvarindex">resultVarIndex</a>
-            <a class="list-group-item" href="../type/termevaluator.html#variable-evaluatedmodelindex">evaluatedModelIndex</a>
+            <a class="list-group-item" href="../type/termevaluator.html#variable-resultvarindex~5">resultVarIndex</a>
+            <a class="list-group-item" href="../type/termevaluator.html#variable-evaluatedmodelindex~2">evaluatedModelIndex</a>
             <a class="list-group-item" href="../type/termevaluator.html#variable-evaluatedtermname">evaluatedTermName</a>
+            <a class="list-group-item" href="../type/termevaluator.html#variable-accumulate">accumulate</a>
+            <a class="list-group-item" href="../type/termevaluator.html#variable-update~6">update</a>
         </div>
       </div>
     </div>
@@ -151,8 +153,8 @@
             <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-init~18">init</a>
-            <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-affect~2">affect</a>
+            <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-init~62">init</a>
+            <a class="list-group-item" href="../type/termevaluator.html#boundprocedure-affect~6">affect</a>
         </div>
       </div>
     </div>
@@ -168,7 +170,9 @@
     <div class="col-md-9" id='text'>
       <h2 id="type-def-statement">
         type, public, extends(<a href='manipulator.html'>Manipulator</a>) :: TermEvaluator</h2>
-    <p>Manipulator that evaluates a specific model,term pairs and writes the total result into variable with given index</p>
+    <p>Manipulator that evaluates a specific model,term pairs and writes the total result into variable with given index
+Optionally accumulates the values in the variable instead of overriding them.
+Optionally performs its own update calls on the models/terms</p>
     <br>
 
     <section>
@@ -202,7 +206,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-resultvarindex"></span>
+              <span class="anchor" id="variable-resultvarindex~5"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -219,7 +223,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evaluatedmodelindex"></span>
+              <span class="anchor" id="variable-evaluatedmodelindex~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -249,6 +253,40 @@
                 <td></td>
             <td>
                 
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accumulate"></span>
+              logical,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>accumulate</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>If true will accumulate values instead of overriding them</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-update~6"></span>
+              logical,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>update</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>Update the model and terms being accessed</p>
             </td>
         </tr>
     </tbody>
@@ -434,10 +472,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~18"></span>
+      <span class="anchor" id="boundprocedure-init~62"></span>
       <h3>
           procedure, public ::
-  <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initevaluator.html'>initEvaluator</a>
+  <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initevaluator~2.html'>initEvaluator</a>
         
       </h3>
     </div>
@@ -445,7 +483,7 @@
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private pure module subroutine initEvaluator(this, resultVarIndex, modelIndices, termNames)  
+    private pure module subroutine initEvaluator(this, resultVarIndex, modelIndices, termNames, accumulate, update)  
     <a href="../proc/initevaluator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -522,6 +560,36 @@
                 <p>Name of evaluated term corresponding to each model </p>
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>accumulate</strong></td>
+            <td>
+                <p>Optional flag to make the evaluator accumulate values instead of overriding them</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>update</strong></td>
+            <td>
+                <p>Optional flag to make the evaluator update the model and terms being accessed</p>
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -534,10 +602,10 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-affect~2"></span>
+      <span class="anchor" id="boundprocedure-affect~6"></span>
       <h3>
           procedure, public ::
-  <strong>affect</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluate.html'>evaluate</a>
+  <strong>affect</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluate~2.html'>evaluate</a>
         
       </h3>
     </div>

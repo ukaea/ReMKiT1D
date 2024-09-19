@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">53 statements</a>
+                 title=" 0.2% of total for procedures.">108 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/explicit_term_abstract.f90"> Source File</a>
+              <a href="../src/matrix_term_abstract.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/explicit_term_abstract.f90.html'>explicit_term_abstract.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/explicit_term_abstract_class.html'>explicit_term_abstract_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/matrix_term_abstract.f90.html'>matrix_term_abstract.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">setReqVars</li>
           </ol>
         </nav>
@@ -139,7 +139,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private pure module subroutine setReqVars(this, reqVars, varCont)  
+      private pure module subroutine setReqVars(this, rowReqVars, colReqVars, varCont)  
     <a href="../proc/setreqvars.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~597"></span>
-              class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
+              <span class="anchor" id="variable-this~1083"></span>
+              class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reqvars~4"></span>
+              <span class="anchor" id="variable-rowreqvars~2"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -181,14 +181,29 @@
               dimension(:)
             </td>
             <td>::</td>
-            <td><strong>reqVars</strong></td>
+            <td><strong>rowReqVars</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~64"></span>
+              <span class="anchor" id="variable-colreqvars~2"></span>
+              type(<a href='../type/stringarray.html'>StringArray</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>colReqVars</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varcont~113"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -205,7 +220,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>Set variable names required by the multiplicative function and find their indices in variable container</p>
+    <p>Set variable names required by the row and column functions and find their indices in variable container</p>
     <br>
 
  </div>

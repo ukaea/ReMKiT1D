@@ -10,7 +10,7 @@
     <meta name="author" content="Stefan Mijin" >
     <link rel="icon" href="../favicon.png">
 
-    <title>setNormalizationConst &ndash; ReMKiT1D</title>
+    <title>updateDerivationTerm &ndash; ReMKiT1D</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -66,8 +66,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>setNormalizationConst
-      <small>Interface</small>
+    <h1>updateDerivationTerm
+      <small>Module Subroutine</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -78,21 +78,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">108 statements</a>
+                 title=" 0.1% of total for procedures.">33 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/matrix_term_abstract.f90"> Source File</a>
+              <a href="../src/derivation_term_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/matrix_term_abstract.f90.html'>matrix_term_abstract.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
-            <li class="breadcrumb-item active" aria-current="page">setNormalizationConst</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/derivation_term_procedures.f90.html'>derivation_term_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/derivation_term_procedures.html'>derivation_term_procedures</a></li>
+            <li class="breadcrumb-item active" aria-current="page">updateDerivationTerm</li>
           </ol>
         </nav>
       </div>
@@ -131,19 +131,20 @@
   
   
 
-    <em>None</em>
 
   </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      private pure module subroutine setNormalizationConst(this, norm)  
-    <a href="../proc/setnormalizationconst~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h2>    
-
+    <h2>module subroutine updateDerivationTerm(this, varCont, modelData, hostModel)  
+    <a href="../interface/updatederivationterm.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h2>
     
+
+    <p>Update function, does not call update on operator, assuming it is never set. Only updates the modelbound data buffer if
+required</p>
+
 
     <h3>Arguments</h3>
         <table class="table table-striped varlist">
@@ -158,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1040"></span>
-              class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
+              <span class="anchor" id="variable-this~697"></span>
+              class(<a href='../type/derivationterm.html'>DerivationTerm</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,28 +174,67 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-norm~8"></span>
-              real(kind=rk),
+              <span class="anchor" id="variable-varcont~81"></span>
+              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>norm</strong></td>
+            <td><strong>varCont</strong></td>
             <td>
-                
+                <p>Variable container used in update </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-modeldata~11"></span>
+              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>modelData</strong></td>
+            <td>
+                <p>Reference model data - unused</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hostmodel~31"></span>
+              class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hostModel</strong></td>
+            <td>
+                <p>Host model - unused</p>
             </td>
         </tr>
     </tbody>
   </table>
 
-    <h3>Description</h3>
-    <p>Setter for normalizationConst</p>
     <br>
 
- </div>
-</div>
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
 
       <hr>
     </div> <!-- /container -->

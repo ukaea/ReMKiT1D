@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.7% of total for modules and submodules.">199 statements</a>
+                 title=" 0.8% of total for modules and submodules.">211 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -125,7 +125,7 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/model_class.html#interface-isassembled">isAssembled</a>
+            <a class="list-group-item" href="../module/model_class.html#interface-isassembled~2">isAssembled</a>
             <a class="list-group-item" href="../module/model_class.html#interface-evaluatetermgroup">evaluateTermGroup</a>
             <a class="list-group-item" href="../module/model_class.html#interface-isgroupmixed">isGroupMixed</a>
             <a class="list-group-item" href="../module/model_class.html#interface-getgroupvarname">getGroupVarName</a>
@@ -146,11 +146,13 @@
             <a class="list-group-item" href="../module/model_class.html#interface-updatetermgroup">updateTermGroup</a>
             <a class="list-group-item" href="../module/model_class.html#interface-calculatematgroupvalues">calculateMatGroupValues</a>
             <a class="list-group-item" href="../module/model_class.html#interface-addmatgroupvalstopetsc">addMatGroupValsToPETSc</a>
-            <a class="list-group-item" href="../module/model_class.html#interface-assemble">assemble</a>
-            <a class="list-group-item" href="../module/model_class.html#interface-updatemodeldata">updateModelData</a>
+            <a class="list-group-item" href="../module/model_class.html#interface-assemble~2">assemble</a>
+            <a class="list-group-item" href="../module/model_class.html#interface-updatemodeldata~2">updateModelData</a>
             <a class="list-group-item" href="../module/model_class.html#interface-setmodeldata">setModelData</a>
             <a class="list-group-item" href="../module/model_class.html#interface-copymodeldata">copyModelData</a>
             <a class="list-group-item" href="../module/model_class.html#interface-copymodelbounddataentry">copyModelboundDataEntry</a>
+            <a class="list-group-item" href="../module/model_class.html#interface-calculatematvalsbyname">calculateMatValsByName</a>
+            <a class="list-group-item" href="../module/model_class.html#interface-updatetermbyname">updateTermByName</a>
         </div>
       </div>
     </div>
@@ -193,18 +195,18 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='petsc_controller_class.html'>petsc_controller_class</a></li>
-                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
-                  <li class="list-inline-item"><a href='term_abstract_class.html'>term_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='petsc_controller_class.html'>petsc_controller_class</a></li>
+                  <li class="list-inline-item"><a href='matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='term_abstract_class.html'>term_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
               </ul>
             </li>
         </ul>
@@ -234,7 +236,7 @@
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-isassembled"></span>
+      <span class="anchor" id="interface-isassembled~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -260,7 +262,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~362"></span>
+              <span class="anchor" id="variable-this~344"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -295,7 +297,7 @@
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private pure module function evaluateTermGroup(this, groupIndex, varCont) result(res)  
+    private module function evaluateTermGroup(this, groupIndex, varCont) result(res)  
     <a href="../proc/evaluatetermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -315,7 +317,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~366"></span>
+              <span class="anchor" id="variable-this~348"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -330,7 +332,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindex~14"></span>
+              <span class="anchor" id="variable-groupindex~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -345,7 +347,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~42"></span>
+              <span class="anchor" id="variable-varcont~28"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -399,7 +401,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~370"></span>
+              <span class="anchor" id="variable-this~352"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -414,7 +416,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindex~17"></span>
+              <span class="anchor" id="variable-groupindex~11"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -468,7 +470,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~371"></span>
+              <span class="anchor" id="variable-this~353"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -483,7 +485,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindex~18"></span>
+              <span class="anchor" id="variable-groupindex~12"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -537,7 +539,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~375"></span>
+              <span class="anchor" id="variable-this~357"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -552,7 +554,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termindex~9"></span>
+              <span class="anchor" id="variable-termindex"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -606,7 +608,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~376"></span>
+              <span class="anchor" id="variable-this~358"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -621,7 +623,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termindex~10"></span>
+              <span class="anchor" id="variable-termindex~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -675,7 +677,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~378"></span>
+              <span class="anchor" id="variable-this~360"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -690,7 +692,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~30"></span>
+              <span class="anchor" id="variable-name~27"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -744,7 +746,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~379"></span>
+              <span class="anchor" id="variable-this~361"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -759,7 +761,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~31"></span>
+              <span class="anchor" id="variable-name~28"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -813,7 +815,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~380"></span>
+              <span class="anchor" id="variable-this~362"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -828,7 +830,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~32"></span>
+              <span class="anchor" id="variable-name~29"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -882,7 +884,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~381"></span>
+              <span class="anchor" id="variable-this~363"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -897,7 +899,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~33"></span>
+              <span class="anchor" id="variable-name~30"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -932,7 +934,7 @@
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private pure module function evaluateTermByName(this, name, varCont) result(res)  
+    private module function evaluateTermByName(this, name, varCont) result(res)  
     <a href="../proc/evaluatetermbyname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -951,7 +953,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~382"></span>
+              <span class="anchor" id="variable-this~364"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -966,7 +968,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~34"></span>
+              <span class="anchor" id="variable-name~31"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -981,7 +983,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~45"></span>
+              <span class="anchor" id="variable-varcont~31"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1035,7 +1037,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~357"></span>
+              <span class="anchor" id="variable-this~339"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1050,7 +1052,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numimplicitterms~3"></span>
+              <span class="anchor" id="variable-numimplicitterms"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1065,7 +1067,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numgeneralterms~3"></span>
+              <span class="anchor" id="variable-numgeneralterms"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1080,7 +1082,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numimplicitgroups~4"></span>
+              <span class="anchor" id="variable-numimplicitgroups"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1095,7 +1097,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numgeneralgroups~4"></span>
+              <span class="anchor" id="variable-numgeneralgroups"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1144,7 +1146,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~358"></span>
+              <span class="anchor" id="variable-this~340"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1159,7 +1161,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numimplicitterms~4"></span>
+              <span class="anchor" id="variable-numimplicitterms~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1208,7 +1210,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~359"></span>
+              <span class="anchor" id="variable-this~341"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1223,7 +1225,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numgeneralterms~4"></span>
+              <span class="anchor" id="variable-numgeneralterms~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1272,7 +1274,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~360"></span>
+              <span class="anchor" id="variable-this~342"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1287,7 +1289,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numimplicitgroups~5"></span>
+              <span class="anchor" id="variable-numimplicitgroups~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1336,7 +1338,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~361"></span>
+              <span class="anchor" id="variable-this~343"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1351,7 +1353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numgeneralgroups~5"></span>
+              <span class="anchor" id="variable-numgeneralgroups~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1400,7 +1402,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~363"></span>
+              <span class="anchor" id="variable-this~345"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1415,7 +1417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-impterm~2"></span>
+              <span class="anchor" id="variable-impterm"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout),</td>
@@ -1430,7 +1432,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitgroups~2"></span>
+              <span class="anchor" id="variable-implicitgroups"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1445,7 +1447,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generalgroups~3"></span>
+              <span class="anchor" id="variable-generalgroups"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1460,7 +1462,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termname~3"></span>
+              <span class="anchor" id="variable-termname~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1475,7 +1477,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-skippattern~3"></span>
+              <span class="anchor" id="variable-skippattern~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1524,7 +1526,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~364"></span>
+              <span class="anchor" id="variable-this~346"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1539,7 +1541,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-genterm~3"></span>
+              <span class="anchor" id="variable-genterm"></span>
               class(<a href='../type/term.html'>Term</a>),
             </td>
 <td>intent(inout),</td>
@@ -1554,7 +1556,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generalgroups~4"></span>
+              <span class="anchor" id="variable-generalgroups~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1569,7 +1571,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termname~4"></span>
+              <span class="anchor" id="variable-termname~8"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1618,7 +1620,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~365"></span>
+              <span class="anchor" id="variable-this~347"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1633,7 +1635,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindex~13"></span>
+              <span class="anchor" id="variable-groupindex~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1648,7 +1650,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~41"></span>
+              <span class="anchor" id="variable-varcont~27"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1697,7 +1699,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~367"></span>
+              <span class="anchor" id="variable-this~349"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1712,7 +1714,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindex~15"></span>
+              <span class="anchor" id="variable-groupindex~9"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1727,7 +1729,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~43"></span>
+              <span class="anchor" id="variable-varcont~29"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1776,7 +1778,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~368"></span>
+              <span class="anchor" id="variable-this~350"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -1791,7 +1793,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-groupindex~16"></span>
+              <span class="anchor" id="variable-groupindex~10"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1806,7 +1808,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~5"></span>
+              <span class="anchor" id="variable-petsccont~4"></span>
               type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1821,7 +1823,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mult~3"></span>
+              <span class="anchor" id="variable-mult~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -1836,7 +1838,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petscgroup~6"></span>
+              <span class="anchor" id="variable-petscgroup~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1859,7 +1861,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-assemble"></span>
+      <span class="anchor" id="interface-assemble~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1867,7 +1869,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine assemble(this, petscCont)  
-    <a href="../proc/assemble~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/assemble.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure model is ready for use</p>
@@ -1885,7 +1887,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~369"></span>
+              <span class="anchor" id="variable-this~351"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1900,7 +1902,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~6"></span>
+              <span class="anchor" id="variable-petsccont~5"></span>
               type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
 <td>intent(inout),</td>
@@ -1923,7 +1925,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-updatemodeldata"></span>
+      <span class="anchor" id="interface-updatemodeldata~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1931,7 +1933,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine updateModelData(this, varCont, updatePriority)  
-    <a href="../proc/updatemodeldata~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatemodeldata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Update this model's modelbound data if allocated</p>
@@ -1949,7 +1951,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~372"></span>
+              <span class="anchor" id="variable-this~354"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -1964,7 +1966,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~44"></span>
+              <span class="anchor" id="variable-varcont~30"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1979,7 +1981,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatepriority~7"></span>
+              <span class="anchor" id="variable-updatepriority~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -2028,7 +2030,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~373"></span>
+              <span class="anchor" id="variable-this~355"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -2043,7 +2045,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~4"></span>
+              <span class="anchor" id="variable-modeldata~3"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in)</td>
@@ -2092,7 +2094,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~374"></span>
+              <span class="anchor" id="variable-this~356"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -2107,7 +2109,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~5"></span>
+              <span class="anchor" id="variable-modeldata~4"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(inout),</td>
@@ -2156,7 +2158,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~377"></span>
+              <span class="anchor" id="variable-this~359"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(in)</td>
@@ -2171,7 +2173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varname~4"></span>
+              <span class="anchor" id="variable-varname~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2186,7 +2188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-container~4"></span>
+              <span class="anchor" id="variable-container~2"></span>
               real(kind=rk),
             </td>
 <td>intent(inout),</td>
@@ -2197,6 +2199,164 @@
             <td><strong>container</strong></td>
             <td>
                 <p>Container to copy into </p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-calculatematvalsbyname"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module subroutine calculateMatValsByName(this, name, varCont)  
+    <a href="../proc/calculatematvalsbyname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Calculate matrix values of a term by name</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~365"></span>
+              class(<a href='../type/model.html'>Model</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~32"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varcont~32"></span>
+              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>varCont</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-updatetermbyname"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private module subroutine updateTermByName(this, name, varCont)  
+    <a href="../proc/updatetermbyname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Update a term by name </p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~366"></span>
+              class(<a href='../type/model.html'>Model</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~33"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varcont~33"></span>
+              type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>varCont</strong></td>
+            <td>
+                
             </td>
         </tr>
     </tbody>
@@ -2494,7 +2654,7 @@ variable - used to forbid explicit evaluation of such terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-assembled~3"></span>
+              <span class="anchor" id="variable-assembled~4"></span>
               logical,
             </td>
               <td>private</td>
@@ -2528,7 +2688,7 @@ variable - used to forbid explicit evaluation of such terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~3"></span>
+              <span class="anchor" id="variable-modeldata~2"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
               <td>private,</td>
@@ -2579,7 +2739,7 @@ variable - used to forbid explicit evaluation of such terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-skippattern~2"></span>
+              <span class="anchor" id="variable-skippattern"></span>
               logical,
             </td>
               <td>private,</td>
@@ -2620,7 +2780,7 @@ variable - used to forbid explicit evaluation of such terms</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/model.html#boundprocedure-isassembled'>isAssembled</a></strong></td>
+  <strong><a href='../type/model.html#boundprocedure-isassembled~2'>isAssembled</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -2640,6 +2800,11 @@ variable - used to forbid explicit evaluation of such terms</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='../type/model.html#boundprocedure-updatetermbyname'>updateTermByName</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='../type/model.html#boundprocedure-evaluatetermgroup'>evaluateTermGroup</a></strong></td>
                 <td></td>
               </tr>
@@ -2655,12 +2820,17 @@ variable - used to forbid explicit evaluation of such terms</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='../type/model.html#boundprocedure-calculatematvalsbyname'>calculateMatValsByName</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='../type/model.html#boundprocedure-addmatgroupvalstopetsc'>addMatGroupValsToPETSc</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/model.html#boundprocedure-assemble'>assemble</a></strong></td>
+  <strong><a href='../type/model.html#boundprocedure-assemble~2'>assemble</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -2685,7 +2855,7 @@ variable - used to forbid explicit evaluation of such terms</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/model.html#boundprocedure-updatemodeldata'>updateModelData</a></strong></td>
+  <strong><a href='../type/model.html#boundprocedure-updatemodeldata~2'>updateModelData</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -2715,7 +2885,7 @@ variable - used to forbid explicit evaluation of such terms</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/model.html#boundprocedure-init~23'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmodel.html'>initModel</a></td>
+  <strong><a href='../type/model.html#boundprocedure-init~29'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmodel.html'>initModel</a></td>
                 <td></td>
               </tr>
               <tr>

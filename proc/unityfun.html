@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">12 statements</a>
+                 title=" 0.0% of total for procedures.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,13 +137,13 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module function unityFun(this, varCont, indexingData) result(res)  
+    <h2>module function unityFun(this, varCont) result(res)  
     <a href="../interface/unityfun.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
     <p>Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
-variable container and indexing data to construct a vector conforming to the evolved variable</p>
+variable container to construct a vector conforming to the evolved variable</p>
 
 
     <h3>Arguments</h3>
@@ -159,7 +159,7 @@ variable container and indexing data to construct a vector conforming to the evo
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~762"></span>
+              <span class="anchor" id="variable-this~806"></span>
               class(<a href='../type/explicitterm.html'>ExplicitTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -174,7 +174,7 @@ variable container and indexing data to construct a vector conforming to the evo
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~81"></span>
+              <span class="anchor" id="variable-varcont~85"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -187,27 +187,12 @@ variable container and indexing data to construct a vector conforming to the evo
                 
             </td>
         </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indexingdata~8"></span>
-              type(<a href='../type/explicittermindexingdata.html'>ExplicitTermIndexingData</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indexingData</strong></td>
-            <td>
-                
-            </td>
-        </tr>
     </tbody>
   </table>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-res~81"></span>
+          <span class="anchor" id="variable-res~73"></span>
           real(kind=rk), allocatable, dimension(:)
         </small>
       </h3>

@@ -30,39 +30,22 @@ module explicit_term_abstract_class
 
     implicit none
     private
-    
-    type ,public :: ExplicitTermIndexingData
-        !! Indexing data used by the default abstract explicit term
-
-        integer(ik)         ,allocatable ,dimension(:) :: reqVarIndices !! Indices of variables required by the multiplicative function
-        character(:)        ,allocatable               :: evolvedVarName !! Name of evolved variable
-        character(:)        ,allocatable               :: operatedVarName !! Name of variable to which the term's operator should be applied
-        
-    end type
 
     type ,public ,extends(term) ,abstract :: ExplicitTerm
         !! Abstract term providing basic interfaces for build terms used in explicit timestepping
 
-        real(rk)            ,allocatable ,dimension(:) ,private :: multConst !! Multiplicative constant with size conforming to the variable being evolved
-        real(rk)                                       ,private :: normalizationConst = real(1.0d0,kind=rk) !! Normalization constant of this term 
-
-        type(ExplicitTermIndexingData)                 ,private :: indexingData !! Indexing data used by this term 
-        
+        character(:)        ,allocatable               ,private :: evolvedVarName !! Name of evolved variable 
         class(Operator)     ,allocatable               ,private :: termOperator !! Optional operator used by this term
 
         contains
 
         procedure ,public  :: setOperator
-        procedure ,public  :: setNormalizationConst
-        procedure ,public  :: getNormalizationConst
-        procedure ,public  :: setReqVars
-        procedure ,public  :: setEvolvedAndOperatedVar
+        procedure ,public  :: setEvolvedVar
         procedure ,public  :: evaluate => evaluateExpTerm
 
-        procedure ,public  :: getMultConst
-        procedure ,public  :: setMultConst
+        procedure ,private :: outerFun => unityFun
+        procedure ,private :: innerFun  => unityFun
 
-        procedure ,private :: multFun => unityFun
         procedure ,public  :: update => simpleUpdate
 
         procedure ,public  :: getVarName => getEvolvedVarName
@@ -81,13 +64,12 @@ module explicit_term_abstract_class
 
     end subroutine simpleUpdate
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function unityFun(this,varCont,indexingData) result(res)
-        !! Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
-        !! variable container and indexing data to construct a vector conforming to the evolved variable
+    module function unityFun(this,varCont) result(res)
+    !! Default multiplicative function - returns a real vector of ones based on evolvedVarName. In general should use passed
+    !! variable container to construct a vector conforming to the evolved variable
 
         class(ExplicitTerm)             ,intent(in)   :: this
         type(VariableContainer)         ,intent(in)   :: varCont
-        type(ExplicitTermIndexingData)  ,intent(in)   :: indexingData
 
         real(rk) ,allocatable           ,dimension(:) :: res  
 
@@ -101,64 +83,22 @@ module explicit_term_abstract_class
 
     end subroutine setOperator
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine setNormalizationConst(this,norm) 
-        !! Setter for normalizationConst
-
-        class(ExplicitTerm)       ,intent(inout)  :: this
-        real(rk)                  ,intent(in)     :: norm
-
-    end subroutine setNormalizationConst
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function getNormalizationConst (this) result(norm)
-        !! Getter for normalizationConst
-
-        class(ExplicitTerm)  ,intent(in) :: this
-        real(rk)                         :: norm
-
-    end function getNormalizationConst
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine setReqVars(this,reqVars,varCont) 
-        !! Set variable names required by the multiplicative function and find their indices in variable container
-
-        class(ExplicitTerm)               ,intent(inout)  :: this
-        type(StringArray) ,dimension(:)   ,intent(in)     :: reqVars
-        type(VariableContainer)           ,intent(in)     :: varCont
-
-    end subroutine setReqVars
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine setEvolvedAndOperatedVar(this,evolvedVarName,operatedVarName) 
-        !! Set evolved and operated (if applicable) variable names
+    pure module subroutine setEvolvedVar(this,evolvedVarName) 
+        !! Set evolved variable name
 
         class(ExplicitTerm)       ,intent(inout)  :: this
         character(*)              ,intent(in)     :: evolvedVarName
-        character(*)   ,optional  ,intent(in)     :: operatedVarName
 
-    end subroutine setEvolvedAndOperatedVar
+    end subroutine setEvolvedVar
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function evaluateExpTerm (this,varCont) result(res)
-        !! Evaluates the term as multConst * multFun [* operatorTerm%actOn(<operatedVar>)] depending on whether the Operator is allocated
+    module function evaluateExpTerm (this,varCont) result(res)
+        !! Evaluates the term as outerFun * [* operatorTerm%actOn(innerFun)] depending on whether the Operator is allocated
 
         class(ExplicitTerm)                  ,intent(in) :: this
         type(VariableContainer)              ,intent(in) :: varCont
         real(rk) ,allocatable ,dimension(:)              :: res
 
     end function evaluateExpTerm
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine setMultConst(this,multConst) 
-        !! Setter for multConst
-
-        class(ExplicitTerm)           ,intent(inout)  :: this
-        real(rk)        ,dimension(:) ,intent(in)     :: multConst
-
-    end subroutine setMultConst
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function getMultConst (this) result(multConst)
-        !! Getter for multConst
-
-        class(ExplicitTerm)                          ,intent(in) :: this
-        real(rk)          ,allocatable ,dimension(:)             :: multConst
-
-    end function getMultConst
 !-----------------------------------------------------------------------------------------------------------------------------------
     pure module function getEvolvedVarName(this) result(name)
         !! Get name of the evolved variable of this term

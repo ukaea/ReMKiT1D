@@ -45,6 +45,7 @@ pure module subroutine initCompositeIntegrator(this,initialTime,initialTimestep,
     allocate(this%integrationStage(0))
 
     if (present(dtController)) call this%setTimestepController(dtController)
+    call this%setRequestedTimestep(initialTimestep)
 
     call this%makeDefined()
 
@@ -106,6 +107,16 @@ pure module subroutine setTimestepController(this,controller)
 
 end subroutine setTimestepController
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine setRequestedTimestep(this,timestep) 
+    !! Setter for requestedTimestep
+
+    class(CompositeIntegrator)        ,intent(inout)  :: this
+    real(rk)                          ,intent(in)     :: timestep 
+
+    this%requestedTimestep = timestep
+
+end subroutine setRequestedTimestep
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars) 
     !! Call all integrators based on the integration stages and global timestep. The global timestep is updated at the start if there is
     !! an allocated timestep controller.
@@ -132,7 +143,7 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     if (size(this%integrationStage) > 1) then
         if (.not. allocated(this%stepBuffer)) allocate(this%stepBuffer,source=inputVars)
     end if
-    this%globalTimestep = this%initialTimestep
+    this%globalTimestep = min(this%initialTimestep,this%requestedTimestep)
     if (allocated(this%dtController)) this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
     numStages = size(this%integrationStage)
 

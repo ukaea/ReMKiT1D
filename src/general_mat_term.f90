@@ -109,8 +109,8 @@ module general_mat_term_class
         logical ,allocatable ,dimension(:)  ,private :: reqColVarIsDist !! True for all required column variables that are distributions
 
         integer(ik) ,private :: locNumX !! Local number of spatial cells - used when handling modelbound data 
-        integer(ik) ,private :: numH !! Local number of spatial cells - used when handling modelbound data 
-        integer(ik) ,private :: numV !! Local number of spatial cells - used when handling modelbound data 
+        integer(ik) ,private :: numH !! Local number of harmonics - used when handling modelbound data 
+        integer(ik) ,private :: numV !! Local number of velocity cells - used when handling modelbound data 
 
         integer(ik) ,allocatable ,dimension(:) ,private :: rowCoordsX !x coordinate associated with each matrix row
         integer(ik) ,allocatable ,dimension(:) ,private :: rowCoordsH !h coordinate associated with each matrix row

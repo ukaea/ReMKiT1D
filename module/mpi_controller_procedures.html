@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.3% of total for modules and submodules.">341 statements</a>
+                 title=" 1.3% of total for modules and submodules.">349 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,7 +137,8 @@
             <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-getcolrank">getColRank</a>
             <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-getcolsize">getColSize</a>
             <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-getxhalowidth">getXHaloWidth</a>
-            <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-istrueeverywhere~2">isTrueEverywhere</a>
+            <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-getcomm">getComm</a>
+            <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-istrueeverywhere">isTrueEverywhere</a>
             <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-allreducemin">allreduceMin</a>
             <a class="list-group-item" href="../module/mpi_controller_procedures.html#proc-allreducemax">allreduceMax</a>
         </div>
@@ -230,7 +231,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~280"></span>
+              <span class="anchor" id="variable-this~516"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -276,7 +277,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~281"></span>
+              <span class="anchor" id="variable-this~517"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -322,7 +323,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~282"></span>
+              <span class="anchor" id="variable-this~518"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -368,7 +369,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~283"></span>
+              <span class="anchor" id="variable-this~519"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -414,7 +415,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~284"></span>
+              <span class="anchor" id="variable-this~520"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -460,7 +461,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~285"></span>
+              <span class="anchor" id="variable-this~521"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -506,7 +507,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~286"></span>
+              <span class="anchor" id="variable-this~522"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(in)</td>
@@ -532,7 +533,53 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-istrueeverywhere~2"></span> <h3>module function <a href='../proc/istrueeverywhere~2.html'>isTrueEverywhere</a>(this, input) result(isTrue)  
+    <div class="card-header codesum"><span class="anchor" id="proc-getcomm"></span> <h3>pure module function <a href='../proc/getcomm.html'>getComm</a>(this) result(mpiComm)  
+    <a href="../interface/getcomm.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Getter for xHaloWidth</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~523"></span>
+              class(<a href='../type/mpicontroller.html'>MPIController</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(MPI_Comm)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-istrueeverywhere"></span> <h3>module function <a href='../proc/istrueeverywhere.html'>isTrueEverywhere</a>(this, input) result(isTrue)  
     <a href="../interface/istrueeverywhere~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
@@ -552,7 +599,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~293"></span>
+              <span class="anchor" id="variable-this~530"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -567,7 +614,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~5"></span>
+              <span class="anchor" id="variable-input~9"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -613,7 +660,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~301"></span>
+              <span class="anchor" id="variable-this~538"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -628,7 +675,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~6"></span>
+              <span class="anchor" id="variable-input~10"></span>
               real(kind=rk),
             </td>
 <td>intent(inout)</td>
@@ -674,7 +721,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~302"></span>
+              <span class="anchor" id="variable-this~539"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -689,7 +736,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~7"></span>
+              <span class="anchor" id="variable-input~11"></span>
               real(kind=rk),
             </td>
 <td>intent(inout)</td>
@@ -740,7 +787,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~279"></span>
+              <span class="anchor" id="variable-this~515"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -812,7 +859,7 @@ variables </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~287"></span>
+              <span class="anchor" id="variable-this~524"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -842,7 +889,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~20"></span>
+              <span class="anchor" id="variable-name~42"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -883,7 +930,7 @@ variables </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~288"></span>
+              <span class="anchor" id="variable-this~525"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -898,7 +945,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-partitionobj~6"></span>
+              <span class="anchor" id="variable-partitionobj~15"></span>
               type(<a href='../type/partition.html'>Partition</a>),
             </td>
 <td>intent(in)</td>
@@ -913,7 +960,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~5"></span>
+              <span class="anchor" id="variable-xhalowidth~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -928,7 +975,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~10"></span>
+              <span class="anchor" id="variable-numv~15"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -969,7 +1016,7 @@ variables </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~289"></span>
+              <span class="anchor" id="variable-this~526"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -999,7 +1046,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~21"></span>
+              <span class="anchor" id="variable-name~43"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1040,7 +1087,7 @@ variables </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~290"></span>
+              <span class="anchor" id="variable-this~527"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1055,7 +1102,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodic~5"></span>
+              <span class="anchor" id="variable-periodic~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1096,7 +1143,7 @@ variables </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~291"></span>
+              <span class="anchor" id="variable-this~528"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1126,7 +1173,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~22"></span>
+              <span class="anchor" id="variable-name~44"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1141,7 +1188,7 @@ variables </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varisdist~2"></span>
+              <span class="anchor" id="variable-varisdist"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1182,7 +1229,7 @@ variables </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~292"></span>
+              <span class="anchor" id="variable-this~529"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1254,7 +1301,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~294"></span>
+              <span class="anchor" id="variable-this~531"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1299,7 +1346,7 @@ size, otherwise it is assumed it is of the correct size.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varisdist~3"></span>
+              <span class="anchor" id="variable-varisdist~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1340,7 +1387,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~295"></span>
+              <span class="anchor" id="variable-this~532"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1385,7 +1432,7 @@ size, otherwise it is assumed it is of the correct size.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varisdist~4"></span>
+              <span class="anchor" id="variable-varisdist~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1426,7 +1473,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~296"></span>
+              <span class="anchor" id="variable-this~533"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1441,7 +1488,7 @@ size, otherwise it is assumed it is of the correct size.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vec"></span>
+              <span class="anchor" id="variable-vec~5"></span>
               real(kind=rk),
             </td>
 <td>intent(inout),</td>
@@ -1497,7 +1544,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~297"></span>
+              <span class="anchor" id="variable-this~534"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1512,7 +1559,7 @@ size, otherwise it is assumed it is of the correct size.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vec~2"></span>
+              <span class="anchor" id="variable-vec~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(inout),</td>
@@ -1553,7 +1600,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~298"></span>
+              <span class="anchor" id="variable-this~535"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1568,7 +1615,7 @@ size, otherwise it is assumed it is of the correct size.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vec~3"></span>
+              <span class="anchor" id="variable-vec~7"></span>
               logical,
             </td>
 <td>intent(inout),</td>
@@ -1609,7 +1656,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~299"></span>
+              <span class="anchor" id="variable-this~536"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1624,7 +1671,7 @@ size, otherwise it is assumed it is of the correct size.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vec~4"></span>
+              <span class="anchor" id="variable-vec~8"></span>
               character(len=:),
             </td>
 <td>intent(inout),</td>
@@ -1665,7 +1712,7 @@ size, otherwise it is assumed it is of the correct size.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~300"></span>
+              <span class="anchor" id="variable-this~537"></span>
               class(<a href='../type/mpicontroller.html'>MPIController</a>),
             </td>
 <td>intent(inout)</td>

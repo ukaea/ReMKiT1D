@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">125 statements</a>
+                 title=" 0.3% of total for procedures.">153 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -158,7 +158,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~50"></span>
+              <span class="anchor" id="variable-input~27"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-realparams~38"></span>
+              <span class="anchor" id="variable-realparams~18"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intparams~39"></span>
+              <span class="anchor" id="variable-intparams~18"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -203,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-logicalparams~38"></span>
+              <span class="anchor" id="variable-logicalparams~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -219,12 +219,18 @@
     </tbody>
   </table>
 
-      <h3>Return Value <span class="anchor" id="variable-output~63"></span><small>real(kind=rk),allocatable,dimension(:)</small></h3>
+      <h3>Return Value <span class="anchor" id="variable-output~61"></span><small>real(kind=rk),allocatable,dimension(:)</small></h3>
     
     <h3>Description</h3>
     <p>Unary wrapper contracting an array with a smaller array. String name "cont". Uses realParams as the contracting array.
-After contraction it uses intParams(1) to determine the expected output size. The input array should be evenly divided by 
-size(realParams) and intParams(1). intParams(2) is then used to determine which sub-array of size intParams(1) is returned</p>
+The input size is assumed to be evenly divided by size(realParams) and by intParams(1). The input does not have to have size 
+equal to size(realParams)*intParams(1). intParams(1) determines the expected size of the output, while intParams(2)
+determines which of the strided slices is returnd. See below for example.</p>
+<p>Contraction is performed on strided slices of the input of length size(realParams). The strides are determined by intParams(1). 
+For example, contracting [1,2,3,4,5,6,7,8] with [1,2] yields the intermediate
+result [5,11,17,23]. Then if intParams(1) is , we are looking to get a result of length 1. If intParams(2) is then 2, we get [11].
+If intParams(1) is 2, we want a result of length 2, sampled evenly from the contracted array (this is useful for ReMKiT1D's
+flattened represenation of distributions). If intParams(2) is 1, we get [5,17], and if intParams(2) is 2, we get [11,23]</p>
     <br>
 
  </div>

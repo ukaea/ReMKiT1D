@@ -120,14 +120,14 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/integrator.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/integrator.html#variable-dt">dt</a>
-            <a class="list-group-item" href="../type/integrator.html#variable-termgroups~2">termGroups</a>
-            <a class="list-group-item" href="../type/integrator.html#variable-modelindices~2">modelIndices</a>
-            <a class="list-group-item" href="../type/integrator.html#variable-evolvestimevar~2">evolvesTimeVar</a>
-            <a class="list-group-item" href="../type/integrator.html#variable-dtcontroller~2">dtController</a>
+            <a class="list-group-item" href="../type/integrator.html#variable-termgroups">termGroups</a>
+            <a class="list-group-item" href="../type/integrator.html#variable-modelindices~3">modelIndices</a>
+            <a class="list-group-item" href="../type/integrator.html#variable-evolvestimevar">evolvesTimeVar</a>
+            <a class="list-group-item" href="../type/integrator.html#variable-dtcontroller">dtController</a>
             <a class="list-group-item" href="../type/integrator.html#variable-communicationneeded">communicationNeeded</a>
-            <a class="list-group-item" href="../type/integrator.html#variable-commdata~5">commData</a>
+            <a class="list-group-item" href="../type/integrator.html#variable-commdata~7">commData</a>
             <a class="list-group-item" href="../type/integrator.html#variable-updateoninternaliteration">updateOnInternalIteration</a>
-            <a class="list-group-item" href="../type/integrator.html#variable-nontrivialupdate">nonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/integrator.html#variable-nontrivialupdate~5">nonTrivialUpdate</a>
             <a class="list-group-item" href="../type/integrator.html#variable-updatemodeldataoninternaliteration">updateModelDataOnInternalIteration</a>
             <a class="list-group-item" href="../type/integrator.html#variable-nontrivialmodeldataupdate">nonTrivialModelDataUpdate</a>
         </div>
@@ -159,7 +159,7 @@
             <a class="list-group-item" href="../type/integrator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/integrator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/integrator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/integrator.html#boundprocedure-affect~3">affect</a>
+            <a class="list-group-item" href="../type/integrator.html#boundprocedure-affect">affect</a>
             <a class="list-group-item" href="../type/integrator.html#boundprocedure-settimestep">setTimestep</a>
             <a class="list-group-item" href="../type/integrator.html#boundprocedure-gettimestep">getTimestep</a>
             <a class="list-group-item" href="../type/integrator.html#boundprocedure-settermgroups">setTermGroups</a>
@@ -249,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termgroups~2"></span>
+              <span class="anchor" id="variable-termgroups"></span>
               type(<a href='intarray.html'>IntArray</a>),
             </td>
               <td>private,</td>
@@ -267,7 +267,7 @@ this Integrator is responsible for</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelindices~2"></span>
+              <span class="anchor" id="variable-modelindices~3"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -284,7 +284,7 @@ this Integrator is responsible for</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvestimevar~2"></span>
+              <span class="anchor" id="variable-evolvestimevar"></span>
               logical,
             </td>
               <td>private</td>
@@ -302,7 +302,7 @@ will be allowed to evolve it</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dtcontroller~2"></span>
+              <span class="anchor" id="variable-dtcontroller"></span>
               class(<a href='timestepcontroller.html'>TimestepController</a>),
             </td>
               <td>private,</td>
@@ -337,7 +337,7 @@ based on input variables</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~5"></span>
+              <span class="anchor" id="variable-commdata~7"></span>
               type(<a href='communicationdata.html'>CommunicationData</a>),
             </td>
               <td>public</td>
@@ -373,7 +373,7 @@ every timestep</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialupdate"></span>
+              <span class="anchor" id="variable-nontrivialupdate~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -606,7 +606,7 @@ is true when the given model has model data that should be updated on every inte
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-affect~3"></span>
+      <span class="anchor" id="boundprocedure-affect"></span>
       <h3>
           procedure(<a href='../interface/manipulation.html'>manipulation</a>), public, deferred ::
   <strong>affect</strong>

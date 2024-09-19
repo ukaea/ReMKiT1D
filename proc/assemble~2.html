@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">29 statements</a>
+                 title=" 0.0% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/modeller_procedures.f90"> Source File</a>
+              <a href="../src/model_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/modeller_procedures.f90.html'>modeller_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/modeller_procedures.html'>modeller_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/model_procedures.f90.html'>model_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/model_procedures.html'>model_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">assemble</li>
           </ol>
         </nav>
@@ -137,13 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine assemble(this, withIdentityMat)  
-    <a href="../interface/assemble.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module subroutine assemble(this, petscCont)  
+    <a href="../interface/assemble~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure modeller is ready for use. 
-If withIdentityMat is true preallocates diagonal elements for the identity matrix.</p>
+    <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure model is ready for use</p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +158,8 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1160"></span>
-              class(<a href='../type/modeller.html'>Modeller</a>),
+              <span class="anchor" id="variable-this~1128"></span>
+              class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -174,17 +173,17 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-withidentitymat~2"></span>
-              logical,
+              <span class="anchor" id="variable-petsccont~12"></span>
+              type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
-<td>intent(in),</td>
+<td>intent(inout),</td>
               <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>withIdentityMat</strong></td>
+            <td><strong>petscCont</strong></td>
             <td>
-                
+                <p>Optional PETScController - should be present if the model has any implicitly evaluated terms</p>
             </td>
         </tr>
     </tbody>

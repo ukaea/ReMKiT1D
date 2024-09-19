@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">14 statements</a>
+                 title=" 0.0% of total for procedures.">8 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/variable_list_procedures.f90"> Source File</a>
+              <a href="../src/variable_container_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/variable_list_procedures.f90.html'>variable_list_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/variable_list_procedures.html'>variable_list_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/variable_container_procedures.f90.html'>variable_container_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/variable_container_procedures.html'>variable_container_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">isVarNameRegistered</li>
           </ol>
         </nav>
@@ -138,11 +138,11 @@
     
     <div class="col-md-9" id='text'>
     <h2>pure module function isVarNameRegistered(this, name) result(reg)  
-    <a href="../interface/isvarnameregistered.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/isvarnameregistered~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Check whether variable with given name is registered</p>
+    <p>Check whether variable with given name is registered in either the implicit or derived list</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~994"></span>
-              class(<a href='../type/variablelist.html'>VariableList</a>),
+              <span class="anchor" id="variable-this~1068"></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~78"></span>
+              <span class="anchor" id="variable-name~97"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -191,7 +191,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-reg~11"></span>
+          <span class="anchor" id="variable-reg~12"></span>
           logical
         </small>
       </h3>

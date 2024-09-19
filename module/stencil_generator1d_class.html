@@ -125,8 +125,8 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/stencil_generator1d_class.html#interface-initgenerator">initGenerator</a>
-            <a class="list-group-item" href="../module/stencil_generator1d_class.html#interface-calcvals">calcVals</a>
+            <a class="list-group-item" href="../module/stencil_generator1d_class.html#interface-initgenerator~2">initGenerator</a>
+            <a class="list-group-item" href="../module/stencil_generator1d_class.html#interface-calcvals~2">calcVals</a>
         </div>
       </div>
     </div>
@@ -167,16 +167,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
                   <li class="list-inline-item"><a href='stencil1d_class.html'>stencil1d_class</a></li>
-                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
                   <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
               </ul>
             </li>
         </ul>
@@ -206,7 +206,7 @@
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-initgenerator"></span>
+      <span class="anchor" id="interface-initgenerator~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -214,7 +214,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine initGenerator(this, stencilObj, columnVecs, periodicDim, coordInterval)  
-    <a href="../proc/initgenerator~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initgenerator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>1D fixed stencil value generator initialization routine</p>
@@ -232,7 +232,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~190"></span>
+              <span class="anchor" id="variable-this~966"></span>
               class(<a href='../type/stencilgenerator1d.html'>StencilGenerator1D</a>),
             </td>
 <td>intent(inout)</td>
@@ -247,7 +247,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stencilobj"></span>
+              <span class="anchor" id="variable-stencilobj~4"></span>
               type(<a href='../type/stencil1d.html'>Stencil1D</a>),
             </td>
 <td>intent(in)</td>
@@ -262,7 +262,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-columnvecs"></span>
+              <span class="anchor" id="variable-columnvecs~6"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -277,7 +277,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicdim~2"></span>
+              <span class="anchor" id="variable-periodicdim~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -292,7 +292,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordinterval~2"></span>
+              <span class="anchor" id="variable-coordinterval~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -315,7 +315,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-calcvals"></span>
+      <span class="anchor" id="interface-calcvals~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -323,7 +323,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine calcVals(this, varCont, res, mbData, hostModel)  
-    <a href="../proc/calcvals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calcvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Calculate fixed 1D stencil values in place (does not depend on varCont,mbData, or hostModel)</p>
@@ -341,7 +341,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~191"></span>
+              <span class="anchor" id="variable-this~967"></span>
               class(<a href='../type/stencilgenerator1d.html'>StencilGenerator1D</a>),
             </td>
 <td>intent(inout)</td>
@@ -356,7 +356,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~21"></span>
+              <span class="anchor" id="variable-varcont~106"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -371,7 +371,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-res~28"></span>
+              <span class="anchor" id="variable-res~93"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(inout),</td>
@@ -386,7 +386,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~14"></span>
+              <span class="anchor" id="variable-mbdata~55"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -401,7 +401,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~6"></span>
+              <span class="anchor" id="variable-hostmodel~50"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -487,7 +487,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicdim"></span>
+              <span class="anchor" id="variable-periodicdim~4"></span>
               logical,
             </td>
               <td>private</td>
@@ -521,7 +521,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordinterval"></span>
+              <span class="anchor" id="variable-coordinterval~4"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -562,17 +562,17 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/jaggedarraygenerator.html#boundprocedure-calculate~31'>calculate</a></strong></td>
+  <strong><a href='../type/jaggedarraygenerator.html#boundprocedure-calculate~24'>calculate</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/stencilgenerator1d.html#boundprocedure-init~16'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenerator.html'>initGenerator</a></td>
+  <strong><a href='../type/stencilgenerator1d.html#boundprocedure-init~78'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgenerator~2.html'>initGenerator</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/stencilgenerator1d.html#boundprocedure-calculateinplace~3'>calculateInPlace</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvals.html'>calcVals</a></td>
+  <strong><a href='../type/stencilgenerator1d.html#boundprocedure-calculateinplace~15'>calculateInPlace</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvals~2.html'>calcVals</a></td>
                 <td></td>
               </tr>
           </tbody>

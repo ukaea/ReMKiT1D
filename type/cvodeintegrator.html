@@ -120,8 +120,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-communicationneeded">communicationNeeded</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-commdata~5">commData</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialupdate">nonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-commdata~7">commData</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialupdate~5">nonTrivialUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialmodeldataupdate">nonTrivialModelDataUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-sunctx">sunctx</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-sunls">sunls</a>
@@ -134,11 +134,11 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-bufferrhs">bufferRHS</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-buffery">bufferY</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-copybuffervals">copyBufferVals</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-evolvedvars">evolvedVars</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-mpicomm">mpiComm</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-numprocs">numProcs</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-options">options</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-integratorname">integratorName</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-evolvedvars~2">evolvedVars</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-mpicomm~3">mpiComm</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-numprocs~2">numProcs</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-options~3">options</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-integratorname~5">integratorName</a>
         </div>
       </div>
     </div>
@@ -202,8 +202,8 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-setnontrivialupdate">setNonTrivialUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-hasnontrivialmodeldataupdate">hasNonTrivialModelDataUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-setnontrivialmodeldataupdate">setNonTrivialModelDataUpdate</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-affect~2">affect</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-init~17">init</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-affect~6">affect</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-init~96">init</a>
         </div>
       </div>
     </div>
@@ -270,7 +270,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~5"></span>
+              <span class="anchor" id="variable-commdata~7"></span>
               type(<a href='communicationdata.html'>CommunicationData</a>),
             </td>
               <td>public</td>
@@ -287,7 +287,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialupdate"></span>
+              <span class="anchor" id="variable-nontrivialupdate~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -508,7 +508,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvars"></span>
+              <span class="anchor" id="variable-evolvedvars~2"></span>
               type(<a href='stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -525,7 +525,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mpicomm"></span>
+              <span class="anchor" id="variable-mpicomm~3"></span>
               type(MPI_Comm),
             </td>
               <td>private</td>
@@ -542,7 +542,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numprocs"></span>
+              <span class="anchor" id="variable-numprocs~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -559,7 +559,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-options"></span>
+              <span class="anchor" id="variable-options~3"></span>
               type(<a href='cvodeoptions.html'>CVODEOptions</a>),
             </td>
               <td>private</td>
@@ -576,7 +576,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integratorname"></span>
+              <span class="anchor" id="variable-integratorname~5"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -2308,7 +2308,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-affect~2"></span>
+      <span class="anchor" id="boundprocedure-affect~6"></span>
       <h3>
           procedure, public ::
   <strong>affect</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/integratecvode.html'>integrateCVODE</a>
@@ -2408,7 +2408,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~17"></span>
+      <span class="anchor" id="boundprocedure-init~96"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcvodeintegrator.html'>initCVODEIntegrator</a>

@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">10 statements</a>
+                 title=" 0.1% of total for procedures.">46 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/modelbound_CRM_data_procedures.f90"> Source File</a>
+              <a href="../src/inelastic_grid_data_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/modelbound_crm_data_procedures.f90.html'>modelbound_CRM_data_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/modelbound_crm_data_procedures.html'>modelbound_CRM_data_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/inelastic_grid_data_procedures.f90.html'>inelastic_grid_data_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/inelastic_grid_data_procedures.html'>inelastic_grid_data_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">interpolateW</li>
           </ol>
         </nav>
@@ -138,12 +138,12 @@
     
     <div class="col-md-9" id='text'>
     <h2>pure module subroutine interpolateW(this, E, wRes)  
-    <a href="../interface/interpolatew.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/interpolatew~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Interpolate mapping matrices for given energy and store in passed triangular matrix if inelastic data component is allocated. 
-Assumes upper triangular structure for wRes if E is positive and lower if it's negative. </p>
+    <p>Interpolate mapping matrices for given energy and store in passed triangular matrix. Assumes upper triangular structure for wRes
+if E is positive and lower if it's negative</p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +159,8 @@ Assumes upper triangular structure for wRes if E is positive and lower if it's n
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~713"></span>
-              class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
+              <span class="anchor" id="variable-this~910"></span>
+              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -174,7 +174,7 @@ Assumes upper triangular structure for wRes if E is positive and lower if it's n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e~8"></span>
+              <span class="anchor" id="variable-e~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -189,7 +189,7 @@ Assumes upper triangular structure for wRes if E is positive and lower if it's n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wres~4"></span>
+              <span class="anchor" id="variable-wres~3"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
 <td>intent(inout)</td>

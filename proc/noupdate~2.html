@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">10 statements</a>
+                 title=" 0.0% of total for procedures.">8 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/term_abstract_procedures.f90"> Source File</a>
+              <a href="../src/operator_abstract_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/term_abstract_procedures.f90.html'>term_abstract_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/term_abstract_procedures.html'>term_abstract_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/operator_abstract_procedures.f90.html'>operator_abstract_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/operator_abstract_procedures.html'>operator_abstract_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">noUpdate</li>
           </ol>
         </nav>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine noUpdate(this, varCont, modelData, hostModel)  
+    <h2>module subroutine noUpdate(this, varCont)  
     <a href="../interface/noupdate~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Default Term update function - does nothing</p>
+    <p>Default operator update function - does nothing </p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~322"></span>
-              class(<a href='../type/term.html'>Term</a>),
+              <span class="anchor" id="variable-this~279"></span>
+              class(<a href='../type/operator.html'>Operator</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~25"></span>
+              <span class="anchor" id="variable-varcont~30"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -182,36 +182,6 @@
             </td>
             <td>::</td>
             <td><strong>varCont</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-modeldata"></span>
-              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>modelData</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-hostmodel~10"></span>
-              class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>hostModel</strong></td>
             <td>
                 
             </td>

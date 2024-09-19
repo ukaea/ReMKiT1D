@@ -127,7 +127,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/derived_transition_class.html#interface-getenergy~3">getEnergy</a>
             <a class="list-group-item" href="../module/derived_transition_class.html#interface-initderivedtransition">initDerivedTransition</a>
-            <a class="list-group-item" href="../module/derived_transition_class.html#interface-updaterates~2">updateRates</a>
+            <a class="list-group-item" href="../module/derived_transition_class.html#interface-updaterates">updateRates</a>
         </div>
       </div>
     </div>
@@ -168,13 +168,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
                   <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
                   <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
               </ul>
@@ -214,7 +214,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Returns array representing energy cost of this transition</p>
@@ -232,7 +232,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~824"></span>
+              <span class="anchor" id="variable-this~785"></span>
               class(<a href='../type/derivedtransition.html'>DerivedTransition</a>),
             </td>
 <td>intent(in)</td>
@@ -286,7 +286,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~822"></span>
+              <span class="anchor" id="variable-this~783"></span>
               class(<a href='../type/derivedtransition.html'>DerivedTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -301,7 +301,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~31"></span>
+              <span class="anchor" id="variable-locnumx~21"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -316,7 +316,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-instates~16"></span>
+              <span class="anchor" id="variable-instates~12"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -331,7 +331,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outstates~13"></span>
+              <span class="anchor" id="variable-outstates~9"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -459,7 +459,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-updaterates~2"></span>
+      <span class="anchor" id="interface-updaterates"></span>
       <h3>        interface
       </h3>
     </div>
@@ -467,7 +467,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine updateRates(this, varCont, hostModel, hostData, updatePriority)  
-    <a href="../proc/updaterates~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updaterates.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Update transition rates using derivation object</p>
@@ -485,7 +485,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~823"></span>
+              <span class="anchor" id="variable-this~784"></span>
               class(<a href='../type/derivedtransition.html'>DerivedTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -500,7 +500,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~87"></span>
+              <span class="anchor" id="variable-varcont~82"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -545,7 +545,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatepriority~11"></span>
+              <span class="anchor" id="variable-updatepriority~12"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -615,7 +615,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~3"></span>
+              <span class="anchor" id="variable-transitionenergy~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -734,7 +734,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~30"></span>
+              <span class="anchor" id="variable-locnumx~20"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -860,12 +860,12 @@ Optionally, momentum and energy rates can be calculated using derivation objects
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/derivedtransition.html#boundprocedure-init~64'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initderivedtransition.html'>initDerivedTransition</a></td>
+  <strong><a href='../type/derivedtransition.html#boundprocedure-init~60'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initderivedtransition.html'>initDerivedTransition</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/derivedtransition.html#boundprocedure-update~8'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updaterates~2.html'>updateRates</a></td>
+  <strong><a href='../type/derivedtransition.html#boundprocedure-update~7'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updaterates.html'>updateRates</a></td>
                 <td></td>
               </tr>
               <tr>

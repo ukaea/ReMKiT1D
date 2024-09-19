@@ -119,14 +119,14 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-usedxcoords~2">usedXCoords</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-usedxcoords">usedXCoords</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-buffera">bufferA</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-modelbounda~4">modelboundA</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-adfatzero~5">adfAtZero</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-numv~33">numV</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-locnumx~42">locNumX</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-vgridwidths~3">vGridWidths</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-dvplus~2">dvPlus</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-modelbounda">modelboundA</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-adfatzero">adfAtZero</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-numv~6">numV</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-locnumx~4">locNumX</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-vgridwidths">vGridWidths</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#variable-dvplus">dvPlus</a>
         </div>
       </div>
     </div>
@@ -156,9 +156,9 @@
             <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculate~31">calculate</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-init~87">init</a>
-            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculateinplace~12">calculateInPlace</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculate~24">calculate</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-init~11">init</a>
+            <a class="list-group-item" href="../type/vdiffstencilgen.html#boundprocedure-calculateinplace">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -211,7 +211,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-usedxcoords~2"></span>
+              <span class="anchor" id="variable-usedxcoords"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -245,7 +245,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelbounda~4"></span>
+              <span class="anchor" id="variable-modelbounda"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -262,7 +262,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-adfatzero~5"></span>
+              <span class="anchor" id="variable-adfatzero"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -279,7 +279,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~33"></span>
+              <span class="anchor" id="variable-numv~6"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -296,7 +296,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~42"></span>
+              <span class="anchor" id="variable-locnumx~4"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -313,7 +313,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridwidths~3"></span>
+              <span class="anchor" id="variable-vgridwidths"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -330,7 +330,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dvplus~2"></span>
+              <span class="anchor" id="variable-dvplus"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -528,7 +528,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~31"></span>
+      <span class="anchor" id="boundprocedure-calculate~24"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -633,7 +633,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~87"></span>
+      <span class="anchor" id="boundprocedure-init~11"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initvdiffvalgen.html'>initVDiffValGen</a>
@@ -793,7 +793,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~12"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvdiffvals.html'>calcVDiffVals</a>

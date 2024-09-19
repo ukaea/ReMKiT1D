@@ -165,17 +165,17 @@
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionratemomentum">getTransitionRateMomentum</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionrateenergy">getTransitionRateEnergy</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitioncrosssection">getTransitionCrossSection</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionenergy~2">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-gettransitionenergy~3">getTransitionEnergy</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getnumtransitions">getNumTransitions</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-ratesincludeeldensity">ratesIncludeElDensity</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getpopulationchangematrix">getPopulationChangeMatrix</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getrequireddensitydata">getRequiredDensityData</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getelstate">getElState</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-setelstate">setElState</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-update~3">update</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-update~5">update</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-copydata~2">copyData</a>
             <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-getdatadim~2">getDataDim</a>
-            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-init~44">init</a>
+            <a class="list-group-item" href="../type/modelboundcrmdata.html#boundprocedure-init~50">init</a>
         </div>
       </div>
     </div>
@@ -643,7 +643,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module function getFixedW(this, ind) result(wMat)  
-    <a href="../proc/getfixedw~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getfixedw.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return fixed mapping matrix with given index if inelastic data component is allocated</p>
@@ -718,7 +718,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module function getFixedEmissionVector(this, ind) result(emit)  
-    <a href="../proc/getfixedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getfixedemissionvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return fixed emission vector for mapping matrix with given index if inelastic data component is allocated</p>
@@ -793,7 +793,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module subroutine interpolateW(this, E, wRes)  
-    <a href="../proc/interpolatew~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/interpolatew.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Interpolate mapping matrices for given energy and store in passed triangular matrix if inelastic data component is allocated. 
@@ -879,7 +879,7 @@ Assumes upper triangular structure for wRes if E is positive and lower if it's n
               <h3>interface </h3>
                   <h3>
     private pure module function getInterpolatedEmissionVector(this, E) result(emit)  
-    <a href="../proc/getinterpolatedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getinterpolatedemissionvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return interpolated emission vector for given input energy E if inelastic data component is allocated</p>
@@ -1407,7 +1407,7 @@ Assumes upper triangular structure for wRes if E is positive and lower if it's n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy~2"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy~3"></span>
       <h3>
           procedure, public ::
   <strong>getTransitionEnergy</strong>
@@ -1934,7 +1934,7 @@ The result can then be used to determine density variables and their powers requ
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~3"></span>
+      <span class="anchor" id="boundprocedure-update~5"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updatecrmdata.html'>updateCRMData</a>
@@ -2195,7 +2195,7 @@ and corresponds to rate type (0-particles,1-momentum,2-energy), and transIndex i
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~44"></span>
+      <span class="anchor" id="boundprocedure-init~50"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmdata.html'>initCRMData</a>

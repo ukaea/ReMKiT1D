@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">12 statements</a>
+                 title=" 0.1% of total for procedures.">39 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/lin_interpnd_derivation_procedures.f90"> Source File</a>
+              <a href="../src/interpolation_derivation_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lin_interpnd_derivation_procedures.f90.html'>lin_interpnd_derivation_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/lin_interpnd_derivation_procedures.html'>lin_interpnd_derivation_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/interpolation_derivation_procedures.f90.html'>interpolation_derivation_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/interpolation_derivation_procedures.html'>interpolation_derivation_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">initInterpDeriv</li>
           </ol>
         </nav>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine initInterpDeriv(this, interpObj, data)  
+    <h2>module subroutine initInterpDeriv(this, geometryObj, gridObj, minX, maxX, inverseInterp, distInterp)  
     <a href="../interface/initinterpderiv.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Initialize n-linear interpolation derivation object</p>
+    <p>Initialize interpolation derivation object</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1098"></span>
-              class(<a href='../type/ndinterpolationderivation.html'>NDInterpolationDerivation</a>),
+              <span class="anchor" id="variable-this~198"></span>
+              class(<a href='../type/interpolationderivation.html'>InterpolationDerivation</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,30 +173,90 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-interpobj~5"></span>
-              type(<a href='../type/interpolationnd.html'>InterpolationND</a>),
+              <span class="anchor" id="variable-geometryobj~5"></span>
+              type(<a href='../type/geometry.html'>Geometry</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>interpObj</strong></td>
+            <td><strong>geometryObj</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~5"></span>
-              type(<a href='../type/flatnddata.html'>FlatNDData</a>),
+              <span class="anchor" id="variable-gridobj~9"></span>
+              type(<a href='../type/grid.html'>Grid</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>data</strong></td>
+            <td><strong>gridObj</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minx~3"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>minX</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxx~3"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>maxX</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inverseinterp"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inverseInterp</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-distinterp"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>distInterp</strong></td>
             <td>
                 
             </td>

@@ -172,24 +172,24 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
-                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
-                  <li class="list-inline-item"><a href='partition_class.html'>partition_class</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
-                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
-                  <li class="list-inline-item"><a href='stencil_class.html'>stencil_class</a></li>
-                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
-                  <li class="list-inline-item"><a href='signal_abstract_class.html'>signal_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='grid_class.html'>grid_class</a></li>
-                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='stencil_class.html'>stencil_class</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='partition_class.html'>partition_class</a></li>
+                  <li class="list-inline-item"><a href='grid_class.html'>grid_class</a></li>
+                  <li class="list-inline-item"><a href='matrix_term_abstract_class.html'>matrix_term_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
+                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
+                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='signal_abstract_class.html'>signal_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
               </ul>
             </li>
         </ul>
@@ -245,7 +245,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~439"></span>
+              <span class="anchor" id="variable-this~556"></span>
               class(<a href='../type/generalmatrixterm.html'>GeneralMatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -260,7 +260,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gridobj~18"></span>
+              <span class="anchor" id="variable-gridobj~22"></span>
               type(<a href='../type/grid.html'>Grid</a>),
             </td>
 <td>intent(in)</td>
@@ -275,7 +275,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-partitionobj~14"></span>
+              <span class="anchor" id="variable-partitionobj~18"></span>
               type(<a href='../type/partition.html'>Partition</a>),
             </td>
 <td>intent(in)</td>
@@ -290,7 +290,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingobj~8"></span>
+              <span class="anchor" id="variable-indexingobj~7"></span>
               type(<a href='../type/indexing.html'>Indexing</a>),
             </td>
 <td>intent(in)</td>
@@ -305,7 +305,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-procrank~13"></span>
+              <span class="anchor" id="variable-procrank~19"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -320,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~2"></span>
+              <span class="anchor" id="variable-evolvedvar~27"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -335,7 +335,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~2"></span>
+              <span class="anchor" id="variable-implicitvar~27"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -365,7 +365,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stemplate~2"></span>
+              <span class="anchor" id="variable-stemplate"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -380,7 +380,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~6"></span>
+              <span class="anchor" id="variable-vdata~5"></span>
               type(<a href='../type/vardata.html'>VarData</a>),
             </td>
 <td>intent(in),</td>
@@ -395,7 +395,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-normconst~3"></span>
+              <span class="anchor" id="variable-normconst~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -410,7 +410,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordprofile~3"></span>
+              <span class="anchor" id="variable-coordprofile~2"></span>
               type(<a href='../type/coordprofiles.html'>CoordProfiles</a>),
             </td>
 <td>intent(in),</td>
@@ -425,7 +425,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tdata~3"></span>
+              <span class="anchor" id="variable-tdata~2"></span>
               type(<a href='../type/timesignaldata.html'>TimeSignalData</a>),
             </td>
 <td>intent(in),</td>
@@ -440,7 +440,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evaltermgroup~2"></span>
+              <span class="anchor" id="variable-evaltermgroup"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -455,7 +455,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~19"></span>
+              <span class="anchor" id="variable-mbdata~30"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -470,7 +470,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-copytermname~3"></span>
+              <span class="anchor" id="variable-copytermname~2"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -520,7 +520,7 @@ spatial and time profiles</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~440"></span>
+              <span class="anchor" id="variable-this~557"></span>
               class(<a href='../type/generalmatrixterm.html'>GeneralMatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -550,7 +550,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowvals~3"></span>
+              <span class="anchor" id="variable-rowvals~2"></span>
               real(kind=rk),
             </td>
 <td>intent(inout),</td>
@@ -565,7 +565,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~8"></span>
+              <span class="anchor" id="variable-indexingdata~5"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
 <td>intent(in)</td>
@@ -614,7 +614,7 @@ spatial and time profiles</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~441"></span>
+              <span class="anchor" id="variable-this~558"></span>
               class(<a href='../type/generalmatrixterm.html'>GeneralMatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -644,7 +644,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colvals~3"></span>
+              <span class="anchor" id="variable-colvals~2"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(inout),</td>
@@ -659,7 +659,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~9"></span>
+              <span class="anchor" id="variable-indexingdata~6"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
 <td>intent(in)</td>
@@ -708,7 +708,7 @@ spatial and time profiles</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~442"></span>
+              <span class="anchor" id="variable-this~559"></span>
               class(<a href='../type/generalmatrixterm.html'>GeneralMatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -738,7 +738,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~10"></span>
+              <span class="anchor" id="variable-indexingdata~7"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
 <td>intent(in)</td>
@@ -753,7 +753,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~5"></span>
+              <span class="anchor" id="variable-modeldata~6"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -768,7 +768,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~18"></span>
+              <span class="anchor" id="variable-hostmodel~31"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -988,7 +988,7 @@ spatial and time profiles</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stencilgen"></span>
+              <span class="anchor" id="variable-stencilgen~7"></span>
               class(<a href='../type/jaggedarraygenerator.html'>JaggedArrayGenerator</a>),
             </td>
               <td>public,</td>
@@ -1073,7 +1073,7 @@ spatial and time profiles</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedstencil~3"></span>
+              <span class="anchor" id="variable-fixedstencil"></span>
               logical,
             </td>
               <td>public</td>
@@ -1223,7 +1223,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~5"></span>
+              <span class="anchor" id="variable-vdata~4"></span>
               type(<a href='../type/vardata.html'>VarData</a>),
             </td>
               <td>private</td>
@@ -1240,7 +1240,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordprofile~2"></span>
+              <span class="anchor" id="variable-coordprofile"></span>
               type(<a href='../type/coordprofiles.html'>CoordProfiles</a>),
             </td>
               <td>private</td>
@@ -1257,7 +1257,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tdata~2"></span>
+              <span class="anchor" id="variable-tdata"></span>
               type(<a href='../type/timesignaldata.html'>TimeSignalData</a>),
             </td>
               <td>private,</td>
@@ -1325,7 +1325,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stencilgen~2"></span>
+              <span class="anchor" id="variable-stencilgen~8"></span>
               class(<a href='../type/jaggedarraygenerator.html'>JaggedArrayGenerator</a>),
             </td>
               <td>private,</td>
@@ -1376,7 +1376,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-copytermname~2"></span>
+              <span class="anchor" id="variable-copytermname"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -1427,7 +1427,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xperiodic~4"></span>
+              <span class="anchor" id="variable-xperiodic~6"></span>
               logical,
             </td>
               <td>private</td>
@@ -1444,7 +1444,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-isactive~2"></span>
+              <span class="anchor" id="variable-isactive~7"></span>
               logical,
             </td>
               <td>private</td>
@@ -1546,7 +1546,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~8"></span>
+              <span class="anchor" id="variable-numh~13"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1563,7 +1563,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~17"></span>
+              <span class="anchor" id="variable-numv~19"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1685,7 +1685,7 @@ Required row and column variables passed through the VarData object are raised t
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/matrixterm.html#boundprocedure-evaluate'>evaluate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatematterm.html'>evaluateMatTerm</a></td>
+  <strong><a href='../type/matrixterm.html#boundprocedure-evaluate~2'>evaluate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatematterm.html'>evaluateMatTerm</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1735,7 +1735,7 @@ Required row and column variables passed through the VarData object are raised t
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/matrixterm.html#boundprocedure-getvarname'>getVarName</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getrowvarname.html'>getRowVarName</a></td>
+  <strong><a href='../type/matrixterm.html#boundprocedure-getvarname~2'>getVarName</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getrowvarname.html'>getRowVarName</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1745,7 +1745,7 @@ Required row and column variables passed through the VarData object are raised t
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/matrixterm.html#boundprocedure-update~2'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/mattermupdate.html'>matTermUpdate</a></td>
+  <strong><a href='../type/matrixterm.html#boundprocedure-update~3'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/mattermupdate.html'>matTermUpdate</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1765,7 +1765,7 @@ Required row and column variables passed through the VarData object are raised t
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/generalmatrixterm.html#boundprocedure-init~37'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgeneralterm.html'>initGeneralTerm</a></td>
+  <strong><a href='../type/generalmatrixterm.html#boundprocedure-init~64'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgeneralterm.html'>initGeneralTerm</a></td>
                 <td></td>
               </tr>
           </tbody>

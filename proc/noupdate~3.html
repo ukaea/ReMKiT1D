@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">10 statements</a>
+                 title=" 0.0% of total for procedures.">7 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/term_abstract_procedures.f90"> Source File</a>
+              <a href="../src/transition_abstract_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/term_abstract_procedures.f90.html'>term_abstract_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/term_abstract_procedures.html'>term_abstract_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/transition_abstract_procedures.f90.html'>transition_abstract_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/transition_abstract_procedures.html'>transition_abstract_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">noUpdate</li>
           </ol>
         </nav>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine noUpdate(this, varCont, modelData, hostModel)  
-    <a href="../interface/noupdate.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module subroutine noUpdate(this, varCont, hostModel, hostData, updatePriority)  
+    <a href="../interface/noupdate~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Default Term update function - does nothing</p>
+    <p>Default update routine - does nothing</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~405"></span>
-              class(<a href='../type/term.html'>Term</a>),
+              <span class="anchor" id="variable-this~1028"></span>
+              class(<a href='../type/transition.html'>Transition</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~37"></span>
+              <span class="anchor" id="variable-varcont~114"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -183,27 +183,12 @@
             <td>::</td>
             <td><strong>varCont</strong></td>
             <td>
-                
+                <p>Variable container used in update</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~4"></span>
-              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>modelData</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-hostmodel~15"></span>
+              <span class="anchor" id="variable-hostmodel~54"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -213,7 +198,37 @@
             <td>::</td>
             <td><strong>hostModel</strong></td>
             <td>
-                
+                <p>Optional host model reference for callbacks during update</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hostdata~7"></span>
+              class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hostData</strong></td>
+            <td>
+                <p>Optional host data reference for callbacks during update</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-updatepriority~17"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>updatePriority</strong></td>
+            <td>
+                <p>Priority for this update call </p>
             </td>
         </tr>
     </tbody>

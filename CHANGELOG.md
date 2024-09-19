@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.0, 2024-05-14
+## v1.2.0, 2024-09-19
 
 - Added CVODE integrator as an option
 - Added new derivation-based explicit term
@@ -9,6 +9,7 @@
 - New timeloop mode - output-driven timeloop
 - New restart option - initial output index
 - Support for under- and over-relaxation in BDE integrator
+- Updated documentation
 - Bug fixes
 
 ### Breaking Changes

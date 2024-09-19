@@ -4,7 +4,7 @@ project: ReMKiT1D
 project_github: https://github.com/ukaea/ReMKiT1D
 summary: Reactive Multifluid and Kinetic Transport in 1D
 author: Stefan Mijin
-author_description: Boundary Plasma Physicist and Code Developer at UKAEA 
+author_description: Domain Specialist at UKAEA 
 github: https://github.com/SMijin 
 email: stefan.mijin@ukaea.uk
 predocmark: > 

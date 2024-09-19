@@ -10,15 +10,15 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.x'
     - name: Install dependencies
       run: pip install ford
     - name: Build Documentation
       run: ford ford-docs.md
-    - uses: JamesIves/github-pages-deploy-action@3.7.1
+    - uses: JamesIves/github-pages-deploy-action@4
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages

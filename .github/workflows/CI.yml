@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build ReMKiT1D
         run: |
@@ -28,7 +28,7 @@ jobs:
         run: tar -cvf build.tar ./build/
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ReMKiT1D-build
           path: build.tar
@@ -42,10 +42,10 @@ jobs:
 
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ReMKiT1D-build
 
@@ -60,7 +60,7 @@ jobs:
             lcov --c --d ./coverage --output-file ./coverage/main_coverage.txt
 
       - name: Upload code coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ github.workspace }}/build/coverage/main_coverage.txt

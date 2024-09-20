@@ -215,7 +215,138 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~30"></span>
+              <span class="anchor" id="variable-jsonprefix~21"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jsonPrefix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-partobj~16"></span>
+              type(<a href='../type/partition.html'>Partition</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>partObj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gridobj~26"></span>
+              type(<a href='../type/grid.html'>Grid</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gridObj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-geometryobj~14"></span>
+              type(<a href='../type/geometry.html'>Geometry</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>geometryObj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jsoncont~40"></span>
+              type(<a href='../type/jsoncontroller.html'>JSONController</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jsonCont</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mpicont~58"></span>
+              type(<a href='../type/mpicontroller.html'>MPIController</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mpiCont</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-initlinextrapolationfromjson"></span> <h3>module subroutine <a href='../proc/initlinextrapolationfromjson.html'>initLinExtrapolationFromJSON</a>(extObj, jsonPrefix, partObj, gridObj, geometryObj, jsonCont, mpiCont)  
+    <a href="../interface/initlinextrapolationfromjson.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Initialize linear extrapolation from JSON data</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-extobj~5"></span>
+              class(<a href='../type/extrapolation.html'>Extrapolation</a>),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>extObj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jsonprefix~22"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -275,7 +406,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsoncont~44"></span>
+              <span class="anchor" id="variable-jsoncont~41"></span>
               type(<a href='../type/jsoncontroller.html'>JSONController</a>),
             </td>
 <td>intent(inout)</td>
@@ -311,12 +442,12 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-initlinextrapolationfromjson"></span> <h3>module subroutine <a href='../proc/initlinextrapolationfromjson.html'>initLinExtrapolationFromJSON</a>(extObj, jsonPrefix, partObj, gridObj, geometryObj, jsonCont, mpiCont)  
-    <a href="../interface/initlinextrapolationfromjson.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-initlogextrapolationfromjson"></span> <h3>module subroutine <a href='../proc/initlogextrapolationfromjson.html'>initLogExtrapolationFromJSON</a>(extObj, jsonPrefix, partObj, gridObj, geometryObj, jsonCont, mpiCont, linInterp)  
+    <a href="../interface/initlogextrapolationfromjson.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
-  <p>Initialize linear extrapolation from JSON data</p>
+  <p>Initialize logarithmic extrapolation from JSON data</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -331,7 +462,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-extobj~5"></span>
+              <span class="anchor" id="variable-extobj~6"></span>
               class(<a href='../type/extrapolation.html'>Extrapolation</a>),
             </td>
 <td>intent(inout),</td>
@@ -346,7 +477,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~31"></span>
+              <span class="anchor" id="variable-jsonprefix~23"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -406,7 +537,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsoncont~45"></span>
+              <span class="anchor" id="variable-jsoncont~42"></span>
               type(<a href='../type/jsoncontroller.html'>JSONController</a>),
             </td>
 <td>intent(inout)</td>
@@ -434,140 +565,9 @@
 
             </td>
         </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-initlogextrapolationfromjson"></span> <h3>module subroutine <a href='../proc/initlogextrapolationfromjson.html'>initLogExtrapolationFromJSON</a>(extObj, jsonPrefix, partObj, gridObj, geometryObj, jsonCont, mpiCont, linInterp)  
-    <a href="../interface/initlogextrapolationfromjson.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Initialize logarithmic extrapolation from JSON data</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-extobj~6"></span>
-              class(<a href='../type/extrapolation.html'>Extrapolation</a>),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>extObj</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-jsonprefix~32"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>jsonPrefix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-partobj~19"></span>
-              type(<a href='../type/partition.html'>Partition</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>partObj</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-gridobj~29"></span>
-              type(<a href='../type/grid.html'>Grid</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>gridObj</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-geometryobj~17"></span>
-              type(<a href='../type/geometry.html'>Geometry</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>geometryObj</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-jsoncont~46"></span>
-              type(<a href='../type/jsoncontroller.html'>JSONController</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>jsonCont</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mpicont~61"></span>
-              type(<a href='../type/mpicontroller.html'>MPIController</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mpiCont</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lininterp~18"></span>
+              <span class="anchor" id="variable-lininterp~17"></span>
               logical,
             </td>
 <td>intent(in)</td>

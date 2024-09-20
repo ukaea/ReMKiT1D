@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">35 statements</a>
+                 title=" 0.3% of total for procedures.">162 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/composite_integrator.f90"> Source File</a>
+              <a href="../src/modeller.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/composite_integrator.f90.html'>composite_integrator.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/composite_integrator_class.html'>composite_integrator_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/modeller.f90.html'>modeller.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/modeller_class.html'>modeller_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">getCurrentTime</li>
           </ol>
         </nav>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~598"></span>
-              class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
+              <span class="anchor" id="variable-this~692"></span>
+              class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -177,7 +177,8 @@
       <h3>Return Value <span class="anchor" id="variable-time~6"></span><small>real(kind=rk)</small></h3>
     
     <h3>Description</h3>
-    <p>Getter for currentTime</p>
+    <p>Return current value of the integrator time variable if the integrator object is a composite integrator or the value of the 
+"time" variable if it isn't</p>
     <br>
 
  </div>

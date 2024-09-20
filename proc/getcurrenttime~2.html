@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">22 statements</a>
+                 title=" 0.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/modeller_procedures.f90"> Source File</a>
+              <a href="../src/composite_integrator_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/modeller_procedures.f90.html'>modeller_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/modeller_procedures.html'>modeller_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/composite_integrator_procedures.f90.html'>composite_integrator_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/composite_integrator_procedures.html'>composite_integrator_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">getCurrentTime</li>
           </ol>
         </nav>
@@ -142,8 +142,7 @@
 </h2>
     
 
-    <p>Return current value of the integrator time variable if the integrator object is a composite integrator or the value of the 
-"time" variable if it isn't</p>
+    <p>Getter for currentTime</p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1217"></span>
-              class(<a href='../type/modeller.html'>Modeller</a>),
+              <span class="anchor" id="variable-this~494"></span>
+              class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -177,7 +176,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-time~10"></span>
+          <span class="anchor" id="variable-time~3"></span>
           real(kind=rk)
         </small>
       </h3>

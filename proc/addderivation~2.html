@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">20 statements</a>
+                 title=" 0.0% of total for procedures.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/textbook_procedures.f90"> Source File</a>
+              <a href="../src/additive_derivation_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/textbook_procedures.f90.html'>textbook_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/textbook_procedures.html'>textbook_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/additive_derivation_procedures.f90.html'>additive_derivation_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/additive_derivation_procedures.html'>additive_derivation_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">addDerivation</li>
           </ol>
         </nav>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module subroutine addDerivation(this, deriv, name)  
-    <a href="../interface/addderivation~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module subroutine addDerivation(this, deriv, activeIndices)  
+    <a href="../interface/addderivation.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Add derivation object to textbook</p>
+    <p>Adds derivation to additive derivation object</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1143"></span>
-              class(<a href='../type/textbook.html'>Textbook</a>),
+              <span class="anchor" id="variable-this~386"></span>
+              class(<a href='../type/additivederivation.html'>AdditiveDerivation</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -188,17 +188,17 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~100"></span>
-              character(len=*),
+              <span class="anchor" id="variable-activeindices~2"></span>
+              integer(kind=ik),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              dimension(:)
             </td>
             <td>::</td>
-            <td><strong>name</strong></td>
+            <td><strong>activeIndices</strong></td>
             <td>
-                
+                <p>Entries of indices object passed to calculateAdditive to be passed to added derivation </p>
             </td>
         </tr>
     </tbody>

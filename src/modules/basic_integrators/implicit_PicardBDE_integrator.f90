@@ -75,6 +75,8 @@ module implicit_PicardBDE_integrator_class
         type(InternalControllerOptions)              ,private :: internalControlOpts 
 
         character(:) ,allocatable                    ,private :: integratorName !! Integrator named used in printing 
+
+        real(rk)                                     ,private :: relaxationWeight !! <1 for under-relaxation >1 for over-relaxation
         contains
 
         procedure ,public :: affect => integrateBDE
@@ -106,7 +108,8 @@ module implicit_PicardBDE_integrator_class
     end subroutine integrateBDE
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,maxIters,convergenceIndices,&
-        modelList,termGroups,evolvesTimeVar,dtController,initialTimestep,use2Norm,petscGroup,intContOptions,integratorName)
+        modelList,termGroups,evolvesTimeVar,dtController,initialTimestep,&
+        use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight)
         !! BDE integrator constructor 
     
         class(PicardBDEIntegrator)                ,intent(inout) :: this
@@ -125,6 +128,7 @@ module implicit_PicardBDE_integrator_class
         integer(ik)    ,optional                  ,intent(in)    :: petscGroup !! PETSc obj group this solver should interact with (defaults to 1)
         type(InternalControllerOptions) ,optional ,intent(in)    :: intContOptions !! InternalControlOptions (if present turns on internal control)
         character(*)                    ,optional ,intent(in)    :: integratorName !! Name of integrator used in printing
+        real(rk)                  ,optional       ,intent(in)    :: relaxationWeight !! relaxationWeight
 
     end subroutine initBDEIntegrator
 !-----------------------------------------------------------------------------------------------------------------------------------

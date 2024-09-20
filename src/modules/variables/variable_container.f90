@@ -56,6 +56,7 @@ module variable_container_class
         integer(ik)           ,allocatable ,dimension(:) ,private :: derivationDepth !! Numbers of layers of derived variables on which each derivation depends (e.g. 0 if all required variables are implicit, 1 if all required variables have derivation depth 0, etc.) - -1 for implicit variables
 
         integer(ik) ,private :: maxDerivPriority !! Highest priority value (lowest priority) among derived variables, used in calculating derived quantities
+        integer(ik) ,allocatable ,dimension(:) ,private :: varLens !! Lengths of variables not including the halos 
         contains
 
         procedure ,public :: getVarIndex
@@ -72,6 +73,10 @@ module variable_container_class
         procedure ,public :: isVarOnDualGrid
         procedure ,public :: getVarDepth
         procedure ,public :: getMaxDepth
+        procedure ,public :: copyNamedVarsToVec
+        procedure ,public :: copyNamedVarsFromVec
+        procedure ,public :: getVarLens 
+        procedure ,public :: zeroVars
 
         procedure ,public :: isStationary
 
@@ -243,6 +248,41 @@ module variable_container_class
             logical                               :: stationary
 
         end function isStationary
+!-----------------------------------------------------------------------------------------------------------------------------------
+        module subroutine copyNamedVarsToVec(this,vec,names)
+            !! Copy variables into locally indexed vector by name 
+            
+            class(VariableContainer)                 ,intent(inout)  :: this
+            real(rk) ,allocatable ,dimension(:)      ,intent(inout)  :: vec
+            type(StringArray) ,dimension(:)          ,intent(in) :: names 
+
+        end subroutine copyNamedVarsToVec
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module subroutine copyNamedVarsFromVec(this,vec,names)
+            !! Copy variables from locally indexed vector by name 
+            
+            class(VariableContainer)                 ,intent(inout)  :: this
+            real(rk)  ,dimension(:)                  ,intent(in)  :: vec
+            type(StringArray) ,dimension(:)          ,intent(in) :: names 
+
+        end subroutine copyNamedVarsFromVec
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getVarLens(this,names) result(lens)
+            !! Get lengths of variable data vectors (not including halos) based on a list of names
+            
+            class(VariableContainer)                 ,intent(in)  :: this
+            type(StringArray) ,dimension(:)          ,intent(in)  :: names 
+            integer(ik) ,allocatable ,dimension(:)                :: lens 
+
+        end function getVarLens
+!-----------------------------------------------------------------------------------------------------------------------------------
+        module subroutine zeroVars(this,names)
+            !! Zero all named variable values - useful for buffer containers
+
+            class(VariableContainer)             ,intent(inout)  :: this
+            type(StringArray) ,dimension(:)      ,intent(in)     :: names 
+
+        end subroutine zeroVars
 !-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface

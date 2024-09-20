@@ -35,18 +35,20 @@ module basic_timeloop_class
     type ,public ,extends(Object) :: Timeloop
         !! Object responsible for the main integration loop
 
-        integer(ik) ,private :: modeTimeloop !! Loop mode: 0 - fixed step number, 1 - target elapsed time (default 0)
+        integer(ik) ,private :: modeTimeloop !! Loop mode: 0 - fixed step number, 1 - target elapsed time (default 0), 2 - output-driven mode
         integer(ik) ,private :: numTimesteps !! Fixed step number for loop mode 0
         real(rk)    ,private :: targetTime !! Target time value for loop mode 1
         integer(ik) ,private :: modeSave !! Save mode: 0 - fixed save frequency, 1 - save with minimum time interval
         integer(ik) ,private :: saveSteps !! Fixed step number for save mode 0
         real(rk)    ,private :: minSaveInterval !! Minimum time interval between saves for save mode 1
+        real(rk) ,allocatable ,dimension(:) :: outputPoints !! List of points to output (will use smaller timesteps if necessary)
 
         logical     ,private :: loadRestart !! True if restart files should be loaded at the start of the loop
         logical     ,private :: loadSerial !! True if initial values are loaded from a serial file
         logical     ,private :: saveRestart !! True if restart files should be saved 
         logical     ,private :: resetTimeRestart !! True if on loaded restart the time variable (if present) should be reset to 0 
         integer(ik) ,private :: restartFrequency !! Number of steps between restart saves
+        integer(ik) ,private :: initialOutputIndex !! Initial output index (useful when restarting so no files are overwritten)
 
         character(:)      ,allocatable       ,private :: loadFilename !! Serial load filename - default "ReMKiT1DVarInput"
         

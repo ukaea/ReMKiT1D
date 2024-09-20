@@ -199,8 +199,11 @@ pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups
             prevGeneralTermIndex = this%generalTermGroup(generalGroups(i))%entry(prevIndex)
             if (.not. this%generalGroupMixed(generalGroups(i))) then 
                 if (prevGeneralTermIndex > size(this%implicitTerms)) then
+                    !Weird gfortran bug workaround (if the following is used to index the array directly when size(this%implicitTerms)=0
+                    !a segfault occurs)
+                    prevGeneralTermIndex = prevGeneralTermIndex - size(this%implicitTerms)
                     this%generalGroupMixed(generalGroups(i)) = this%implicitTerms(this%numAddedMatrixTerms)%entry%getVarName() /=&
-                    this%generalTerms(prevGeneralTermIndex - size(this%implicitTerms))%entry%getVarName()
+                    this%generalTerms(prevGeneralTermIndex)%entry%getVarName()
                 else
                     this%generalGroupMixed(generalGroups(i)) = this%implicitTerms(this%numAddedMatrixTerms)%entry%getVarName() /=&
                     this%implicitTerms(prevGeneralTermIndex)%entry%getVarName()
@@ -249,8 +252,11 @@ pure module subroutine addGeneralTerm(this,genTerm,generalGroups,termName)
                 !Determine whether the group is mixed based on previous term added to the group
                 if (.not. this%generalGroupMixed(generalGroups(i))) then 
                     if (prevGeneralTermIndex > size(this%implicitTerms)) then
+                        !Weird gfortran bug workaround (if the following is used to index the array directly when size(this%implicitTerms)=0
+                        !a segfault occurs)
+                        prevGeneralTermIndex = prevGeneralTermIndex - size(this%implicitTerms)
                         this%generalGroupMixed(generalGroups(i)) = this%generalTerms(this%numAddedGeneralTerms)%entry%getVarName() &
-                        /= this%generalTerms(prevGeneralTermIndex - size(this%implicitTerms))%entry%getVarName()
+                        /= this%generalTerms(prevGeneralTermIndex)%entry%getVarName()
                     else
                         this%generalGroupMixed(generalGroups(i)) = this%generalTerms(this%numAddedGeneralTerms)%entry%getVarName() &
                         /= this%implicitTerms(prevGeneralTermIndex)%entry%getVarName()
@@ -312,7 +318,7 @@ module subroutine updateTermGroup(this,groupIndex,varCont)
     
 end subroutine updateTermGroup
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function evaluateTermGroup(this,groupIndex,varCont) result(res)
+module function evaluateTermGroup(this,groupIndex,varCont) result(res)
     !! Evaluate a term group, returning the sum of all explicit results from the term group 
     !! - if groupIndex > size(implicitGroup) it is taken to be in the general group
 
@@ -713,7 +719,7 @@ pure module function getGeneralTermIndex(this,name) result(ind)
 
 end function getGeneralTermIndex
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function evaluateTermByName(this,name,varCont) result(res)
+module function evaluateTermByName(this,name,varCont) result(res)
     !! Evaluate a term by name
 
     class(Model)                         ,intent(in) :: this
@@ -740,6 +746,65 @@ pure module function evaluateTermByName(this,name,varCont) result(res)
     end if
 
 end function evaluateTermByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine calculateMatValsByName(this,name,varCont) 
+    !! Calculate matrix values of a term by name
+
+    class(Model)                         ,intent(inout) :: this
+    character(*)                         ,intent(in)    :: name
+    type(VariableContainer)              ,intent(in)    :: varCont 
+
+    integer(ik) :: termIndex
+
+    if (assertions) then 
+        call assertPure(this%isDefined(),"Attempted to calculate matrix of term in undefined model object")
+        call assertPure(this%isAssembled(),"Attempted to calculate matrix of term in unassembled model object")
+        call assertPure(varCont%isDefined(),&
+        "Attempted to calculat matrix of term in model object by passing undefined variable container")
+        call assertPure(this%isTermNameRegistered(name),&
+            "Attempted to calculate matrix of term whose name is not registered in model object")
+    end if
+
+    if (this%isTermNameImplicit(name)) then 
+        termIndex = this%getImplicitTermIndex(name)
+        call this%implicitTerms(termIndex)%entry%calculateValues(varCont)
+    end if
+
+end subroutine calculateMatValsByName
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine updateTermByName(this,name,varCont)
+    !! Update a term by name 
+
+    class(Model)            ,intent(inout)  :: this
+    character(*)            ,intent(in)     :: name
+    type(VariableContainer) ,intent(in)     :: varCont 
+
+    integer(ik) :: i ,trueGroupIndex ,termIndex
+
+    if (assertions) then 
+        call assertPure(this%isDefined(),"Attempted to update term in undefined model object")
+        call assertPure(this%isAssembled(),"Attempted to update term in unassembled model object")
+        call assertPure(varCont%isDefined(),&
+        "Attempted to update term in model object by passing undefined variable container")
+    end if
+
+    if (this%isTermNameImplicit(name)) then 
+        termIndex = this%getImplicitTermIndex(name)
+        if (allocated(this%modelData)) then 
+            call this%implicitTerms(termIndex)%entry%update(varCont,this%modelData,hostModel=this)
+        else
+            call this%implicitTerms(termIndex)%entry%update(varCont,hostModel=this)
+        end if
+    else
+        termIndex = this%getGeneralTermIndex(name)
+        if (allocated(this%modelData)) then 
+            call this%generalTerms(termIndex)%entry%update(varCont,this%modelData,hostModel=this)
+        else
+            call this%generalTerms(termIndex)%entry%update(varCont,hostModel=this)
+        end if
+    end if
+
+end subroutine updateTermByName
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule model_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

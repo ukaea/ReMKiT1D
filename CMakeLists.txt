@@ -17,9 +17,9 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 
-PROJECT(ReMKiT1D VERSION 1.1.0
+PROJECT(ReMKiT1D VERSION 1.2.0
   DESCRIPTION "A Fortran framework for 1D multifluid and kinetic simulations geared towards Scrape-Off Layer plasmas"
-  LANGUAGES Fortran)
+  LANGUAGES Fortran C)
 
 SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -42,6 +42,8 @@ INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIRS})
 
 FIND_PACKAGE(jsonfortran-${CMAKE_Fortran_COMPILER_ID} 8.2.5 REQUIRED)
 INCLUDE_DIRECTORIES(${jsonfortran_INCLUDE_DIRS})
+
+FIND_PACKAGE(SUNDIALS REQUIRED)
 
 # Add our local modlues to the module path
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")

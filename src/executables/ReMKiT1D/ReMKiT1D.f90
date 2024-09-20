@@ -92,7 +92,7 @@ program ReMKiT1D
 
     ! Clean up PETSc 
     call normalizationJSONCont%closeFile(normalizationMPICont)
-
+    if (allocated(envObj%petscCont))&
     call envObj%petscCont%finalize()
 
 end program 

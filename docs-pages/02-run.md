@@ -1,6 +1,6 @@
 Title: Running
 Author: Stefan Mijin
-Date: 21.06.2023.
+Date: 19.09.2024.
 
 If the build process is successful, the executable will be in build/src/executables/ReMKiT1D.
 ReMKiT1D requires a config.json file as input. Assuming a valid config file is available, the code can be run from the executable directory using, for example:
@@ -13,4 +13,4 @@ where [num_procs] should be set to the desired number of processes. An alternati
 -with_config_path=/path/to/config/file.json
 ```
 
-For more details on how to use the code together with the Python support modules, see [Python repos](ADD LINK)
+For more details on how to use the code together with the Python support modules, see [Python repo](https://github.com/ukaea/ReMKiT1D-Python)

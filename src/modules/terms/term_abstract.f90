@@ -40,7 +40,7 @@ module term_abstract_class
 !-----------------------------------------------------------------------------------------------------------------------------------
     abstract interface 
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure function evaluateTerm(this,varCont) result(res)
+    function evaluateTerm(this,varCont) result(res)
         !! Get explicit value for the term 
 
         import :: Term, VariableContainer ,rk

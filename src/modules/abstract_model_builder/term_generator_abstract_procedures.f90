@@ -112,7 +112,7 @@ module subroutine moveTerms(this,modelObj,impTermImpGroups,impTermGenGroups,genT
     else
         allocate(iTermGGroups(size(this%implicitTerms)))
         do i = 1, size(iTermGGroups)
-            iTermGGroups(i)%entry = [1]
+            allocate(iTermGGroups(i)%entry(0))
         end do
     end if
 

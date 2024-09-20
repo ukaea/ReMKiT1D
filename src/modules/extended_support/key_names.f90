@@ -101,6 +101,8 @@ module key_names
     character(len=*) ,parameter :: keyData = "data"
     character(len=*) ,parameter :: keyDims = "dims"
     character(len=*) ,parameter :: keyValues = "values"
+    character(len=*) ,parameter :: keyUpdate = "update"
+    character(len=*) ,parameter :: keyAccumulate = "accumulate"
     
     ! Rule keys
     character(len=*) ,parameter :: keyDerivRule = "derivationRule" 
@@ -126,6 +128,7 @@ module key_names
     character(len=*) ,parameter :: keyStartingNumSteps = "startingNumSteps"
     character(len=*) ,parameter :: keyStepMultiplier = "stepMultiplier"
     character(len=*) ,parameter :: keyMinNumNonlinInters = "minNumNonlinIters"
+    character(len=*) ,parameter :: keyMaxBDERestarts = "maxBDERestarts"
     character(len=*) ,parameter :: keyStepDecrament = "stepDecrament"
     character(len=*) ,parameter :: keyStepTags = "stepTags"
     character(len=*) ,parameter :: keyIntegratorTags = "integratorTags"
@@ -137,6 +140,19 @@ module key_names
     character(len=*) ,parameter :: keyUseInitialInput = "useInitialInput"
     character(len=*) ,parameter :: keyAllowTimeEvolution = "allowTimeEvolution"
     character(len=*) ,parameter :: keyInitialTimestep = "initialTimestep"
+    character(len=*) ,parameter :: keyRelaxationWeight = "relaxationWeight"
+    character(len=*) ,parameter :: keyCVODE = "CVODE"
+    character(len=*) ,parameter :: keyCVODEGMRESMaxRestarts = "maxRestarts"
+    character(len=*) ,parameter :: keyRelTol = "relTol"
+    character(len=*) ,parameter :: keyBBDPreParams = "CVODEPreBBDParams"
+    character(len=*) ,parameter :: keyCVODEAM = "CVODEUseAdamsMoulton"
+    character(len=*) ,parameter :: keyCVODEStabDet = "CVODEUseStabLimDet"
+    character(len=*) ,parameter :: keyCVODEMaxOrder = "CVODEMaxOrder"
+    character(len=*) ,parameter :: keyCVODEMaxInternalSteps = "CVODEMaxInternalSteps"
+    character(len=*) ,parameter :: keyCVODEMaxStep = "CVODEMaxStepSize"
+    character(len=*) ,parameter :: keyCVODEMinStep = "CVODEMinStepSize"
+    character(len=*) ,parameter :: keyCVODEInitStep = "CVODEInitStepSize"
+    
 
     ! Manipulator keys 
 
@@ -186,6 +202,9 @@ module key_names
     character(len=*) ,parameter :: keyRealTimePeriod = "realTimePeriod"
     character(len=*) ,parameter :: keySkipPattern = "skipPattern"
     character(len=*) ,parameter :: keyMultCopyTermName = "multCopyTermName"
+    character(len=*) ,parameter :: keyReqMBVarName = "requiredMBVarName"
+    character(len=*) ,parameter :: keyMatrixTerm = "matrixTerm"
+    character(len=*) ,parameter :: keyDerivationTerm = "derivationTerm"
 
     ! Term generator keys 
 
@@ -452,7 +471,10 @@ module key_names
     character(len=*) ,parameter :: keyResetTime = "resetTime"
     character(len=*) ,parameter :: keyHDF5LoadInit = "loadInitValsFromHDF5"
     character(len=*) ,parameter :: keyInitPath = "initValFilename"
- 
+    character(len=*) ,parameter :: keyOutputDrivenMode = "outputDriven"
+    character(len=*) ,parameter :: keyOutputPoints = "outputPoints"
+    character(len=*) ,parameter :: keyInitialOutputIndex = "initialOutputIndex"
+
 !----------------------------------------------------------------------------------------------------------------------------------
 end module key_names
 !----------------------------------------------------------------------------------------------------------------------------------

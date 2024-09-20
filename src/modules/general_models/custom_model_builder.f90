@@ -43,6 +43,9 @@ module custom_model_builder_class
     use fluid_stencil_templates
     use kinetic_stencil_templates
     use modelbound_data_support
+    use derivation_explicit_term_class        ,only: DerivationTerm
+    use term_abstract_class                   ,only: Term
+
     use key_names
 
     implicit none

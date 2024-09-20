@@ -1,8 +1,27 @@
 Title: Building and Installing
 Author: Stefan Mijin 
-Date: 21.06.2023.
+Date: 19.09.2024.
 
-## Building prerequisites
+## Prerequisites
+
+Building and compiling: 
+- CMake 3.14 or higher (CMake 3.19 found to have issues with HDF5) - note that sundials might require 3.18 or higher
+- gfortran-11 (fully tested, current default)
+- ifort (should work, but not used in current version)
+
+Libraries: 
+- MPI - tested with mpich-3.4.1
+- HDF5 
+- pFUnit - only if unit testing required 
+- PETSc - tested with versions 3.16 and 3.17 (3.18 not compatible) - requires hypre
+- json-fortran - currently using version 8.2.5
+- sundials (as of v.1.2.0)
+
+Make sure that all libraries have been compiled using the same compiler/mpi distribution. 
+
+The code has so far been tested on Linux (including WSL) and MacOS. 
+
+## Building prerequisites 
 
 On Ubuntu, the following commands can be used to build all of the prerequisites. Keep in mind conflicts might occur depending on the state of your system. First run
 
@@ -11,7 +30,7 @@ sudo apt-get install g++-11 gcc-11 gfortran-11 libblas-dev liblapack-dev m4 gcov
 sudo pip install ford
 ```
 
-Make sure that the correct CMake version is installed (there are possible conflicts with newer versions). For example, to install CMake 3.18.0:
+Make sure that the correct CMake version is installed. For example, to install CMake 3.18.0:
 
 ```
 wget https://github.com/Kitware/CMake/releases/download/v3.18.0/cmake-3.18.0.tar.gz
@@ -75,7 +94,18 @@ cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_
 make install
 ```
 
-et the environmental variables
+Install the sundials library:
+
+```
+git clone https://github.com/LLNL/sundials.git
+cd sundials 
+mkdir build 
+cd build 
+cmake .. -DENABLE_MPI=ON -DCMAKE_INSTALL_PREFIX=/home/installs/sundials -DENABLE_LAPACK=ON -DBUILD_FORTRAN_MODULE_INTERFACE=ON -DCMAKE_C_COMPILER=gcc-11
+make install
+```
+
+Set the environmental variables
 
 ```
 export PFUNIT_DIR=/home/installs/pFUnit
@@ -85,10 +115,12 @@ export PATH=$PATH:/home/installs/petsc
 export PATH=$PATH:/home/installs/hdf5
 export PATH=$PATH:/home/installs/json-fortran/jsonfortran-gnu-8.2.5
 export PATH=$PATH:/home/mpich-install/bin:$PATH
+export PATH=$PATH:/home/installs/sundials
 export LD_LIBRARY_PATH=/home/mpich-install/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/home/sundials/lib:$LD_LIBRARY_PATH
+export SUNDIALS_DIR=/home/installs/sundials/lib/cmake/sundials
 ```
 NOTE: Some of the above paths might have to be set differently depending on your system setup and you might have to define the ones you need after the corresponding installation. Another option is to export the paths before the start of the installation process. 
-
 
 ## Building ReMKiT1D 
 
@@ -102,13 +134,11 @@ cd build
 ```
 cmake ..
 ```
-For test coverage enabled run with `-DCMAKE_BUILD_TYPE=TESTING`
-
 4. Run make and make test (if pFUnit enabled)
 ```
 make
 make test
-``` 
+```
 5. Optional: To generate documentation and get gcovr test coverage data
 ```
 make docs

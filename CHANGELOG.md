@@ -1,5 +1,47 @@
 # CHANGELOG
 
+## v1.2.0, 2024-09-19
+
+- Added CVODE integrator as an option
+- Added new derivation-based explicit term
+- Added new unary transformations
+- New variable and manipulator features
+- New timeloop mode - output-driven timeloop
+- New restart option - initial output index
+- Support for under- and over-relaxation in BDE integrator
+- Updated documentation
+- Bug fixes
+
+### Breaking Changes
+
+- Due to the need to now differentiate between term types in JSON input, pre v1.2.0 config files will not work with 1.2.0
+- New explicit term interface incompatible with the previous one (relevant only for existing tests)
+
+### New Features
+
+- Basic CVODE integrator added
+- Derivation-based explicit term added. This takes a derivation and an optional modelbound variable and evaluates to the product of the derivation result and the variable
+- Added slope limiter related unary transformations 
+- Variables can now be copied into/from arrays by passing a list of variable names to the container
+- Manipulators now called before first time step
+- The term evaluator manipulator can now accumulate values into the evaluation variable instead of overwriting it
+- The term evaluator can now also explicitly request model and term updates (less fine-grained control than integrators)
+- Variables can now be zeroed with a passed list of names
+- Added option to explicitly change the maximum number of BDE integrator restarts (still hard-capped to 10)
+- Another timeloop mode has been added where the output points are set, and the code makes sure they coincide with integrator steps. If the output point is sufficiently far away, the standard timestep behaviour is recovered. 
+- It is now possible to set the initial output index. This is useful when restarting, allowing the user to avoid overwriting previous output files.
+- New unary transform for flooring variables
+- Timeloops now state which output index is written to
+- BDE integrators can now have under- and over-relaxation set through a relaxation weight argument. A value <1 is under-relaxation, and >1 is over-relaxation.
+
+### Bug Fixes
+
+- Fixed bugs with unary contract and expand. Added tests for non-trivial unary operators. 
+- Fixed segfault on finalize when no PETSc obj used
+- Fixed weird segfault caused by having 0 implicit terms and adding a second general term to a group
+- Fixed missing communication call in RK integrator
+- Fixed wrong order of arguments in electron energy source term generator
+
 ## v1.1.0, 2024-02-02
 
 - Solver and integrator improvements

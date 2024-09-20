@@ -100,11 +100,12 @@ contains
         allocate(logicalParams(1))
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
 
-        allocate(stringParams(4))
+        allocate(stringParams(5))
         stringParams(1) = NamedString(keyModels//".advection-n.divFlux."//keyEvolvedVar,"n") 
         stringParams(2) = NamedString(keyModels//".advection-n.divFlux."//keyImplicitVar,"n") 
         stringParams(3) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyInterpolatedVar,"u") 
         stringParams(4) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
+        stringParams(5) = NamedString(keyModels//".advection-n.divFlux."//keyTermType,keyMatrixTerm) 
 
         allocate(realArrayParams(1))
 
@@ -255,7 +256,7 @@ contains
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
         logicalParams(2) = NamedLogical(keyModels//".advection-n.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
 
-        allocate(stringParams(12))
+        allocate(stringParams(15))
         stringParams(1) = NamedString(keyModels//".advection-n.divFlux."//keyEvolvedVar,"n") 
         stringParams(2) = NamedString(keyModels//".advection-n.divFlux."//keyImplicitVar,"n") 
         stringParams(3) = NamedString(keyModels//".advection-n.divFlux."//keyStencilData//"."//keyFluxJacVar,"u") 
@@ -268,6 +269,9 @@ contains
         stringParams(10) = NamedString(keyModels//".advection-n.rightBC."//keyImplicitVar,"n") 
         stringParams(11) = NamedString(keyModels//".advection-n.rightBC."//keyStencilData//"."//keyFluxJacVar,"u")
         stringParams(12) = NamedString(keyModels//".advection-n.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+        stringParams(13) = NamedString(keyModels//".advection-n.divFlux."//keyTermType,keyMatrixTerm) 
+        stringParams(14) = NamedString(keyModels//".advection-n.leftBC."//keyTermType,keyMatrixTerm) 
+        stringParams(15) = NamedString(keyModels//".advection-n.rightBC."//keyTermType,keyMatrixTerm) 
 
         allocate(realArrayParams(3))
 
@@ -420,13 +424,15 @@ contains
         allocate(logicalParams(1))
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
 
-        allocate(stringParams(6))
+        allocate(stringParams(8))
         stringParams(1) = NamedString(keyModels//".am.je."//keyEvolvedVar,"E") 
         stringParams(2) = NamedString(keyModels//".am.je."//keyImplicitVar,"fluxe") 
         stringParams(3) = NamedString(keyModels//".am.je."//keyStencilData//"."//keyStencilType,keyDiagonal) 
         stringParams(4) = NamedString(keyModels//".am.ji."//keyEvolvedVar,"E") 
         stringParams(5) = NamedString(keyModels//".am.ji."//keyImplicitVar,"fluxi") 
         stringParams(6) = NamedString(keyModels//".am.ji."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(7) = NamedString(keyModels//".am.je."//keyTermType,keyMatrixTerm) 
+        stringParams(8) = NamedString(keyModels//".am.ji."//keyTermType,keyMatrixTerm) 
 
         allocate(realArrayParams(2))
 
@@ -581,7 +587,7 @@ contains
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
         logicalParams(2) = NamedLogical(keyVariables//"."//keyImplicitVars//".Ti."//keyIsStationary,.true.)
 
-        allocate(stringParams(9))
+        allocate(stringParams(12))
         stringParams(1) = NamedString(keyModels//".imp_temp.energyTerm."//keyEvolvedVar,"Ti") 
         stringParams(2) = NamedString(keyModels//".imp_temp.energyTerm."//keyImplicitVar,"Wi") 
         stringParams(3) = NamedString(keyModels//".imp_temp.energyTerm."//keyStencilData//"."//keyStencilType,keyDiagonal) 
@@ -591,6 +597,9 @@ contains
         stringParams(7) = NamedString(keyModels//".imp_temp.identityTerm."//keyEvolvedVar,"Ti") 
         stringParams(8) = NamedString(keyModels//".imp_temp.identityTerm."//keyImplicitVar,"Ti") 
         stringParams(9) = NamedString(keyModels//".imp_temp.identityTerm."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(10) = NamedString(keyModels//".imp_temp.energyTerm."//keyTermType,keyMatrixTerm) 
+        stringParams(11) = NamedString(keyModels//".imp_temp.kineticEnergyTerm."//keyTermType,keyMatrixTerm) 
+        stringParams(12) = NamedString(keyModels//".imp_temp.identityTerm."//keyTermType,keyMatrixTerm) 
 
         allocate(realArrayParams(3))
 
@@ -752,13 +761,15 @@ contains
         allocate(logicalParams(1))
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
 
-        allocate(stringParams(6))
+        allocate(stringParams(8))
         stringParams(1) = NamedString(keyModels//".jE.e."//keyEvolvedVar,"We") 
         stringParams(2) = NamedString(keyModels//".jE.e."//keyImplicitVar,"E") 
         stringParams(3) = NamedString(keyModels//".jE.e."//keyStencilData//"."//keyStencilType,keyDiagonal) 
         stringParams(4) = NamedString(keyModels//".jE.i."//keyEvolvedVar,"Wi") 
         stringParams(5) = NamedString(keyModels//".jE.i."//keyImplicitVar,"E") 
         stringParams(6) = NamedString(keyModels//".jE.i."//keyStencilData//"."//keyStencilType,keyDiagonal) 
+        stringParams(7) = NamedString(keyModels//".jE.e."//keyTermType,keyMatrixTerm) 
+        stringParams(8) = NamedString(keyModels//".jE.i."//keyTermType,keyMatrixTerm) 
 
         allocate(intArrayParams(2))
         intArrayParams(1) = NamedIntegerArray(keyModels//".jE.e."//keyImplicitTermGroups,[1])
@@ -921,13 +932,15 @@ contains
         allocate(logicalParams(1))
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
 
-        allocate(stringParams(6))
+        allocate(stringParams(8))
         stringParams(1) = NamedString(keyModels//".lorentz.e."//keyEvolvedVar,"fluxe") 
         stringParams(2) = NamedString(keyModels//".lorentz.e."//keyImplicitVar,"E") 
         stringParams(3) = NamedString(keyModels//".lorentz.e."//keyStencilData//"."//keyStencilType,keyDiagonal) 
         stringParams(4) = NamedString(keyModels//".lorentz.i."//keyEvolvedVar,"fluxi") 
         stringParams(5) = NamedString(keyModels//".lorentz.i."//keyImplicitVar,"E") 
         stringParams(6) = NamedString(keyModels//".lorentz.i."//keyStencilData//"."//keyStencilType,keyDiagonal)  
+        stringParams(7) = NamedString(keyModels//".lorentz.e."//keyTermType,keyMatrixTerm) 
+        stringParams(8) = NamedString(keyModels//".lorentz.i."//keyTermType,keyMatrixTerm) 
 
         allocate(intArrayParams(2))
         intArrayParams(1) = NamedIntegerArray(keyModels//".lorentz.e."//keyImplicitTermGroups,[1])
@@ -1099,7 +1112,7 @@ contains
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.false.)
         logicalParams(2) = NamedLogical(keyModels//".pg-n.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
 
-        allocate(stringParams(9))
+        allocate(stringParams(12))
         stringParams(1) = NamedString(keyModels//".pg-n.grad."//keyEvolvedVar,"n") 
         stringParams(2) = NamedString(keyModels//".pg-n.grad."//keyImplicitVar,"n") 
         stringParams(3) = NamedString(keyModels//".pg-n.grad."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
@@ -1109,6 +1122,9 @@ contains
         stringParams(7) = NamedString(keyModels//".pg-n.rightBC."//keyEvolvedVar,"n") 
         stringParams(8) = NamedString(keyModels//".pg-n.rightBC."//keyImplicitVar,"n") 
         stringParams(9) = NamedString(keyModels//".pg-n.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil)
+        stringParams(10) = NamedString(keyModels//".pg-n.grad."//keyTermType,keyMatrixTerm) 
+        stringParams(11) = NamedString(keyModels//".pg-n.leftBC."//keyTermType,keyMatrixTerm) 
+        stringParams(12) = NamedString(keyModels//".pg-n.rightBC."//keyTermType,keyMatrixTerm) 
         
         allocate(realArrayParams(3))
 
@@ -1259,11 +1275,12 @@ contains
         logicalParams(1) = NamedLogical(keyXGrid//"."//keyPeriodic,.true.)
         logicalParams(2) = NamedLogical(keyVariables//"."//keyDerivedVars//".time."//keyIsScalar,.true.)
 
-        allocate(stringParams(4))
+        allocate(stringParams(5))
         stringParams(1) = NamedString(keyModels//".source.term."//keyEvolvedVar,"n") 
         stringParams(2) = NamedString(keyModels//".source.term."//keyImplicitVar,"n") 
         stringParams(3) = NamedString(keyModels//".source.term."//keyTimeSignalData//"."//keySignal,keyCutSineSignal) 
         stringParams(4) = NamedString(keyModels//".source.term."//keyStencilData//"."//keyStencilType,keyDiagonal)
+        stringParams(5) = NamedString(keyModels//".source.term."//keyTermType,keyMatrixTerm) 
         
         reqVarsPowers = NamedRealArray(keyModels//".source.term."//keyVarData//"."//keyReqRowVarPowers,[real(-1,kind=rk)])
         tParams = NamedRealArray(keyModels//".source.term."//keyTimeSignalData//"."//keyTimeSignalParams,real([0.d0,0.5d0],kind=rk))
@@ -1434,7 +1451,7 @@ contains
         logicalParams(2) = NamedLogical(keyModels//".braginskii_q.leftBC."//keyStencilData//"."//keyLeftBoundary,.true.)
         logicalParams(3) = NamedLogical(keyVariables//"."//keyImplicitVars//".q."//keyIsStationary,.true.)
         
-        allocate(stringParams(11))
+        allocate(stringParams(14))
         stringParams(1) = NamedString(keyModels//".braginskii_q.grad."//keyEvolvedVar,"q") 
         stringParams(2) = NamedString(keyModels//".braginskii_q.grad."//keyImplicitVar,"Te") 
         stringParams(3) = NamedString(keyModels//".braginskii_q.grad."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
@@ -1449,6 +1466,9 @@ contains
 
         stringParams(11) = NamedString(keyModels//".braginskii_q."//keyModelboundData//".logL."//keyRuleName,"logLee")
 
+        stringParams(12) = NamedString(keyModels//".braginskii_q.grad."//keyTermType,keyMatrixTerm) 
+        stringParams(13) = NamedString(keyModels//".braginskii_q.leftBC."//keyTermType,keyMatrixTerm) 
+        stringParams(14) = NamedString(keyModels//".braginskii_q.rightBC."//keyTermType,keyMatrixTerm) 
         allocate(realArrayParams(9))
 
         realArrayParams(1)%name = keyModels//".braginskii_q.grad."//keyCustomNormConst//"."//keyNormPowers
@@ -1651,7 +1671,7 @@ contains
         logicalParams(3) = NamedLogical(keyVariables//"."//keyDerivedVars//".gammaLeft."//keyIsScalar,.true.)
         logicalParams(4) = NamedLogical(keyVariables//"."//keyDerivedVars//".gammaRight."//keyIsScalar,.true.)
 
-        allocate(stringParams(11))
+        allocate(stringParams(14))
         stringParams(1) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyEvolvedVar,"W") 
         stringParams(2) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyImplicitVar,"q")
         stringParams(3) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyStencilData//"."//keyStencilType,keyCentralDiffInterp) 
@@ -1663,6 +1683,9 @@ contains
         stringParams(9) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyImplicitVar,"n") 
         stringParams(10) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyStencilData//"."//keyFluxJacVar,"u")
         stringParams(11) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyStencilData//"."//keyStencilType,keyBoundaryStencil) 
+        stringParams(12) = NamedString(keyModels//".heatfluxdiv.divFlux."//keyTermType,keyMatrixTerm) 
+        stringParams(13) = NamedString(keyModels//".heatfluxdiv.leftBC."//keyTermType,keyMatrixTerm) 
+        stringParams(14) = NamedString(keyModels//".heatfluxdiv.rightBC."//keyTermType,keyMatrixTerm) 
 
         allocate(realArrayParams(3))
 

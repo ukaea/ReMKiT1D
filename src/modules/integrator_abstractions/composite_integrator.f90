@@ -62,6 +62,7 @@ module composite_integrator_class
         real(rk)                                             ,private :: currentTime !! Current time value (should agree with "time" variable if present)
         real(rk)                                             ,private :: globalTimestep !! Global timestep value
         real(rk)                                             ,private :: initialTimestep !! Initial timestep value
+        real(rk)                                             ,private :: requestedTimestep !! Externally requested timestep, the global timestep will be set to the minimum between this value and the initialTimestep
 
         type(VariableContainer) ,allocatable                 ,private :: stepBuffer !! Variable container buffer used between steps
 
@@ -78,6 +79,8 @@ module composite_integrator_class
         procedure ,public :: addIntegrator
         procedure ,public :: addIntegrationStage 
         procedure ,public :: setTimestepController
+        procedure ,public :: setRequestedTimestep
+
 
         procedure ,public :: init => initCompositeIntegrator
 
@@ -127,6 +130,14 @@ module composite_integrator_class
         class(TimestepController)         ,intent(in)     :: controller
 
     end subroutine setTimestepController
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine setRequestedTimestep(this,timestep) 
+        !! Setter for requestedTimestep
+
+        class(CompositeIntegrator)        ,intent(inout)  :: this
+        real(rk)                          ,intent(in)     :: timestep 
+
+    end subroutine setRequestedTimestep
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars) 
         !! Call all integrators based on the integration stages and global timestep. The global timestep is updated at the start if there is

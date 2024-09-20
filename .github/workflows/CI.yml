@@ -60,7 +60,7 @@ jobs:
             lcov --c --d ./coverage --output-file ./coverage/main_coverage.txt
 
       - name: Upload code coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ github.workspace }}/build/coverage/main_coverage.txt

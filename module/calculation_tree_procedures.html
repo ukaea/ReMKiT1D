@@ -215,7 +215,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1113"></span>
+              <span class="anchor" id="variable-this~1198"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(in)</td>
@@ -230,7 +230,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputarray~62"></span>
+              <span class="anchor" id="variable-inputarray~66"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -276,7 +276,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1114"></span>
+              <span class="anchor" id="variable-this~1199"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(in)</td>
@@ -291,7 +291,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputarray~63"></span>
+              <span class="anchor" id="variable-inputarray~67"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -337,7 +337,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1115"></span>
+              <span class="anchor" id="variable-this~1200"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(in)</td>
@@ -388,7 +388,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1110"></span>
+              <span class="anchor" id="variable-this~1195"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(inout)</td>
@@ -403,7 +403,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-additivemode~5"></span>
+              <span class="anchor" id="variable-additivemode~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -434,152 +434,6 @@
         <tr>
             <td>
               <span class="anchor" id="variable-leafvarindex~5"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>leafVarIndex</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unaryrealparams~5"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>unaryRealParams</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unaryintparams~5"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>unaryIntParams</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unarylogicalparams~5"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>unaryLogicalParams</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-unarytransformtag~4"></span>
-              character(len=*),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>unaryTransformTag</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-inittree"></span> <h3>module subroutine <a href='../proc/inittree.html'>initTree</a>(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
-    <a href="../interface/inittree.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Calculation tree initialization routine</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~1111"></span>
-              class(<a href='../type/calculationtree.html'>CalculationTree</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-additivemode~6"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>additiveMode</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-constant~6"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>constant</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-leafvarindex~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -639,7 +493,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unarytransformtag~5"></span>
+              <span class="anchor" id="variable-unarytransformtag~4"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -660,12 +514,12 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-addchild"></span> <h3>module subroutine <a href='../proc/addchild.html'>addChild</a>(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
-    <a href="../interface/addchild.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-inittree"></span> <h3>module subroutine <a href='../proc/inittree.html'>initTree</a>(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
+    <a href="../interface/inittree.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
-  <p>Initialize a child node of this node with given properties</p>
+  <p>Calculation tree initialization routine</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -680,12 +534,12 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1112"></span>
-              class(<a href='../type/calculationnode.html'>CalculationNode</a>),
+              <span class="anchor" id="variable-this~1196"></span>
+              class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
-<td>intent(inout),</td>
+<td>intent(inout)</td>
               <td></td>            <td>
-              target
+              
             </td>
             <td>::</td>
             <td><strong>this</strong></td>
@@ -710,7 +564,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-constant~7"></span>
+              <span class="anchor" id="variable-constant~6"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -725,7 +579,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-leafvarindex~7"></span>
+              <span class="anchor" id="variable-leafvarindex~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -785,6 +639,152 @@
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-unarytransformtag~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unaryTransformTag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-addchild"></span> <h3>module subroutine <a href='../proc/addchild.html'>addChild</a>(this, additiveMode, constant, leafVarIndex, unaryRealParams, unaryIntParams, unaryLogicalParams, unaryTransformTag)  
+    <a href="../interface/addchild.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Initialize a child node of this node with given properties</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~1197"></span>
+              class(<a href='../type/calculationnode.html'>CalculationNode</a>),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-additivemode~8"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>additiveMode</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-constant~7"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>constant</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-leafvarindex~7"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>leafVarIndex</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-unaryrealparams~8"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>unaryRealParams</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-unaryintparams~8"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>unaryIntParams</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-unarylogicalparams~8"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>unaryLogicalParams</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-unarytransformtag~6"></span>
               character(len=*),
             </td>
@@ -826,7 +826,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1116"></span>
+              <span class="anchor" id="variable-this~1201"></span>
               class(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(inout)</td>
@@ -841,7 +841,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ftree~2"></span>
+              <span class="anchor" id="variable-ftree~3"></span>
               type(<a href='../type/flattree.html'>FlatTree</a>),
             </td>
 <td>intent(in)</td>
@@ -882,7 +882,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1117"></span>
+              <span class="anchor" id="variable-this~1202"></span>
               class(<a href='../type/calculationnode.html'>CalculationNode</a>),
             </td>
 <td>intent(inout)</td>
@@ -923,7 +923,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1118"></span>
+              <span class="anchor" id="variable-this~1203"></span>
               type(<a href='../type/calculationtree.html'>CalculationTree</a>),
             </td>
 <td>intent(inout)</td>

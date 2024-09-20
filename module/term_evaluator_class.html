@@ -125,8 +125,8 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/term_evaluator_class.html#interface-initevaluator~2">initEvaluator</a>
-            <a class="list-group-item" href="../module/term_evaluator_class.html#interface-evaluate~2">evaluate</a>
+            <a class="list-group-item" href="../module/term_evaluator_class.html#interface-initevaluator">initEvaluator</a>
+            <a class="list-group-item" href="../module/term_evaluator_class.html#interface-evaluate">evaluate</a>
         </div>
       </div>
     </div>
@@ -167,13 +167,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='modeller_class.html'>modeller_class</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='modeller_surrogate_class.html'>modeller_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='modeller_class.html'>modeller_class</a></li>
+                  <li class="list-inline-item"><a href='manipulator_abstract_class.html'>manipulator_abstract_class</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
               </ul>
             </li>
@@ -204,7 +204,7 @@
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-initevaluator~2"></span>
+      <span class="anchor" id="interface-initevaluator"></span>
       <h3>        interface
       </h3>
     </div>
@@ -230,7 +230,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~717"></span>
+              <span class="anchor" id="variable-this~715"></span>
               class(<a href='../type/termevaluator.html'>TermEvaluator</a>),
             </td>
 <td>intent(inout)</td>
@@ -305,7 +305,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-update~6"></span>
+              <span class="anchor" id="variable-update~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -328,7 +328,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-evaluate~2"></span>
+      <span class="anchor" id="interface-evaluate"></span>
       <h3>        interface
       </h3>
     </div>
@@ -354,7 +354,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~718"></span>
+              <span class="anchor" id="variable-this~716"></span>
               class(<a href='../type/termevaluator.html'>TermEvaluator</a>),
             </td>
 <td>intent(inout)</td>
@@ -369,7 +369,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-manipulatedmodeller~11"></span>
+              <span class="anchor" id="variable-manipulatedmodeller~12"></span>
               class(<a href='../type/modellersurrogate.html'>ModellerSurrogate</a>),
             </td>
 <td>intent(inout)</td>
@@ -384,7 +384,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outputvars~11"></span>
+              <span class="anchor" id="variable-outputvars~12"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -399,7 +399,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputvars~19"></span>
+              <span class="anchor" id="variable-inputvars~20"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -487,7 +487,7 @@ Optionally performs its own update calls on the models/terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evaluatedmodelindex~2"></span>
+              <span class="anchor" id="variable-evaluatedmodelindex"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -538,7 +538,7 @@ Optionally performs its own update calls on the models/terms</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-update~5"></span>
+              <span class="anchor" id="variable-update~11"></span>
               logical,
             </td>
               <td>private</td>
@@ -579,12 +579,12 @@ Optionally performs its own update calls on the models/terms</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/termevaluator.html#boundprocedure-init~58'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initevaluator~2.html'>initEvaluator</a></td>
+  <strong><a href='../type/termevaluator.html#boundprocedure-init~65'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initevaluator.html'>initEvaluator</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/termevaluator.html#boundprocedure-affect~5'>affect</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluate~2.html'>evaluate</a></td>
+  <strong><a href='../type/termevaluator.html#boundprocedure-affect~5'>affect</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluate.html'>evaluate</a></td>
                 <td></td>
               </tr>
           </tbody>

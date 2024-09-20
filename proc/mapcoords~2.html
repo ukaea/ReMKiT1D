@@ -83,15 +83,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stencil1d_procedures.f90"> Source File</a>
+              <a href="../src/stencil_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stencil1d_procedures.f90.html'>stencil1d_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/stencil1d_procedures.html'>stencil1d_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stencil_procedures.f90.html'>stencil_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/stencil_procedures.html'>stencil_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">mapCoords</li>
           </ol>
         </nav>
@@ -137,12 +137,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module function mapCoords(this, inputCoord, dimSize, periodic) result(output)  
-    <a href="../interface/mapcoords.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure module function mapCoords(this, gridObj, inputArray) result(output)  
+    <a href="../interface/mapcoords~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Stencil1D coordinate mapping routine</p>
+    <p>Stencil coordinate mapping routine</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1242"></span>
-              class(<a href='../type/stencil1d.html'>Stencil1D</a>),
+              <span class="anchor" id="variable-this~1137"></span>
+              class(<a href='../type/stencil.html'>Stencil</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -173,47 +173,32 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputcoord~2"></span>
-              integer(kind=ik),
+              <span class="anchor" id="variable-gridobj~37"></span>
+              type(<a href='../type/grid.html'>Grid</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>inputCoord</strong></td>
+            <td><strong>gridObj</strong></td>
             <td>
-                <p>Input coordinate value</p>
+                <p>Grid used to construct the mapping</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dimsize~3"></span>
+              <span class="anchor" id="variable-inputarray~64"></span>
               integer(kind=ik),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dimSize</strong></td>
-            <td>
-                <p>Size of dimension in which mapping is done</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-periodic~8"></span>
-              logical,
             </td>
 <td>intent(in),</td>
-              <td>optional</td>            <td>
-              
+              <td></td>            <td>
+              dimension(:)
             </td>
             <td>::</td>
-            <td><strong>periodic</strong></td>
+            <td><strong>inputArray</strong></td>
             <td>
-                <p>True if dimension is periodic</p>
+                <p>Input array of coordinates (size 1 - [x], or size 3 [x,h,v])</p>
             </td>
         </tr>
     </tbody>
@@ -221,8 +206,8 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-output~120"></span>
-          integer(kind=ik), allocatable, dimension(:)
+          <span class="anchor" id="variable-output~95"></span>
+          type(<a href='../type/intarray.html'>IntArray</a>), allocatable, dimension(:)
         </small>
       </h3>
       

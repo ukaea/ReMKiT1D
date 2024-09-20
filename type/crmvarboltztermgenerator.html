@@ -120,13 +120,13 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-vdata~6">vData</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-distributionname~11">distributionName</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-transitionindices~4">transitionIndices</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-absorptionterms~5">absorptionTerms</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-superelasticterms~2">superelasticTerms</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-evolvedharmonic~7">evolvedHarmonic</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-distributionname~5">distributionName</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-transitionindices~2">transitionIndices</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-absorptionterms">absorptionTerms</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-superelasticterms">superelasticTerms</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-evolvedharmonic~3">evolvedHarmonic</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-envpointer~3">envPointer</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-normconst~4">normConst</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-normconst~3">normConst</a>
         </div>
       </div>
     </div>
@@ -173,8 +173,8 @@
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-getnumimplicitterms">getNumImplicitTerms</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-getnumgeneralterms">getNumGeneralTerms</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-moveterms">moveTerms</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-init~86">init</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-generate~4">generate</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-init~52">init</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-generate~3">generate</a>
         </div>
       </div>
     </div>
@@ -243,7 +243,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distributionname~11"></span>
+              <span class="anchor" id="variable-distributionname~5"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -260,7 +260,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindices~4"></span>
+              <span class="anchor" id="variable-transitionindices~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -277,7 +277,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterms~5"></span>
+              <span class="anchor" id="variable-absorptionterms"></span>
               logical,
             </td>
               <td>private</td>
@@ -294,7 +294,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-superelasticterms~2"></span>
+              <span class="anchor" id="variable-superelasticterms"></span>
               logical,
             </td>
               <td>private</td>
@@ -311,7 +311,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedharmonic~7"></span>
+              <span class="anchor" id="variable-evolvedharmonic~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -345,7 +345,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-normconst~4"></span>
+              <span class="anchor" id="variable-normconst~3"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -1017,7 +1017,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~86"></span>
+      <span class="anchor" id="boundprocedure-init~52"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmvarboltztermgenerator.html'>initCRMVarBoltzTermGenerator</a>
@@ -1223,7 +1223,7 @@ in calculations by this generator.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-generate~4"></span>
+      <span class="anchor" id="boundprocedure-generate~3"></span>
       <h3>
           procedure, public ::
   <strong>generate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generatevarboltzterms.html'>generateVarBoltzTerms</a>

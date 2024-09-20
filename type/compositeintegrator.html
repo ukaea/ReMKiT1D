@@ -121,14 +121,14 @@
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-integrators">integrators</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-numintegratorsadded">numIntegratorsAdded</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#variable-currenttime">currentTime</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#variable-currenttime~2">currentTime</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-globaltimestep">globalTimestep</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#variable-initialtimestep">initialTimestep</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#variable-requestedtimestep">requestedTimestep</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#variable-initialtimestep~3">initialTimestep</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#variable-requestedtimestep~2">requestedTimestep</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-stepbuffer">stepBuffer</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-integrationstage">integrationStage</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#variable-allintegratorsadded">allIntegratorsAdded</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#variable-dtcontroller">dtController</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#variable-dtcontroller~4">dtController</a>
         </div>
       </div>
     </div>
@@ -159,12 +159,12 @@
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-makeundefined">makeUndefined</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-affect~2">affect</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-getcurrenttime">getCurrentTime</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-getcurrenttime~2">getCurrentTime</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-addintegrator">addIntegrator</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-addintegrationstage">addIntegrationStage</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-settimestepcontroller">setTimestepController</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-settimestepcontroller~2">setTimestepController</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-setrequestedtimestep">setRequestedTimestep</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-init~6">init</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-init~47">init</a>
         </div>
       </div>
     </div>
@@ -248,7 +248,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-currenttime"></span>
+              <span class="anchor" id="variable-currenttime~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initialtimestep"></span>
+              <span class="anchor" id="variable-initialtimestep~3"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -299,7 +299,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-requestedtimestep"></span>
+              <span class="anchor" id="variable-requestedtimestep~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -367,7 +367,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dtcontroller"></span>
+              <span class="anchor" id="variable-dtcontroller~4"></span>
               class(<a href='timestepcontroller.html'>TimestepController</a>),
             </td>
               <td>private,</td>
@@ -666,7 +666,7 @@ an allocated timestep controller.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getcurrenttime"></span>
+      <span class="anchor" id="boundprocedure-getcurrenttime~2"></span>
       <h3>
           procedure, public ::
   <strong>getCurrentTime</strong>
@@ -678,7 +678,7 @@ an allocated timestep controller.</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getCurrentTime(this) result(time)  
-    <a href="../proc/getcurrenttime~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getcurrenttime.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for currentTime</p>
@@ -866,7 +866,7 @@ an allocated timestep controller.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-settimestepcontroller"></span>
+      <span class="anchor" id="boundprocedure-settimestepcontroller~2"></span>
       <h3>
           procedure, public ::
   <strong>setTimestepController</strong>
@@ -878,7 +878,7 @@ an allocated timestep controller.</p>
               <h3>interface </h3>
                   <h3>
     private pure module subroutine setTimestepController(this, controller)  
-    <a href="../proc/settimestepcontroller~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/settimestepcontroller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Setter for dtController</p>
@@ -1006,7 +1006,7 @@ an allocated timestep controller.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~6"></span>
+      <span class="anchor" id="boundprocedure-init~47"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcompositeintegrator.html'>initCompositeIntegrator</a>

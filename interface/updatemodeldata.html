@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for procedures.">144 statements</a>
+                 title=" 0.3% of total for procedures.">162 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/model.f90"> Source File</a>
+              <a href="../src/modeller.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/model.f90.html'>model.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/model_class.html'>model_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/modeller.f90.html'>modeller.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/modeller_class.html'>modeller_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">updateModelData</li>
           </ol>
         </nav>
@@ -139,8 +139,8 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private module subroutine updateModelData(this, varCont, updatePriority)  
-    <a href="../proc/updatemodeldata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+      private module subroutine updateModelData(this, modelIndex, varCont, updatePriority)  
+    <a href="../proc/updatemodeldata~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
     
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~788"></span>
-              class(<a href='../type/model.html'>Model</a>),
+              <span class="anchor" id="variable-this~166"></span>
+              class(<a href='../type/modeller.html'>Modeller</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,7 +173,22 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~87"></span>
+              <span class="anchor" id="variable-modelindex~10"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>modelIndex</strong></td>
+            <td>
+                <p>Model index for model whose data is to be update</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varcont~32"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -183,12 +198,12 @@
             <td>::</td>
             <td><strong>varCont</strong></td>
             <td>
-                <p>Variable container used in the update</p>
+                <p>Variable container to be used in update</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatepriority~15"></span>
+              <span class="anchor" id="variable-updatepriority~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -205,7 +220,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>Update this model's modelbound data if allocated</p>
+    <p>Update modelbound data of model with given index if that data is allocated</p>
     <br>
 
  </div>

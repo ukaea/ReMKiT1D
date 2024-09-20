@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">30 statements</a>
+                 title=" 0.1% of total for procedures.">28 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/lin_interpnd.f90"> Source File</a>
+              <a href="../src/lin_interp1d.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lin_interpnd.f90.html'>lin_interpnd.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/lin_interpnd_class.html'>lin_interpnd_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lin_interp1d.f90.html'>lin_interp1d.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/lin_interp1d_class.html'>lin_interp1D_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">interpolate</li>
           </ol>
         </nav>
@@ -140,7 +140,7 @@
     <div class="col-md-9" id='text'>
       <h2>interface <br>
       private pure module function interpolate(this, targetArray) result(interpVals)  
-    <a href="../proc/interpolate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/interpolate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
     
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~316"></span>
-              class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
+              <span class="anchor" id="variable-this~915"></span>
+              class(<a href='../type/interpolation1d.html'>Interpolation1D</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -173,12 +173,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-targetarray~2"></span>
-              type(<a href='../type/flatnddata.html'>FlatNDData</a>),
+              <span class="anchor" id="variable-targetarray~4"></span>
+              real(kind=rk),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              dimension(:)
             </td>
             <td>::</td>
             <td><strong>targetArray</strong></td>
@@ -189,10 +189,10 @@
     </tbody>
   </table>
 
-      <h3>Return Value <span class="anchor" id="variable-interpvals~2"></span><small>real(kind=rk),allocatable,dimension(:)</small></h3>
+      <h3>Return Value <span class="anchor" id="variable-interpvals~4"></span><small>real(kind=rk),allocatable,dimension(:)</small></h3>
     
     <h3>Description</h3>
-    <p>Interpolate FlatNDData onto interpolation points using weighted averages of vertices of the containing hypercube</p>
+    <p>Interpolate input array defined on the same grid as the interpolation object at points </p>
     <br>
 
  </div>

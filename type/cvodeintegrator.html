@@ -119,10 +119,10 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-communicationneeded~2">communicationNeeded</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-commdata~9">commData</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialupdate~8">nonTrivialUpdate</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialmodeldataupdate~4">nonTrivialModelDataUpdate</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-communicationneeded">communicationNeeded</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-commdata">commData</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialupdate">nonTrivialUpdate</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-nontrivialmodeldataupdate">nonTrivialModelDataUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-sunctx">sunctx</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-sunls">sunls</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-sunvecy">sunVecY</a>
@@ -136,9 +136,9 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-copybuffervals">copyBufferVals</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-evolvedvars~2">evolvedVars</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-mpicomm~2">mpiComm</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-numprocs~2">numProcs</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-numprocs~3">numProcs</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-options~3">options</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-integratorname~3">integratorName</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-integratorname~2">integratorName</a>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-getmodelindices">getModelIndices</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-settimeevolving">setTimeEvolving</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-istimeevolving">isTimeEvolving</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-settimestepcontroller~2">setTimestepController</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-settimestepcontroller">setTimestepController</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-hastimestepcontroller">hasTimestepController</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-gettimestepfromcontroller">getTimestepFromController</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-iscommunicationneeded">isCommunicationNeeded</a>
@@ -203,7 +203,7 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-hasnontrivialmodeldataupdate">hasNonTrivialModelDataUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-setnontrivialmodeldataupdate">setNonTrivialModelDataUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-affect~5">affect</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-init~70">init</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-init~78">init</a>
         </div>
       </div>
     </div>
@@ -253,7 +253,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-communicationneeded~2"></span>
+              <span class="anchor" id="variable-communicationneeded"></span>
               logical,
             </td>
               <td>public</td>
@@ -270,7 +270,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~9"></span>
+              <span class="anchor" id="variable-commdata"></span>
               type(<a href='communicationdata.html'>CommunicationData</a>),
             </td>
               <td>public</td>
@@ -287,7 +287,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialupdate~8"></span>
+              <span class="anchor" id="variable-nontrivialupdate"></span>
               logical,
             </td>
               <td>public</td>
@@ -304,7 +304,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nontrivialmodeldataupdate~4"></span>
+              <span class="anchor" id="variable-nontrivialmodeldataupdate"></span>
               logical,
             </td>
               <td>public</td>
@@ -542,7 +542,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numprocs~2"></span>
+              <span class="anchor" id="variable-numprocs~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -576,7 +576,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integratorname~3"></span>
+              <span class="anchor" id="variable-integratorname~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -1323,7 +1323,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-settimestepcontroller~2"></span>
+      <span class="anchor" id="boundprocedure-settimestepcontroller"></span>
       <h3>
           procedure, public ::
   <strong>setTimestepController</strong>
@@ -1335,7 +1335,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module subroutine setTimestepController(this, controller)  
-    <a href="../proc/settimestepcontroller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/settimestepcontroller~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Setter for dtController</p>
@@ -2408,7 +2408,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~70"></span>
+      <span class="anchor" id="boundprocedure-init~78"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcvodeintegrator.html'>initCVODEIntegrator</a>

@@ -127,7 +127,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/additive_derivation_class.html#interface-calculateadditive">calculateAdditive</a>
             <a class="list-group-item" href="../module/additive_derivation_class.html#interface-initadditivederiv">initAdditiveDeriv</a>
-            <a class="list-group-item" href="../module/additive_derivation_class.html#interface-addderivation~2">addDerivation</a>
+            <a class="list-group-item" href="../module/additive_derivation_class.html#interface-addderivation">addDerivation</a>
         </div>
       </div>
     </div>
@@ -168,12 +168,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
                   <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -229,7 +229,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~735"></span>
+              <span class="anchor" id="variable-this~476"></span>
               class(<a href='../type/additivederivation.html'>AdditiveDerivation</a>),
             </td>
 <td>intent(inout)</td>
@@ -244,7 +244,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputarray~48"></span>
+              <span class="anchor" id="variable-inputarray~27"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -259,7 +259,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indices~51"></span>
+              <span class="anchor" id="variable-indices~28"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -313,7 +313,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~733"></span>
+              <span class="anchor" id="variable-this~474"></span>
               class(<a href='../type/additivederivation.html'>AdditiveDerivation</a>),
             </td>
 <td>intent(inout)</td>
@@ -328,7 +328,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numderivs~2"></span>
+              <span class="anchor" id="variable-numderivs"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -343,7 +343,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expectednumindices~6"></span>
+              <span class="anchor" id="variable-expectednumindices~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -358,7 +358,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-resultpower~3"></span>
+              <span class="anchor" id="variable-resultpower~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -373,7 +373,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linearcoefficients~3"></span>
+              <span class="anchor" id="variable-linearcoefficients~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -396,7 +396,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-addderivation~2"></span>
+      <span class="anchor" id="interface-addderivation"></span>
       <h3>        interface
       </h3>
     </div>
@@ -404,7 +404,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine addDerivation(this, deriv, activeIndices)  
-    <a href="../proc/addderivation~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/addderivation.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Adds derivation to additive derivation object</p>
@@ -422,7 +422,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~734"></span>
+              <span class="anchor" id="variable-this~475"></span>
               class(<a href='../type/additivederivation.html'>AdditiveDerivation</a>),
             </td>
 <td>intent(inout)</td>
@@ -437,7 +437,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-deriv~12"></span>
+              <span class="anchor" id="variable-deriv~3"></span>
               class(<a href='../type/derivation.html'>Derivation</a>),
             </td>
 <td>intent(in)</td>
@@ -452,7 +452,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-activeindices~2"></span>
+              <span class="anchor" id="variable-activeindices"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -539,7 +539,7 @@ same length array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-derivindices"></span>
+              <span class="anchor" id="variable-derivindices~4"></span>
               type(<a href='../type/intarray.html'>IntArray</a>),
             </td>
               <td>private,</td>
@@ -573,7 +573,7 @@ same length array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expectednumindices~5"></span>
+              <span class="anchor" id="variable-expectednumindices~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -590,7 +590,7 @@ same length array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-resultpower~2"></span>
+              <span class="anchor" id="variable-resultpower"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -607,7 +607,7 @@ same length array</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-linearcoefficients~2"></span>
+              <span class="anchor" id="variable-linearcoefficients"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -648,17 +648,17 @@ same length array</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/additivederivation.html#boundprocedure-init~71'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initadditivederiv.html'>initAdditiveDeriv</a></td>
+  <strong><a href='../type/additivederivation.html#boundprocedure-init~43'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initadditivederiv.html'>initAdditiveDeriv</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/additivederivation.html#boundprocedure-addderivation~2'>addDerivation</a></strong></td>
+  <strong><a href='../type/additivederivation.html#boundprocedure-addderivation'>addDerivation</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/additivederivation.html#boundprocedure-calculate~28'>calculate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculateadditive.html'>calculateAdditive</a></td>
+  <strong><a href='../type/additivederivation.html#boundprocedure-calculate~17'>calculate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculateadditive.html'>calculateAdditive</a></td>
                 <td></td>
               </tr>
           </tbody>

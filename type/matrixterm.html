@@ -119,10 +119,10 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/matrixterm.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/matrixterm.html#variable-rowdata">rowData</a>
-            <a class="list-group-item" href="../type/matrixterm.html#variable-multconst~3">multConst</a>
+            <a class="list-group-item" href="../type/matrixterm.html#variable-rowdata~4">rowData</a>
+            <a class="list-group-item" href="../type/matrixterm.html#variable-multconst~13">multConst</a>
             <a class="list-group-item" href="../type/matrixterm.html#variable-normalizationconst">normalizationConst</a>
-            <a class="list-group-item" href="../type/matrixterm.html#variable-indexingdata">indexingData</a>
+            <a class="list-group-item" href="../type/matrixterm.html#variable-indexingdata~5">indexingData</a>
             <a class="list-group-item" href="../type/matrixterm.html#variable-fixedmatrix">fixedMatrix</a>
             <a class="list-group-item" href="../type/matrixterm.html#variable-fixedmatrixcalculated">fixedMatrixCalculated</a>
             <a class="list-group-item" href="../type/matrixterm.html#variable-stationaryevolvedvar">stationaryEvolvedVar</a>
@@ -165,22 +165,22 @@
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-setreqvars">setReqVars</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-setevolvedandimplicitvar">setEvolvedAndImplicitVar</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-initrowdata">initRowData</a>
-            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-evaluate~2">evaluate</a>
+            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-evaluate">evaluate</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-getmultconst">getMultConst</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-setmultconst">setMultConst</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-getindexingdata">getIndexingData</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-setfixedmatrix">setFixedMatrix</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-setnontrivialrowfun">setNontrivialRowFun</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-setnontrivialcolfun">setNontrivialColFun</a>
-            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-calculaterows">calculateRows</a>
-            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-calculatecols">calculateCols</a>
+            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-calculaterows~2">calculateRows</a>
+            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-calculatecols~2">calculateCols</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-addrowdatatopreallocationdata">addRowDataToPreallocationData</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-addrowdatapatterntocontroller">addRowDataPatternToController</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-addrowvaluestopetscmatrix">addRowValuesToPETScMatrix</a>
-            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-getvarname~2">getVarName</a>
+            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-getvarname">getVarName</a>
             <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-getrowdata">getRowData</a>
-            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-update~3">update</a>
-            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-matrixtermupdate">matrixTermUpdate</a>
+            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-update~6">update</a>
+            <a class="list-group-item" href="../type/matrixterm.html#boundprocedure-matrixtermupdate~2">matrixTermUpdate</a>
         </div>
       </div>
     </div>
@@ -232,7 +232,7 @@ multiplicative and normalization constants </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowdata"></span>
+              <span class="anchor" id="variable-rowdata~4"></span>
               type(<a href='sparserowdata.html'>SparseRowData</a>),
             </td>
               <td>private</td>
@@ -249,7 +249,7 @@ multiplicative and normalization constants </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~3"></span>
+              <span class="anchor" id="variable-multconst~13"></span>
               type(<a href='realarray.html'>RealArray</a>),
             </td>
               <td>private,</td>
@@ -283,7 +283,7 @@ multiplicative and normalization constants </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata"></span>
+              <span class="anchor" id="variable-indexingdata~5"></span>
               type(<a href='matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
               <td>private</td>
@@ -1101,7 +1101,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-evaluate~2"></span>
+      <span class="anchor" id="boundprocedure-evaluate"></span>
       <h3>
           procedure, public ::
   <strong>evaluate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatematterm.html'>evaluateMatTerm</a>
@@ -1576,7 +1576,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculaterows"></span>
+      <span class="anchor" id="boundprocedure-calculaterows~2"></span>
       <h3>
           procedure, private ::
   <strong>calculateRows</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unityrow.html'>unityRow</a>
@@ -1677,7 +1677,7 @@ to provide values which is only a function of the row </p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculatecols"></span>
+      <span class="anchor" id="boundprocedure-calculatecols~2"></span>
       <h3>
           procedure, private ::
   <strong>calculateCols</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unitycol.html'>unityCol</a>
@@ -2018,7 +2018,7 @@ stationary mult is ignored and set to -1</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getvarname~2"></span>
+      <span class="anchor" id="boundprocedure-getvarname"></span>
       <h3>
           procedure, public ::
   <strong>getVarName</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getrowvarname.html'>getRowVarName</a>
@@ -2138,7 +2138,7 @@ stationary mult is ignored and set to -1</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~3"></span>
+      <span class="anchor" id="boundprocedure-update~6"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/mattermupdate.html'>matTermUpdate</a>
@@ -2238,7 +2238,7 @@ stationary mult is ignored and set to -1</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-matrixtermupdate"></span>
+      <span class="anchor" id="boundprocedure-matrixtermupdate~2"></span>
       <h3>
           procedure, public ::
   <strong>matrixTermUpdate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/matrixnoupdate.html'>matrixNoUpdate</a>

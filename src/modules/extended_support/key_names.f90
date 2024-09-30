@@ -377,6 +377,7 @@ module key_names
     character(len=*) ,parameter :: keyElectronPolytropicC = "electronPolytropicCoeff"
     character(len=*) ,parameter :: keyIonPolytropicC = "ionPolytropicCoeff"
     character(len=*) ,parameter :: keySheathGammaIonSpeciesID = "electronSheathGammaIonSpeciesID"
+    character(len=*) ,parameter :: keyRemoveLogLeiDisc = "removeLogLeiDiscontinuity"
 
     ! Custom derivation keys 
 

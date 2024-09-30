@@ -647,6 +647,7 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
 
     type(NamedIntegerArray) ,dimension(1) :: tempDerivIDs 
     type(NamedInteger)      ,dimension(1) :: sheathGammaIonSpeciesID
+    type(NamedLogical)      ,dimension(1) :: removeDiscLogLei
     type(NamedReal)      ,dimension(2) :: polytropicCoeffs
 
     integer(ik) ,allocatable ,dimension(:) :: allIDs, negativeIDs ,weightedTempIDs
@@ -696,12 +697,16 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
 
     sheathGammaIonSpeciesID(1) = NamedInteger(keyStandardTextbook//"."//keySheathGammaIonSpeciesID,-1)
 
+    removeDiscLogLei(1) = NamedLogical(keyStandardTextbook//"."//keyRemoveLogLeiDisc,.false.)
+
     call jsonCont%load(tempDerivIDs)
     call jsonCont%load(sheathGammaIonSpeciesID)
     call jsonCont%load(polytropicCoeffs)
+    call jsonCont%load(removeDiscLogLei)
     call jsonCont%output(tempDerivIDs)
     call jsonCont%output(polytropicCoeffs)
     call jsonCont%output(sheathGammaIonSpeciesID)
+    call jsonCont%output(removeDiscLogLei)
 
     call flowSpeedDeriv%init(real([1,-1],kind=rk))
     call tempDerivFirstTerm%init(real([1,-1],kind=rk),multConst=real(2.0d0/3.0d0,kind=rk))
@@ -808,7 +813,8 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
     do i = 1, size(negativeIDs)
         if (allocated(tempSpecies)) deallocate(tempSpecies)
         allocate(tempSpecies,source = speciesListObj%getSpeciesFromID(negativeIDs(i)))
-        call logLeiDeriv(i)%init(tempSpecies%getCharge(),locNumX,densNorm,tempNorm)
+        call logLeiDeriv(i)%init(tempSpecies%getCharge(),locNumX,densNorm,tempNorm,&
+            removeLogLeiDiscontinuity=removeDiscLogLei(1)%value)
         call textbookObj%addDerivation(logLeiDeriv(i),"logLei"//tempSpecies%getName())
         
         do j = 1,size(negativeIDs)

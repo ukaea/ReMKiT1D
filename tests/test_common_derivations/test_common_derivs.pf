@@ -257,9 +257,9 @@ contains
         type(VariableList) :: testList,testListDerived
         type(Indexing) :: testIndexing
         type(VariableContainer) :: testVarCont
-        type(CalculationRule) ,dimension(1) :: cRules
+        type(CalculationRule) ,dimension(2) :: cRules
         real(rk) ,allocatable ,dimension(:) :: locVector
-        type(CoulombLogDerivation) :: method
+        type(CoulombLogDerivation) :: method, methodNoDisc
 
         integer(ik) :: i 
 
@@ -273,25 +273,32 @@ contains
         call testListDerived%init()
 
         call testListDerived%addVar("logL")
+        call testListDerived%addVar("logLnoDisc")
 
         call testIndexing%init(testPart,testGrid,testList)
 
         call method%init(1.0d0,3,1.d19,10.0d0)
+        call methodNoDisc%init(1.0d0,3,1.d19,10.0d0,removeLogLeiDiscontinuity=.true.)
 
         call cRules(1)%init(method,[stringArray("T"),stringArray("n")])
+        call cRules(2)%init(methodNoDisc,[stringArray("T"),stringArray("n")])
 
         call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,0)
 
         testVarCont%variables(1)%entry = real(1,kind=rk)
-        testVarCont%variables(2)%entry = real(2,kind=rk)
+        testVarCont%variables(2)%entry = real(0.8d0,kind=rk)
         
         call testVarCont%calculateDerivedVars()
 
         allocate(locVector(0:4))
         locVector = 0
-        locVector(1:3) = logLei(20.0d0,1.d19,1.0d0)
+        locVector(1:3) = logLei(8.0d0,1.d19,1.0d0)
 
         @assertEqual(testVarCont%variables(3)%entry,locVector)
+        
+        locVector(1:3) = logLei(8.0d0,1.d19,1.0d0,.true.)
+
+        @assertEqual(testVarCont%variables(4)%entry,locVector)
     end subroutine test_coulomb_log_deriv
 
     @test

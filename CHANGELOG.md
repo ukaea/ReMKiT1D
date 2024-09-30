@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v1.2.1, 2024-09-30
+
+- Added an option to remove the logLei discontinuity in NRL formulary fit
+
+### Breaking Changes
+
+- N/A
+
+### New Features
+
+- New standard textbook option to remoge logLei discontinuity in NRL formularly fit by moving branch cutoff to e^2 * Z^2 eV
+
+### Bug Fixes
+
+- N/A
+
 ## v1.2.0, 2024-09-19
 
 - Added CVODE integrator as an option

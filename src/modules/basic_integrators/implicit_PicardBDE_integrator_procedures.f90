@@ -354,6 +354,9 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
 
         allocate(implicitVectorInit,source=this%implicitVectorOld)
         do i = 1, numSteps
+            
+            call printNamedValue(this%integratorName//": Current number of substeps",numSteps)
+            call printNamedValue(this%integratorName//": Starting substep",i)
             if (inputVars%isVarNameRegistered("time")) &
             this%buffer%variables(timeVarIndex)%entry(1) = this%buffer%variables(timeVarIndex)%entry(1) + dt(i)
             tolReached = .false.

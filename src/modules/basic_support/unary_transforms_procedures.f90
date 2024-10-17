@@ -70,7 +70,11 @@ module subroutine associateFunctionPointer(name,funcPointer)
     case("minmodLimiter")
         funcPointer => unaryMinmod
     case("absFloor")
-        funcPointer => absFloor
+        funcPointer => unaryAbsFloor
+    case("step")
+        funcPointer => unaryStep
+    case("filterWithin")
+        funcPointer => unaryFilter
     case("none")
         funcPointer => null()
     case default 
@@ -387,7 +391,7 @@ pure module function unarySlopeRatio(input,realParams,intParams,logicalParams) r
 
     end function unaryMinmod
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function absFloor(input,realParams,intParams,logicalParams) result(output)
+    pure module function unaryAbsFloor(input,realParams,intParams,logicalParams) result(output)
     !! Floor value filter unary wrapper, uses the absolute value of the first real param as the floor value.
     !! The result it sign(input) * max(abs(input),abs(realParams(1)))
 
@@ -399,7 +403,37 @@ pure module function unarySlopeRatio(input,realParams,intParams,logicalParams) r
 
         output = sign(max(abs(input),abs(realParams(1))),input) 
 
-    end function absFloor
+    end function unaryAbsFloor
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unaryStep(input,realParams,intParams,logicalParams) result(output)
+    !! Unary step function, takes no params. Returns 1 where input is > 0, else 0.
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+        allocate(output(size(input)))
+        output = 0
+        where (input > 0) output = 1.0
+
+    end function unaryStep
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module function unaryFilter(input,realParams,intParams,logicalParams) result(output)
+    !! Unary filter function, takes in two realParams, and returns the input, except where input<realParams(1) or
+    !! input>=realParams(2)
+
+        real(rk)               ,dimension(:) ,intent(in) :: input 
+        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
+        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
+        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
+        real(rk) ,allocatable ,dimension(:)              :: output
+
+        output = input
+        where (input >= realParams(2) .or. input < realParams(1)) output = 0
+
+    end function unaryFilter
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule unary_transforms_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

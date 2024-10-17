@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## v1.2.1, 2024-10-07
+## v1.2.1, 2024-10-17
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit
 - Added more output to BDE integrator
+- Added more unary transforms
 
 ### Breaking Changes
 
@@ -13,6 +14,8 @@
 
 - New standard textbook option to remoge logLei discontinuity in NRL formularly fit by moving branch cutoff to e^2 * Z^2 eV
 - BDE integrator now outputs the current number of substeps and progress through those
+- New "step" unary transform. 1 if the node evaluates > 0, 0 otherwise.
+- New "filterWithin" unary transform. 0 if the value of the node is not within the first two passed realParams, otherwise no effect.
 
 ### Bug Fixes
 

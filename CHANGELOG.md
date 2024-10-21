@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## v1.2.1, 2024-10-17
+## v1.2.1, 2024-10-21
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit
 - Added more output to BDE integrator
 - Added more unary transforms
+- Added key for controlling BDE integrator consolidation
 
 ### Breaking Changes
 
@@ -16,6 +17,7 @@
 - BDE integrator now outputs the current number of substeps and progress through those
 - New "step" unary transform. 1 if the node evaluates > 0, 0 otherwise.
 - New "filterWithin" unary transform. 0 if the value of the node is not within the first two passed realParams, otherwise no effect.
+- New "BDEConsolidationInterval" key to set the number of timesteps for the integrator to attempt consolidation after. Defaults to 50 (old hardcoded value).
 
 ### Bug Fixes
 

@@ -1024,7 +1024,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         case ("BDE")
 
             if (allocated(integerParams)) deallocate(integerParams)
-            allocate(integerParams(7))
+            allocate(integerParams(8))
 
             integerParams(1) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyMaxNonlinIters,100)
             integerParams(2) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAssociatedPETScGroup,1)
@@ -1040,6 +1040,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             integerParams(7) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyMaxBDERestarts,3)
 
+            integerParams(8) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
+                                            //"."//keyInternalStepControl//"."//keyBDEConsolidationInterval,50)
             call jsonCont%load(integerParams)
             call jsonCont%output(integerParams)
 
@@ -1096,7 +1098,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                                                                       integerParams(4)%value,&
                                                                                       integerParams(5)%value,&
                                                                                       integerParams(6)%value,&
-                                                                                      integerParams(7)%value)&
+                                                                                      integerParams(7)%value,&
+                                                                                      integerParams(8)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string&
                                             ,relaxationWeight=realParams(3)%value)
                 else

@@ -91,7 +91,7 @@ contains
         real(rk) ,allocatable ,dimension(:) :: testRate, testRateInverse ,testVec,checkVec ,csVals
         integer(ik) :: i 
 
-        integer(ik) :: popChangeMat(4,4) ,testDensDat(1,2)
+        integer(ik) :: popChangeMat(4,4) ,testDensDat(1,2), testDensDat2(2,2)
 
         call testPart%initSimplePartition(4,2,12,2)
 
@@ -125,7 +125,7 @@ contains
         call testSimpleTransition%init(3,1,2,2.0d0,1.5d0)
         call testFixedECSTransition%init(3,[0,2],[0,3],3.5d0,cSection,1,testVSpaceWrapper%vSpaceObj,1)
         call testDBTransition%init(3,[0,3],[0,2],-3.5d0,1,testVSpaceWrapper%vSpaceObj,2,1,2,4,0,real(1,kind=rk))
-        call testDerivedTransition%init(3,[3],[2],3.0d0,testDeriv,[3])
+        call testDerivedTransition%init(3,[3,0,3,2],[2],3.0d0,testDeriv,[3])
         call testDerivedTransition2%init(3,[3],[2],3.0d0,testDeriv,[3],testDeriv,[3],testDeriv,[3])
         call testVariableECSTransition%init(3,[0,2],[0,3],testDeriv,[5],derivCont,&
                                             [IntArray([3])],[1],1,testVSpaceWrapper%vSpaceObj)
@@ -162,7 +162,7 @@ contains
         @assertEqual(testCRMData%getTransitionIngoingStates(1),[1])
         @assertEqual(testCRMData%getTransitionIngoingStates(2),[0,2])
         @assertEqual(testCRMData%getTransitionIngoingStates(3),[0,3])
-        @assertEqual(testCRMData%getTransitionIngoingStates(4),[3])
+        @assertEqual(testCRMData%getTransitionIngoingStates(4),[3,0,3,2])
         @assertEqual(testCRMData%getTransitionOutgoingStates(1),[2])
         @assertEqual(testCRMData%getTransitionOutgoingStates(2),[0,3])
         @assertEqual(testCRMData%getTransitionOutgoingStates(3),[0,2])
@@ -191,14 +191,15 @@ contains
         @assertEqual(testRate,[1.5d0,1.5d0,1.5d0],tolerance=1.0d-14)
 
         popChangeMat = 0
+        popChangeMat(1,4) = -1
         popChangeMat(2,1) = -1
         popChangeMat(3,1) = 1
         popChangeMat(3,2) = -1
         popChangeMat(4,2) = 1
         popChangeMat(3,3) = 1
-        popChangeMat(3,4) = 1
+        popChangeMat(3,4) = 0
         popChangeMat(4,3) = -1
-        popChangeMat(4,4) = -1
+        popChangeMat(4,4) = -2
 
         @assertEqual(popChangeMat,testCRMData%getPopulationChangeMatrix([0,1,2,3],[1,2,3,4]))
 
@@ -206,6 +207,14 @@ contains
         testDensDat(1,2) = 1
 
         @assertEqual(testDensDat,testCRMData%getRequiredDensityData(2))
+
+        testDensDat2(1,1) = 0
+        testDensDat2(1,2) = 1
+
+        testDensDat2(2,1) = 3
+        testDensDat2(2,2) = 2
+
+        @assertEqual(testDensDat2,testCRMData%getRequiredDensityData(4,.true.))
 
         allocate(csVals(30))
         csVals = real(1,kind=rk)

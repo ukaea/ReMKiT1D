@@ -19,11 +19,13 @@
 - New "step" unary transform. 1 if the node evaluates > 0, 0 otherwise.
 - New "filterWithin" unary transform. 0 if the value of the node is not within the first two passed realParams, otherwise no effect.
 - New "BDEConsolidationInterval" key to set the number of timesteps for the integrator to attempt consolidation after. Defaults to 50 (old hardcoded value).
+- Some generators now explicitly output information about terms as they are generated
 
 ### Bug Fixes
 
 - Fixed extractor manipulator bug with CRM models by performing a 0 length timestep at the start of all simulations before any output
 - Added a call to update all modelbound data before the 0-length timestep to avoid some edge-case model failure
+- Fixed bug where unsorted ingoing states in some transitions lead to the wrong required density variables being identified in some generators
 
 ## v1.2.0, 2024-09-19
 

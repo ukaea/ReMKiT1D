@@ -330,8 +330,8 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
 
     logical :: rmLastState
     logical ,allocatable ,dimension(:) :: stateAdded
-    integer(ik) ,allocatable ,dimension(:) :: inStatesTemp, inStates ,uniqueStates ,stateCount, &
-                                              uniqueStatesReordered, stateCountReordered
+    integer(ik) ,allocatable ,dimension(:) :: inStatesTemp, inStates ,uniqueStates ,stateCount
+                                              
 
     integer(ik) :: i ,j, k
 
@@ -358,9 +358,6 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
 
     uniqueStates = removeDupeInts(inStates)
     allocate(stateCount(size(uniqueStates)))
-    allocate(uniqueStatesReordered(size(uniqueStates)))
-    allocate(stateCountReordered(size(uniqueStates)))
-    allocate(stateAdded(size(uniqueStates)))
 
     do i = 1,size(stateCount)
         stateCount(i) = count(inStates==uniqueStates(i))
@@ -370,28 +367,12 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
 
     k = 1 
 
-    stateAdded = .false.
+    allocate(densDataMat(count(stateCount>0),2))
 
-    do i = 1,size(inStates)
-        do j = 1,size(uniqueStates)
-            if (.not. stateAdded(j)) then
-                if (inStates(i) == uniqueStates(j)) then 
-                    uniqueStatesReordered(k) = inStates(i)
-                    stateCountReordered(k) = stateCount(j)
-                    stateAdded(j) = .true.
-                    k = k + 1
-                end if
-            end if
-        end do
-    end do
-
-    allocate(densDataMat(count(stateCountReordered>0),2))
-    k = 1
-
-    do i = 1,size(stateCountReordered)
-        if (stateCountReordered(i)>0) then 
-            densDataMat(k,1) = uniqueStatesReordered(i)
-            densDataMat(k,2) = stateCountReordered(i)
+    do i = 1,size(stateCount)
+        if (stateCount(i)>0) then 
+            densDataMat(k,1) = uniqueStates(i)
+            densDataMat(k,2) = stateCount(i)
             k = k + 1
         end if
     end do

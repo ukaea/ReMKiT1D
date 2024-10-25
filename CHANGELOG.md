@@ -1,11 +1,12 @@
 # CHANGELOG
 
-## v1.2.1, 2024-10-21
+## v1.2.1, 2024-10-25
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit
 - Added more output to BDE integrator
 - Added more unary transforms
 - Added key for controlling BDE integrator consolidation
+- Added 0-length timestep at the start of all simulations to fix extractor manipulator bug
 
 ### Breaking Changes
 
@@ -21,7 +22,7 @@
 
 ### Bug Fixes
 
-- N/A
+- Fixed extractor manipulator bug with CRM models by performing a 0 length timestep at the start of all simulations before any output
 
 ## v1.2.0, 2024-09-19
 

@@ -117,6 +117,15 @@ pure module subroutine setRequestedTimestep(this,timestep)
 
 end subroutine setRequestedTimestep
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine resetRequestedTimestep(this) 
+    !! Resets the requested timestep to the initial timestep
+
+    class(CompositeIntegrator)        ,intent(inout)  :: this
+
+    this%requestedTimestep = this%initialTimestep
+
+end subroutine resetRequestedTimestep
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars) 
     !! Call all integrators based on the integration stages and global timestep. The global timestep is updated at the start if there is
     !! an allocated timestep controller.

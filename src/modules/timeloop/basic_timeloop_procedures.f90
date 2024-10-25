@@ -229,6 +229,13 @@ module subroutine loop(this,envObj,modellerObj)
         call printMessage("Initial values loaded from HDF5 file")
     end if
 
+    call printMessage("-------------------------------------------")
+    call printMessage("Performing 0-length timestep")
+    call printMessage("-------------------------------------------")
+    call modellerObj%integrate(requestedTimestep=0d0)
+    call printMessage("-------------------------------------------")
+    call printMessage("0-length timestep successful")
+    call printMessage("-------------------------------------------")
     call modellerObj%safeCommAndDeriv()
     call modellerObj%callManipulator(4) 
     call modellerObj%copyVarValuesTo(this%bufferVars)

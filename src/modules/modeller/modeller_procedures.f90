@@ -546,6 +546,16 @@ module subroutine integrate(this,inVars,outVars,requestedTimestep)
         if (present(outVars)) call assert(outVars%isDefined(),"outVars passed to callIntegrator not defined")
     end if
 
+    select type (integrator=>this%integ)
+
+    type is (CompositeIntegrator) 
+
+        call integrator%resetRequestedTimestep()
+        
+    class default 
+         call printMessage("WARNING: reset timestep called on non-composite integrator - likely integration error")
+
+    end select
     if (present(requestedTimestep)) then 
 
         select type (integrator=>this%integ)

@@ -23,6 +23,7 @@
 ### Bug Fixes
 
 - Fixed extractor manipulator bug with CRM models by performing a 0 length timestep at the start of all simulations before any output
+- Added a call to update all modelbound data before the 0-length timestep to avoid some edge-case model failure
 
 ## v1.2.0, 2024-09-19
 

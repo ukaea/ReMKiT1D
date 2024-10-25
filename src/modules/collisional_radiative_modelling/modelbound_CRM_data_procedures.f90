@@ -328,10 +328,12 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
     logical(ik) ,optional       ,intent(in)  :: removeLastState
     integer(ik) ,dimension(:,:) ,allocatable :: densDataMat
 
-    logical :: rmLastState 
-    integer(ik) ,allocatable ,dimension(:) :: inStates ,uniqueStates ,stateCount
+    logical :: rmLastState
+    logical ,allocatable ,dimension(:) :: stateAdded
+    integer(ik) ,allocatable ,dimension(:) :: inStatesTemp, inStates ,uniqueStates ,stateCount, &
+                                              uniqueStatesReordered, stateCountReordered
 
-    integer(ik) :: i ,k
+    integer(ik) :: i ,j, k
 
     if (assertions) then 
         call assertPure(this%isDefined(),"getRequiredDensityData called on undefined modelbound CRM data object")
@@ -344,10 +346,21 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
 
     if (present(removeLastState)) rmLastState = removeLastState
 
-    inStates = this%getTransitionIngoingStates(transitionIndex)
+    inStatesTemp = this%getTransitionIngoingStates(transitionIndex)
+
+    if (rmLastState) then 
+
+        inStates = inStatesTemp(1:size(inStatesTemp)-1)
+
+    else 
+        inStates = inStatesTemp
+    end if
 
     uniqueStates = removeDupeInts(inStates)
     allocate(stateCount(size(uniqueStates)))
+    allocate(uniqueStatesReordered(size(uniqueStates)))
+    allocate(stateCountReordered(size(uniqueStates)))
+    allocate(stateAdded(size(uniqueStates)))
 
     do i = 1,size(stateCount)
         stateCount(i) = count(inStates==uniqueStates(i))
@@ -355,16 +368,30 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
         stateCount(i) = stateCount(i) - 1
     end do
 
-    if (rmLastState) stateCount(size(stateCount)) = stateCount(size(stateCount)) - 1
-
-    allocate(densDataMat(count(stateCount>0),2))
-
     k = 1 
 
-    do i = 1,size(stateCount)
-        if (stateCount(i)>0) then 
-            densDataMat(k,1) = uniqueStates(i)
-            densDataMat(k,2) = stateCount(i)
+    stateAdded = .false.
+
+    do i = 1,size(inStates)
+        do j = 1,size(uniqueStates)
+            if (.not. stateAdded(j)) then
+                if (inStates(i) == uniqueStates(j)) then 
+                    uniqueStatesReordered(k) = inStates(i)
+                    stateCountReordered(k) = stateCount(j)
+                    stateAdded(j) = .true.
+                    k = k + 1
+                end if
+            end if
+        end do
+    end do
+
+    allocate(densDataMat(count(stateCountReordered>0),2))
+    k = 1
+
+    do i = 1,size(stateCountReordered)
+        if (stateCountReordered(i)>0) then 
+            densDataMat(k,1) = uniqueStatesReordered(i)
+            densDataMat(k,2) = stateCountReordered(i)
             k = k + 1
         end if
     end do

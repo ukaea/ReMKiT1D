@@ -229,6 +229,9 @@ module subroutine loop(this,envObj,modellerObj)
         call printMessage("Initial values loaded from HDF5 file")
     end if
 
+    call modellerObj%safeCommAndDeriv()
+    call modellerObj%updateAllModelData()
+    call modellerObj%callManipulator(4) 
     call printMessage("-------------------------------------------")
     call printMessage("Performing 0-length timestep")
     call printMessage("-------------------------------------------")

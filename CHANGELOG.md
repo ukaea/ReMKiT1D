@@ -1,12 +1,13 @@
 # CHANGELOG
 
-## v1.2.1, 2024-10-25
+## v1.2.1, 2024-11-04
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit
 - Added more output to BDE integrator
 - Added more unary transforms
 - Added key for controlling BDE integrator consolidation
 - Added 0-length timestep at the start of all simulations to fix extractor manipulator bug
+- Added option to ignore Jacobian in diffusion stencil
 
 ### Breaking Changes
 
@@ -20,6 +21,7 @@
 - New "filterWithin" unary transform. 0 if the value of the node is not within the first two passed realParams, otherwise no effect.
 - New "BDEConsolidationInterval" key to set the number of timesteps for the integrator to attempt consolidation after. Defaults to 50 (old hardcoded value).
 - Some generators now explicitly output information about terms as they are generated
+- "ignoreJacobian" now valid option for diffusion stencil JSON interface
 
 ### Bug Fixes
 

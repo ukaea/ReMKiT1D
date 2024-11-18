@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.1, 2024-11-04
+## v1.2.1, 2024-11-18
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit
 - Added more output to BDE integrator
@@ -28,6 +28,7 @@
 - Fixed extractor manipulator bug with CRM models by performing a 0 length timestep at the start of all simulations before any output
 - Added a call to update all modelbound data before the 0-length timestep to avoid some edge-case model failure
 - Fixed bug where unsorted ingoing states in some transitions lead to the wrong required density variables being identified in some generators
+- Fixed bug with integrators that allow time evolution incrementing time twice when there is only one integration step
 
 ## v1.2.0, 2024-09-19
 

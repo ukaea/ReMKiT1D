@@ -156,6 +156,7 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     if (allocated(this%dtController)) this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
     numStages = size(this%integrationStage)
 
+    if (inputVars%isVarNameRegistered("time")) this%currentTime = inputVars%variables(outputVars%getVarIndex("time"))%entry(1)
     do i = 1,numStages
         integratorIndex = this%integrationStage(i)%integratorIndex
 
@@ -193,7 +194,6 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
         
     end do
 
-    if (inputVars%isVarNameRegistered("time")) this%currentTime = inputVars%variables(outputVars%getVarIndex("time"))%entry(1)
     this%currentTime = this%currentTime + this%globalTimestep 
     if (outputVars%isVarNameRegistered("time")) outputVars%variables(outputVars%getVarIndex("time"))%entry(1) = this%currentTime
 

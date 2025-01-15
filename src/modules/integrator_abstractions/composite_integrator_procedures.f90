@@ -152,8 +152,11 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     if (size(this%integrationStage) > 1) then
         if (.not. allocated(this%stepBuffer)) allocate(this%stepBuffer,source=inputVars)
     end if
-    this%globalTimestep = min(this%initialTimestep,this%requestedTimestep)
+
+    this%globalTimestep = this%initialTimestep
     if (allocated(this%dtController)) this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
+    this%globalTimestep = min(this%globalTimestep,this%requestedTimestep)
+
     numStages = size(this%integrationStage)
 
     if (inputVars%isVarNameRegistered("time")) this%currentTime = inputVars%variables(outputVars%getVarIndex("time"))%entry(1)

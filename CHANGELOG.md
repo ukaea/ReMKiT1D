@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.1, 2024-11-18
+## v1.2.1, 2025-01-15
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit
 - Added more output to BDE integrator
@@ -29,6 +29,7 @@
 - Added a call to update all modelbound data before the 0-length timestep to avoid some edge-case model failure
 - Fixed bug where unsorted ingoing states in some transitions lead to the wrong required density variables being identified in some generators
 - Fixed bug with integrators that allow time evolution incrementing time twice when there is only one integration step
+- Fixed bug where composite integrator global timestep's requested size is overwritten if a timestep controller is used, leading to performance issues if output-driven timestepping is used.
 
 ## v1.2.0, 2024-09-19
 

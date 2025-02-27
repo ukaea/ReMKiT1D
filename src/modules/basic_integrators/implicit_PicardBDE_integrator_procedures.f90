@@ -218,7 +218,6 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
             
         end if
         varConverged(i) = relError < nonlinTol .or. absError < epsilon(absError)*absTol
-        !if (.not. varConverged(i)) print*,i,varConverged(i),relError,absError
         if (.not. varConverged(i)) convergenceCounter(i) = convergenceCounter(i) + 1
     end do
 

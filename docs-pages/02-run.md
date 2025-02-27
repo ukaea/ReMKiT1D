@@ -1,6 +1,6 @@
 Title: Running
 Author: Stefan Mijin
-Date: 19.09.2024.
+Date: 25.02.2025.
 
 If the build process is successful, the executable will be in build/src/executables/ReMKiT1D.
 ReMKiT1D requires a config.json file as input. Assuming a valid config file is available, the code can be run from the executable directory using, for example:

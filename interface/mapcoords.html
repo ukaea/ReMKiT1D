@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">33 statements</a>
+                 title=" 0.0% of total for procedures.">17 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stencil1d.f90"> Source File</a>
+              <a href="../src/stencil.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stencil1d.f90.html'>stencil1d.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/stencil1d_class.html'>stencil1d_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stencil.f90.html'>stencil.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/stencil_class.html'>stencil_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">mapCoords</li>
           </ol>
         </nav>
@@ -139,7 +139,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private pure module function mapCoords(this, inputCoord, dimSize, periodic) result(output)  
+      private pure module function mapCoords(this, gridObj, inputArray) result(output)  
     <a href="../proc/mapcoords~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~788"></span>
-              class(<a href='../type/stencil1d.html'>Stencil1D</a>),
+              <span class="anchor" id="variable-this~58"></span>
+              class(<a href='../type/stencil.html'>Stencil</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -173,56 +173,41 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputcoord"></span>
-              integer(kind=ik),
+              <span class="anchor" id="variable-gridobj~5"></span>
+              type(<a href='../type/grid.html'>Grid</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>inputCoord</strong></td>
+            <td><strong>gridObj</strong></td>
             <td>
-                <p>Input coordinate value</p>
+                <p>Grid used to construct the mapping</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dimsize"></span>
+              <span class="anchor" id="variable-inputarray~10"></span>
               integer(kind=ik),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dimSize</strong></td>
-            <td>
-                <p>Size of dimension in which mapping is done</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-periodic~4"></span>
-              logical,
             </td>
 <td>intent(in),</td>
-              <td>optional</td>            <td>
-              
+              <td></td>            <td>
+              dimension(:)
             </td>
             <td>::</td>
-            <td><strong>periodic</strong></td>
+            <td><strong>inputArray</strong></td>
             <td>
-                <p>True if dimension is periodic</p>
+                <p>Input array of coordinates (size 1 - [x], or size 3 [x,h,v])</p>
             </td>
         </tr>
     </tbody>
   </table>
 
-      <h3>Return Value <span class="anchor" id="variable-output~74"></span><small>integer(kind=ik),allocatable,dimension(:)</small></h3>
+      <h3>Return Value <span class="anchor" id="variable-output~8"></span><small>type(<a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/type/intarray.html'>IntArray</a>),allocatable,dimension(:)</small></h3>
     
     <h3>Description</h3>
-    <p>Stencil1D coordinate mapping routine</p>
+    <p>Stencil coordinate mapping routine</p>
     <br>
 
  </div>

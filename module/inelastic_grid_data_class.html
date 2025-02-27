@@ -178,15 +178,15 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='lin_interp1d_class.html'>lin_interp1D_class</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
                   <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='v_space_class.html'>v_space_class</a></li>
                   <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
                   <li class="list-inline-item"><a href='inelastic_mapping.html'>inelastic_mapping</a></li>
-                  <li class="list-inline-item"><a href='v_space_class.html'>v_space_class</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='lin_interp1d_class.html'>lin_interp1D_class</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
               </ul>
             </li>
         </ul>
@@ -224,7 +224,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getFixedW(this, ind) result(wMat)  
-    <a href="../proc/getfixedw~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getfixedw.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return fixed mapping matrix with given index</p>
@@ -242,7 +242,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~245"></span>
+              <span class="anchor" id="variable-this~155"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
@@ -257,7 +257,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ind~22"></span>
+              <span class="anchor" id="variable-ind~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -293,7 +293,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getFixedEmissionVector(this, ind) result(emit)  
-    <a href="../proc/getfixedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getfixedemissionvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return fixed emission vector for mapping matrix with given index</p>
@@ -311,7 +311,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~246"></span>
+              <span class="anchor" id="variable-this~156"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
@@ -326,7 +326,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ind~23"></span>
+              <span class="anchor" id="variable-ind~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -362,7 +362,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getInterpolatedEmissionVector(this, E) result(emit)  
-    <a href="../proc/getinterpolatedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getinterpolatedemissionvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return interpolated emission vector for given input energy E</p>
@@ -380,7 +380,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~248"></span>
+              <span class="anchor" id="variable-this~158"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
@@ -395,7 +395,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e~4"></span>
+              <span class="anchor" id="variable-e~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -449,7 +449,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~244"></span>
+              <span class="anchor" id="variable-this~154"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(inout)</td>
@@ -479,7 +479,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedenergies~5"></span>
+              <span class="anchor" id="variable-fixedenergies"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -525,7 +525,7 @@
         <li class="list-group-item">
               <h3>
     private pure module subroutine interpolateW(this, E, wRes)  
-    <a href="../proc/interpolatew~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/interpolatew.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Interpolate mapping matrices for given energy and store in passed triangular matrix. Assumes upper triangular structure for wRes
@@ -544,7 +544,7 @@ if E is positive and lower if it's negative</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~247"></span>
+              <span class="anchor" id="variable-this~157"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
@@ -559,7 +559,7 @@ if E is positive and lower if it's negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e~3"></span>
+              <span class="anchor" id="variable-e"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -574,7 +574,7 @@ if E is positive and lower if it's negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-wres~2"></span>
+              <span class="anchor" id="variable-wres"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
 <td>intent(inout)</td>
@@ -729,7 +729,7 @@ energy mapping matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~7"></span>
+              <span class="anchor" id="variable-numv~9"></span>
               integer(kind=ik),
             </td>
               <td>public</td>
@@ -790,7 +790,7 @@ energy mapping matrices</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/inelasticgriddata.html#boundprocedure-init~17'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initineldata.html'>initInelData</a></td>
+  <strong><a href='../type/inelasticgriddata.html#boundprocedure-init~13'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initineldata.html'>initInelData</a></td>
                 <td></td>
               </tr>
           </tbody>

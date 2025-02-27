@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for modules and submodules.">44 statements</a>
+                 title=" 0.2% of total for modules and submodules.">45 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -169,18 +169,19 @@ modelbound data </p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='fluid_stencil_templates.html'>fluid_stencil_templates</a></li>
+                  <li class="list-inline-item"><a href='general_mat_term_class.html'>general_mat_term_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='basic_environment_wrapper.html'>basic_environment_wrapper</a></li>
+                  <li class="list-inline-item"><a href='term_generator_abstract_class.html'>term_generator_abstract_class</a></li>
                   <li class="list-inline-item"><a href='modelbound_crm_data_class.html'>modelbound_CRM_data_class</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='fluid_stencil_templates.html'>fluid_stencil_templates</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='term_generator_abstract_class.html'>term_generator_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='basic_environment_wrapper.html'>basic_environment_wrapper</a></li>
-                  <li class="list-inline-item"><a href='general_mat_term_class.html'>general_mat_term_class</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
+                  <li class="list-inline-item"><a href='status_printing.html'>status_printing</a></li>
               </ul>
             </li>
         </ul>
@@ -236,7 +237,7 @@ modelbound data </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~347"></span>
+              <span class="anchor" id="variable-this~1172"></span>
               class(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -251,7 +252,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~49"></span>
+              <span class="anchor" id="variable-envobj~117"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(in),</td>
@@ -266,7 +267,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-crmdata~12"></span>
+              <span class="anchor" id="variable-crmdata~25"></span>
               type(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -281,7 +282,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generatortag~10"></span>
+              <span class="anchor" id="variable-generatortag~15"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -311,7 +312,7 @@ modelbound data </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-includedtransitionindices~3"></span>
+              <span class="anchor" id="variable-includedtransitionindices~10"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -362,7 +363,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~348"></span>
+              <span class="anchor" id="variable-this~1173"></span>
               class(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -377,7 +378,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~27"></span>
+              <span class="anchor" id="variable-mbdata~62"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -426,7 +427,7 @@ Defaults to all transitions that include electrons in ingoingStates</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~349"></span>
+              <span class="anchor" id="variable-this~1174"></span>
               type(<a href='../type/crmelenergytermgenerator.html'>CRMElEnergyTermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -496,7 +497,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~4"></span>
+              <span class="anchor" id="variable-vdata~9"></span>
               type(<a href='../type/vardata.html'>VarData</a>),
             </td>
               <td>private,</td>
@@ -513,7 +514,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvars~2"></span>
+              <span class="anchor" id="variable-implicitvars~6"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -547,7 +548,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envpointer~2"></span>
+              <span class="anchor" id="variable-envpointer~5"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
               <td>private,</td>
@@ -564,7 +565,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numx~4"></span>
+              <span class="anchor" id="variable-numx~10"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -639,17 +640,22 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='../type/termgenerator.html#boundprocedure-getgeneratorprefix'>getGeneratorPrefix</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='../type/termgenerator.html#boundprocedure-moveterms'>moveTerms</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-init~29'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmelenergytermgenerator.html'>initCRMElEnergyTermGenerator</a></td>
+  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-init~94'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmelenergytermgenerator.html'>initCRMElEnergyTermGenerator</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-generate~2'>generate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generateelenergysourceterms.html'>generateElEnergySourceTerms</a></td>
+  <strong><a href='../type/crmelenergytermgenerator.html#boundprocedure-generate~6'>generate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generateelenergysourceterms.html'>generateElEnergySourceTerms</a></td>
                 <td></td>
               </tr>
           </tbody>

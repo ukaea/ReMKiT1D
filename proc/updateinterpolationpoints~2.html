@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">25 statements</a>
+                 title=" 0.0% of total for procedures.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/lin_interp1d_procedures.f90"> Source File</a>
+              <a href="../src/lin_interpnd_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lin_interp1d_procedures.f90.html'>lin_interp1d_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/lin_interp1d_procedures.html'>lin_interp1d_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lin_interpnd_procedures.f90.html'>lin_interpnd_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/lin_interpnd_procedures.html'>lin_interpnd_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">updateInterpolationPoints</li>
           </ol>
         </nav>
@@ -142,7 +142,7 @@
 </h2>
     
 
-    <p>Updates the interpolation points and weightss</p>
+    <p>Update the interpolation points and weights of all individual 1D interpolation objects and the weights/data indices used</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~967"></span>
-              class(<a href='../type/interpolation1d.html'>Interpolation1D</a>),
+              <span class="anchor" id="variable-this~838"></span>
+              class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -178,7 +178,7 @@
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              dimension(:)
+              dimension(:,:)
             </td>
             <td>::</td>
             <td><strong>interpolationPoints</strong></td>

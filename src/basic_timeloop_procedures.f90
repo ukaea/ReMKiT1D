@@ -230,6 +230,16 @@ module subroutine loop(this,envObj,modellerObj)
     end if
 
     call modellerObj%safeCommAndDeriv()
+    call modellerObj%updateAllModelData()
+    call modellerObj%callManipulator(4) 
+    call printMessage("-------------------------------------------")
+    call printMessage("Performing 0-length timestep")
+    call printMessage("-------------------------------------------")
+    call modellerObj%integrate(requestedTimestep=0d0)
+    call printMessage("-------------------------------------------")
+    call printMessage("0-length timestep successful")
+    call printMessage("-------------------------------------------")
+    call modellerObj%safeCommAndDeriv()
     call modellerObj%callManipulator(4) 
     call modellerObj%copyVarValuesTo(this%bufferVars)
     currentTime = 0

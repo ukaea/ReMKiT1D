@@ -122,10 +122,10 @@
             <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-stepmultiplier">stepMultiplier</a>
             <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-stepdecrament">stepDecrament</a>
             <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-minnonliniters">minNonlinIters</a>
-            <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-maxrestarts~2">maxRestarts</a>
+            <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-maxrestarts">maxRestarts</a>
+            <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-consolidationinterval">consolidationInterval</a>
             <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-hardmaxrestarts">hardMaxRestarts</a>
             <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-restartcount">restartCount</a>
-            <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-consolidationinterval">consolidationInterval</a>
             <a class="list-group-item" href="../type/internalcontrolleroptions.html#variable-stepssincelastconsolidation">stepsSinceLastConsolidation</a>
         </div>
       </div>
@@ -243,7 +243,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxrestarts~2"></span>
+              <span class="anchor" id="variable-maxrestarts"></span>
               integer(kind=ik),
             </td>
               <td>public</td>
@@ -256,6 +256,23 @@
                 <td>3</td>
             <td>
                 <p>Maximum number of consecutive solver restart attempts before critical failure is announced</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-consolidationinterval"></span>
+              integer(kind=ik),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>consolidationInterval</strong></td>
+<td> =</td>
+                <td>50</td>
+            <td>
+                <p>How many integration calls before currentNumSubsteps is again reduced to 1</p>
             </td>
         </tr>
         <tr>
@@ -290,23 +307,6 @@
                 <td>0</td>
             <td>
                 <p>Counter for consecutive number of solver restars </p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-consolidationinterval"></span>
-              integer(kind=ik),
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>consolidationInterval</strong></td>
-<td> =</td>
-                <td>50</td>
-            <td>
-                <p>How many integration calls before currentNumSubsteps is again reduced to 1</p>
             </td>
         </tr>
         <tr>

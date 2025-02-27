@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">28 statements</a>
+                 title=" 0.1% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/lin_interp1d.f90"> Source File</a>
+              <a href="../src/lin_interpnd.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lin_interp1d.f90.html'>lin_interp1d.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/lin_interp1d_class.html'>lin_interp1D_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lin_interpnd.f90.html'>lin_interpnd.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/lin_interpnd_class.html'>lin_interpnd_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">initInterpolation</li>
           </ol>
         </nav>
@@ -139,7 +139,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private pure module subroutine initInterpolation(this, gridPoints, interpolationPoints)  
+      private pure module subroutine initInterpolation(this, interpolationObjs)  
     <a href="../proc/initinterpolation~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~932"></span>
-              class(<a href='../type/interpolation1d.html'>Interpolation1D</a>),
+              <span class="anchor" id="variable-this~537"></span>
+              class(<a href='../type/interpolationnd.html'>InterpolationND</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,30 +173,15 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gridpoints~2"></span>
-              real(kind=rk),
+              <span class="anchor" id="variable-interpolationobjs"></span>
+              type(<a href='../type/interpolation1d.html'>Interpolation1D</a>),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
               dimension(:)
             </td>
             <td>::</td>
-            <td><strong>gridPoints</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-interpolationpoints~4"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>interpolationPoints</strong></td>
+            <td><strong>interpolationObjs</strong></td>
             <td>
                 
             </td>
@@ -205,7 +190,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>Initialization routine for 1D interpolation object</p>
+    <p>Initialization routine for ND interpolation object</p>
     <br>
 
  </div>

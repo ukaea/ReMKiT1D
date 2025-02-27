@@ -124,7 +124,7 @@
             <a class="list-group-item" href="../type/inelasticgriddata.html#variable-fixede">fixedE</a>
             <a class="list-group-item" href="../type/inelasticgriddata.html#variable-fixedw">fixedW</a>
             <a class="list-group-item" href="../type/inelasticgriddata.html#variable-fixedemissionvecs">fixedEmissionVecs</a>
-            <a class="list-group-item" href="../type/inelasticgriddata.html#variable-numv~7">numV</a>
+            <a class="list-group-item" href="../type/inelasticgriddata.html#variable-numv~9">numV</a>
         </div>
       </div>
     </div>
@@ -158,7 +158,7 @@
             <a class="list-group-item" href="../type/inelasticgriddata.html#boundprocedure-getfixedemissionvector">getFixedEmissionVector</a>
             <a class="list-group-item" href="../type/inelasticgriddata.html#boundprocedure-interpolatew">interpolateW</a>
             <a class="list-group-item" href="../type/inelasticgriddata.html#boundprocedure-getinterpolatedemissionvector">getInterpolatedEmissionVector</a>
-            <a class="list-group-item" href="../type/inelasticgriddata.html#boundprocedure-init~17">init</a>
+            <a class="list-group-item" href="../type/inelasticgriddata.html#boundprocedure-init~13">init</a>
         </div>
       </div>
     </div>
@@ -294,7 +294,7 @@ energy mapping matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~7"></span>
+              <span class="anchor" id="variable-numv~9"></span>
               integer(kind=ik),
             </td>
               <td>public</td>
@@ -504,7 +504,7 @@ energy mapping matrices</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getFixedW(this, ind) result(wMat)  
-    <a href="../proc/getfixedw~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getfixedw.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return fixed mapping matrix with given index</p>
@@ -579,7 +579,7 @@ energy mapping matrices</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getFixedEmissionVector(this, ind) result(emit)  
-    <a href="../proc/getfixedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getfixedemissionvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return fixed emission vector for mapping matrix with given index</p>
@@ -654,7 +654,7 @@ energy mapping matrices</p>
               <h3>interface </h3>
                   <h3>
     private pure module subroutine interpolateW(this, E, wRes)  
-    <a href="../proc/interpolatew~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/interpolatew.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Interpolate mapping matrices for given energy and store in passed triangular matrix. Assumes upper triangular structure for wRes
@@ -740,7 +740,7 @@ if E is positive and lower if it's negative</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getInterpolatedEmissionVector(this, E) result(emit)  
-    <a href="../proc/getinterpolatedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getinterpolatedemissionvector.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return interpolated emission vector for given input energy E</p>
@@ -803,7 +803,7 @@ if E is positive and lower if it's negative</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~17"></span>
+      <span class="anchor" id="boundprocedure-init~13"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initineldata.html'>initInelData</a>

@@ -119,15 +119,15 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-usedxcoords">usedXCoords</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-usedxcoords~2">usedXCoords</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-bufferc">bufferC</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-bufferinterp">bufferInterp</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-modelboundc~3">modelboundC</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-modelboundinterp~3">modelboundInterp</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-cfatzero~4">cfAtZero</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-numv~17">numV</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-locnumx~23">locNumX</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-vgridwidths">vGridWidths</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-modelboundc~2">modelboundC</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-modelboundinterp~2">modelboundInterp</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-cfatzero~3">cfAtZero</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-numv~29">numV</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-locnumx~28">locNumX</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#variable-vgridwidths~3">vGridWidths</a>
         </div>
       </div>
     </div>
@@ -158,8 +158,8 @@
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-makeundefined">makeUndefined</a>
             <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculate~26">calculate</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-init~46">init</a>
-            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculateinplace~9">calculateInPlace</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-init~59">init</a>
+            <a class="list-group-item" href="../type/ddvstencilgenerator.html#boundprocedure-calculateinplace~11">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -213,7 +213,7 @@ Assumes that the velocity stencil is [-1,0,1]</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-usedxcoords"></span>
+              <span class="anchor" id="variable-usedxcoords~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -265,7 +265,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelboundc~3"></span>
+              <span class="anchor" id="variable-modelboundc~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -282,7 +282,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelboundinterp~3"></span>
+              <span class="anchor" id="variable-modelboundinterp~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -299,7 +299,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cfatzero~4"></span>
+              <span class="anchor" id="variable-cfatzero~3"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -316,7 +316,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~17"></span>
+              <span class="anchor" id="variable-numv~29"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -333,7 +333,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~23"></span>
+              <span class="anchor" id="variable-locnumx~28"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -350,7 +350,7 @@ Defaults to interpolation values from vSpace. </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridwidths"></span>
+              <span class="anchor" id="variable-vgridwidths~3"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -653,7 +653,7 @@ Defaults to interpolation values from vSpace. </p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~46"></span>
+      <span class="anchor" id="boundprocedure-init~59"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initddvvalgen.html'>initDDVValGen</a>
@@ -843,7 +843,7 @@ Defaults to interpolation values from vSpace. </p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~9"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~11"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcddvvals.html'>calcDDVVals</a>

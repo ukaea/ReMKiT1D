@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">70 statements</a>
+                 title=" 0.3% of total for modules and submodules.">71 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -271,7 +271,7 @@
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function logLei(Te, ne, Z) result(res)  
+    public pure module function logLei(Te, ne, Z, removeDisc) result(res)  
     <a href="../proc/loglei.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -331,6 +331,21 @@
             <td><strong>Z</strong></td>
             <td>
                 <p>Ion charge</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-removedisc~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>removeDisc</strong></td>
+            <td>
+                <p>Remove the discontinuity at 10eV by moving the branch switch to Te = Z<strong>2 * e</strong>2 eV. Defaults to .false.</p>
             </td>
         </tr>
     </tbody>
@@ -910,7 +925,7 @@ such way that m v_0^2/2 = kT_0 , and the returned value is normalized to 1/v_0^(
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~15"></span>
+              <span class="anchor" id="variable-n~12"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -995,7 +1010,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~15"></span>
+              <span class="anchor" id="variable-m~14"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1010,7 +1025,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~5"></span>
+              <span class="anchor" id="variable-f~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1040,7 +1055,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vwidths~3"></span>
+              <span class="anchor" id="variable-vwidths~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1055,7 +1070,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~7"></span>
+              <span class="anchor" id="variable-g~11"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>

@@ -134,11 +134,11 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-bufferrhs">bufferRHS</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-buffery">bufferY</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-copybuffervals">copyBufferVals</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-evolvedvars~2">evolvedVars</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-mpicomm">mpiComm</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-evolvedvars">evolvedVars</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-mpicomm~3">mpiComm</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-numprocs~3">numProcs</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#variable-options~2">options</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-integratorname~2">integratorName</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#variable-integratorname~3">integratorName</a>
         </div>
       </div>
     </div>
@@ -202,8 +202,8 @@
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-setnontrivialupdate">setNonTrivialUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-hasnontrivialmodeldataupdate">hasNonTrivialModelDataUpdate</a>
             <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-setnontrivialmodeldataupdate">setNonTrivialModelDataUpdate</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-affect~5">affect</a>
-            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-init~80">init</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-affect~6">affect</a>
+            <a class="list-group-item" href="../type/cvodeintegrator.html#boundprocedure-init~56">init</a>
         </div>
       </div>
     </div>
@@ -508,7 +508,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvars~2"></span>
+              <span class="anchor" id="variable-evolvedvars"></span>
               type(<a href='stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -525,7 +525,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mpicomm"></span>
+              <span class="anchor" id="variable-mpicomm~3"></span>
               type(MPI_Comm),
             </td>
               <td>private</td>
@@ -576,7 +576,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integratorname~2"></span>
+              <span class="anchor" id="variable-integratorname~3"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -1335,7 +1335,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module subroutine setTimestepController(this, controller)  
-    <a href="../proc/settimestepcontroller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/settimestepcontroller~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Setter for dtController</p>
@@ -2308,7 +2308,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-affect~5"></span>
+      <span class="anchor" id="boundprocedure-affect~6"></span>
       <h3>
           procedure, public ::
   <strong>affect</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/integratecvode.html'>integrateCVODE</a>
@@ -2408,7 +2408,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~80"></span>
+      <span class="anchor" id="boundprocedure-init~56"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcvodeintegrator.html'>initCVODEIntegrator</a>

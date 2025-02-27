@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.7% of total for derived types.</p>Including implementation: 13 statements,  0.6% of total for derived types.">13 statements</a>
+                 title="<p> 0.7% of total for derived types.</p>Including implementation: 14 statements,  0.6% of total for derived types.">14 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -119,8 +119,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/termgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/termgenerator.html#variable-implicitterms~2">implicitTerms</a>
-            <a class="list-group-item" href="../type/termgenerator.html#variable-generalterms~2">generalTerms</a>
+            <a class="list-group-item" href="../type/termgenerator.html#variable-implicitterms">implicitTerms</a>
+            <a class="list-group-item" href="../type/termgenerator.html#variable-generalterms">generalTerms</a>
             <a class="list-group-item" href="../type/termgenerator.html#variable-generatorprefix">generatorPrefix</a>
         </div>
       </div>
@@ -156,8 +156,9 @@
             <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-setgeneratorprefix">setGeneratorPrefix</a>
             <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-getnumimplicitterms">getNumImplicitTerms</a>
             <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-getnumgeneralterms">getNumGeneralTerms</a>
+            <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-getgeneratorprefix">getGeneratorPrefix</a>
             <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-moveterms">moveTerms</a>
-            <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-generate~6">generate</a>
+            <a class="list-group-item" href="../type/termgenerator.html#boundprocedure-generate">generate</a>
         </div>
       </div>
     </div>
@@ -207,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitterms~2"></span>
+              <span class="anchor" id="variable-implicitterms"></span>
               type(<a href='mattermcontainer.html'>MatTermContainer</a>),
             </td>
               <td>private,</td>
@@ -224,7 +225,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generalterms~2"></span>
+              <span class="anchor" id="variable-generalterms"></span>
               type(<a href='termcontainer.html'>TermContainer</a>),
             </td>
               <td>private,</td>
@@ -769,6 +770,66 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-getgeneratorprefix"></span>
+      <h3>
+          procedure, public ::
+  <strong>getGeneratorPrefix</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getGeneratorPrefix(this) result(prefix)  
+    <a href="../proc/getgeneratorprefix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Get size of this%generalTerms</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='termgenerator.html'>TermGenerator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-moveterms"></span>
       <h3>
           procedure, public ::
@@ -884,7 +945,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-generate~6"></span>
+      <span class="anchor" id="boundprocedure-generate"></span>
       <h3>
           procedure(<a href='../interface/generateterms.html'>generateTerms</a>), public, deferred ::
   <strong>generate</strong>

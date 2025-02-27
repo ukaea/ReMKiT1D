@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">90 statements</a>
+                 title=" 0.3% of total for modules and submodules.">95 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,6 +132,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/term_generator_abstract_procedures.html#proc-getnumimplicitterms">getNumImplicitTerms</a>
             <a class="list-group-item" href="../module/term_generator_abstract_procedures.html#proc-getnumgeneralterms">getNumGeneralTerms</a>
+            <a class="list-group-item" href="../module/term_generator_abstract_procedures.html#proc-getgeneratorprefix">getGeneratorPrefix</a>
         </div>
       </div>
     </div>
@@ -212,7 +213,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~556"></span>
+              <span class="anchor" id="variable-this~500"></span>
               class(<a href='../type/termgenerator.html'>TermGenerator</a>),
             </td>
 <td>intent(in)</td>
@@ -258,7 +259,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~557"></span>
+              <span class="anchor" id="variable-this~501"></span>
               class(<a href='../type/termgenerator.html'>TermGenerator</a>),
             </td>
 <td>intent(in)</td>
@@ -277,6 +278,52 @@
     <h4>
     Return Value
     <small>integer(kind=ik)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getgeneratorprefix"></span> <h3>pure module function <a href='../proc/getgeneratorprefix.html'>getGeneratorPrefix</a>(this) result(prefix)  
+    <a href="../interface/getgeneratorprefix.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Get size of this%generalTerms</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~502"></span>
+              class(<a href='../type/termgenerator.html'>TermGenerator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
     </h4>
     
 
@@ -309,7 +356,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~553"></span>
+              <span class="anchor" id="variable-this~497"></span>
               class(<a href='../type/termgenerator.html'>TermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -324,7 +371,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-impterms"></span>
+              <span class="anchor" id="variable-impterms~2"></span>
               type(<a href='../type/mattermcontainer.html'>MatTermContainer</a>),
             </td>
 <td>intent(inout),</td>
@@ -365,7 +412,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~554"></span>
+              <span class="anchor" id="variable-this~498"></span>
               class(<a href='../type/termgenerator.html'>TermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -380,7 +427,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-genterms~3"></span>
+              <span class="anchor" id="variable-genterms~4"></span>
               type(<a href='../type/termcontainer.html'>TermContainer</a>),
             </td>
 <td>intent(inout),</td>
@@ -421,7 +468,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~555"></span>
+              <span class="anchor" id="variable-this~499"></span>
               class(<a href='../type/termgenerator.html'>TermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -436,7 +483,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prefix"></span>
+              <span class="anchor" id="variable-prefix~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -477,7 +524,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~558"></span>
+              <span class="anchor" id="variable-this~503"></span>
               class(<a href='../type/termgenerator.html'>TermGenerator</a>),
             </td>
 <td>intent(inout)</td>
@@ -492,7 +539,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelobj~15"></span>
+              <span class="anchor" id="variable-modelobj~7"></span>
               class(<a href='../type/model.html'>Model</a>),
             </td>
 <td>intent(inout)</td>
@@ -507,7 +554,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-imptermimpgroups"></span>
+              <span class="anchor" id="variable-imptermimpgroups~2"></span>
               type(<a href='../type/intarray.html'>IntArray</a>),
             </td>
 <td>intent(in),</td>
@@ -522,7 +569,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-imptermgengroups"></span>
+              <span class="anchor" id="variable-imptermgengroups~2"></span>
               type(<a href='../type/intarray.html'>IntArray</a>),
             </td>
 <td>intent(in),</td>
@@ -537,7 +584,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gentermgroups"></span>
+              <span class="anchor" id="variable-gentermgroups~2"></span>
               type(<a href='../type/intarray.html'>IntArray</a>),
             </td>
 <td>intent(in),</td>

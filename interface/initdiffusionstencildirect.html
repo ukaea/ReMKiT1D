@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">115 statements</a>
+                 title=" 0.2% of total for procedures.">116 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -139,7 +139,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      public module subroutine initDiffusionStencilDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, calcRule, doNotInterpolateD)  
+      public module subroutine initDiffusionStencilDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, ignoreJacobian, calcRule, doNotInterpolateD)  
     <a href="../proc/initdiffusionstencildirect.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -158,7 +158,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~49"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~70"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~86"></span>
+              <span class="anchor" id="variable-envobj~104"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~49"></span>
+              <span class="anchor" id="variable-evolvedvar~70"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -203,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~48"></span>
+              <span class="anchor" id="variable-implicitvar~69"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -212,6 +212,21 @@
             </td>
             <td>::</td>
             <td><strong>implicitVar</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ignorejacobian~15"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ignoreJacobian</strong></td>
             <td>
                 
             </td>
@@ -250,7 +265,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>Initialize diffusion stencil template based on direct inputs</p>
+    <p>initialize diffusion stencil template based on direct inputs</p>
     <br>
 
  </div>

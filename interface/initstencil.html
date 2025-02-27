@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">33 statements</a>
+                 title=" 0.0% of total for procedures.">17 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stencil1d.f90"> Source File</a>
+              <a href="../src/stencil.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stencil1d.f90.html'>stencil1d.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/stencil1d_class.html'>stencil1d_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stencil.f90.html'>stencil.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/stencil_class.html'>stencil_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">initStencil</li>
           </ol>
         </nav>
@@ -139,7 +139,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private pure module subroutine initStencil(this, rawStencil, fixedStencil)  
+      private pure module subroutine initStencil(this, xStencil, vStencil, hStencil, mapToDist, xPeriodic, vStencilFixed)  
     <a href="../proc/initstencil~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~787"></span>
-              class(<a href='../type/stencil1d.html'>Stencil1D</a>),
+              <span class="anchor" id="variable-this~57"></span>
+              class(<a href='../type/stencil.html'>Stencil</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rawstencil~2"></span>
+              <span class="anchor" id="variable-xstencil~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -181,14 +181,74 @@
               dimension(:)
             </td>
             <td>::</td>
-            <td><strong>rawStencil</strong></td>
+            <td><strong>xStencil</strong></td>
             <td>
-                <p>Optional raw stencil, defaults to [0] - a diagonal stencil.</p>
+                <p>Stencil in x-direction</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedstencil~2"></span>
+              <span class="anchor" id="variable-vstencil~2"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vStencil</strong></td>
+            <td>
+                <p>Stencil in v-direction </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hstencil~2"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>hStencil</strong></td>
+            <td>
+                <p>l harmonic stencil</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maptodist"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mapToDist</strong></td>
+            <td>
+                <p>Set to true if stencil maps to harmonic/velocity space</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-xperiodic~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xPeriodic</strong></td>
+            <td>
+                <p>Set to true if x-grid is periodic</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vstencilfixed"></span>
               type(<a href='../type/intarray.html'>IntArray</a>),
             </td>
 <td>intent(in),</td>
@@ -196,16 +256,16 @@
               dimension(:)
             </td>
             <td>::</td>
-            <td><strong>fixedStencil</strong></td>
+            <td><strong>vStencilFixed</strong></td>
             <td>
-                <p>Optional fixed stencil </p>
+                <p>Optional fixed vStencil </p>
             </td>
         </tr>
     </tbody>
   </table>
 
     <h3>Description</h3>
-    <p>Stencil1D object initialization routine</p>
+    <p>Stencil object initialization routine</p>
     <br>
 
  </div>

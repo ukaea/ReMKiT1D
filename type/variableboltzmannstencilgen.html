@@ -119,12 +119,12 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-vgridcopy~2">vGridCopy</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-transitionindex~2">transitionIndex</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-lnum~3">lNum</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-bufferw">bufferW</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-absorptionterm~3">absorptionTerm</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-superelasticterm~2">superelasticTerm</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-vgridcopy~3">vGridCopy</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-transitionindex~7">transitionIndex</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-lnum~8">lNum</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-bufferw~2">bufferW</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-absorptionterm~9">absorptionTerm</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#variable-superelasticterm~4">superelasticTerm</a>
         </div>
       </div>
     </div>
@@ -154,9 +154,9 @@
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculate~31">calculate</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-init~19">init</a>
-            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculateinplace~2">calculateInPlace</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculate~9">calculate</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-init~53">init</a>
+            <a class="list-group-item" href="../type/variableboltzmannstencilgen.html#boundprocedure-calculateinplace~13">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -209,7 +209,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridcopy~2"></span>
+              <span class="anchor" id="variable-vgridcopy~3"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -226,7 +226,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindex~2"></span>
+              <span class="anchor" id="variable-transitionindex~7"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -243,7 +243,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lnum~3"></span>
+              <span class="anchor" id="variable-lnum~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -260,7 +260,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bufferw"></span>
+              <span class="anchor" id="variable-bufferw~2"></span>
               type(<a href='sparserowdata.html'>SparseRowData</a>),
             </td>
               <td>private,</td>
@@ -277,7 +277,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterm~3"></span>
+              <span class="anchor" id="variable-absorptionterm~9"></span>
               logical,
             </td>
               <td>private</td>
@@ -294,7 +294,7 @@ Assumes no halo in cross-section.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-superelasticterm~2"></span>
+              <span class="anchor" id="variable-superelasticterm~4"></span>
               logical,
             </td>
               <td>private</td>
@@ -492,7 +492,7 @@ Assumes no halo in cross-section.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~31"></span>
+      <span class="anchor" id="boundprocedure-calculate~9"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -597,7 +597,7 @@ Assumes no halo in cross-section.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~19"></span>
+      <span class="anchor" id="boundprocedure-init~53"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initvarboltzgen.html'>initVarBoltzGen</a>
@@ -727,7 +727,7 @@ Assumes no halo in cross-section.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~2"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~13"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcvarboltzvals.html'>calcVarBoltzVals</a>
@@ -853,7 +853,7 @@ Assumes no halo in cross-section.</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

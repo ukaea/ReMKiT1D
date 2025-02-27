@@ -119,15 +119,15 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-vdata~7">vData</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-distributionname~7">distributionName</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-transitionindices~3">transitionIndices</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-fixedenergyindices~2">fixedEnergyIndices</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-absorptionterms~3">absorptionTerms</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-dbterms">dbTerms</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-evolvedharmonic~5">evolvedHarmonic</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-envpointer~4">envPointer</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-normconst~4">normConst</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-vdata~9">vData</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-distributionname~11">distributionName</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-transitionindices~4">transitionIndices</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-fixedenergyindices~3">fixedEnergyIndices</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-absorptionterms~5">absorptionTerms</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-dbterms~2">dbTerms</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-evolvedharmonic~9">evolvedHarmonic</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-envpointer~5">envPointer</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-normconst~5">normConst</a>
         </div>
       </div>
     </div>
@@ -173,9 +173,10 @@
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-setgeneratorprefix">setGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-getnumimplicitterms">getNumImplicitTerms</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-getnumgeneralterms">getNumGeneralTerms</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-getgeneratorprefix">getGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-moveterms">moveTerms</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-init~56">init</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-generate~4">generate</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-init~94">init</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-generate~6">generate</a>
         </div>
       </div>
     </div>
@@ -227,7 +228,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~7"></span>
+              <span class="anchor" id="variable-vdata~9"></span>
               type(<a href='vardata.html'>VarData</a>),
             </td>
               <td>private,</td>
@@ -244,7 +245,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distributionname~7"></span>
+              <span class="anchor" id="variable-distributionname~11"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -261,7 +262,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindices~3"></span>
+              <span class="anchor" id="variable-transitionindices~4"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -278,7 +279,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedenergyindices~2"></span>
+              <span class="anchor" id="variable-fixedenergyindices~3"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -295,7 +296,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterms~3"></span>
+              <span class="anchor" id="variable-absorptionterms~5"></span>
               logical,
             </td>
               <td>private</td>
@@ -312,7 +313,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbterms"></span>
+              <span class="anchor" id="variable-dbterms~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -329,7 +330,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedharmonic~5"></span>
+              <span class="anchor" id="variable-evolvedharmonic~9"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -346,7 +347,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envpointer~4"></span>
+              <span class="anchor" id="variable-envpointer~5"></span>
               type(<a href='environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
               <td>private,</td>
@@ -363,7 +364,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-normconst~4"></span>
+              <span class="anchor" id="variable-normconst~5"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -920,6 +921,66 @@ Assumes that the cross-section values in the transitions include any nonlinear n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-getgeneratorprefix"></span>
+      <h3>
+          procedure, public ::
+  <strong>getGeneratorPrefix</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getGeneratorPrefix(this) result(prefix)  
+    <a href="../proc/getgeneratorprefix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Get size of this%generalTerms</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='termgenerator.html'>TermGenerator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-moveterms"></span>
       <h3>
           procedure, public ::
@@ -1035,7 +1096,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~56"></span>
+      <span class="anchor" id="boundprocedure-init~94"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmboltztermgenerator.html'>initCRMBoltzTermGenerator</a>
@@ -1256,7 +1317,7 @@ in calculations by this generator.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-generate~4"></span>
+      <span class="anchor" id="boundprocedure-generate~6"></span>
       <h3>
           procedure, public ::
   <strong>generate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generateboltzterms.html'>generateBoltzTerms</a>
@@ -1337,7 +1398,7 @@ in calculations by this generator.</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

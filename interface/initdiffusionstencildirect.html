@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">115 statements</a>
+                 title=" 0.2% of total for procedures.">116 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -139,7 +139,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      public module subroutine initDiffusionStencilDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, calcRule, doNotInterpolateD)  
+      public module subroutine initDiffusionStencilDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, ignoreJacobian, calcRule, doNotInterpolateD)  
     <a href="../proc/initdiffusionstencildirect.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -158,7 +158,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~13"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~34"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~52"></span>
+              <span class="anchor" id="variable-envobj~69"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~15"></span>
+              <span class="anchor" id="variable-evolvedvar~38"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -203,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~14"></span>
+              <span class="anchor" id="variable-implicitvar~36"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -212,6 +212,21 @@
             </td>
             <td>::</td>
             <td><strong>implicitVar</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ignorejacobian~5"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ignoreJacobian</strong></td>
             <td>
                 
             </td>
@@ -233,7 +248,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-donotinterpolated~4"></span>
+              <span class="anchor" id="variable-donotinterpolated~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -250,7 +265,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>Initialize diffusion stencil template based on direct inputs</p>
+    <p>initialize diffusion stencil template based on direct inputs</p>
     <br>
 
  </div>
@@ -264,7 +279,7 @@
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

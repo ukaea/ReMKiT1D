@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">16 statements</a>
+                 title=" 0.0% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stencil_generator1d.f90"> Source File</a>
+              <a href="../src/fluid_gen1d.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stencil_generator1d.f90.html'>stencil_generator1d.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/stencil_generator1d_class.html'>stencil_generator1d_class</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/fluid_gen1d.f90.html'>fluid_gen1d.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/fluid_gen1d_class.html'>fluid_gen1d_class</a></li>
             <li class="breadcrumb-item active" aria-current="page">calcVals</li>
           </ol>
         </nav>
@@ -140,7 +140,7 @@
     <div class="col-md-9" id='text'>
       <h2>interface <br>
       private module subroutine calcVals(this, varCont, res, mbData, hostModel)  
-    <a href="../proc/calcvals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/calcvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
     
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~948"></span>
-              class(<a href='../type/stencilgenerator1d.html'>StencilGenerator1D</a>),
+              <span class="anchor" id="variable-this~694"></span>
+              class(<a href='../type/fluidstencilgen1d.html'>FluidStencilGen1D</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~111"></span>
+              <span class="anchor" id="variable-varcont~107"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-res~115"></span>
+              <span class="anchor" id="variable-res~78"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(inout),</td>
@@ -203,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~55"></span>
+              <span class="anchor" id="variable-mbdata~43"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -218,7 +218,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~51"></span>
+              <span class="anchor" id="variable-hostmodel~40"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -235,7 +235,7 @@
   </table>
 
     <h3>Description</h3>
-    <p>Calculate fixed 1D stencil values in place (does not depend on varCont,mbData, or hostModel)</p>
+    <p>Calculate variable fluid 1D stencil values in place (does not depend on hostModel)</p>
     <br>
 
  </div>
@@ -249,7 +249,7 @@
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

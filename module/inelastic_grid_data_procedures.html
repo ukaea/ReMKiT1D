@@ -130,9 +130,9 @@
       </a>
       <div id="modfuncs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-getfixedw~2">getFixedW</a>
-            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-getfixedemissionvector~2">getFixedEmissionVector</a>
-            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-getinterpolatedemissionvector~2">getInterpolatedEmissionVector</a>
+            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-getfixedw">getFixedW</a>
+            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-getfixedemissionvector">getFixedEmissionVector</a>
+            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-getinterpolatedemissionvector">getInterpolatedEmissionVector</a>
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@
       <div id="modsubs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-initineldata">initInelData</a>
-            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-interpolatew~2">interpolateW</a>
+            <a class="list-group-item" href="../module/inelastic_grid_data_procedures.html#proc-interpolatew">interpolateW</a>
         </div>
       </div>
     </div>
@@ -191,134 +191,12 @@
         <section>
           <h2>Module Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getfixedw~2"></span> <h3>pure module function <a href='../proc/getfixedw~2.html'>getFixedW</a>(this, ind) result(wMat)  
-    <a href="../interface/getfixedw~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-getfixedw"></span> <h3>pure module function <a href='../proc/getfixedw.html'>getFixedW</a>(this, ind) result(wMat)  
+    <a href="../interface/getfixedw.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
   <p>Return fixed mapping matrix with given index</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~899"></span>
-              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ind~60"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ind</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/sparserowdata.html'>SparseRowData</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getfixedemissionvector~2"></span> <h3>pure module function <a href='../proc/getfixedemissionvector~2.html'>getFixedEmissionVector</a>(this, ind) result(emit)  
-    <a href="../interface/getfixedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Return fixed emission vector for mapping matrix with given index</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~900"></span>
-              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ind~61"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ind</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getinterpolatedemissionvector~2"></span> <h3>pure module function <a href='../proc/getinterpolatedemissionvector~2.html'>getInterpolatedEmissionVector</a>(this, E) result(emit)  
-    <a href="../interface/getinterpolatedemissionvector~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  <p>Return interpolated emission vector for given input energy E</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -348,7 +226,129 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e~5"></span>
+              <span class="anchor" id="variable-ind~66"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ind</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/sparserowdata.html'>SparseRowData</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getfixedemissionvector"></span> <h3>pure module function <a href='../proc/getfixedemissionvector.html'>getFixedEmissionVector</a>(this, ind) result(emit)  
+    <a href="../interface/getfixedemissionvector.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Return fixed emission vector for mapping matrix with given index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~903"></span>
+              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ind~67"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ind</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk), allocatable, dimension(:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-getinterpolatedemissionvector"></span> <h3>pure module function <a href='../proc/getinterpolatedemissionvector.html'>getInterpolatedEmissionVector</a>(this, E) result(emit)  
+    <a href="../interface/getinterpolatedemissionvector.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Return interpolated emission vector for given input energy E</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~905"></span>
+              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-e~6"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -399,7 +399,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~898"></span>
+              <span class="anchor" id="variable-this~901"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(inout)</td>
@@ -414,7 +414,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-space~6"></span>
+              <span class="anchor" id="variable-space~8"></span>
               type(<a href='../type/vspace.html'>VSpace</a>),
             </td>
 <td>intent(in)</td>
@@ -429,7 +429,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedenergies~5"></span>
+              <span class="anchor" id="variable-fixedenergies~6"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -444,7 +444,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-interpolationgrid"></span>
+              <span class="anchor" id="variable-interpolationgrid~2"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -465,8 +465,8 @@
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-interpolatew~2"></span> <h3>pure module subroutine <a href='../proc/interpolatew~2.html'>interpolateW</a>(this, E, wRes)  
-    <a href="../interface/interpolatew~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-interpolatew"></span> <h3>pure module subroutine <a href='../proc/interpolatew.html'>interpolateW</a>(this, E, wRes)  
+    <a href="../interface/interpolatew.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -486,7 +486,7 @@ if E is positive and lower if it's negative</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~901"></span>
+              <span class="anchor" id="variable-this~904"></span>
               class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
@@ -501,7 +501,7 @@ if E is positive and lower if it's negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-e~4"></span>
+              <span class="anchor" id="variable-e~5"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -550,7 +550,7 @@ if E is positive and lower if it's negative</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

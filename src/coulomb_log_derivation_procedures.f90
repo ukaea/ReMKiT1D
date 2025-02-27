@@ -21,7 +21,8 @@ implicit none
 !-----------------------------------------------------------------------------------------------------------------------------------
 contains
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine initCoulombLogDeriv(this,ionZ,locNumX,densNorm,tempNorm,electronLog,ionLog,ionZ2,ionMassRatio)
+module subroutine initCoulombLogDeriv(this,ionZ,locNumX,densNorm,tempNorm,electronLog,&
+        ionLog,ionZ2,ionMassRatio,removeLogLeiDiscontinuity)
     !! Initialize Coulomb Log derivation object
 
     class(CoulombLogDerivation)   ,intent(inout) :: this
@@ -33,6 +34,7 @@ module subroutine initCoulombLogDeriv(this,ionZ,locNumX,densNorm,tempNorm,electr
     logical ,optional             ,intent(in)    :: ionLog
     real(rk) ,optional            ,intent(in)    :: ionZ2
     real(rk) ,optional            ,intent(in)    :: ionMassRatio
+    logical ,optional             ,intent(in)    :: removeLogLeiDiscontinuity
 
     this%locNumX = locNumX
     this%ionZ = ionZ 
@@ -40,11 +42,13 @@ module subroutine initCoulombLogDeriv(this,ionZ,locNumX,densNorm,tempNorm,electr
     this%tempNorm = tempNorm 
     this%electronLog = .false. 
     this%ionLog = .false. 
+    this%removeLogLeiDiscontinuity = .false. 
     this%ionZ2 = ionZ 
     this%ionMassRatio = real(1,kind=rk)
 
     if (present(electronLog)) this%electronLog = electronLog
     if (present(ionLog)) this%ionLog = ionLog
+    if (present(removeLogLeiDiscontinuity)) this%removeLogLeiDiscontinuity = removeLogLeiDiscontinuity
 
     if (this%ionLog) call assert(.not. this%electronLog,"Ambiguous ionLog/electronLog passed to initCoulombLogDeriv")
 
@@ -106,14 +110,14 @@ module function calculateCoulombLog(this,inputArray,indices) result(output)
             do i = 1,this%locNumX
                 output(i) = logLei(inputArray(indices(1))%entry(i)*this%tempNorm,&
                             inputArray(indices(2))%entry(i)*this%densNorm,&
-                            inputArray(indices(3))%entry(i))
+                            inputArray(indices(3))%entry(i),removeDisc=this%removeLogLeiDiscontinuity)
             end do
             
         else
             do i = 1,this%locNumX
                 output(i) = logLei(inputArray(indices(1))%entry(i)*this%tempNorm,&
                             inputArray(indices(2))%entry(i)*this%densNorm,&
-                            this%ionZ)
+                            this%ionZ,removeDisc=this%removeLogLeiDiscontinuity)
             end do
     
         end if

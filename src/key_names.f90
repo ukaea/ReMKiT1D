@@ -129,6 +129,7 @@ module key_names
     character(len=*) ,parameter :: keyStepMultiplier = "stepMultiplier"
     character(len=*) ,parameter :: keyMinNumNonlinInters = "minNumNonlinIters"
     character(len=*) ,parameter :: keyMaxBDERestarts = "maxBDERestarts"
+    character(len=*) ,parameter :: keyBDEConsolidationInterval = "BDEConsolidationInterval"
     character(len=*) ,parameter :: keyStepDecrament = "stepDecrament"
     character(len=*) ,parameter :: keyStepTags = "stepTags"
     character(len=*) ,parameter :: keyIntegratorTags = "integratorTags"
@@ -377,6 +378,7 @@ module key_names
     character(len=*) ,parameter :: keyElectronPolytropicC = "electronPolytropicCoeff"
     character(len=*) ,parameter :: keyIonPolytropicC = "ionPolytropicCoeff"
     character(len=*) ,parameter :: keySheathGammaIonSpeciesID = "electronSheathGammaIonSpeciesID"
+    character(len=*) ,parameter :: keyRemoveLogLeiDisc = "removeLogLeiDiscontinuity"
 
     ! Custom derivation keys 
 

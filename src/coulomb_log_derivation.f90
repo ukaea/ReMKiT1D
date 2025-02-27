@@ -34,6 +34,7 @@ module coulomb_log_derivation_class
 
         logical  ,private :: electronLog !! If true returns the electron-electron Coulomb log instead of the electron-ion log. Default is false
         logical  ,private :: ionLog !! If true returns the ion-ion Coulomb log instead of the electron-ion log. Default is false
+        logical  ,private :: removeLogLeiDiscontinuity !! If true and this is a logLei derivation will remove the logLei discontinuity at 10*Z**2 eV
         real(rk) ,private :: ionZ !! The ion Z used if no ionization variable is passed, or if calculating ion-ion logarithm
         real(rk) ,private :: ionZ2 !! The second ion Z used if calculating ion-ion logarithm (Defaults to ionZ)
         real(rk) ,private :: ionMassRatio !! Mass ratio used if calculating ion-ion logarithm (Defaults to 1)
@@ -53,7 +54,8 @@ module coulomb_log_derivation_class
 !-----------------------------------------------------------------------------------------------------------------------------------
     interface
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine initCoulombLogDeriv(this,ionZ,locNumX,densNorm,tempNorm,electronLog,ionLog,ionZ2,ionMassRatio)
+    module subroutine initCoulombLogDeriv(this,ionZ,locNumX,densNorm,tempNorm,&
+            electronLog,ionLog,ionZ2,ionMassRatio,removeLogLeiDiscontinuity)
         !! Initialize Coulomb Log derivation object
 
         class(CoulombLogDerivation)   ,intent(inout) :: this
@@ -65,6 +67,7 @@ module coulomb_log_derivation_class
         logical ,optional             ,intent(in)    :: ionLog
         real(rk) ,optional            ,intent(in)    :: ionZ2
         real(rk) ,optional            ,intent(in)    :: ionMassRatio
+        logical ,optional             ,intent(in)    :: removeLogLeiDiscontinuity
 
     end subroutine initCoulombLogDeriv  
 !-----------------------------------------------------------------------------------------------------------------------------------

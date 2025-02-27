@@ -119,15 +119,15 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/indexing.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-procdofs">procDoFs</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-procdofs~4">procDoFs</a>
             <a class="list-group-item" href="../type/indexing.html#variable-varoffset">varOffset</a>
             <a class="list-group-item" href="../type/indexing.html#variable-xdofs">xDoFs</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numv~20">numV</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numx~7">numX</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numh~14">numH</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-part">part</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-varlist~5">varList</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-xhalowidth~6">xHaloWidth</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numv~39">numV</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numx~11">numX</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numh~24">numH</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-part~2">part</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-varlist~12">varList</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-xhalowidth~12">xHaloWidth</a>
             <a class="list-group-item" href="../type/indexing.html#variable-periodicindexing">periodicIndexing</a>
         </div>
       </div>
@@ -167,7 +167,7 @@
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-finddistindex">findDistIndex</a>
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-findlocalxindex">findLocalXIndex</a>
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-maptoglobalindices">mapToGlobalIndices</a>
-            <a class="list-group-item" href="../type/indexing.html#boundprocedure-init~45">init</a>
+            <a class="list-group-item" href="../type/indexing.html#boundprocedure-init~89">init</a>
         </div>
       </div>
     </div>
@@ -217,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-procdofs"></span>
+              <span class="anchor" id="variable-procdofs~4"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -268,7 +268,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~20"></span>
+              <span class="anchor" id="variable-numv~39"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -285,7 +285,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numx~7"></span>
+              <span class="anchor" id="variable-numx~11"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -302,7 +302,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~14"></span>
+              <span class="anchor" id="variable-numh~24"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -319,7 +319,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-part"></span>
+              <span class="anchor" id="variable-part~2"></span>
               type(<a href='partition.html'>Partition</a>),
             </td>
               <td>private</td>
@@ -336,7 +336,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varlist~5"></span>
+              <span class="anchor" id="variable-varlist~12"></span>
               type(<a href='variablelist.html'>VariableList</a>),
             </td>
               <td>private</td>
@@ -353,7 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~6"></span>
+              <span class="anchor" id="variable-xhalowidth~12"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -777,7 +777,7 @@ If local is true return index in the local implicit vector</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getNumX(this) result(numX)  
-    <a href="../proc/getnumx~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getnumx.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for numX</p>
@@ -837,7 +837,7 @@ If local is true return index in the local implicit vector</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getNumV(this) result(numV)  
-    <a href="../proc/getnumv~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getnumv.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for numV</p>
@@ -897,7 +897,7 @@ If local is true return index in the local implicit vector</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getNumH(this) result(numH)  
-    <a href="../proc/getnumh~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getnumh.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for numH</p>
@@ -1352,7 +1352,7 @@ given variable name</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~45"></span>
+      <span class="anchor" id="boundprocedure-init~89"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initindexing.html'>initIndexing</a>
@@ -1478,7 +1478,7 @@ given variable name</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

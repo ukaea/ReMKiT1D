@@ -117,7 +117,9 @@ module subroutine generateElEnergySourceTerms(this,mbData)
     type(GeneralMatrixTerm) ,allocatable :: termBuffer
     type(StencilTemplate) , allocatable :: templateObj
 
-    integer(ik) :: i
+    integer(ik) :: i, j
+    character(len=30) :: intToStrBuffer
+    character(len=30) :: buffer
 
     if (assertions) call assert(this%isDefined(),"generate called from undefined CRMElEnergyTermGenerator")
 
@@ -126,6 +128,27 @@ module subroutine generateElEnergySourceTerms(this,mbData)
 
     do i = 1, size(this%vData)
 
+        intToStrBuffer = ""
+        write(intToStrBuffer,'(I0)') i
+        call printMessage("Generating CRM energy term "//this%getGeneratorPrefix()//"_implicit_"//trim(intToStrBuffer))
+
+        call printMessage("  Term evolved var: "//this%electronEnergyVarName)
+        call printMessage("  Term implicit var: "//this%implicitVars(i)%string)
+        call printMessage("  Term modelbound row var: "//this%vData(i)%modelboundRowVars(1)%string)
+
+        buffer=""
+        do j = 1,size(this%vData(i)%rowVars)
+            buffer = trim(buffer)//" "//this%vData(i)%rowVars(j)%string
+        end do
+
+        call printMessage("  Term row vars: "//buffer)
+        buffer=""
+        do j = 1,size(this%vData(i)%rowVars)
+            intToStrBuffer = ""
+            write(intToStrBuffer,'(I0)') int(this%vData(i)%rowVarPowers(j),kind=ik)
+            buffer = trim(buffer)//" "//trim(intToStrBuffer)
+        end do
+        call printMessage("  Term row powers: "//buffer)
         if (allocated(templateObj)) deallocate(templateObj)
         allocate(templateObj)
         call initDiagonalStencilTemplateDirect(templateObj,this%envPointer,this%electronEnergyVarName,this%implicitVars(i)%string)

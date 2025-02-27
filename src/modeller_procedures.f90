@@ -546,6 +546,16 @@ module subroutine integrate(this,inVars,outVars,requestedTimestep)
         if (present(outVars)) call assert(outVars%isDefined(),"outVars passed to callIntegrator not defined")
     end if
 
+    select type (integrator=>this%integ)
+
+    type is (CompositeIntegrator) 
+
+        call integrator%resetRequestedTimestep()
+        
+    class default 
+         call printMessage("WARNING: reset timestep called on non-composite integrator - likely integration error")
+
+    end select
     if (present(requestedTimestep)) then 
 
         select type (integrator=>this%integ)
@@ -784,6 +794,28 @@ module subroutine updateModelData(this,modelIndex,varCont,updatePriority)
     end if
 
 end subroutine updateModelData
+!-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine updateAllModelData(this,varCont)
+    !! Update the modelbound data of all models 
+
+    class(Modeller)         ,intent(inout)  :: this
+    type(VariableContainer) ,optional ,intent(in)     :: varCont !! Variable container to be used in update
+
+    integer(ik) :: i
+
+    if (assertions) call assert(this%isDefined(),"updateAllModelData called on undefined modeller")
+
+    do i = 1, size(this%models) 
+
+        if (present(varCont)) then 
+            call this%models(i)%entry%updateModelData(varCont)
+        else 
+            call this%models(i)%entry%updateModelData(this%vars)
+        end if
+
+    end do
+
+end subroutine updateAllModelData
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine copyDataFromModel(this,modelIndex,varName,container) 
     !! Copy modelbound variable data with given name from model with given index.

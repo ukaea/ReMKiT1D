@@ -119,13 +119,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-vdata~6">vData</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-distributionname~5">distributionName</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-transitionindices~2">transitionIndices</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-vdata~4">vData</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-distributionname">distributionName</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-transitionindices">transitionIndices</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-absorptionterms">absorptionTerms</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-superelasticterms">superelasticTerms</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-evolvedharmonic~3">evolvedHarmonic</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-envpointer~3">envPointer</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-envpointer">envPointer</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#variable-normconst~3">normConst</a>
         </div>
       </div>
@@ -172,9 +172,10 @@
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-setgeneratorprefix">setGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-getnumimplicitterms">getNumImplicitTerms</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-getnumgeneralterms">getNumGeneralTerms</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-getgeneratorprefix">getGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-moveterms">moveTerms</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-init~52">init</a>
-            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-generate~3">generate</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-init~12">init</a>
+            <a class="list-group-item" href="../type/crmvarboltztermgenerator.html#boundprocedure-generate">generate</a>
         </div>
       </div>
     </div>
@@ -226,7 +227,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~6"></span>
+              <span class="anchor" id="variable-vdata~4"></span>
               type(<a href='vardata.html'>VarData</a>),
             </td>
               <td>private,</td>
@@ -243,7 +244,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distributionname~5"></span>
+              <span class="anchor" id="variable-distributionname"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -260,7 +261,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindices~2"></span>
+              <span class="anchor" id="variable-transitionindices"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -328,7 +329,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envpointer~3"></span>
+              <span class="anchor" id="variable-envpointer"></span>
               type(<a href='environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
               <td>private,</td>
@@ -902,6 +903,66 @@ Assumes that the cross-section values in the transitions include any nonlinear n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-getgeneratorprefix"></span>
+      <h3>
+          procedure, public ::
+  <strong>getGeneratorPrefix</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function getGeneratorPrefix(this) result(prefix)  
+    <a href="../proc/getgeneratorprefix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>Get size of this%generalTerms</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='termgenerator.html'>TermGenerator</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-moveterms"></span>
       <h3>
           procedure, public ::
@@ -1017,7 +1078,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~52"></span>
+      <span class="anchor" id="boundprocedure-init~12"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmvarboltztermgenerator.html'>initCRMVarBoltzTermGenerator</a>
@@ -1223,7 +1284,7 @@ in calculations by this generator.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-generate~3"></span>
+      <span class="anchor" id="boundprocedure-generate"></span>
       <h3>
           procedure, public ::
   <strong>generate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generatevarboltzterms.html'>generateVarBoltzTerms</a>
@@ -1304,7 +1365,7 @@ in calculations by this generator.</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

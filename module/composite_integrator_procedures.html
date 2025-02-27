@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for modules and submodules.">111 statements</a>
+                 title=" 0.4% of total for modules and submodules.">116 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -130,7 +130,7 @@
       </a>
       <div id="modfuncs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-getcurrenttime~2">getCurrentTime</a>
+            <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-getcurrenttime">getCurrentTime</a>
         </div>
       </div>
     </div>
@@ -147,6 +147,7 @@
             <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-addintegrationstage">addIntegrationStage</a>
             <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-settimestepcontroller">setTimestepController</a>
             <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-setrequestedtimestep">setRequestedTimestep</a>
+            <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-resetrequestedtimestep">resetRequestedTimestep</a>
             <a class="list-group-item" href="../module/composite_integrator_procedures.html#proc-integrateall">integrateAll</a>
         </div>
       </div>
@@ -193,8 +194,8 @@
         <section>
           <h2>Module Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-getcurrenttime~2"></span> <h3>pure module function <a href='../proc/getcurrenttime~2.html'>getCurrentTime</a>(this) result(time)  
-    <a href="../interface/getcurrenttime.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-getcurrenttime"></span> <h3>pure module function <a href='../proc/getcurrenttime.html'>getCurrentTime</a>(this) result(time)  
+    <a href="../interface/getcurrenttime~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -213,7 +214,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~950"></span>
+              <span class="anchor" id="variable-this~128"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(in)</td>
@@ -264,7 +265,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~949"></span>
+              <span class="anchor" id="variable-this~127"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -279,7 +280,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initialtime~3"></span>
+              <span class="anchor" id="variable-initialtime"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -294,7 +295,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initialtimestep~9"></span>
+              <span class="anchor" id="variable-initialtimestep"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -309,7 +310,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numintegrators~2"></span>
+              <span class="anchor" id="variable-numintegrators"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -324,7 +325,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dtcontroller~10"></span>
+              <span class="anchor" id="variable-dtcontroller"></span>
               class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
             </td>
 <td>intent(in),</td>
@@ -365,7 +366,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~951"></span>
+              <span class="anchor" id="variable-this~129"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -380,7 +381,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integ~5"></span>
+              <span class="anchor" id="variable-integ"></span>
               class(<a href='../type/integrator.html'>Integrator</a>),
             </td>
 <td>intent(in)</td>
@@ -421,7 +422,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~952"></span>
+              <span class="anchor" id="variable-this~130"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -436,7 +437,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integstage~2"></span>
+              <span class="anchor" id="variable-integstage"></span>
               type(<a href='../type/integratorcallstep.html'>IntegratorCallStep</a>),
             </td>
 <td>intent(in)</td>
@@ -458,7 +459,7 @@
 
               <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-settimestepcontroller"></span> <h3>pure module subroutine <a href='../proc/settimestepcontroller.html'>setTimestepController</a>(this, controller)  
-    <a href="../interface/settimestepcontroller.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/settimestepcontroller~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -477,7 +478,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~953"></span>
+              <span class="anchor" id="variable-this~131"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -492,7 +493,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-controller~3"></span>
+              <span class="anchor" id="variable-controller"></span>
               class(<a href='../type/timestepcontroller.html'>TimestepController</a>),
             </td>
 <td>intent(in)</td>
@@ -533,7 +534,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~954"></span>
+              <span class="anchor" id="variable-this~132"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -548,7 +549,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-timestep~8"></span>
+              <span class="anchor" id="variable-timestep"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -557,6 +558,47 @@
             </td>
             <td>::</td>
             <td><strong>timestep</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-resetrequestedtimestep"></span> <h3>pure module subroutine <a href='../proc/resetrequestedtimestep.html'>resetRequestedTimestep</a>(this)  
+    <a href="../interface/resetrequestedtimestep.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  <p>Resets the requested timestep to the initial timestep</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~133"></span>
+              class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
             <td>
 
             </td>
@@ -590,7 +632,7 @@ an allocated timestep controller.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~955"></span>
+              <span class="anchor" id="variable-this~134"></span>
               class(<a href='../type/compositeintegrator.html'>CompositeIntegrator</a>),
             </td>
 <td>intent(inout)</td>
@@ -605,7 +647,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-manipulatedmodeller~15"></span>
+              <span class="anchor" id="variable-manipulatedmodeller~2"></span>
               class(<a href='../type/modellersurrogate.html'>ModellerSurrogate</a>),
             </td>
 <td>intent(inout)</td>
@@ -620,7 +662,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outputvars~15"></span>
+              <span class="anchor" id="variable-outputvars~2"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -635,7 +677,7 @@ an allocated timestep controller.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputvars~25"></span>
+              <span class="anchor" id="variable-inputvars~4"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -669,7 +711,7 @@ an allocated timestep controller.</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

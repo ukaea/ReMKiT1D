@@ -125,7 +125,7 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/simple_transition_class.html#interface-getenergy~5">getEnergy</a>
+            <a class="list-group-item" href="../module/simple_transition_class.html#interface-getenergy">getEnergy</a>
             <a class="list-group-item" href="../module/simple_transition_class.html#interface-initsimpletransition">initSimpleTransition</a>
         </div>
       </div>
@@ -167,14 +167,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
                   <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
               </ul>
             </li>
         </ul>
@@ -204,7 +204,7 @@
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-getenergy~5"></span>
+      <span class="anchor" id="interface-getenergy"></span>
       <h3>        interface
       </h3>
     </div>
@@ -212,7 +212,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Returns array representing energy cost of this transition</p>
@@ -230,7 +230,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~823"></span>
+              <span class="anchor" id="variable-this~22"></span>
               class(<a href='../type/simpletransition.html'>SimpleTransition</a>),
             </td>
 <td>intent(in)</td>
@@ -284,7 +284,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~822"></span>
+              <span class="anchor" id="variable-this~21"></span>
               class(<a href='../type/simpletransition.html'>SimpleTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -299,7 +299,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~44"></span>
+              <span class="anchor" id="variable-locnumx~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -314,7 +314,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-instate~2"></span>
+              <span class="anchor" id="variable-instate"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -329,7 +329,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outstate~2"></span>
+              <span class="anchor" id="variable-outstate"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -344,7 +344,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy~7"></span>
+              <span class="anchor" id="variable-energy"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -359,7 +359,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedrate~2"></span>
+              <span class="anchor" id="variable-fixedrate"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -429,7 +429,7 @@ set to rate*energy, and the momentum rate is 0</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~7"></span>
+              <span class="anchor" id="variable-transitionenergy"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -555,17 +555,17 @@ set to rate*energy, and the momentum rate is 0</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/transition.html#boundprocedure-update~10'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/noupdate~2.html'>noUpdate</a></td>
+  <strong><a href='../type/transition.html#boundprocedure-update~5'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/noupdate.html'>noUpdate</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/simpletransition.html#boundprocedure-init~74'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initsimpletransition.html'>initSimpleTransition</a></td>
+  <strong><a href='../type/simpletransition.html#boundprocedure-init~4'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initsimpletransition.html'>initSimpleTransition</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/simpletransition.html#boundprocedure-gettransitionenergy~6'>getTransitionEnergy</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~5.html'>getEnergy</a></td>
+  <strong><a href='../type/simpletransition.html#boundprocedure-gettransitionenergy'>getTransitionEnergy</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy.html'>getEnergy</a></td>
                 <td></td>
               </tr>
           </tbody>
@@ -591,7 +591,7 @@ set to rate*energy, and the momentum rate is 0</p>
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

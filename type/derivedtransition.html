@@ -119,14 +119,14 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/derivedtransition.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-transitionenergy">transitionEnergy</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-transitionenergy~3">transitionEnergy</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-ratederiv~2">rateDeriv</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-ratederivindices~2">rateDerivIndices</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-momentumratederiv~2">momentumRateDeriv</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-momentumratederivindices~2">momentumRateDerivIndices</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-energyratederiv~2">energyRateDeriv</a>
             <a class="list-group-item" href="../type/derivedtransition.html#variable-energyratederivindices~2">energyRateDerivIndices</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#variable-locnumx~3">locNumX</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#variable-locnumx~39">locNumX</a>
         </div>
       </div>
     </div>
@@ -173,9 +173,9 @@
             <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-setcsdim">setCSDim</a>
             <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-getcsdim">getCSDim</a>
             <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-getratesize">getRateSize</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-init~3">init</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-update~2">update</a>
-            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-gettransitionenergy">getTransitionEnergy</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-init~75">init</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-update~13">update</a>
+            <a class="list-group-item" href="../type/derivedtransition.html#boundprocedure-gettransitionenergy~5">getTransitionEnergy</a>
         </div>
       </div>
     </div>
@@ -226,7 +226,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy"></span>
+              <span class="anchor" id="variable-transitionenergy~3"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -345,7 +345,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~3"></span>
+              <span class="anchor" id="variable-locnumx~39"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1688,7 +1688,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~3"></span>
+      <span class="anchor" id="boundprocedure-init~75"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initderivedtransition.html'>initDerivedTransition</a>
@@ -1893,7 +1893,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~2"></span>
+      <span class="anchor" id="boundprocedure-update~13"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updaterates.html'>updateRates</a>
@@ -2008,10 +2008,10 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-gettransitionenergy"></span>
+      <span class="anchor" id="boundprocedure-gettransitionenergy~5"></span>
       <h3>
           procedure, public ::
-  <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy.html'>getEnergy</a>
+  <strong>getTransitionEnergy</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getenergy~4.html'>getEnergy</a>
         
       </h3>
     </div>
@@ -2020,7 +2020,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
               <h3>interface </h3>
                   <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Returns array representing energy cost of this transition</p>
@@ -2079,7 +2079,7 @@ Optionally, momentum and energy rates can be calculated using derivation objects
           <div class="col">
             <p>
               ReMKiT1D
- was developed by Stefan Mijin<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by Stefan Mijin<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

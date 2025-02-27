@@ -29,7 +29,6 @@ module crm_dens_term_generator_class
     use term_generator_abstract_class         ,only: TermGenerator
     use modelbound_data_abstract_class        ,only: ModelboundData
     use fluid_stencil_templates 
-    use status_printing
 
     implicit none
     private

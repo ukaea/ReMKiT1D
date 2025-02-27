@@ -48,7 +48,6 @@ module term_generator_abstract_class
 
         procedure ,public :: getNumImplicitTerms
         procedure ,public :: getNumGeneralTerms
-        procedure ,public :: getGeneratorPrefix
 
         procedure ,public :: moveTerms
 
@@ -111,14 +110,6 @@ module term_generator_abstract_class
         integer(ik)                         :: numTerms
     
     end function getNumGeneralTerms
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function getGeneratorPrefix(this) result(prefix)
-        !! Get size of this%generalTerms
-
-        class(TermGenerator)   ,intent(in)  :: this
-        character(:) ,allocatable           :: prefix
-    
-    end function getGeneratorPrefix
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine moveTerms(this,modelObj,impTermImpGroups,impTermGenGroups,genTermGroups) 
         !! Move terms to modelObj 

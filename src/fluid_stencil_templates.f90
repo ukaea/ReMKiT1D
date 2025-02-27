@@ -186,16 +186,14 @@ module fluid_stencil_templates
 
     end subroutine initDiffusionStencil
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-                                                 ignoreJacobian,calcRule,doNotInterpolateD)
-        !! initialize diffusion stencil template based on direct inputs
-
-        type(stenciltemplate)           ,intent(inout) :: stencilTemplateObj
-        type(environmentwrapper)        ,intent(inout) :: envObj
+    module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,calcRule,doNotInterpolateD)
+        !! Initialize diffusion stencil template based on direct inputs
+    
+        type(StencilTemplate)           ,intent(inout) :: stencilTemplateObj
+        type(EnvironmentWrapper)        ,intent(inout) :: envObj
         character(*)                    ,intent(in)    :: evolvedVar
         character(*)                    ,intent(in)    :: implicitVar
-        logical                         ,intent(in)    :: ignoreJacobian
-        type(calculationrule) ,optional ,intent(in)    :: calcRule
+        type(CalculationRule) ,optional ,intent(in)    :: calcRule
         logical ,optional               ,intent(in)    :: doNotInterpolateD
     
     end subroutine initDiffusionStencilDirect

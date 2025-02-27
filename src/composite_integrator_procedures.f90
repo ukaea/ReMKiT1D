@@ -117,15 +117,6 @@ pure module subroutine setRequestedTimestep(this,timestep)
 
 end subroutine setRequestedTimestep
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine resetRequestedTimestep(this) 
-    !! Resets the requested timestep to the initial timestep
-
-    class(CompositeIntegrator)        ,intent(inout)  :: this
-
-    this%requestedTimestep = this%initialTimestep
-
-end subroutine resetRequestedTimestep
-!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars) 
     !! Call all integrators based on the integration stages and global timestep. The global timestep is updated at the start if there is
     !! an allocated timestep controller.
@@ -152,14 +143,10 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     if (size(this%integrationStage) > 1) then
         if (.not. allocated(this%stepBuffer)) allocate(this%stepBuffer,source=inputVars)
     end if
-
-    this%globalTimestep = this%initialTimestep
+    this%globalTimestep = min(this%initialTimestep,this%requestedTimestep)
     if (allocated(this%dtController)) this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
-    this%globalTimestep = min(this%globalTimestep,this%requestedTimestep)
-
     numStages = size(this%integrationStage)
 
-    if (inputVars%isVarNameRegistered("time")) this%currentTime = inputVars%variables(outputVars%getVarIndex("time"))%entry(1)
     do i = 1,numStages
         integratorIndex = this%integrationStage(i)%integratorIndex
 
@@ -197,6 +184,7 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
         
     end do
 
+    if (inputVars%isVarNameRegistered("time")) this%currentTime = inputVars%variables(outputVars%getVarIndex("time"))%entry(1)
     this%currentTime = this%currentTime + this%globalTimestep 
     if (outputVars%isVarNameRegistered("time")) outputVars%variables(outputVars%getVarIndex("time"))%entry(1) = this%currentTime
 

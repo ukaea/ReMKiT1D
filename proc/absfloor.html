@@ -10,7 +10,7 @@
     <meta name="author" content="Stefan Mijin" >
     <link rel="icon" href="../favicon.png">
 
-    <title>unaryFilter &ndash; ReMKiT1D</title>
+    <title>absFloor &ndash; ReMKiT1D</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -66,7 +66,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>unaryFilter
+    <h1>absFloor
       <small>Module Function</small>
       
     </h1>
@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">9 statements</a>
+                 title=" 0.0% of total for procedures.">8 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -92,7 +92,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/unary_transforms_procedures.f90.html'>unary_transforms_procedures.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/unary_transforms_procedures.html'>unary_transforms_procedures</a></li>
-            <li class="breadcrumb-item active" aria-current="page">unaryFilter</li>
+            <li class="breadcrumb-item active" aria-current="page">absFloor</li>
           </ol>
         </nav>
       </div>
@@ -137,13 +137,13 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>pure module function unaryFilter(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../interface/unaryfilter.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>pure module function absFloor(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../interface/absfloor.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Unary filter function, takes in two realParams, and returns the input, except where input<realParams(1) or
-input>=realParams(2)</p>
+    <p>Floor value filter unary wrapper, uses the absolute value of the first real param as the floor value.
+The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
 
 
     <h3>Arguments</h3>
@@ -159,7 +159,7 @@ input>=realParams(2)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~79"></span>
+              <span class="anchor" id="variable-input~44"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -174,7 +174,7 @@ input>=realParams(2)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-realparams~51"></span>
+              <span class="anchor" id="variable-realparams~23"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -189,7 +189,7 @@ input>=realParams(2)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intparams~52"></span>
+              <span class="anchor" id="variable-intparams~23"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -204,7 +204,7 @@ input>=realParams(2)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-logicalparams~52"></span>
+              <span class="anchor" id="variable-logicalparams~24"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -222,7 +222,7 @@ input>=realParams(2)</p>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-output~109"></span>
+          <span class="anchor" id="variable-output~73"></span>
           real(kind=rk), allocatable, dimension(:)
         </small>
       </h3>

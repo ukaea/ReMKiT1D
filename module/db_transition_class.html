@@ -127,7 +127,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/db_transition_class.html#interface-getenergy~2">getEnergy</a>
             <a class="list-group-item" href="../module/db_transition_class.html#interface-initdbtransition">initDBTransition</a>
-            <a class="list-group-item" href="../module/db_transition_class.html#interface-updatecsrates">updateCSRates</a>
+            <a class="list-group-item" href="../module/db_transition_class.html#interface-updatecsrates~2">updateCSRates</a>
             <a class="list-group-item" href="../module/db_transition_class.html#interface-finalizedbtransition">finalizeDBTransition</a>
         </div>
       </div>
@@ -169,19 +169,19 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
-                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
                   <li class="list-inline-item"><a href='modelbound_crm_data_class.html'>modelbound_CRM_data_class</a></li>
-                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
-                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='v_space_class.html'>v_space_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
                   <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='v_space_class.html'>v_space_class</a></li>
+                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='transition_abstract_class.html'>transition_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
               </ul>
             </li>
         </ul>
@@ -219,7 +219,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Returns array representing energy cost of this transition</p>
@@ -237,7 +237,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~24"></span>
+              <span class="anchor" id="variable-this~155"></span>
               class(<a href='../type/dbtransition.html'>DBTransition</a>),
             </td>
 <td>intent(in)</td>
@@ -291,7 +291,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~23"></span>
+              <span class="anchor" id="variable-this~154"></span>
               class(<a href='../type/dbtransition.html'>DBTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -306,7 +306,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~9"></span>
+              <span class="anchor" id="variable-locnumx~18"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -321,7 +321,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-instates"></span>
+              <span class="anchor" id="variable-instates~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -336,7 +336,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outstates"></span>
+              <span class="anchor" id="variable-outstates~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -351,7 +351,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy~2"></span>
+              <span class="anchor" id="variable-energy"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -366,7 +366,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distvarindex"></span>
+              <span class="anchor" id="variable-distvarindex~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -381,7 +381,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refvspace"></span>
+              <span class="anchor" id="variable-refvspace~3"></span>
               type(<a href='../type/vspace.html'>VSpace</a>),
             </td>
 <td>intent(inout),</td>
@@ -396,7 +396,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-directtransitionindex~2"></span>
+              <span class="anchor" id="variable-directtransitionindex~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -426,7 +426,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedwindex~2"></span>
+              <span class="anchor" id="variable-fixedwindex~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -441,7 +441,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-temperaturevarindex~2"></span>
+              <span class="anchor" id="variable-temperaturevarindex~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -456,7 +456,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxcsl~2"></span>
+              <span class="anchor" id="variable-maxcsl~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -471,7 +471,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-degeneracyratio~2"></span>
+              <span class="anchor" id="variable-degeneracyratio~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -516,7 +516,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentummoment"></span>
+              <span class="anchor" id="variable-momentummoment~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -531,7 +531,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-l1index"></span>
+              <span class="anchor" id="variable-l1index~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -546,7 +546,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csupdatepriority~2"></span>
+              <span class="anchor" id="variable-csupdatepriority~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -584,7 +584,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-updatecsrates"></span>
+      <span class="anchor" id="interface-updatecsrates~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -592,7 +592,7 @@
         <li class="list-group-item">
               <h3>
     private module subroutine updateCSRates(this, varCont, hostModel, hostData, updatePriority)  
-    <a href="../proc/updatecsrates.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatecsrates~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Update cross-section and transition and moment exchange rates (if applicable)</p>
@@ -610,7 +610,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~25"></span>
+              <span class="anchor" id="variable-this~156"></span>
               class(<a href='../type/dbtransition.html'>DBTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -625,7 +625,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~3"></span>
+              <span class="anchor" id="variable-varcont~17"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -640,7 +640,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~3"></span>
+              <span class="anchor" id="variable-hostmodel~10"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -655,7 +655,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostdata"></span>
+              <span class="anchor" id="variable-hostdata~3"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -670,7 +670,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-updatepriority~2"></span>
+              <span class="anchor" id="variable-updatepriority~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -719,7 +719,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~26"></span>
+              <span class="anchor" id="variable-this~157"></span>
               type(<a href='../type/dbtransition.html'>DBTransition</a>),
             </td>
 <td>intent(inout)</td>
@@ -788,7 +788,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~2"></span>
+              <span class="anchor" id="variable-transitionenergy"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -805,7 +805,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vspaceref"></span>
+              <span class="anchor" id="variable-vspaceref~2"></span>
               type(<a href='../type/vspace.html'>VSpace</a>),
             </td>
               <td>private,</td>
@@ -822,7 +822,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-takemomentummoment"></span>
+              <span class="anchor" id="variable-takemomentummoment~5"></span>
               logical,
             </td>
               <td>private</td>
@@ -857,7 +857,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-l1harmonicind"></span>
+              <span class="anchor" id="variable-l1harmonicind~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -874,7 +874,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distfunvarindex"></span>
+              <span class="anchor" id="variable-distfunvarindex~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -891,7 +891,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~8"></span>
+              <span class="anchor" id="variable-locnumx~17"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -908,7 +908,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-directtransitionindex"></span>
+              <span class="anchor" id="variable-directtransitionindex~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -942,7 +942,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-temperaturevarindex"></span>
+              <span class="anchor" id="variable-temperaturevarindex~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -959,7 +959,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedwindex"></span>
+              <span class="anchor" id="variable-fixedwindex~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -976,7 +976,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxcsl"></span>
+              <span class="anchor" id="variable-maxcsl~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -993,7 +993,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-degeneracyratio"></span>
+              <span class="anchor" id="variable-degeneracyratio~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -1044,7 +1044,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csupdatepriority"></span>
+              <span class="anchor" id="variable-csupdatepriority~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1213,12 +1213,12 @@ the first moment of the l = 1 harmonic</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbtransition.html#boundprocedure-init~5'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initdbtransition.html'>initDBTransition</a></td>
+  <strong><a href='../type/dbtransition.html#boundprocedure-init~13'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initdbtransition.html'>initDBTransition</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/dbtransition.html#boundprocedure-update~2'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updatecsrates.html'>updateCSRates</a></td>
+  <strong><a href='../type/dbtransition.html#boundprocedure-update~5'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updatecsrates~2.html'>updateCSRates</a></td>
                 <td></td>
               </tr>
               <tr>

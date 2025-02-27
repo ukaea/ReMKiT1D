@@ -32,23 +32,15 @@ pure module function logLee(Te,ne) result(res)
 
 end function logLee
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module function logLei(Te,ne,Z,removeDisc) result(res)
+pure module function logLei(Te,ne,Z) result(res)
     !! Calculate Coulomb logarithm for electron-ion collisions (NRL Formulary 2013 page 34 equation b). Assumes Te > TiZm_e/m_i 
 
-    real(rk) ,intent(in)           :: Te !! Electron temperature in eV
-    real(rk) ,intent(in)           :: ne !! Electron density in m^{-3} 
-    real(rk) ,intent(in)           :: Z !! Ion charge
-    logical  ,intent(in), optional :: removeDisc !! Remove the discontinuity at 10eV by moving the branch switch to Te = Z **2 * e**2 eV. Defaults to .false.
+    real(rk) ,intent(in) :: Te !! Electron temperature in eV
+    real(rk) ,intent(in) :: ne !! Electron density in  m^{-3} 
+    real(rk) ,intent(in) :: Z !! Ion charge
     real(rk)             :: res
 
-    real(rk) :: cutoff
-    
-    cutoff = 10*Z**2
-    if (present(removeDisc)) then 
-        if (removeDisc) cutoff = exp(real(2,kind=rk))*Z**2
-    end if
-
-    if (Te < cutoff) then 
+    if (Te < 10*Z**2) then 
 
         res = real(23.0d0 - log(sqrt(ne * 1.00D-6) * Z * Te ** (-3.0d0/2.0d0)),kind=rk)
 

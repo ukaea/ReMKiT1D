@@ -78,7 +78,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 1.1% of total for derived types.</p>Including implementation: 21 statements,  0.9% of total for derived types.">21 statements</a>
+                 title="<p> 1.0% of total for derived types.</p>Including implementation: 20 statements,  0.9% of total for derived types.">20 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -158,14 +158,13 @@
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-affect~6">affect</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-affect~7">affect</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-getcurrenttime~2">getCurrentTime</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-addintegrator">addIntegrator</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-addintegrationstage">addIntegrationStage</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-settimestepcontroller~2">setTimestepController</a>
             <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-setrequestedtimestep">setRequestedTimestep</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-resetrequestedtimestep">resetRequestedTimestep</a>
-            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-init~74">init</a>
+            <a class="list-group-item" href="../type/compositeintegrator.html#boundprocedure-init~89">init</a>
         </div>
       </div>
     </div>
@@ -566,7 +565,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-affect~6"></span>
+      <span class="anchor" id="boundprocedure-affect~7"></span>
       <h3>
           procedure, public ::
   <strong>affect</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/integrateall.html'>integrateAll</a>
@@ -679,7 +678,7 @@ an allocated timestep controller.</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getCurrentTime(this) result(time)  
-    <a href="../proc/getcurrenttime.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getcurrenttime~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for currentTime</p>
@@ -879,7 +878,7 @@ an allocated timestep controller.</p>
               <h3>interface </h3>
                   <h3>
     private pure module subroutine setTimestepController(this, controller)  
-    <a href="../proc/settimestepcontroller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/settimestepcontroller~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Setter for dtController</p>
@@ -1007,62 +1006,7 @@ an allocated timestep controller.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-resetrequestedtimestep"></span>
-      <h3>
-          procedure, public ::
-  <strong>resetRequestedTimestep</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module subroutine resetRequestedTimestep(this)  
-    <a href="../proc/resetrequestedtimestep.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Resets the requested timestep to the initial timestep</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='compositeintegrator.html'>CompositeIntegrator</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~74"></span>
+      <span class="anchor" id="boundprocedure-init~89"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcompositeintegrator.html'>initCompositeIntegrator</a>

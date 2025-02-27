@@ -83,16 +83,6 @@ pure module function getNumGeneralTerms(this) result(numTerms)
 
 end function getNumGeneralTerms
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function getGeneratorPrefix(this) result(prefix)
-        !! Get size of this%generalTerms
-
-        class(TermGenerator)   ,intent(in)  :: this
-        character(:) ,allocatable           :: prefix
-
-        prefix = this%generatorPrefix
-    
-    end function getGeneratorPrefix
-!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine moveTerms(this,modelObj,impTermImpGroups,impTermGenGroups,genTermGroups) 
     !! Move terms to modelObj 
 

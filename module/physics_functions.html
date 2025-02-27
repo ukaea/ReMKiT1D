@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">71 statements</a>
+                 title=" 0.3% of total for modules and submodules.">70 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -164,8 +164,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='physical_constants.html'>physical_constants</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='physical_constants.html'>physical_constants</a></li>
               </ul>
             </li>
         </ul>
@@ -221,7 +221,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-te~6"></span>
+              <span class="anchor" id="variable-te~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ne~5"></span>
+              <span class="anchor" id="variable-ne~6"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -271,7 +271,7 @@
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function logLei(Te, ne, Z, removeDisc) result(res)  
+    public pure module function logLei(Te, ne, Z) result(res)  
     <a href="../proc/loglei.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -290,7 +290,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-te~7"></span>
+              <span class="anchor" id="variable-te~8"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -305,7 +305,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ne~6"></span>
+              <span class="anchor" id="variable-ne~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -320,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-z~4"></span>
+              <span class="anchor" id="variable-z~6"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -331,21 +331,6 @@
             <td><strong>Z</strong></td>
             <td>
                 <p>Ion charge</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-removedisc~2"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>removeDisc</strong></td>
-            <td>
-                <p>Remove the discontinuity at 10eV by moving the branch switch to Te = Z<strong>2 * e</strong>2 eV. Defaults to .false.</p>
             </td>
         </tr>
     </tbody>
@@ -603,7 +588,7 @@ multiplied by  4/(3*sqrt(pi)) .</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-te~8"></span>
+              <span class="anchor" id="variable-te~9"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -618,7 +603,7 @@ multiplied by  4/(3*sqrt(pi)) .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ne~7"></span>
+              <span class="anchor" id="variable-ne~8"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -633,7 +618,7 @@ multiplied by  4/(3*sqrt(pi)) .</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-z~5"></span>
+              <span class="anchor" id="variable-z~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -702,7 +687,7 @@ multiplied by  4/(3*sqrt(pi)) .</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ne~8"></span>
+              <span class="anchor" id="variable-ne~9"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -756,7 +741,7 @@ multiplied by  4/(3*sqrt(pi)) .</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-te~9"></span>
+              <span class="anchor" id="variable-te~10"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -810,7 +795,7 @@ multiplied by  4/(3*sqrt(pi)) .</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-te~10"></span>
+              <span class="anchor" id="variable-te~11"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -1010,7 +995,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~12"></span>
+              <span class="anchor" id="variable-m~15"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1070,7 +1055,7 @@ where g conforms to f. The integration is a simple Riemann sum.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-g~6"></span>
+              <span class="anchor" id="variable-g~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>

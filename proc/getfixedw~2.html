@@ -78,20 +78,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">10 statements</a>
+                 title=" 0.0% of total for procedures.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/modelbound_CRM_data_procedures.f90"> Source File</a>
+              <a href="../src/inelastic_grid_data_procedures.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/modelbound_crm_data_procedures.f90.html'>modelbound_CRM_data_procedures.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/modelbound_crm_data_procedures.html'>modelbound_CRM_data_procedures</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/inelastic_grid_data_procedures.f90.html'>inelastic_grid_data_procedures.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/inelastic_grid_data_procedures.html'>inelastic_grid_data_procedures</a></li>
             <li class="breadcrumb-item active" aria-current="page">getFixedW</li>
           </ol>
         </nav>
@@ -138,11 +138,11 @@
     
     <div class="col-md-9" id='text'>
     <h2>pure module function getFixedW(this, ind) result(wMat)  
-    <a href="../interface/getfixedw~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/getfixedw.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
-    <p>Return fixed mapping matrix with given index if inelastic data component is allocated</p>
+    <p>Return fixed mapping matrix with given index</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~1085"></span>
-              class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
+              <span class="anchor" id="variable-this~1126"></span>
+              class(<a href='../type/inelasticgriddata.html'>InelasticGridData</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ind~75"></span>
+              <span class="anchor" id="variable-ind~95"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -191,7 +191,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-wmat~7"></span>
+          <span class="anchor" id="variable-wmat~8"></span>
           type(<a href='../type/sparserowdata.html'>SparseRowData</a>)
         </small>
       </h3>

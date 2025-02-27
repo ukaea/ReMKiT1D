@@ -80,7 +80,6 @@ module modeller_class
         procedure ,public :: updateModelTermGroup
         procedure ,public :: updateModelTermByName
         procedure ,public :: updateModelData
-        procedure ,public :: updateAllModelData
         procedure ,public :: calculateMatGroupValsInModel
         procedure ,public :: calculateMatValsByTermName
         procedure ,public :: addModelMatGroupToPETSc
@@ -382,14 +381,6 @@ module modeller_class
         integer(ik) ,optional   ,intent(in)     :: updatePriority !! Priority for this update call 
 
     end subroutine updateModelData
-!-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine updateAllModelData(this,varCont)
-    !! Update the modelbound data of all models 
-
-    class(Modeller)         ,intent(inout)  :: this
-    type(VariableContainer) ,optional ,intent(in)     :: varCont !! Variable container to be used in update
-
-end subroutine updateAllModelData
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine copyDataFromModel(this,modelIndex,varName,container) 
         !! Copy modelbound variable data with given name from model with given index.

@@ -122,7 +122,7 @@
             <a class="list-group-item" href="../type/interpolationnd.html#variable-interpobjs">interpObjs</a>
             <a class="list-group-item" href="../type/interpolationnd.html#variable-firstdataindices">firstDataIndices</a>
             <a class="list-group-item" href="../type/interpolationnd.html#variable-hypercube">hyperCube</a>
-            <a class="list-group-item" href="../type/interpolationnd.html#variable-weights~3">weights</a>
+            <a class="list-group-item" href="../type/interpolationnd.html#variable-weights~2">weights</a>
         </div>
       </div>
     </div>
@@ -157,7 +157,7 @@
             <a class="list-group-item" href="../type/interpolationnd.html#boundprocedure-getinterppointsfordim">getInterpPointsForDim</a>
             <a class="list-group-item" href="../type/interpolationnd.html#boundprocedure-updateinterpolationpoints">updateInterpolationPoints</a>
             <a class="list-group-item" href="../type/interpolationnd.html#boundprocedure-interpolate~4">interpolate</a>
-            <a class="list-group-item" href="../type/interpolationnd.html#boundprocedure-init~34">init</a>
+            <a class="list-group-item" href="../type/interpolationnd.html#boundprocedure-init~71">init</a>
         </div>
       </div>
     </div>
@@ -258,7 +258,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-weights~3"></span>
+              <span class="anchor" id="variable-weights~2"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -693,7 +693,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module subroutine updateInterpolationPoints(this, interpolationPoints)  
-    <a href="../proc/updateinterpolationpoints~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updateinterpolationpoints.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Update the interpolation points and weights of all individual 1D interpolation objects and the weights/data indices used</p>
@@ -763,7 +763,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module function interpolate(this, targetArray) result(interpVals)  
-    <a href="../proc/interpolate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/interpolate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Interpolate FlatNDData onto interpolation points using weighted averages of vertices of the containing hypercube</p>
@@ -826,7 +826,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~34"></span>
+      <span class="anchor" id="boundprocedure-init~71"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initinterpolation.html'>initInterpolation</a>
@@ -838,7 +838,7 @@
               <h3>interface </h3>
                   <h3>
     private pure module subroutine initInterpolation(this, interpolationObjs)  
-    <a href="../proc/initinterpolation~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/initinterpolation.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Initialization routine for ND interpolation object</p>

@@ -119,12 +119,12 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-popchange">popChange</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-vdata~6">vData</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-popchange~2">popChange</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-vdata~5">vData</a>
             <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-evolvedvars">evolvedVars</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-implicitvars~2">implicitVars</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-envpointer~2">envPointer</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-numx">numX</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-implicitvars~3">implicitVars</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-envpointer~3">envPointer</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#variable-numx~5">numX</a>
         </div>
       </div>
     </div>
@@ -170,10 +170,9 @@
             <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-setgeneratorprefix">setGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-getnumimplicitterms">getNumImplicitTerms</a>
             <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-getnumgeneralterms">getNumGeneralTerms</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-getgeneratorprefix">getGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-moveterms">moveTerms</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-init~17">init</a>
-            <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-generate~2">generate</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-init~32">init</a>
+            <a class="list-group-item" href="../type/crmdenstermgenerator.html#boundprocedure-generate~3">generate</a>
         </div>
       </div>
     </div>
@@ -224,7 +223,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-popchange"></span>
+              <span class="anchor" id="variable-popchange~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -241,7 +240,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata~6"></span>
+              <span class="anchor" id="variable-vdata~5"></span>
               type(<a href='vardata.html'>VarData</a>),
             </td>
               <td>private,</td>
@@ -275,7 +274,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvars~2"></span>
+              <span class="anchor" id="variable-implicitvars~3"></span>
               type(<a href='stringarray.html'>StringArray</a>),
             </td>
               <td>private,</td>
@@ -292,7 +291,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envpointer~2"></span>
+              <span class="anchor" id="variable-envpointer~3"></span>
               type(<a href='environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
               <td>private,</td>
@@ -309,7 +308,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numx"></span>
+              <span class="anchor" id="variable-numx~5"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -866,66 +865,6 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getgeneratorprefix"></span>
-      <h3>
-          procedure, public ::
-  <strong>getGeneratorPrefix</strong>
-        
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
-    private pure module function getGeneratorPrefix(this) result(prefix)  
-    <a href="../proc/getgeneratorprefix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>
-
-  <p>Get size of this%generalTerms</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='termgenerator.html'>TermGenerator</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-moveterms"></span>
       <h3>
           procedure, public ::
@@ -1041,7 +980,7 @@ modelbound data. Assumes rates are normalized so that the resulting source term 
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~17"></span>
+      <span class="anchor" id="boundprocedure-init~32"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmdenstermgenerator.html'>initCRMDensTermGenerator</a>
@@ -1174,7 +1113,7 @@ Defaults to all transitions</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-generate~2"></span>
+      <span class="anchor" id="boundprocedure-generate~3"></span>
       <h3>
           procedure, public ::
   <strong>generate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/generatepartsourceterms.html'>generatePartSourceTerms</a>

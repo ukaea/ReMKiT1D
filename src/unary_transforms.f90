@@ -266,7 +266,7 @@ module unary_transforms
 
     end function unaryMinmod
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function unaryAbsFloor(input,realParams,intParams,logicalParams) result(output)
+    pure module function absFloor(input,realParams,intParams,logicalParams) result(output)
     !! Floor value filter unary wrapper, uses the absolute value of the first real param as the floor value.
     !! The result it sign(input) * max(abs(input),abs(realParams(1)))
 
@@ -276,30 +276,7 @@ module unary_transforms
         logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
         real(rk) ,allocatable ,dimension(:)              :: output
 
-    end function unaryAbsFloor
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function unaryStep(input,realParams,intParams,logicalParams) result(output)
-    !! Unary step function, takes no params. Returns 1 where input is > 0, else 0.
-
-        real(rk)               ,dimension(:) ,intent(in) :: input 
-        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
-        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
-        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
-        real(rk) ,allocatable ,dimension(:)              :: output
-
-    end function unaryStep
-!-----------------------------------------------------------------------------------------------------------------------------------
-    pure module function unaryFilter(input,realParams,intParams,logicalParams) result(output)
-    !! Unary filter function, takes in two realParams, and returns the input, except where input<realParams(1) or
-    !! input>realParams(2)
-
-        real(rk)               ,dimension(:) ,intent(in) :: input 
-        real(rk)     ,optional ,dimension(:) ,intent(in) :: realParams
-        integer(ik)  ,optional ,dimension(:) ,intent(in) :: intParams
-        logical      ,optional ,dimension(:) ,intent(in) :: logicalParams
-        real(rk) ,allocatable ,dimension(:)              :: output
-
-    end function unaryFilter
+    end function absFloor
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -119,13 +119,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#variable-transitionenergy~7">transitionEnergy</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#variable-transitionenergy~4">transitionEnergy</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-vspaceref~3">vSpaceRef</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-takemomentummoment~6">takeMomentumMoment</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-l1harmonicind~3">l1HarmonicInd</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#variable-distfunvarindex~3">distFunVarIndex</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#variable-locnumx~48">locNumX</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#variable-fixedwindex~11">fixedWIndex</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#variable-locnumx~30">locNumX</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#variable-fixedwindex~7">fixedWIndex</a>
         </div>
       </div>
     </div>
@@ -183,8 +183,8 @@
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-setcsdim">setCSDim</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-getcsdim">getCSDim</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-getratesize">getRateSize</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-init~88">init</a>
-            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-update~17">update</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-init~72">init</a>
+            <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-update~13">update</a>
             <a class="list-group-item" href="../type/fixedecstransition.html#boundprocedure-gettransitionenergy~7">getTransitionEnergy</a>
         </div>
       </div>
@@ -236,7 +236,7 @@ calculate rates</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionenergy~7"></span>
+              <span class="anchor" id="variable-transitionenergy~4"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -322,7 +322,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~48"></span>
+              <span class="anchor" id="variable-locnumx~30"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -339,7 +339,7 @@ the first moment of the l = 1 harmonic</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedwindex~11"></span>
+              <span class="anchor" id="variable-fixedwindex~7"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -1711,7 +1711,7 @@ the first moment of the l = 1 harmonic</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~88"></span>
+      <span class="anchor" id="boundprocedure-init~72"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initfixedecstransition.html'>initFixedECSTransition</a>
@@ -1916,7 +1916,7 @@ the first moment of the l = 1 harmonic</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~17"></span>
+      <span class="anchor" id="boundprocedure-update~13"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updaterates~2.html'>updateRates</a>
@@ -1928,7 +1928,7 @@ the first moment of the l = 1 harmonic</p>
               <h3>interface </h3>
                   <h3>
     private module subroutine updateRates(this, varCont, hostModel, hostData, updatePriority)  
-    <a href="../proc/updaterates~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updaterates.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Update transition and moment exchange rate (if applicable)</p>
@@ -2043,7 +2043,7 @@ the first moment of the l = 1 harmonic</p>
               <h3>interface </h3>
                   <h3>
     private pure module function getEnergy(this) result(energyCost)  
-    <a href="../proc/getenergy~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getenergy~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Returns array representing energy cost of this transition</p>

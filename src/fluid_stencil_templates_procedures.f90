@@ -635,7 +635,6 @@ module subroutine initDiffusionStencil(stencilTemplateObj,envObj,jsonPrefix,evol
     type(NamedString)      ,dimension(1) :: ruleName
     type(NamedStringArray)  ,dimension(1) :: reqVars
     type(NamedLogical)     ,dimension(1) :: notInterp
-    type(NamedLogical) ,dimension(1) :: ignoreJacobian
 
     class(Derivation) ,allocatable :: method
     type(CalculationRule) :: calcRule
@@ -643,7 +642,6 @@ module subroutine initDiffusionStencil(stencilTemplateObj,envObj,jsonPrefix,evol
     integer(ik) :: i
 
     ruleName(1) = NamedString(jsonPrefix//"."//keyStencilData//"."//keyRuleName,keyNone)
-    ignoreJacobian(1) = NamedLogical(jsonPrefix//"."//keyStencilData//"."//keyIgnoreJacobian,.false.)
     reqVars(1)%name = jsonPrefix//"."//keyStencilData//"."//keyReqVarNames
     allocate(reqVars(1)%values(0))
 
@@ -652,11 +650,9 @@ module subroutine initDiffusionStencil(stencilTemplateObj,envObj,jsonPrefix,evol
     call envObj%jsonCont%load(ruleName)
     call envObj%jsonCont%load(reqVars)
     call envObj%jsonCont%load(notInterp)
-    call envObj%jsonCont%load(ignoreJacobian)
     call envObj%jsonCont%output(ruleName)
     call envObj%jsonCont%output(reqVars)
     call envObj%jsonCont%output(notInterp)
-    call envObj%jsonCont%output(ignoreJacobian)
 
     if (assertions .or. assertionLvl >= 0) then 
         if (ruleName(1)%value /= keyNone) then 
@@ -676,25 +672,22 @@ module subroutine initDiffusionStencil(stencilTemplateObj,envObj,jsonPrefix,evol
         call envObj%textbookObj%copyDerivation(ruleName(1)%value,method)
         call calcRule%init(method,reqVars(1)%values)
 
-        call initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,ignoreJacobian(1)%value,calcRule,&
+        call initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,calcRule,&
                                         doNotInterpolateD=notInterp(1)%value)
     else
-        call initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,ignoreJacobian(1)%value,&
-                                        doNotInterpolateD=notInterp(1)%value)
+        call initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,doNotInterpolateD=notInterp(1)%value)
     end if
 
 end subroutine initDiffusionStencil
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-                                             ignoreJacobian,calcRule,doNotInterpolateD)
-    !! initialize diffusion stencil template based on direct inputs
+module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,calcRule,doNotInterpolateD)
+    !! Initialize diffusion stencil template based on direct inputs
 
-    type(stencilTemplate)           ,intent(inout) :: stencilTemplateObj
-    type(environmentWrapper)        ,intent(inout) :: envObj
+    type(StencilTemplate)           ,intent(inout) :: stencilTemplateObj
+    type(EnvironmentWrapper)        ,intent(inout) :: envObj
     character(*)                    ,intent(in)    :: evolvedVar
     character(*)                    ,intent(in)    :: implicitVar
-    logical                         ,intent(in)    :: ignoreJacobian
-    type(calculationRule) ,optional ,intent(in)    :: calcRule
+    type(CalculationRule) ,optional ,intent(in)    :: calcRule
     logical ,optional               ,intent(in)    :: doNotInterpolateD
 
     type(DiffusionStencilValGenerator) :: stencilGen 
@@ -721,15 +714,9 @@ module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVa
     centreJ = envObj%geometryObj%getJacobianCentre()
     rightJ = envObj%geometryObj%getJacobianRight()
     allocate(linInterp,source=envObj%geometryObj%getLinInterp())
+    outerJ = 1/(dx*centreJ)
     dxp = (dx + [dx(2:size(dx)),real(0,kind=rk)])/2 
-
-    if (ignoreJacobian) then 
-        outerJ = 1/dx
-        innerJ = 1/dxp
-    else
-        outerJ = 1/(dx*centreJ)
-        innerJ = rightJ/dxp
-    end if
+    innerJ = rightJ/dxp
 
     notInterp = .false.
     if (present(doNotInterpolateD)) notInterp = doNotInterpolateD

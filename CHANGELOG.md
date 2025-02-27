@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## v1.2.1, 2025-01-15
+
+- Added an option to remove the logLei discontinuity in NRL formulary fit
+- Added more output to BDE integrator
+- Added more unary transforms
+- Added key for controlling BDE integrator consolidation
+- Added 0-length timestep at the start of all simulations to fix extractor manipulator bug
+- Added option to ignore Jacobian in diffusion stencil
+
+### Breaking Changes
+
+- N/A
+
+### New Features
+
+- New standard textbook option to remoge logLei discontinuity in NRL formularly fit by moving branch cutoff to e^2 * Z^2 eV
+- BDE integrator now outputs the current number of substeps and progress through those
+- New "step" unary transform. 1 if the node evaluates > 0, 0 otherwise.
+- New "filterWithin" unary transform. 0 if the value of the node is not within the first two passed realParams, otherwise no effect.
+- New "BDEConsolidationInterval" key to set the number of timesteps for the integrator to attempt consolidation after. Defaults to 50 (old hardcoded value).
+- Some generators now explicitly output information about terms as they are generated
+- "ignoreJacobian" now valid option for diffusion stencil JSON interface
+
+### Bug Fixes
+
+- Fixed extractor manipulator bug with CRM models by performing a 0 length timestep at the start of all simulations before any output
+- Added a call to update all modelbound data before the 0-length timestep to avoid some edge-case model failure
+- Fixed bug where unsorted ingoing states in some transitions lead to the wrong required density variables being identified in some generators
+- Fixed bug with integrators that allow time evolution incrementing time twice when there is only one integration step
+- Fixed bug where composite integrator global timestep's requested size is overwritten if a timestep controller is used, leading to performance issues if output-driven timestepping is used.
+
 ## v1.2.0, 2024-09-19
 
 - Added CVODE integrator as an option

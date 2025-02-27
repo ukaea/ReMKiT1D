@@ -647,6 +647,7 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
 
     type(NamedIntegerArray) ,dimension(1) :: tempDerivIDs 
     type(NamedInteger)      ,dimension(1) :: sheathGammaIonSpeciesID
+    type(NamedLogical)      ,dimension(1) :: removeDiscLogLei
     type(NamedReal)      ,dimension(2) :: polytropicCoeffs
 
     integer(ik) ,allocatable ,dimension(:) :: allIDs, negativeIDs ,weightedTempIDs
@@ -696,12 +697,16 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
 
     sheathGammaIonSpeciesID(1) = NamedInteger(keyStandardTextbook//"."//keySheathGammaIonSpeciesID,-1)
 
+    removeDiscLogLei(1) = NamedLogical(keyStandardTextbook//"."//keyRemoveLogLeiDisc,.false.)
+
     call jsonCont%load(tempDerivIDs)
     call jsonCont%load(sheathGammaIonSpeciesID)
     call jsonCont%load(polytropicCoeffs)
+    call jsonCont%load(removeDiscLogLei)
     call jsonCont%output(tempDerivIDs)
     call jsonCont%output(polytropicCoeffs)
     call jsonCont%output(sheathGammaIonSpeciesID)
+    call jsonCont%output(removeDiscLogLei)
 
     call flowSpeedDeriv%init(real([1,-1],kind=rk))
     call tempDerivFirstTerm%init(real([1,-1],kind=rk),multConst=real(2.0d0/3.0d0,kind=rk))
@@ -808,7 +813,8 @@ module subroutine initStandardTextbook(textbookObj,gridObj,geometryObj,partObj,&
     do i = 1, size(negativeIDs)
         if (allocated(tempSpecies)) deallocate(tempSpecies)
         allocate(tempSpecies,source = speciesListObj%getSpeciesFromID(negativeIDs(i)))
-        call logLeiDeriv(i)%init(tempSpecies%getCharge(),locNumX,densNorm,tempNorm)
+        call logLeiDeriv(i)%init(tempSpecies%getCharge(),locNumX,densNorm,tempNorm,&
+            removeLogLeiDiscontinuity=removeDiscLogLei(1)%value)
         call textbookObj%addDerivation(logLeiDeriv(i),"logLei"//tempSpecies%getName())
         
         do j = 1,size(negativeIDs)
@@ -1018,7 +1024,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         case ("BDE")
 
             if (allocated(integerParams)) deallocate(integerParams)
-            allocate(integerParams(7))
+            allocate(integerParams(8))
 
             integerParams(1) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyMaxNonlinIters,100)
             integerParams(2) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAssociatedPETScGroup,1)
@@ -1034,6 +1040,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
             integerParams(7) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyMaxBDERestarts,3)
 
+            integerParams(8) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
+                                            //"."//keyInternalStepControl//"."//keyBDEConsolidationInterval,50)
             call jsonCont%load(integerParams)
             call jsonCont%output(integerParams)
 
@@ -1090,7 +1098,8 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                                                                       integerParams(4)%value,&
                                                                                       integerParams(5)%value,&
                                                                                       integerParams(6)%value,&
-                                                                                      integerParams(7)%value)&
+                                                                                      integerParams(7)%value,&
+                                                                                      integerParams(8)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string&
                                             ,relaxationWeight=realParams(3)%value)
                 else

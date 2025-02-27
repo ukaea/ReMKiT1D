@@ -328,10 +328,12 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
     logical(ik) ,optional       ,intent(in)  :: removeLastState
     integer(ik) ,dimension(:,:) ,allocatable :: densDataMat
 
-    logical :: rmLastState 
-    integer(ik) ,allocatable ,dimension(:) :: inStates ,uniqueStates ,stateCount
+    logical :: rmLastState
+    logical ,allocatable ,dimension(:) :: stateAdded
+    integer(ik) ,allocatable ,dimension(:) :: inStatesTemp, inStates ,uniqueStates ,stateCount
+                                              
 
-    integer(ik) :: i ,k
+    integer(ik) :: i ,j, k
 
     if (assertions) then 
         call assertPure(this%isDefined(),"getRequiredDensityData called on undefined modelbound CRM data object")
@@ -344,7 +346,15 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
 
     if (present(removeLastState)) rmLastState = removeLastState
 
-    inStates = this%getTransitionIngoingStates(transitionIndex)
+    inStatesTemp = this%getTransitionIngoingStates(transitionIndex)
+
+    if (rmLastState) then 
+
+        inStates = inStatesTemp(1:size(inStatesTemp)-1)
+
+    else 
+        inStates = inStatesTemp
+    end if
 
     uniqueStates = removeDupeInts(inStates)
     allocate(stateCount(size(uniqueStates)))
@@ -355,11 +365,9 @@ pure module function getRequiredDensityData(this,transitionIndex,removeLastState
         stateCount(i) = stateCount(i) - 1
     end do
 
-    if (rmLastState) stateCount(size(stateCount)) = stateCount(size(stateCount)) - 1
+    k = 1 
 
     allocate(densDataMat(count(stateCount>0),2))
-
-    k = 1 
 
     do i = 1,size(stateCount)
         if (stateCount(i)>0) then 

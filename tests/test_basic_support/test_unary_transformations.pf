@@ -111,4 +111,33 @@ contains
         @assertEqual(testVec,real([0.0,0.3,1.0,1.0],kind=rk))
 
     end subroutine test_unary_minmod
+
+    @test
+    subroutine test_unary_step
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([-1.0,0.3,1.0,1.2],kind=rk) 
+        testVec = unaryStep(testData)
+        
+        @assertEqual(testVec,real([0.0,1.0,1.0,1.0],kind=rk))
+
+    end subroutine test_unary_step
+
+
+    @test
+    subroutine test_unary_within
+
+        real(rk) ,allocatable ,dimension(:) :: testVec 
+
+        real(rk) ,allocatable ,dimension(:) :: testData 
+
+        testData = real([-1.0,0.3,1.0,1.2],kind=rk) 
+        testVec = unaryFilter(testData, realParams=real([0.0,1.1],kind=rk))
+        
+        @assertEqual(testVec,real([0.0,0.3,1.0,0.0],kind=rk))
+
+    end subroutine test_unary_within
 end module

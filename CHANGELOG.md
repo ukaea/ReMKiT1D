@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## v1.2.2, 2025-03-19
+
+- Bugfixes
+
+### Breaking Changes
+
+- N/A
+
+### New Features
+
+- N/A 
+
+### Bug Fixes
+
+- Fixed bug where Coulomb log was not calculated for halo cells, leading to issues with interpolation
+
+
 ## v1.2.1, 2025-01-15
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit

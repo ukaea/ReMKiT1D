@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.2, 2025-03-19
+## v1.2.2, 2025-05-08
 
 - Bugfixes
 
@@ -15,6 +15,7 @@
 ### Bug Fixes
 
 - Fixed bug where Coulomb log was not calculated for halo cells, leading to issues with interpolation
+- Fixed bug where the requested timestep wasn't rescaled, leading to different behaviour between stepping modes
 
 
 ## v1.2.1, 2025-01-15

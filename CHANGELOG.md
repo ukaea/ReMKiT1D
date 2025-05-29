@@ -1,16 +1,17 @@
 # CHANGELOG
 
-## v1.2.2, 2025-05-08
+## v1.3.0, 2025-05-29
 
 - Bugfixes
+- BDE integrator refactor
 
 ### Breaking Changes
 
-- N/A
+- BDE integrator will now ignore old config keys, internal step control and consolidation are done differently
 
 ### New Features
 
-- N/A 
+- BDE integrator refactor to enable more flexible adaptive timestepping
 
 ### Bug Fixes
 

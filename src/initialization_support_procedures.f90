@@ -1024,34 +1024,30 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         case ("BDE")
 
             if (allocated(integerParams)) deallocate(integerParams)
-            allocate(integerParams(8))
+            allocate(integerParams(5))
 
             integerParams(1) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyMaxNonlinIters,100)
             integerParams(2) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAssociatedPETScGroup,1)
             integerParams(3) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
-                                            //"."//keyInternalStepControl//"."//keyStartingNumSteps,1)
-            integerParams(4) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyStepMultiplier,2)
-            integerParams(5) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
-                                            //"."//keyInternalStepControl//"."//keyStepDecrament,1)
-            integerParams(6) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
+            integerParams(4) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyMinNumNonlinInters,5)
 
-            integerParams(7) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
+            integerParams(5) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyMaxBDERestarts,3)
 
-            integerParams(8) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
-                                            //"."//keyInternalStepControl//"."//keyBDEConsolidationInterval,50)
             call jsonCont%load(integerParams)
             call jsonCont%output(integerParams)
 
             if (allocated(logicalParams)) deallocate(logicalParams)
-            allocate(logicalParams(2))
+            allocate(logicalParams(3))
 
             logicalParams(1) = NamedLogical(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyUse2Norm,.false.)
             logicalParams(2) = NamedLogical(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyActive,.false.)
 
+            logicalParams(3) = NamedLogical(keyIntegrator//"."//integratorTags(1)%values(i)%string&
+                                            //"."//keyInternalStepControl//"."//keyAllowLazyEval,.false.)
             call jsonCont%load(logicalParams)
             call jsonCont%output(logicalParams)
 
@@ -1097,9 +1093,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                             ,intContOptions=InternalControllerOptions(integerParams(3)%value,&
                                                                                       integerParams(4)%value,&
                                                                                       integerParams(5)%value,&
-                                                                                      integerParams(6)%value,&
-                                                                                      integerParams(7)%value,&
-                                                                                      integerParams(8)%value)&
+                                                                                      logicalParams(3)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string&
                                             ,relaxationWeight=realParams(3)%value)
                 else
@@ -1120,7 +1114,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                             ,intContOptions=InternalControllerOptions(integerParams(3)%value,&
                                                                                       integerParams(4)%value,&
                                                                                       integerParams(5)%value,&
-                                                                                      integerParams(6)%value)&
+                                                                                      logicalParams(3)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string&
                                             ,relaxationWeight=realParams(3)%value)
                     

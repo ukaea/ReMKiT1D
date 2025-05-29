@@ -12,14 +12,29 @@
 
     <title>Modeller &ndash; ReMKiT1D </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -119,16 +136,16 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/modeller.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-vars~21">vars</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-vars~44">vars</a>
             <a class="list-group-item" href="../type/modeller.html#variable-models">models</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-petsccont~4">petscCont</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-petsccont~8">petscCont</a>
             <a class="list-group-item" href="../type/modeller.html#variable-mpicont">MPICont</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-commdata~7">commData</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-commdata~6">commData</a>
             <a class="list-group-item" href="../type/modeller.html#variable-identitymat">identityMat</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-integ~2">integ</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-manip~2">manip</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-integ~3">integ</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-manip~9">manip</a>
             <a class="list-group-item" href="../type/modeller.html#variable-nummodelsadded">numModelsAdded</a>
-            <a class="list-group-item" href="../type/modeller.html#variable-assembled">assembled</a>
+            <a class="list-group-item" href="../type/modeller.html#variable-assembled~4">assembled</a>
         </div>
       </div>
     </div>
@@ -158,7 +175,7 @@
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-isassembled">isAssembled</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-isassembled~2">isAssembled</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-addmodel">addModel</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-copyvarvaluesto">copyVarValuesTo</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-copyvarvaluesfrom">copyVarValuesFrom</a>
@@ -169,7 +186,7 @@
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-calculateidentitymat">calculateIdentityMat</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-updatemodeltermgroup">updateModelTermGroup</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-updatemodeltermbyname">updateModelTermByName</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-updatemodeldata">updateModelData</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-updatemodeldata~2">updateModelData</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-updateallmodeldata">updateAllModelData</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-calculatematgroupvalsinmodel">calculateMatGroupValsInModel</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-calculatematvalsbytermname">calculateMatValsByTermName</a>
@@ -184,8 +201,8 @@
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-performcomm">performComm</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-safecommandderiv">safeCommAndDeriv</a>
             <a class="list-group-item" href="../type/modeller.html#boundprocedure-istrueeverywhere">isTrueEverywhere</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-assemble">assemble</a>
-            <a class="list-group-item" href="../type/modeller.html#boundprocedure-init~28">init</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-assemble~2">assemble</a>
+            <a class="list-group-item" href="../type/modeller.html#boundprocedure-init~68">init</a>
         </div>
       </div>
     </div>
@@ -235,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vars~21"></span>
+              <span class="anchor" id="variable-vars~44"></span>
               type(<a href='variablecontainer.html'>VariableContainer</a>),
             </td>
               <td>private</td>
@@ -269,7 +286,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~4"></span>
+              <span class="anchor" id="variable-petsccont~8"></span>
               type(<a href='petsccontroller.html'>PETScController</a>),
             </td>
               <td>private,</td>
@@ -303,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-commdata~7"></span>
+              <span class="anchor" id="variable-commdata~6"></span>
               type(<a href='communicationdata.html'>CommunicationData</a>),
             </td>
               <td>private,</td>
@@ -337,7 +354,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integ~2"></span>
+              <span class="anchor" id="variable-integ~3"></span>
               class(<a href='manipulator.html'>Manipulator</a>),
             </td>
               <td>private,</td>
@@ -354,7 +371,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-manip~2"></span>
+              <span class="anchor" id="variable-manip~9"></span>
               class(<a href='compositemanipulator.html'>CompositeManipulator</a>),
             </td>
               <td>private,</td>
@@ -388,7 +405,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-assembled"></span>
+              <span class="anchor" id="variable-assembled~4"></span>
               logical(kind=ik),
             </td>
               <td>private</td>
@@ -423,10 +440,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isDefinedObject(this) result(defined)  
     <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -468,8 +485,8 @@
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -483,10 +500,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeDefinedObject(this)  
     <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -523,8 +540,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -538,10 +555,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeUndefinedObject(this)  
     <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -578,27 +595,27 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-isassembled"></span>
+      <span class="anchor" id="boundprocedure-isassembled~2"></span>
       <h3>
           procedure, public ::
   <strong>isAssembled</strong>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isAssembled(this) result(assembled)  
-    <a href="../proc/isassembled.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isassembled~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Return true if modeller is assembled and ready to evolve variables</p>
@@ -638,8 +655,8 @@
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -653,10 +670,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine addModel(this, newModel)  
     <a href="../proc/addmodel.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -708,8 +725,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -723,10 +740,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine copyVarValuesTo(this, varCont)  
     <a href="../proc/copyvarvaluesto.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -778,8 +795,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -793,10 +810,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine copyVarValuesFrom(this, varCont)  
     <a href="../proc/copyvarvaluesfrom.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -848,8 +865,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -863,10 +880,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine callManipulator(this, priority, inVars, outVars)  
     <a href="../proc/callmanipulator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -948,8 +965,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -963,10 +980,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine integrate(this, inVars, outVars, requestedTimestep)  
     <a href="../proc/integrate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1049,8 +1066,8 @@ Optionally request a timestep length (only available with composite integrators)
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1064,10 +1081,10 @@ Optionally request a timestep length (only available with composite integrators)
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setIntegrator(this, integ)  
     <a href="../proc/setintegrator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1119,8 +1136,8 @@ Optionally request a timestep length (only available with composite integrators)
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1134,10 +1151,10 @@ Optionally request a timestep length (only available with composite integrators)
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setManipulator(this, manip)  
     <a href="../proc/setmanipulator.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1189,8 +1206,8 @@ Optionally request a timestep length (only available with composite integrators)
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1204,10 +1221,10 @@ Optionally request a timestep length (only available with composite integrators)
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine calculateIdentityMat(this, indexingObj)  
     <a href="../proc/calculateidentitymat.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1259,8 +1276,8 @@ Optionally request a timestep length (only available with composite integrators)
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1274,10 +1291,10 @@ Optionally request a timestep length (only available with composite integrators)
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine updateModelTermGroup(this, modelIndex, groupIndex, varCont)  
     <a href="../proc/updatemodeltermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1360,8 +1377,8 @@ one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1375,10 +1392,10 @@ one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine updateModelTermByName(this, modelIndex, termName, varCont)  
     <a href="../proc/updatemodeltermbyname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1461,27 +1478,27 @@ one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-updatemodeldata"></span>
+      <span class="anchor" id="boundprocedure-updatemodeldata~2"></span>
       <h3>
           procedure, public ::
   <strong>updateModelData</strong>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine updateModelData(this, modelIndex, varCont, updatePriority)  
-    <a href="../proc/updatemodeldata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/updatemodeldata~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Update modelbound data of model with given index if that data is allocated</p>
@@ -1561,8 +1578,8 @@ one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1576,10 +1593,10 @@ one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine updateAllModelData(this, varCont)  
     <a href="../proc/updateallmodeldata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1631,8 +1648,8 @@ one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1646,10 +1663,10 @@ one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine calculateMatGroupValsInModel(this, modelIndex, groupIndex, varCont)  
     <a href="../proc/calculatematgroupvalsinmodel.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1732,8 +1749,8 @@ container other than the one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1747,10 +1764,10 @@ container other than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine calculateMatValsByTermName(this, modelIndex, termName, varCont)  
     <a href="../proc/calculatematvalsbytermname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1833,8 +1850,8 @@ container other than the one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1848,10 +1865,10 @@ container other than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine addModelMatGroupToPETSc(this, modelIndex, groupIndex, mult, petscGroup)  
     <a href="../proc/addmodelmatgrouptopetsc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1948,8 +1965,8 @@ container other than the one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1963,10 +1980,10 @@ container other than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine linearSolvePETSc(this, knownVec, unknownVec, addIdentityMat, convReason, petscGroup)  
     <a href="../proc/linearsolvepetsc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2079,8 +2096,8 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2094,10 +2111,10 @@ addIdentityMat is true adds an identity matrix to the PETSc matrix.</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function evaluateModelTermGroup(this, modelIndex, groupIndex, varCont) result(res)  
     <a href="../proc/evaluatemodeltermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2185,8 +2202,8 @@ than the one stored in the modeller</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2200,10 +2217,10 @@ than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function evaluateModelTermByName(this, modelIndex, name, varCont) result(res)  
     <a href="../proc/evaluatemodeltermbyname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2291,8 +2308,8 @@ than the one stored in the modeller</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2306,10 +2323,10 @@ than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine copyDataFromModel(this, modelIndex, varName, container)  
     <a href="../proc/copydatafrommodel.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2391,8 +2408,8 @@ than the one stored in the modeller</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2406,10 +2423,10 @@ than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getEvolvedVarInTermGroup(this, groupIndex, modelIndex) result(name)  
     <a href="../proc/getevolvedvarintermgroup.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2481,8 +2498,8 @@ than the one stored in the modeller</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2496,10 +2513,10 @@ than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isModelTermGroupMixed(this, groupIndex, modelIndex) result(mixed)  
     <a href="../proc/ismodeltermgroupmixed.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2571,8 +2588,8 @@ than the one stored in the modeller</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2586,10 +2603,10 @@ than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getCurrentTime(this) result(time)  
     <a href="../proc/getcurrenttime~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2632,8 +2649,8 @@ than the one stored in the modeller</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2647,10 +2664,10 @@ than the one stored in the modeller</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine performComm(this, commData, varCont, onlyDepth)  
     <a href="../proc/performcomm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2733,8 +2750,8 @@ exchanges data in external variable container</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2748,10 +2765,10 @@ exchanges data in external variable container</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine safeCommAndDeriv(this, commData, varCont, derivPriority)  
     <a href="../proc/safecommandderiv.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2833,8 +2850,8 @@ exchanges data in external variable container</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2848,10 +2865,10 @@ exchanges data in external variable container</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function isTrueEverywhere(this, input) result(isTrue)  
     <a href="../proc/istrueeverywhere~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2908,27 +2925,27 @@ exchanges data in external variable container</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-assemble"></span>
+      <span class="anchor" id="boundprocedure-assemble~2"></span>
       <h3>
           procedure, public ::
   <strong>assemble</strong>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine assemble(this, withIdentityMat)  
-    <a href="../proc/assemble.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/assemble~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Assemble all of the matrix terms, preallocate PETScController objects and make sure modeller is ready for use. 
@@ -2979,25 +2996,25 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~28"></span>
+      <span class="anchor" id="boundprocedure-init~68"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmodeller.html'>initModeller</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine initModeller(this, numModels, initVars, mpiCont, petscCont, commData)  
     <a href="../proc/initmodeller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -3109,8 +3126,8 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -3141,27 +3158,5 @@ If withIdentityMat is true preallocates diagonal elements for the identity matri
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

@@ -137,6 +137,8 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
 
     integer(ik) :: i ,integratorIndex ,numStages
 
+    real(rk) :: scaledRequestedTimestep
+
     if (assertions) then 
 
         call assertPure(this%isDefined(),"Attempted to integrate modeller using undefined composite integrator")
@@ -154,8 +156,12 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     end if
 
     this%globalTimestep = this%initialTimestep
-    if (allocated(this%dtController)) this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
-    this%globalTimestep = min(this%globalTimestep,this%requestedTimestep)
+    scaledRequestedTimestep = this%requestedTimestep
+    if (allocated(this%dtController)) then 
+        this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
+        scaledRequestedTimestep = this%dtController%evaluateTimestep(inputVars,scaledRequestedTimestep)
+    end if
+    this%globalTimestep = min(this%globalTimestep,scaledRequestedTimestep)
 
     numStages = size(this%integrationStage)
 

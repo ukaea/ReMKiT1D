@@ -12,14 +12,29 @@
 
     <title>flat_nd_data_class &ndash; ReMKiT1D</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -171,10 +188,10 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
                   <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
               </ul>
             </li>
         </ul>
@@ -230,7 +247,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~250"></span>
+              <span class="anchor" id="variable-this~1173"></span>
               class(<a href='../type/flatnddata.html'>FlatNDData</a>),
             </td>
 <td>intent(in)</td>
@@ -284,7 +301,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~251"></span>
+              <span class="anchor" id="variable-this~1174"></span>
               class(<a href='../type/flatnddata.html'>FlatNDData</a>),
             </td>
 <td>intent(in)</td>
@@ -299,7 +316,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexset"></span>
+              <span class="anchor" id="variable-indexset~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -353,7 +370,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~252"></span>
+              <span class="anchor" id="variable-this~1175"></span>
               class(<a href='../type/flatnddata.html'>FlatNDData</a>),
             </td>
 <td>intent(in)</td>
@@ -368,7 +385,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexset~2"></span>
+              <span class="anchor" id="variable-indexset~5"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -383,7 +400,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sliceindex"></span>
+              <span class="anchor" id="variable-sliceindex~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -437,7 +454,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~253"></span>
+              <span class="anchor" id="variable-this~1176"></span>
               class(<a href='../type/flatnddata.html'>FlatNDData</a>),
             </td>
 <td>intent(in)</td>
@@ -452,7 +469,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexset~3"></span>
+              <span class="anchor" id="variable-indexset~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -467,7 +484,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sliceindex~2"></span>
+              <span class="anchor" id="variable-sliceindex~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -521,7 +538,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~248"></span>
+              <span class="anchor" id="variable-this~1171"></span>
               class(<a href='../type/flatnddata.html'>FlatNDData</a>),
             </td>
 <td>intent(inout)</td>
@@ -536,7 +553,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array"></span>
+              <span class="anchor" id="variable-array~14"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -585,7 +602,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~249"></span>
+              <span class="anchor" id="variable-this~1172"></span>
               class(<a href='../type/flatnddata.html'>FlatNDData</a>),
             </td>
 <td>intent(inout)</td>
@@ -600,7 +617,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~2"></span>
+              <span class="anchor" id="variable-array~15"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -615,7 +632,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims~2"></span>
+              <span class="anchor" id="variable-dims~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -684,7 +701,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dims"></span>
+              <span class="anchor" id="variable-dims~3"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -701,7 +718,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~3"></span>
+              <span class="anchor" id="variable-data~5"></span>
               real(kind=rk),
             </td>
               <td>public,</td>
@@ -728,47 +745,47 @@
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/isdefinedobject.html'>isDefinedObject</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makedefinedobject.html'>makeDefinedObject</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makeundefinedobject.html'>makeUndefinedObject</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/flatnddata.html#boundprocedure-getvalue'>getValue</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/flatnddata.html#boundprocedure-get1dslice'>get1DSlice</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/flatnddata.html#boundprocedure-get1dsliceindices'>get1DSliceIndices</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/flatnddata.html#boundprocedure-getdims'>getDims</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/flatnddata.html#boundprocedure-init~25'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initflatnddata.html'>initFlatNDData</a></td>
-                <td></td>
+  <strong><a href='../type/flatnddata.html#boundprocedure-init~96'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initflatnddata.html'>initFlatNDData</a></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/flatnddata.html#boundprocedure-directinit'>directInit</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
           </tbody>
         </table>
@@ -806,27 +823,5 @@
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

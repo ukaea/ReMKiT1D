@@ -12,14 +12,29 @@
 
     <title>MultiplicativeStencilGen &ndash; ReMKiT1D </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -119,14 +136,14 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-core">core</a>
+            <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-core~2">core</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-xstencilgen">xStencilGen</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-hstencilgen">hStencilGen</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-vstencilgen">vStencilGen</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-xvals~2">xVals</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-hvals~2">hVals</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-vvals~2">vVals</a>
-            <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-fluidcol~3">fluidCol</a>
+            <a class="list-group-item" href="../type/multiplicativestencilgen.html#variable-fluidcol~2">fluidCol</a>
         </div>
       </div>
     </div>
@@ -156,9 +173,9 @@
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-calculate~26">calculate</a>
-            <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-init~43">init</a>
-            <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-calculateinplace~8">calculateInPlace</a>
+            <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-calculate~5">calculate</a>
+            <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-init~73">init</a>
+            <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-calculateinplace~12">calculateInPlace</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-setxgen">setXGen</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-sethgen">setHGen</a>
             <a class="list-group-item" href="../type/multiplicativestencilgen.html#boundprocedure-setvgen">setVGen</a>
@@ -211,7 +228,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-core"></span>
+              <span class="anchor" id="variable-core~2"></span>
               type(<a href='multiplicativegeneratorcore.html'>MultiplicativeGeneratorCore</a>),
             </td>
               <td>private,</td>
@@ -330,7 +347,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fluidcol~3"></span>
+              <span class="anchor" id="variable-fluidcol~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -365,10 +382,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isDefinedObject(this) result(defined)  
     <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -410,8 +427,8 @@
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -425,10 +442,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeDefinedObject(this)  
     <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -465,8 +482,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -480,10 +497,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeUndefinedObject(this)  
     <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -520,25 +537,25 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~26"></span>
+      <span class="anchor" id="boundprocedure-calculate~5"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function calculate(this, varCont, mbData, hostModel) result(res)  
     <a href="../proc/calculate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -625,25 +642,25 @@
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~43"></span>
+      <span class="anchor" id="boundprocedure-init~73"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmultgen.html'>initMultGen</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine initMultGen(this, coreObj, fluidCol, initXVals, initHVals, initVVals)  
     <a href="../proc/initmultgen.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -755,25 +772,25 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~8"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~12"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcmultvals.html'>calcMultVals</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine calcMultVals(this, varCont, res, mbData, hostModel)  
     <a href="../proc/calcmultvals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -870,8 +887,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -885,10 +902,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine setXGen(this, gen)  
     <a href="../proc/setxgen.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -940,8 +957,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -955,10 +972,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine setHGen(this, gen)  
     <a href="../proc/sethgen.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1010,8 +1027,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1025,10 +1042,10 @@
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine setVGen(this, gen)  
     <a href="../proc/setvgen.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1080,8 +1097,8 @@
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1112,27 +1129,5 @@
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

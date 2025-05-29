@@ -12,14 +12,29 @@
 
     <title>matrix_term_abstract_class &ndash; ReMKiT1D</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -189,22 +206,22 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='basic_interfaces.html'>basic_interfaces</a></li>
-                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
                   <li class="list-inline-item"><a href='petsc_controller_class.html'>petsc_controller_class</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='petsc_preallocation_data_class.html'>petsc_preallocation_data_class</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
-                  <li class="list-inline-item"><a href='term_abstract_class.html'>term_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
-                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
+                  <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
                   <li class="list-inline-item"><a href='variable_list_class.html'>variable_list_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='basic_interfaces.html'>basic_interfaces</a></li>
+                  <li class="list-inline-item"><a href='term_abstract_class.html'>term_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
+                  <li class="list-inline-item"><a href='model_surrogate_class.html'>model_surrogate_class</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='petsc_preallocation_data_class.html'>petsc_preallocation_data_class</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
               </ul>
             </li>
         </ul>
@@ -260,7 +277,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~411"></span>
+              <span class="anchor" id="variable-this~1207"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -314,7 +331,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~418"></span>
+              <span class="anchor" id="variable-this~1214"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -329,7 +346,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~53"></span>
+              <span class="anchor" id="variable-varcont~137"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -383,7 +400,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~420"></span>
+              <span class="anchor" id="variable-this~1216"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -437,7 +454,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~421"></span>
+              <span class="anchor" id="variable-this~1217"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -491,7 +508,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~425"></span>
+              <span class="anchor" id="variable-this~1221"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -545,7 +562,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~426"></span>
+              <span class="anchor" id="variable-this~1222"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -600,7 +617,7 @@ to provide values which is only a function of the row </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~407"></span>
+              <span class="anchor" id="variable-this~1203"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -615,7 +632,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~48"></span>
+              <span class="anchor" id="variable-varcont~132"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -630,7 +647,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowvals~3"></span>
+              <span class="anchor" id="variable-rowvals~4"></span>
               real(kind=rk),
             </td>
 <td>intent(inout),</td>
@@ -645,7 +662,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~8"></span>
+              <span class="anchor" id="variable-indexingdata~13"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
 <td>intent(in)</td>
@@ -694,7 +711,7 @@ to provide values which is only a function of the row </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~408"></span>
+              <span class="anchor" id="variable-this~1204"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -709,7 +726,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~49"></span>
+              <span class="anchor" id="variable-varcont~133"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -724,7 +741,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colvals~3"></span>
+              <span class="anchor" id="variable-colvals~4"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(inout),</td>
@@ -739,7 +756,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~9"></span>
+              <span class="anchor" id="variable-indexingdata~14"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
 <td>intent(in)</td>
@@ -788,7 +805,7 @@ to provide values which is only a function of the row </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~409"></span>
+              <span class="anchor" id="variable-this~1205"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -803,7 +820,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~50"></span>
+              <span class="anchor" id="variable-varcont~134"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -852,7 +869,7 @@ to provide values which is only a function of the row </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~410"></span>
+              <span class="anchor" id="variable-this~1206"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -867,7 +884,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-norm~3"></span>
+              <span class="anchor" id="variable-norm~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -916,7 +933,7 @@ to provide values which is only a function of the row </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~412"></span>
+              <span class="anchor" id="variable-this~1208"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -961,7 +978,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~51"></span>
+              <span class="anchor" id="variable-varcont~135"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1010,7 +1027,7 @@ to provide values which is only a function of the row </p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~413"></span>
+              <span class="anchor" id="variable-this~1209"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1055,7 +1072,7 @@ to provide values which is only a function of the row </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~52"></span>
+              <span class="anchor" id="variable-varcont~136"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1105,7 +1122,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~414"></span>
+              <span class="anchor" id="variable-this~1210"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1120,7 +1137,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcoords~5"></span>
+              <span class="anchor" id="variable-rowcoords~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1150,7 +1167,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingobj~10"></span>
+              <span class="anchor" id="variable-indexingobj~20"></span>
               type(<a href='../type/indexing.html'>Indexing</a>),
             </td>
 <td>intent(in)</td>
@@ -1199,7 +1216,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~415"></span>
+              <span class="anchor" id="variable-this~1211"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1263,7 +1280,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~416"></span>
+              <span class="anchor" id="variable-this~1212"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -1278,7 +1295,7 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~6"></span>
+              <span class="anchor" id="variable-petsccont~12"></span>
               type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1328,7 +1345,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~417"></span>
+              <span class="anchor" id="variable-this~1213"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(in)</td>
@@ -1343,7 +1360,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petsccont~7"></span>
+              <span class="anchor" id="variable-petsccont~13"></span>
               type(<a href='../type/petsccontroller.html'>PETScController</a>),
             </td>
 <td>intent(inout)</td>
@@ -1358,7 +1375,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mult~3"></span>
+              <span class="anchor" id="variable-mult~7"></span>
               real(kind=rk),
             </td>
 <td>intent(in)</td>
@@ -1373,7 +1390,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-petscgroup~5"></span>
+              <span class="anchor" id="variable-petscgroup~10"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1422,7 +1439,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~419"></span>
+              <span class="anchor" id="variable-this~1215"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1437,7 +1454,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~11"></span>
+              <span class="anchor" id="variable-multconst~29"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
 <td>intent(in),</td>
@@ -1486,7 +1503,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~422"></span>
+              <span class="anchor" id="variable-this~1218"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1550,7 +1567,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~423"></span>
+              <span class="anchor" id="variable-this~1219"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1614,7 +1631,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~424"></span>
+              <span class="anchor" id="variable-this~1220"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1678,7 +1695,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~427"></span>
+              <span class="anchor" id="variable-this~1223"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1693,7 +1710,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~54"></span>
+              <span class="anchor" id="variable-varcont~138"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1708,7 +1725,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~5"></span>
+              <span class="anchor" id="variable-modeldata~16"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -1723,7 +1740,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~16"></span>
+              <span class="anchor" id="variable-hostmodel~61"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -1772,7 +1789,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~428"></span>
+              <span class="anchor" id="variable-this~1224"></span>
               class(<a href='../type/matrixterm.html'>MatrixTerm</a>),
             </td>
 <td>intent(inout)</td>
@@ -1787,7 +1804,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varcont~55"></span>
+              <span class="anchor" id="variable-varcont~139"></span>
               type(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1802,7 +1819,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~10"></span>
+              <span class="anchor" id="variable-indexingdata~15"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
 <td>intent(in)</td>
@@ -1817,7 +1834,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modeldata~6"></span>
+              <span class="anchor" id="variable-modeldata~17"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -1832,7 +1849,7 @@ stationary mult is ignored and set to -1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hostmodel~17"></span>
+              <span class="anchor" id="variable-hostmodel~62"></span>
               class(<a href='../type/modelsurrogate.html'>ModelSurrogate</a>),
             </td>
 <td>intent(in),</td>
@@ -1884,7 +1901,7 @@ stationary mult is ignored and set to -1</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowcoords~4"></span>
+              <span class="anchor" id="variable-rowcoords~5"></span>
               integer(kind=ik),
             </td>
               <td>public,</td>
@@ -2138,7 +2155,7 @@ multiplicative and normalization constants </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowdata~4"></span>
+              <span class="anchor" id="variable-rowdata~10"></span>
               type(<a href='../type/sparserowdata.html'>SparseRowData</a>),
             </td>
               <td>private</td>
@@ -2155,7 +2172,7 @@ multiplicative and normalization constants </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multconst~10"></span>
+              <span class="anchor" id="variable-multconst~28"></span>
               type(<a href='../type/realarray.html'>RealArray</a>),
             </td>
               <td>private,</td>
@@ -2189,7 +2206,7 @@ multiplicative and normalization constants </p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indexingdata~7"></span>
+              <span class="anchor" id="variable-indexingdata~12"></span>
               type(<a href='../type/matrixtermindexingdata.html'>MatrixTermIndexingData</a>),
             </td>
               <td>private</td>
@@ -2335,127 +2352,127 @@ multiplicative and normalization constants </p>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/object.html#boundprocedure-isdefined'>isDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/isdefinedobject.html'>isDefinedObject</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/object.html#boundprocedure-makedefined'>makeDefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makedefinedobject.html'>makeDefinedObject</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/object.html#boundprocedure-makeundefined'>makeUndefined</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/makeundefinedobject.html'>makeUndefinedObject</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-calculatevalues'>calculateValues</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setnormalizationconst'>setNormalizationConst</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-getnormalizationconst'>getNormalizationConst</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setreqvars'>setReqVars</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setevolvedandimplicitvar'>setEvolvedAndImplicitVar</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-initrowdata'>initRowData</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/matrixterm.html#boundprocedure-evaluate~3'>evaluate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatematterm.html'>evaluateMatTerm</a></td>
-                <td></td>
+  <strong><a href='../type/matrixterm.html#boundprocedure-evaluate~5'>evaluate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatematterm.html'>evaluateMatTerm</a></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-getmultconst'>getMultConst</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setmultconst'>setMultConst</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-getindexingdata'>getIndexingData</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setfixedmatrix'>setFixedMatrix</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setnontrivialrowfun'>setNontrivialRowFun</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/setnontrivialrowfun.html'>setNonTrivialRowFun</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-setnontrivialcolfun'>setNontrivialColFun</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/setnontrivialcolfun.html'>setNonTrivialColFun</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
   <strong><a href='../type/matrixterm.html#boundprocedure-calculaterows~2'>calculateRows</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unityrow.html'>unityRow</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
   <strong><a href='../type/matrixterm.html#boundprocedure-calculatecols~2'>calculateCols</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/unitycol.html'>unityCol</a></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-addrowdatatopreallocationdata'>addRowDataToPreallocationData</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-addrowdatapatterntocontroller'>addRowDataPatternToController</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-addrowvaluestopetscmatrix'>addRowValuesToPETScMatrix</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/matrixterm.html#boundprocedure-getvarname'>getVarName</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getrowvarname.html'>getRowVarName</a></td>
-                <td></td>
+  <strong><a href='../type/matrixterm.html#boundprocedure-getvarname~5'>getVarName</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getrowvarname.html'>getRowVarName</a></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-getrowdata'>getRowData</a></strong></td>
-                <td></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/matrixterm.html#boundprocedure-update~8'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/mattermupdate.html'>matTermUpdate</a></td>
-                <td></td>
+  <strong><a href='../type/matrixterm.html#boundprocedure-update~17'>update</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/mattermupdate.html'>matTermUpdate</a></td>
+                  <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='../type/matrixterm.html#boundprocedure-matrixtermupdate~2'>matrixTermUpdate</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/matrixnoupdate.html'>matrixNoUpdate</a></td>
-                <td></td>
+                  <td></td>
               </tr>
           </tbody>
         </table>
@@ -2493,27 +2510,5 @@ multiplicative and normalization constants </p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

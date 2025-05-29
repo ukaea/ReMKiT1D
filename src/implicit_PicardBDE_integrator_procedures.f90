@@ -28,7 +28,7 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     !! BDE integrator constructor 
 
     class(PicardBDEIntegrator)                ,intent(inout) :: this
-    type(Indexing)                            ,intent(in)    :: indexingObj !! Indexing object to be used in initializing the implicit vectors
+    type(Indexing)                            ,intent(in)    :: indexingObj !! Indexing object to be used in initializing the implicit vectors 
     integer(ik)                               ,intent(in)    :: procRank !! Rank of current processors
     real(rk)       ,optional                  ,intent(in)    :: nonlinTol !! Picard iteration relative tolerance
     real(rk)       ,optional                  ,intent(in)    :: absTol !! Picard iteration absolute tolerance in epsilon units
@@ -61,9 +61,11 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
 
     allocate(this%implicitVectorNew(procDoFs(procRank+1)))
     allocate(this%implicitVectorOld(procDoFs(procRank+1)))
+    allocate(this%implicitVectorInit(procDoFs(procRank+1)))
 
     this%implicitVectorNew = 0
     this%implicitVectorOld = 0
+    this%implicitVectorInit = 0
 
     this%timesCalled = 0 
     this%totNumIters = 0
@@ -112,12 +114,16 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
     class(VariableContainer)              ,intent(inout) :: outputVars !! VariableContainer object to store the integration output 
     class(VariableContainer)              ,intent(in)    :: inputVars !! VariableContainer object housing input data for the integration routine
 
-    integer(ik)                         :: numSteps 
-    real(rk) ,allocatable ,dimension(:) :: dt
-    real(rk)                            :: fullTimestep, controllerTimestep 
+    integer(ik) :: timeVarIndex, nonlinIter
+    real(rk)    :: dt, elapsedTime
+    real(rk)    :: fullTimestep, controllerTimestep 
 
     logical                 :: solveSuccess
+    logical                 :: timeEvolving
+    logical                 :: firstStep
 
+    real (rk) :: startingTime
+    character(len = 140)                      :: tmpstring
 
     if (assertions) then 
         call assert(this%isDefined(),"Integration routine called by undefined BDE integrator")
@@ -128,47 +134,109 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
 
     fullTimestep = this%getTimestep()
 
-    do 
-        solveSuccess = .true.
-        !Calculate the controller timestep, and if it is smaller than the full timestep divide the integration into numSteps > 1
-        if (this%hasTimestepController() .and. .not. this%internalStepControl) then 
-            controllerTimestep = this%getTimestepFromController(inputVars)
-            numSteps = ceiling(fullTimestep/controllerTimestep)
-            allocate(dt(numSteps))
-            if (numSteps > 1) then 
-                dt(1:numSteps-1) = controllerTimestep
-                dt(numSteps) = fullTimestep - sum(dt(1:numSteps-1))
-            else
-                dt = fullTimestep
-            end if
-        else if (this%internalStepControl) then
-            numSteps = this%internalControlOpts%currentNumSubsteps
-            if (allocated(dt)) deallocate(dt)
-            allocate(dt(numSteps))
-            dt = fullTimestep/numSteps
-        else
-            numSteps = 1
-            allocate(dt(1))
-            dt = fullTimestep
-        end if
-        if (this%internalControlOpts%restartCount > this%internalControlOpts%hardMaxRestarts) &
-            error stop "Max BDE restarts reached - hard maximum"
-        if (this%internalControlOpts%restartCount > this%internalControlOpts%maxRestarts .and. &
-            this%internalControlOpts%stepsSinceLastConsolidation > 1) error stop "Max BDE restarts reached"
-        call tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,dt,solveSuccess)
-        if (solveSuccess) then
-            this%internalControlOpts%restartCount = 0
-            this%internalControlOpts%stepsSinceLastConsolidation = this%internalControlOpts%stepsSinceLastConsolidation + 1
+    timeEvolving = this%isTimeEvolving()
+    if (inputVars%isVarNameRegistered("time")) then 
+        timeVarIndex = inputVars%getVarIndex("time")
+        startingTime = inputVars%variables(timeVarIndex)%entry(1)
+    end if
 
-            if (this%internalControlOpts%stepsSinceLastConsolidation >= this%internalControlOpts%consolidationInterval) then 
-                this%internalControlOpts%currentNumSubsteps = 1
-                this%internalControlOpts%stepsSinceLastConsolidation = 0
-                call printMessage(this%integratorName//": Consolidating internal BDE steps")
+    elapsedTime = 0
+    dt = fullTimestep
+    this%internalControlOpts%restartCount = 0
+    firstStep = .true.
+
+    if (.not. this%internalControlOpts%lazyEval) then
+        do 
+            solveSuccess = .true.
+            if (this%hasTimestepController() .and. .not. this%internalStepControl) then 
+                if (firstStep) then 
+                    controllerTimestep = this%getTimestepFromController(inputVars)
+                else
+                    controllerTimestep = this%getTimestepFromController(this%buffer)
+                end if
+                dt = min(dt,controllerTimestep)
             end if
-            exit
-        end if 
-    end do
+            if (this%internalControlOpts%restartCount > this%internalControlOpts%maxRestarts) & 
+                 error stop "Max BDE restarts reached"
+            call printNamedValue(this%integratorName//": Attempting step with length",dt)
+
+            if (firstStep) then 
+                call tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSuccess)
+            else
+                call tryIntegrate(this,manipulatedModeller,this%buffer,dt,nonlinIter,solveSuccess)
+            end if
+
+            if (nonlinIter >=  this%maxIterations) then 
+                call printMessage("WARNING: "//this%integratorName//" reached maximum number of iterations")
+
+                if (this%internalStepControl) solveSuccess = .false.
+            end if
+
+            if (.not. solveSuccess) then  
+
+                    call printMessage("Applying internal step control and restarting BDE integration")
+                    dt = dt / this%internalControlOpts%stepMultiplier
+                    this%internalControlOpts%restartCount = this%internalControlOpts%restartCount + 1
+            end if
+
+            if (solveSuccess) then
+                elapsedTime = elapsedTime + dt
+                dt = min(dt,fullTimestep - elapsedTime)
+                this%totNumIters = this%totNumIters + nonlinIter
+                this%timesCalled = this%timesCalled + 1
+                this%internalControlOpts%restartCount = 0
+                call printNamedValue(this%integratorName//": last number of iterations",nonlinIter)
+                call printNamedValue(this%integratorName//": total number of iterations",this%totNumIters)
+                call printNamedValue(this%integratorName//": average number of iterations"&
+                                    ,real(this%totNumIters,kind=rk)/this%timesCalled)
+                 
+                write(tmpstring,'(A,ES11.4,A,ES11.4)') 'BDE substep successful. Elapsed time: ',elapsedTime, &
+                                                        '. Requested timestep: ', fullTimestep
+                call printMessage(trim(tmpstring))
+                tmpstring=''
+
+                if (firstStep .and. nonlinIter == 1 .and. this%internalControlOpts%allowLazyEval) then 
+
+                    this%internalControlOpts%lazyEval = .true.
+                    exit 
+                end if
+                firstStep = .false.
+
+            end if
+
+            if (this%internalStepControl .and. solveSuccess) then
+                if (nonlinIter < this%internalControlOpts%minNonlinIters) then
+                    call printMessage(this%integratorName//&
+                    ": Minimum nonlinear iterations reached - attempting to reduce number of BDE substeps")
+                    dt = min(fullTimestep - elapsedTime,1.5*dt)
+                end if
+            end if
+
+
+            if (solveSuccess .and. fullTimestep - elapsedTime < 100*epsilon(fullTimestep)) then
+                exit
+            end if 
+        end do
    
+        outputVars%variables = this%buffer%variables
+        if (inputVars%isVarNameRegistered("time") .and. (.not. timeEvolving)) &
+            outputVars%variables(timeVarIndex)%entry = startingTime
+
+        select type (manipulatedModeller)
+        type is (Modeller)
+            call manipulatedModeller%callManipulator(2,outputVars,outputVars)
+        class default
+            error stop "Unsupported surrogate passed to BDE integrator"
+        end select
+
+    else 
+                    call printMessage(this%integratorName//&
+                    ": Lazy evaluation triggered, evolving only time")
+        outputVars%variables = inputVars%variables
+        if (inputVars%isVarNameRegistered("time") .and. timeEvolving) &
+            outputVars%variables(timeVarIndex)%entry = startingTime + fullTimestep
+    end if
+
 end subroutine integrateBDE
 !-----------------------------------------------------------------------------------------------------------------------------------
 function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2Norm,convergenceCounter) result(conv)
@@ -291,37 +359,31 @@ pure module function getConvergenceIndices(this) result(convVars)
 
 end function getConvergenceIndices
 !-----------------------------------------------------------------------------------------------------------------------------------
-subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,dt,solveSuccess) 
+subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSuccess) 
 
-    type(PicardBDEIntegrator)            ,intent(inout) :: this 
+    type(PicardBDEIntegrator)             ,intent(inout) :: this 
     class(ModellerSurrogate)              ,intent(inout) :: manipulatedModeller !! Modeller to be used in callbacks during integration
-    class(VariableContainer)              ,intent(inout) :: outputVars !! VariableContainer object to store the integration output 
-    class(VariableContainer)  ,value      ,intent(in)    :: inputVars !! VariableContainer object housing input data for the integration routine
+    class(VariableContainer)              ,intent(in)    :: inputVars !! VariableContainer object housing input data for the integration routine
 
-    integer(ik)                         ,intent(in)      :: numSteps 
-    real(rk)              ,dimension(:) ,intent(in)      :: dt
+    real(rk)                            ,intent(in)      :: dt
     logical                             ,intent(inout)   :: solveSuccess
+    integer(ik)                         ,intent(out)     :: nonlinIter
 
     type(IntArray) ,allocatable ,dimension(:)  :: termGroups 
     integer(ik)    ,allocatable ,dimension(:)  :: modelIndices 
 
     type(LogicalArray) ,allocatable ,dimension(:) :: updateRules
     logical            ,allocatable ,dimension(:) :: modelDataUpdateRules
-    integer(ik)                                   :: timeVarIndex ,i ,j ,k , nonlinIter ,convReason
+    integer(ik)                                   :: timeVarIndex ,j ,k ,convReason
 
     logical                 :: commNeeded
     logical                 :: nonTrivialUpdate
     logical                 :: nonTrivialModelDataUpdate
     logical                 :: nonTrivialConvergenceCheck
     logical                 :: tolReached ,locConverged
-    logical                 :: timeEvolving
 
     type(CommunicationData) :: commData
 
-    type(RealArray) ,allocatable ,dimension(:) :: oldBufferVals
-    real(rk)        ,allocatable ,dimension(:) :: implicitVectorInit
-
-    real (rk) :: startingTime 
     
     integer(ik)    ,allocatable ,dimension(:)  :: convergenceCounter 
 
@@ -339,155 +401,113 @@ subroutine tryIntegrate(this,manipulatedModeller,outputVars,inputVars,numSteps,d
     commNeeded = this%isCommunicationNeeded()
     if (commNeeded) commData = this%getCommunicationData()
 
-    timeEvolving = this%isTimeEvolving()
     select type (manipulatedModeller)
     type is (Modeller)
-        if (.not. allocated(this%buffer))allocate(this%buffer,source=inputVars)
-        allocate(oldBufferVals,source=inputVars%variables)
+        if (.not. allocated(this%buffer)) allocate(this%buffer,source=inputVars)
+        if (.not. allocated(this%oldBufferVals)) allocate(this%oldBufferVals,source=inputVars%variables)
         this%buffer%variables = inputVars%variables
+        this%oldBufferVals = inputVars%variables
         
+            if (commNeeded) then 
+                call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
+            else
+                !Calculate only highest priority derived variables in internal iterations
+                call this%buffer%calculateDerivedVars(derivPriority=0)
+            end if
+
         if (inputVars%isVarNameRegistered("time")) then 
             timeVarIndex = inputVars%getVarIndex("time")
-            startingTime = this%buffer%variables(timeVarIndex)%entry(1)
+            this%buffer%variables(timeVarIndex)%entry(1) = this%buffer%variables(timeVarIndex)%entry(1) + dt
         end if
+        tolReached = .false.
+        if (nonTrivialConvergenceCheck) convergenceCounter = 1
 
-        allocate(implicitVectorInit,source=this%implicitVectorOld)
-        do i = 1, numSteps
-            
-            call printNamedValue(this%integratorName//": Current number of substeps",numSteps)
-            call printNamedValue(this%integratorName//": Starting substep",i)
-            if (inputVars%isVarNameRegistered("time")) &
-            this%buffer%variables(timeVarIndex)%entry(1) = this%buffer%variables(timeVarIndex)%entry(1) + dt(i)
-            tolReached = .false.
-            if (nonTrivialConvergenceCheck) convergenceCounter = 1
+        call this%buffer%copyImplicitVarsToVec(this%implicitVectorInit,ignoreStationary=.true.)
+        nonlinIter = 0
+        do while (nonlinIter < this%maxIterations)
+            call this%buffer%copyImplicitVarsToVec(this%implicitVectorOld)
+            this%implicitVectorNew = this%implicitVectorOld
 
-            call this%buffer%copyImplicitVarsToVec(implicitVectorInit,ignoreStationary=.true.)
-            do nonlinIter = 1, this%maxIterations
-                call this%buffer%copyImplicitVarsToVec(this%implicitVectorOld)
-                this%implicitVectorNew = this%implicitVectorOld
-
-                do j = 1,size(modelIndices)
-                    if (nonlinIter == 1) then 
-                        call manipulatedModeller%updateModelData(modelIndices(j),this%buffer)
-                    else if (nonTrivialModelDataUpdate) then 
-                        if (modelDataUpdateRules(j)) &
-                        call manipulatedModeller%updateModelData(modelIndices(j),this%buffer,updatePriority=0)
+            do j = 1,size(modelIndices)
+                if (nonlinIter == 0) then 
+                    call manipulatedModeller%updateModelData(modelIndices(j),this%buffer)
+                else if (nonTrivialModelDataUpdate) then 
+                    if (modelDataUpdateRules(j)) &
+                    call manipulatedModeller%updateModelData(modelIndices(j),this%buffer,updatePriority=0)
+                end if
+                do k = 1,size(termGroups(j)%entry)
+                    if (nonTrivialUpdate) then 
+                        if (updateRules(j)%entry(k))&
+                        call manipulatedModeller%updateModelTermGroup(modelIndices(j),termGroups(j)%entry(k),this%buffer)
+                    else if (nonlinIter == 0) then 
+                        call manipulatedModeller%updateModelTermGroup(modelIndices(j),termGroups(j)%entry(k),this%buffer)
                     end if
-                    do k = 1,size(termGroups(j)%entry)
-                        if (nonTrivialUpdate) then 
-                            if (updateRules(j)%entry(k))&
-                            call manipulatedModeller%updateModelTermGroup(modelIndices(j),termGroups(j)%entry(k),this%buffer)
-                        else if (nonlinIter == 1) then 
-                            call manipulatedModeller%updateModelTermGroup(modelIndices(j),termGroups(j)%entry(k),this%buffer)
-                        end if
-                        call manipulatedModeller%calculateMatGroupValsInModel(modelIndices(j),&
-                                                                                termGroups(j)%entry(k),this%buffer)
-                        call manipulatedModeller%addModelMatGroupToPETSc(modelIndices(j),termGroups(j)%entry(k),-dt(i),&
-                                                                        this%associatedPETScObjGroup)
-    
-                    end do
+                    call manipulatedModeller%calculateMatGroupValsInModel(modelIndices(j),&
+                                                                            termGroups(j)%entry(k),this%buffer)
+                    call manipulatedModeller%addModelMatGroupToPETSc(modelIndices(j),termGroups(j)%entry(k),-dt,&
+                                                                    this%associatedPETScObjGroup)
                 end do
-
-                call manipulatedModeller%linearSolvePETSc(implicitVectorInit,this%implicitVectorNew,.true.,&
-                                                        convReason,this%associatedPETScObjGroup)
-
-                ! Check if PETSc diverged 
-                if (convReason < -1) then 
-                    if (this%internalStepControl) then
-
-                        call printNamedValue(this%integratorName//": PETScConvergedReason:",convReason)
-                        call printMessage("Applying internal step control and restarting BDE integration")
-                        this%internalControlOpts%currentNumSubsteps = this%internalControlOpts%currentNumSubsteps &
-                                                                    * this%internalControlOpts%stepMultiplier
-                        solveSuccess = .false.
-                        this%internalControlOpts%restartCount = this%internalControlOpts%restartCount + 1
-                        return
-                    else
-                        call printNamedValue(this%integratorName//": PETScConvergedReason:",convReason)
-                        error stop "PETSc convergence reason negative and internal step control disabled"
-                    end if
-                end if
-                oldBufferVals = this%buffer%variables
-
-                this%implicitVectorNew = this%relaxationWeight*this%implicitVectorNew &
-                                        + (1.0d0-this%relaxationWeight)*this%implicitVectorOld
-                call this%buffer%extractImplicitVars(this%implicitVectorNew)
-                call manipulatedModeller%callManipulator(0,this%buffer,this%buffer)
-                if (commNeeded) then 
-                    call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
-                else
-                    !Calculate only highest priority derived variables in internal iterations
-                    call this%buffer%calculateDerivedVars(derivPriority=0)
-                end if
-
-                if (nonTrivialConvergenceCheck) then
-                    locConverged = &
-                    checkConvergence(oldBufferVals,this%buffer%variables,this%convergenceTestVars,&
-                                    this%nonlinTol,this%absTol,this%use2Norm,convergenceCounter)
-                else
-                    locConverged = (norm2(this%implicitVectorOld-this%implicitVectorNew)/norm2(this%implicitVectorOld)) &
-                                < this%nonlinTol
-                end if
-                tolReached =  manipulatedModeller%isTrueEverywhere(locConverged)
-
-                if (tolReached) exit
             end do
-            if (nonlinIter > this%maxIterations) then 
-                call printMessage("WARNING: "//this%integratorName//" reached maximum number of iterations")
 
-                if (this%internalStepControl) then
-                    call printMessage("Applying internal step control and restarting BDE integration")
-                    this%internalControlOpts%currentNumSubsteps = this%internalControlOpts%currentNumSubsteps &
-                                                                * this%internalControlOpts%stepMultiplier
-                    solveSuccess = .false.
-                    this%internalControlOpts%restartCount = this%internalControlOpts%restartCount + 1
-                    return
+            call manipulatedModeller%linearSolvePETSc(this%implicitVectorInit,this%implicitVectorNew,.true.,&
+                                                    convReason,this%associatedPETScObjGroup)
+
+            ! Check if PETSc diverged 
+            if (convReason < -1) then 
+                call printNamedValue(this%integratorName//": PETScConvergedReason:",convReason)
+                solveSuccess = .false.
+                if (.not. this%internalStepControl) then
+                    error stop "PETSc convergence reason negative and internal step control disabled"
                 end if
+                return
+            end if
+            this%oldBufferVals = this%buffer%variables
+
+            this%implicitVectorNew = this%relaxationWeight*this%implicitVectorNew &
+                                    + (1.0d0-this%relaxationWeight)*this%implicitVectorOld
+            call this%buffer%extractImplicitVars(this%implicitVectorNew)
+            call manipulatedModeller%callManipulator(0,this%buffer,this%buffer)
+            if (commNeeded) then 
+                call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
+            else
+                !Calculate only highest priority derived variables in internal iterations
+                call this%buffer%calculateDerivedVars(derivPriority=0)
             end if
 
             if (nonTrivialConvergenceCheck) then
-                do j = 1, size(convergenceCounter)
-                    if (convergenceCounter(j) == nonlinIter) &
-                        call printMessage(this%integratorName//": convergence bottleneck: "&
-                                    // inputVars%getVarName(this%convergenceTestVars(j)),.true.)
-                end do
-            end if
-
-            if (solveSuccess) then
-                this%totNumIters = this%totNumIters + nonlinIter
-                this%timesCalled = this%timesCalled + 1
-                call printNamedValue(this%integratorName//": last number of iterations",nonlinIter)
-                call printNamedValue(this%integratorName//": total number of iterations",this%totNumIters)
-                call printNamedValue(this%integratorName//": average number of iterations"&
-                                    ,real(this%totNumIters,kind=rk)/this%timesCalled)
-            end if
-
-            if (this%internalStepControl .and. solveSuccess) then
-                if (nonlinIter < this%internalControlOpts%minNonlinIters &
-                    .and. this%internalControlOpts%currentNumSubsteps > 1) then
-                    call printMessage(this%integratorName//&
-                    ": Minumum nonlinear iterations reached - attempting to reduce number of BDE substeps")
-                    this%internalControlOpts%currentNumSubsteps = max(this%internalControlOpts%currentNumSubsteps &
-                                                                - this%internalControlOpts%stepDecrament,1)
-                end if
-            end if
-            ! Call manipulator with priority 1
-            call manipulatedModeller%callManipulator(1,this%buffer,this%buffer)
-
-            ! Calculate all variables
-            if (commNeeded) then 
-                call manipulatedModeller%safeCommAndDeriv(commData,this%buffer)
+                locConverged = &
+                checkConvergence(this%oldBufferVals,this%buffer%variables,this%convergenceTestVars,&
+                                this%nonlinTol,this%absTol,this%use2Norm,convergenceCounter)
             else
-                call this%buffer%calculateDerivedVars()
+                locConverged = (norm2(this%implicitVectorOld-this%implicitVectorNew)/norm2(this%implicitVectorOld)) &
+                            < this%nonlinTol
             end if
+            tolReached =  manipulatedModeller%isTrueEverywhere(locConverged)
 
+            nonlinIter = nonlinIter + 1
+            
+            if (tolReached) exit
         end do
 
-        outputVars%variables = this%buffer%variables
+        if (nonTrivialConvergenceCheck) then
+            do j = 1, size(convergenceCounter)
+                if (convergenceCounter(j) == nonlinIter) &
+                    call printMessage(this%integratorName//": convergence bottleneck: "&
+                                // inputVars%getVarName(this%convergenceTestVars(j)),.true.)
+            end do
+        end if
 
-        if (inputVars%isVarNameRegistered("time") .and. (.not. timeEvolving)) &
-            outputVars%variables(timeVarIndex)%entry = startingTime
-        call manipulatedModeller%callManipulator(2,outputVars,outputVars)
+        ! Call manipulator with priority 1
+        call manipulatedModeller%callManipulator(1,this%buffer,this%buffer)
+
+        ! Calculate all variables
+        if (commNeeded) then 
+            call manipulatedModeller%safeCommAndDeriv(commData,this%buffer)
+        else
+            call this%buffer%calculateDerivedVars()
+        end if
+
+
     class default
         error stop "Unsupported surrogate passed to BDE integrator"
     end select

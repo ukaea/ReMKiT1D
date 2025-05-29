@@ -35,21 +35,16 @@ module implicit_PicardBDE_integrator_class
 
     type ,public :: InternalControllerOptions 
 
-        integer(ik) :: currentNumSubsteps = 1 !! The current number of sub- timesteps 
         integer(ik) :: stepMultiplier = 2 !! Which number to multiply the current number of substeps when a solve failure is detected
-        integer(ik) :: stepDecrament = 1 !! By how much to decrament the current number of timesteps when the number of nonlinear iterations drops below minNonlinIters
         
         integer(ik) :: minNonlinIters = 5 !! Number of nonlinear iterations below which the number of substeps gets reduced
 
         integer(ik) :: maxRestarts = 3 !! Maximum number of consecutive solver restart attempts before critical failure is announced
 
-        integer(ik) :: consolidationInterval = 50 !! How many integration calls before currentNumSubsteps is again reduced to 1
-
-        integer(ik) :: hardMaxRestarts = 10 !! Maximum number of consecutive solver restart attempts before critical failure is announced regardless of whether consolidation happened or not
+        logical     :: allowLazyEval = .false. !! If true will allow lazy evaluation in case the first solve has only 1 nonlinear iteration
+        logical     :: lazyEval = .false. 
 
         integer(ik) :: restartCount = 0 !! Counter for consecutive number of solver restars 
-        integer(ik) :: stepsSinceLastConsolidation = 0 !! Counter for steps since last consolidation to 1 substep
-
     end type InternalControllerOptions
 
     type ,public ,extends(Integrator) :: PicardBDEIntegrator
@@ -57,11 +52,13 @@ module implicit_PicardBDE_integrator_class
 
         real(rk) ,allocatable ,dimension(:)          ,private :: implicitVectorOld !! Buffer for implicit vector from previous Picard iteration
         real(rk) ,allocatable ,dimension(:)          ,private :: implicitVectorNew !! Buffer for implicit vector from current Picard iteration
+        real(rk) ,allocatable ,dimension(:)          ,private :: implicitVectorInit !! Buffer for initial guess for linear solve
         integer(ik) ,allocatable ,dimension(:)       ,private :: convergenceTestVars !! Variable indices in VariableContainer used to determine convergence of Picard iterations
         real(rk)                                     ,private :: nonlinTol !! Picard iteration relative convergence tolerance
         real(rk)                                     ,private :: absTol !! Picard iteration absolute convergence tolerance in epsilon units
         integer(ik)                                  ,private :: maxIterations !! Maximum allowed number of Picard iterations
         type(VariableContainer) ,allocatable         ,private :: buffer !! VariableContainer buffer for passing to Modeller routines
+        type(RealArray) ,allocatable ,dimension(:)   ,private :: oldBufferVals !! Buffer for variable array for Picard iterations
 
         integer(ik)                                  ,private :: timesCalled !! Tracker for number of times called
         integer(ik)                                  ,private :: totNumIters !! Tracker for total number of iterations

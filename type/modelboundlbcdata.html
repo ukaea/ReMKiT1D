@@ -12,14 +12,29 @@
 
     <title>ModelboundLBCData &ndash; ReMKiT1D </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -121,7 +138,7 @@
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-userdefined">userDefined</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-fixedpll">fixedPLL</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-bufferpll">bufferPLL</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-cocell~2">coCell</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-cocell">coCell</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-interpdv">interpdv</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-interpcoord">interpCoord</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-vinterp">vInterp</a>
@@ -130,17 +147,17 @@
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-potential">potential</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-shtemp">shTemp</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-fext">fext</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-vgridcopy~2">vGridCopy</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-dvcopy">dvCopy</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-vgridcopy">vGridCopy</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-dvcopy~2">dvCopy</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-vboundaries">vBoundaries</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-isleftboundary~2">isLeftBoundary</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-isleftboundary">isLeftBoundary</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-bistol">bisTol</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-fextderiv">fextDeriv</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-fextreqindices">fextReqIndices</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-ioncurrentvarindex">ionCurrentVarIndex</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-totalcurrentvarindex">totalCurrentVarIndex</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-maxl">maxL</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-isactive~7">isActive</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-maxl~3">maxL</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#variable-isactive~2">isActive</a>
         </div>
       </div>
     </div>
@@ -170,10 +187,10 @@
             <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-init~33">init</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-update~6">update</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-copydata">copyData</a>
-            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-getdatadim">getDataDim</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-init~25">init</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-update~2">update</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-copydata~2">copyData</a>
+            <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-getdatadim~2">getDataDim</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-getpll">getPll</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-getcocell">getCoCell</a>
             <a class="list-group-item" href="../type/modelboundlbcdata.html#boundprocedure-getinterpcoords">getInterpCoords</a>
@@ -272,7 +289,7 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cocell~2"></span>
+              <span class="anchor" id="variable-cocell"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -425,7 +442,7 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridcopy~2"></span>
+              <span class="anchor" id="variable-vgridcopy"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -442,7 +459,7 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dvcopy"></span>
+              <span class="anchor" id="variable-dvcopy~2"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -476,7 +493,7 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-isleftboundary~2"></span>
+              <span class="anchor" id="variable-isleftboundary"></span>
               logical,
             </td>
               <td>private</td>
@@ -578,7 +595,7 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxl"></span>
+              <span class="anchor" id="variable-maxl~3"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -595,7 +612,7 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-isactive~7"></span>
+              <span class="anchor" id="variable-isactive~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -630,10 +647,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isDefinedObject(this) result(defined)  
     <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -675,8 +692,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -690,10 +707,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeDefinedObject(this)  
     <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -730,8 +747,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -745,10 +762,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeUndefinedObject(this)  
     <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -785,25 +802,25 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~33"></span>
+      <span class="anchor" id="boundprocedure-init~25"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initmblbc.html'>initMBLBC</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine initMBLBC(this, vSpaceObj, distExtDerivation, distExtReqVarIndices, ionCurrentVarIndex, isActive, totalCurrentVarIndex, bisTol, isLeftBoundary)  
     <a href="../proc/initmblbc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -960,25 +977,25 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~6"></span>
+      <span class="anchor" id="boundprocedure-update~2"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/updatedatalbc.html'>updateDataLBC</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine updateDataLBC(this, hostModel, inputVars, updatePriority)  
     <a href="../proc/updatedatalbc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1060,25 +1077,25 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-copydata"></span>
+      <span class="anchor" id="boundprocedure-copydata~2"></span>
       <h3>
           procedure, public ::
   <strong>copyData</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/copydatalbc.html'>copyDataLBC</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine copyDataLBC(this, name, container)  
     <a href="../proc/copydatalbc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1145,25 +1162,25 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getdatadim"></span>
+      <span class="anchor" id="boundprocedure-getdatadim~2"></span>
       <h3>
           procedure, public ::
   <strong>getDataDim</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getdatadimlbc.html'>getDataDimLBC</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function getDataDimLBC(this, name) result(dim)  
     <a href="../proc/getdatadimlbc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1220,8 +1237,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1235,10 +1252,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getPll(this, lNum) result(res)  
     <a href="../proc/getpll.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1295,8 +1312,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1310,10 +1327,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getCoCell(this) result(res)  
     <a href="../proc/getcocell.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1355,8 +1372,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1370,10 +1387,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getInterpCoords(this) result(res)  
     <a href="../proc/getinterpcoords.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1415,8 +1432,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1430,10 +1447,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getInterpWidths(this) result(res)  
     <a href="../proc/getinterpwidths.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1475,8 +1492,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1490,10 +1507,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getInterpCoeffs(this) result(res)  
     <a href="../proc/getinterpcoeffs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1535,8 +1552,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1550,10 +1567,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine calculatePll(this, rowsToUpdate)  
     <a href="../proc/calculatepll.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1605,8 +1622,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1620,10 +1637,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine calculateInterps(this)  
     <a href="../proc/calculateinterps.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1660,8 +1677,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1675,10 +1692,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function boundaryHarmonic(this, lNum) result(res)  
     <a href="../proc/boundaryharmonic.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1735,8 +1752,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1750,10 +1767,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function interpMom(this, order, f) result(res)  
     <a href="../proc/interpmom.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1825,8 +1842,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1840,10 +1857,10 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine calculateCutOff(this, ionCurrent, totalCurrent)  
     <a href="../proc/calculatecutoff.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1910,8 +1927,8 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1942,27 +1959,5 @@ Data accessible through standard data copy routine: "gamma" - sheath heat transm
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

@@ -12,14 +12,29 @@
 
     <title>BoundedExtDerivation &ndash; ReMKiT1D </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -119,11 +136,11 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/boundedextderivation.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedlowerbound~2">fixedLowerBound</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedupperbound~2">fixedUpperBound</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#variable-expectlowerboundvar~2">expectLowerBoundVar</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#variable-expectupperboundvar~2">expectUpperBoundVar</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#variable-extrapolationobj">extrapolationObj</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedlowerbound~9">fixedLowerBound</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#variable-fixedupperbound~3">fixedUpperBound</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#variable-expectlowerboundvar~3">expectLowerBoundVar</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#variable-expectupperboundvar~3">expectUpperBoundVar</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#variable-extrapolationobj~2">extrapolationObj</a>
         </div>
       </div>
     </div>
@@ -153,8 +170,8 @@
             <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-init~29">init</a>
-            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-calculate~9">calculate</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-init~101">init</a>
+            <a class="list-group-item" href="../type/boundedextderivation.html#boundprocedure-calculate~35">calculate</a>
         </div>
       </div>
     </div>
@@ -208,7 +225,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedlowerbound~2"></span>
+              <span class="anchor" id="variable-fixedlowerbound~9"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -225,7 +242,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedupperbound~2"></span>
+              <span class="anchor" id="variable-fixedupperbound~3"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -242,7 +259,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expectlowerboundvar~2"></span>
+              <span class="anchor" id="variable-expectlowerboundvar~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -259,7 +276,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expectupperboundvar~2"></span>
+              <span class="anchor" id="variable-expectupperboundvar~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -276,7 +293,7 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-extrapolationobj"></span>
+              <span class="anchor" id="variable-extrapolationobj~2"></span>
               class(<a href='extrapolation.html'>Extrapolation</a>),
             </td>
               <td>public,</td>
@@ -311,10 +328,10 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isDefinedObject(this) result(defined)  
     <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -356,8 +373,8 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -371,10 +388,10 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeDefinedObject(this)  
     <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -411,8 +428,8 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -426,10 +443,10 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeUndefinedObject(this)  
     <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -466,25 +483,25 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~29"></span>
+      <span class="anchor" id="boundprocedure-init~101"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initbext.html'>initBExt</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine initBExt(this, partitionObj, procRank, extrapolationObj, fixedLowerBound, fixedUpperBound, expectLowerBoundVar, expectUpperBoundVar)  
     <a href="../proc/initbext.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -626,25 +643,25 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~9"></span>
+      <span class="anchor" id="boundprocedure-calculate~35"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calculatebext.html'>calculateBExt</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function calculateBExt(this, inputArray, indices) result(output)  
     <a href="../proc/calculatebext.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -716,8 +733,8 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -748,27 +765,5 @@ If applied to the left boundary, will apply -abs(lowerBound) as upper bound and 
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

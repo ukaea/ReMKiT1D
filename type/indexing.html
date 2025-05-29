@@ -12,14 +12,29 @@
 
     <title>Indexing &ndash; ReMKiT1D </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -122,12 +139,12 @@
             <a class="list-group-item" href="../type/indexing.html#variable-procdofs">procDoFs</a>
             <a class="list-group-item" href="../type/indexing.html#variable-varoffset">varOffset</a>
             <a class="list-group-item" href="../type/indexing.html#variable-xdofs">xDoFs</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numv~21">numV</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numx~5">numX</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-numh~11">numH</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-part~2">part</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-varlist~7">varList</a>
-            <a class="list-group-item" href="../type/indexing.html#variable-xhalowidth~9">xHaloWidth</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numv~8">numV</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numx~2">numX</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-numh~4">numH</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-part">part</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-varlist~3">varList</a>
+            <a class="list-group-item" href="../type/indexing.html#variable-xhalowidth">xHaloWidth</a>
             <a class="list-group-item" href="../type/indexing.html#variable-periodicindexing">periodicIndexing</a>
         </div>
       </div>
@@ -167,7 +184,7 @@
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-finddistindex">findDistIndex</a>
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-findlocalxindex">findLocalXIndex</a>
             <a class="list-group-item" href="../type/indexing.html#boundprocedure-maptoglobalindices">mapToGlobalIndices</a>
-            <a class="list-group-item" href="../type/indexing.html#boundprocedure-init~46">init</a>
+            <a class="list-group-item" href="../type/indexing.html#boundprocedure-init~7">init</a>
         </div>
       </div>
     </div>
@@ -268,7 +285,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~21"></span>
+              <span class="anchor" id="variable-numv~8"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -285,7 +302,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numx~5"></span>
+              <span class="anchor" id="variable-numx~2"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -302,7 +319,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~11"></span>
+              <span class="anchor" id="variable-numh~4"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -319,7 +336,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-part~2"></span>
+              <span class="anchor" id="variable-part"></span>
               type(<a href='partition.html'>Partition</a>),
             </td>
               <td>private</td>
@@ -336,7 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varlist~7"></span>
+              <span class="anchor" id="variable-varlist~3"></span>
               type(<a href='variablelist.html'>VariableList</a>),
             </td>
               <td>private</td>
@@ -353,7 +370,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xhalowidth~9"></span>
+              <span class="anchor" id="variable-xhalowidth"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -406,10 +423,10 @@ in periodic case</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isDefinedObject(this) result(defined)  
     <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -451,8 +468,8 @@ in periodic case</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -466,10 +483,10 @@ in periodic case</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeDefinedObject(this)  
     <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -506,8 +523,8 @@ in periodic case</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -521,10 +538,10 @@ in periodic case</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeUndefinedObject(this)  
     <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -561,8 +578,8 @@ in periodic case</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -576,10 +593,10 @@ in periodic case</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getProcDoF(this) result(procDoF)  
     <a href="../proc/getprocdof.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -621,8 +638,8 @@ in periodic case</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -636,10 +653,10 @@ in periodic case</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function findIndex(this, name, xInd, hInd, vInd, local) result(ind)  
     <a href="../proc/findindex.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -757,8 +774,8 @@ If local is true return index in the local implicit vector</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -772,12 +789,12 @@ If local is true return index in the local implicit vector</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getNumX(this) result(numX)  
-    <a href="../proc/getnumx.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getnumx~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for numX</p>
@@ -817,8 +834,8 @@ If local is true return index in the local implicit vector</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -832,12 +849,12 @@ If local is true return index in the local implicit vector</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getNumV(this) result(numV)  
-    <a href="../proc/getnumv.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getnumv~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for numV</p>
@@ -877,8 +894,8 @@ If local is true return index in the local implicit vector</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -892,12 +909,12 @@ If local is true return index in the local implicit vector</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getNumH(this) result(numH)  
-    <a href="../proc/getnumh.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getnumh~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>Getter for numH</p>
@@ -937,8 +954,8 @@ If local is true return index in the local implicit vector</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -952,10 +969,10 @@ If local is true return index in the local implicit vector</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getAllIndicesOfVar(this, varInd, procRank) result(ind)  
     <a href="../proc/getallindicesofvar.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1027,8 +1044,8 @@ If local is true return index in the local implicit vector</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1042,10 +1059,10 @@ If local is true return index in the local implicit vector</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function findDistIndex(this, xInd, hInd, vInd, allH, locXInd) result(ind)  
     <a href="../proc/finddistindex.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1163,8 +1180,8 @@ are indexed locally. If present locXInd is used to identify the processor</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1178,10 +1195,10 @@ are indexed locally. If present locXInd is used to identify the processor</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function findLocalXIndex(this, xInd, locXInd) result(ind)  
     <a href="../proc/findlocalxindex.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1253,8 +1270,8 @@ are indexed locally. If present locXInd is used to identify the processor</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1268,10 +1285,10 @@ are indexed locally. If present locXInd is used to identify the processor</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function mapToGlobalIndices(this, name, inputIndices) result(ind)  
     <a href="../proc/maptoglobalindices.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1344,25 +1361,25 @@ given variable name</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~46"></span>
+      <span class="anchor" id="boundprocedure-init~7"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initindexing.html'>initIndexing</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine initIndexing(this, part, gridData, varList, xHaloWidth)  
     <a href="../proc/initindexing.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1459,8 +1476,8 @@ given variable name</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1491,27 +1508,5 @@ given variable name</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

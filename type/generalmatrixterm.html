@@ -12,14 +12,29 @@
 
     <title>GeneralMatrixTerm &ndash; ReMKiT1D </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -119,27 +136,27 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-vdata">vData</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-coordprofile">coordProfile</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-tdata">tData</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-vdata~4">vData</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-coordprofile~2">coordProfile</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-tdata~3">tData</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-timesignalmult">timeSignalMult</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-targettermgroup">targetTermGroup</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-evalbuffer">evalBuffer</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-stencilgen~2">stencilGen</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-stencilgen~4">stencilGen</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-stencilvals">stencilVals</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-copytermvals">copyTermVals</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-copytermname">copyTermName</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-copytermname~2">copyTermName</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-modelboundrowvarbuffer">modelboundRowVarBuffer</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-modelboundcolvarbuffer">modelboundColVarBuffer</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-xperiodic~4">xPeriodic</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-isactive~3">isActive</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-kineticrow">kineticRow</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-xperiodic~8">xPeriodic</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-isactive~10">isActive</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-kineticrow~2">kineticRow</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-kineticcol">kineticCol</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-reqrowvarisdist">reqRowVarIsDist</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-reqcolvarisdist">reqColVarIsDist</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-locnumx~7">locNumX</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-numh~5">numH</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-numv~7">numV</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-locnumx~31">locNumX</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-numh~17">numH</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#variable-numv~32">numV</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-rowcoordsx">rowCoordsX</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-rowcoordsh">rowCoordsH</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#variable-rowcoordsv">rowCoordsV</a>
@@ -178,7 +195,7 @@
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-setreqvars">setReqVars</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-setevolvedandimplicitvar">setEvolvedAndImplicitVar</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-initrowdata">initRowData</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-evaluate~3">evaluate</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-evaluate~5">evaluate</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-getmultconst">getMultConst</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-setmultconst">setMultConst</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-getindexingdata">getIndexingData</a>
@@ -188,13 +205,13 @@
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-addrowdatatopreallocationdata">addRowDataToPreallocationData</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-addrowdatapatterntocontroller">addRowDataPatternToController</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-addrowvaluestopetscmatrix">addRowValuesToPETScMatrix</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-getvarname">getVarName</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-getvarname~5">getVarName</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-getrowdata">getRowData</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-update~8">update</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-update~17">update</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-matrixtermupdate">matrixTermUpdate</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-calculaterows">calculateRows</a>
             <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-calculatecols">calculateCols</a>
-            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-init~11">init</a>
+            <a class="list-group-item" href="../type/generalmatrixterm.html#boundprocedure-init~78">init</a>
         </div>
       </div>
     </div>
@@ -245,7 +262,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata"></span>
+              <span class="anchor" id="variable-vdata~4"></span>
               type(<a href='vardata.html'>VarData</a>),
             </td>
               <td>private</td>
@@ -262,7 +279,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coordprofile"></span>
+              <span class="anchor" id="variable-coordprofile~2"></span>
               type(<a href='coordprofiles.html'>CoordProfiles</a>),
             </td>
               <td>private</td>
@@ -279,7 +296,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tdata"></span>
+              <span class="anchor" id="variable-tdata~3"></span>
               type(<a href='timesignaldata.html'>TimeSignalData</a>),
             </td>
               <td>private,</td>
@@ -347,7 +364,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stencilgen~2"></span>
+              <span class="anchor" id="variable-stencilgen~4"></span>
               class(<a href='jaggedarraygenerator.html'>JaggedArrayGenerator</a>),
             </td>
               <td>private,</td>
@@ -398,7 +415,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-copytermname"></span>
+              <span class="anchor" id="variable-copytermname~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -449,7 +466,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-xperiodic~4"></span>
+              <span class="anchor" id="variable-xperiodic~8"></span>
               logical,
             </td>
               <td>private</td>
@@ -466,7 +483,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-isactive~3"></span>
+              <span class="anchor" id="variable-isactive~10"></span>
               logical,
             </td>
               <td>private</td>
@@ -483,7 +500,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kineticrow"></span>
+              <span class="anchor" id="variable-kineticrow~2"></span>
               logical,
             </td>
               <td>private</td>
@@ -551,7 +568,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-locnumx~7"></span>
+              <span class="anchor" id="variable-locnumx~31"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -568,7 +585,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numh~5"></span>
+              <span class="anchor" id="variable-numh~17"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -585,7 +602,7 @@ Required row and column variables passed through the VarData object are raised t
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numv~7"></span>
+              <span class="anchor" id="variable-numv~32"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -671,10 +688,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function isDefinedObject(this) result(defined)  
     <a href="../proc/isdefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -716,8 +733,8 @@ Required row and column variables passed through the VarData object are raised t
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -731,10 +748,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeDefinedObject(this)  
     <a href="../proc/makedefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -771,8 +788,8 @@ Required row and column variables passed through the VarData object are raised t
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -786,10 +803,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine makeUndefinedObject(this)  
     <a href="../proc/makeundefinedobject.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -826,8 +843,8 @@ Required row and column variables passed through the VarData object are raised t
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -841,10 +858,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine calculateValues(this, varCont)  
     <a href="../proc/calculatevalues.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -896,8 +913,8 @@ Required row and column variables passed through the VarData object are raised t
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -911,10 +928,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setNormalizationConst(this, norm)  
     <a href="../proc/setnormalizationconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -966,8 +983,8 @@ Required row and column variables passed through the VarData object are raised t
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -981,10 +998,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getNormalizationConst(this) result(norm)  
     <a href="../proc/getnormalizationconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1026,8 +1043,8 @@ Required row and column variables passed through the VarData object are raised t
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1041,10 +1058,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setReqVars(this, rowReqVars, colReqVars, varCont)  
     <a href="../proc/setreqvars.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1126,8 +1143,8 @@ Required row and column variables passed through the VarData object are raised t
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1141,10 +1158,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setEvolvedAndImplicitVar(this, rowVarName, colVarName, varCont)  
     <a href="../proc/setevolvedandimplicitvar.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1226,8 +1243,8 @@ Required row and column variables passed through the VarData object are raised t
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1241,10 +1258,10 @@ Required row and column variables passed through the VarData object are raised t
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine initRowData(this, rowCoords, rowToColMapping, indexingObj)  
     <a href="../proc/initrowdata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1327,25 +1344,25 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-evaluate~3"></span>
+      <span class="anchor" id="boundprocedure-evaluate~5"></span>
       <h3>
           procedure, public ::
   <strong>evaluate</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/evaluatematterm.html'>evaluateMatTerm</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module function evaluateMatTerm(this, varCont) result(res)  
     <a href="../proc/evaluatematterm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1402,8 +1419,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1417,10 +1434,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getMultConst(this) result(multConst)  
     <a href="../proc/getmultconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1462,8 +1479,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1477,10 +1494,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setMultConst(this, multConst)  
     <a href="../proc/setmultconst.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1532,8 +1549,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1547,10 +1564,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getIndexingData(this) result(indData)  
     <a href="../proc/getindexingdata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1592,8 +1609,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1607,10 +1624,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setFixedMatrix(this, isFixed)  
     <a href="../proc/setfixedmatrix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1662,8 +1679,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1677,10 +1694,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setNonTrivialRowFun(this, nontriv)  
     <a href="../proc/setnontrivialrowfun.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1732,8 +1749,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1747,10 +1764,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine setNonTrivialColFun(this, nontriv)  
     <a href="../proc/setnontrivialcolfun.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1802,8 +1819,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1817,10 +1834,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine addRowDataToPreallocationData(this, petscPreallocData)  
     <a href="../proc/addrowdatatopreallocationdata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1872,8 +1889,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1887,10 +1904,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine addRowDataPatternToController(this, petscCont)  
     <a href="../proc/addrowdatapatterntocontroller.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -1942,8 +1959,8 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -1957,10 +1974,10 @@ column coordinates given a row coordinate input. Requires a reference Indexing o
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine addRowValuesToPETScMatrix(this, petscCont, mult, petscGroup)  
     <a href="../proc/addrowvaluestopetscmatrix.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2043,25 +2060,25 @@ stationary mult is ignored and set to -1</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-getvarname"></span>
+      <span class="anchor" id="boundprocedure-getvarname~5"></span>
       <h3>
           procedure, public ::
   <strong>getVarName</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/getrowvarname.html'>getRowVarName</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getRowVarName(this) result(name)  
     <a href="../proc/getrowvarname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2103,8 +2120,8 @@ stationary mult is ignored and set to -1</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2118,10 +2135,10 @@ stationary mult is ignored and set to -1</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module function getRowData(this) result(rowData)  
     <a href="../proc/getrowdata.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2163,25 +2180,25 @@ stationary mult is ignored and set to -1</p>
     </h4>
     
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-update~8"></span>
+      <span class="anchor" id="boundprocedure-update~17"></span>
       <h3>
           procedure, public ::
   <strong>update</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/mattermupdate.html'>matTermUpdate</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine matTermUpdate(this, varCont, modelData, hostModel)  
     <a href="../proc/mattermupdate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2263,8 +2280,8 @@ stationary mult is ignored and set to -1</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2278,10 +2295,10 @@ stationary mult is ignored and set to -1</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine updateGeneralTerm(this, varCont, indexingData, modelData, hostModel)  
     <a href="../proc/updategeneralterm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2378,8 +2395,8 @@ stationary mult is ignored and set to -1</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2393,10 +2410,10 @@ stationary mult is ignored and set to -1</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine generalRow(this, varCont, rowVals, indexingData)  
     <a href="../proc/generalrow.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2479,8 +2496,8 @@ spatial and time profiles</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2494,10 +2511,10 @@ spatial and time profiles</p>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private pure module subroutine generalCol(this, varCont, colVals, indexingData)  
     <a href="../proc/generalcol.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2579,25 +2596,25 @@ spatial and time profiles</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~11"></span>
+      <span class="anchor" id="boundprocedure-init~78"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initgeneralterm.html'>initGeneralTerm</a>
         
       </h3>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>interface </h3>
-                  <h3>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
     private module subroutine initGeneralTerm(this, gridObj, partitionObj, indexingObj, procRank, evolvedVar, implicitVar, varCont, sTemplate, vData, normConst, coordProfile, tData, evalTermGroup, mbData, copyTermName)  
     <a href="../proc/initgeneralterm.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
@@ -2859,8 +2876,8 @@ spatial and time profiles</p>
   </table>
 
 
-        </li>
-    </ul>
+          </li>
+      </ul>
   </div>
 
           </div>
@@ -2891,27 +2908,5 @@ spatial and time profiles</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

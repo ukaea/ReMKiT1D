@@ -12,14 +12,29 @@
 
     <title>kinetic_stencil_templates &ndash; ReMKiT1D</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -99,9 +114,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -175,40 +192,40 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='general_mat_term_class.html'>general_mat_term_class</a></li>
-                  <li class="list-inline-item"><a href='uwc_diff_stencil_gen_class.html'>uwc_diff_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='physical_constants.html'>physical_constants</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='interp_stencil_gen_class.html'>interp_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='ddv_stencil_gen_class.html'>ddv_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='uwc_bc_stencil_gen_class.html'>uwc_bc_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='geometry_class.html'>geometry_class</a></li>
-                  <li class="list-inline-item"><a href='mat_derivation_abstract_class.html'>mat_derivation_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
-                  <li class="list-inline-item"><a href='f_scaling_derivation_class.html'>f_scaling_derivation_class</a></li>
-                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
-                  <li class="list-inline-item"><a href='fb_diff_stencil_gen_class.html'>fb_diff_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='scaling_lbc_stencil_gen_class.html'>scaling_lbc_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='diffusion_stencil_gen_class.html'>diffusion_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='stencil_class.html'>stencil_class</a></li>
                   <li class="list-inline-item"><a href='modelbound_data_abstract_class.html'>modelbound_data_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='term_moment_stencil_gen_class.html'>term_moment_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
-                  <li class="list-inline-item"><a href='fixed_boltzmann_stencil_gen_class.html'>fixed_boltzmann_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='variable_boltzmann_stencil_gen_class.html'>variable_boltzmann_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='mat_derivation_abstract_class.html'>mat_derivation_abstract_class</a></li>
+                  <li class="list-inline-item"><a href='scaling_lbc_stencil_gen_class.html'>scaling_lbc_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='multiplicative_generator_core_class.html'>multiplicative_generator_core_class</a></li>
+                  <li class="list-inline-item"><a href='fb_diff_stencil_gen_class.html'>fb_diff_stencil_gen_class</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='f_scaling_derivation_class.html'>f_scaling_derivation_class</a></li>
+                  <li class="list-inline-item"><a href='term_moment_stencil_gen_class.html'>term_moment_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='variable_container_class.html'>variable_container_class</a></li>
                   <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
-                  <li class="list-inline-item"><a href='basic_environment_wrapper.html'>basic_environment_wrapper</a></li>
                   <li class="list-inline-item"><a href='partition_class.html'>partition_class</a></li>
-                  <li class="list-inline-item"><a href='multiplicative_stencil_generator_class.html'>multiplicative_stencil_generator_class</a></li>
+                  <li class="list-inline-item"><a href='uwc_diff_stencil_gen_class.html'>uwc_diff_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='ddv_stencil_gen_class.html'>ddv_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
                   <li class="list-inline-item"><a href='v_diffusion_stencil_gen_class.html'>v_diffusion_stencil_gen_class</a></li>
                   <li class="list-inline-item"><a href='model_class.html'>model_class</a></li>
-                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
-                  <li class="list-inline-item"><a href='variable_boltzmann_stencil_gen_class.html'>variable_boltzmann_stencil_gen_class</a></li>
-                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='key_names.html'>key_names</a></li>
-                  <li class="list-inline-item"><a href='multiplicative_generator_core_class.html'>multiplicative_generator_core_class</a></li>
+                  <li class="list-inline-item"><a href='general_mat_term_class.html'>general_mat_term_class</a></li>
+                  <li class="list-inline-item"><a href='interp_stencil_gen_class.html'>interp_stencil_gen_class</a></li>
                   <li class="list-inline-item"><a href='modelbound_crm_data_class.html'>modelbound_CRM_data_class</a></li>
-                  <li class="list-inline-item"><a href='stencil_class.html'>stencil_class</a></li>
+                  <li class="list-inline-item"><a href='multiplicative_stencil_generator_class.html'>multiplicative_stencil_generator_class</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='physical_constants.html'>physical_constants</a></li>
+                  <li class="list-inline-item"><a href='uwc_bc_stencil_gen_class.html'>uwc_bc_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='jagged_array_generator_class.html'>jagged_array_generator_class</a></li>
+                  <li class="list-inline-item"><a href='basic_environment_wrapper.html'>basic_environment_wrapper</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='diffusion_stencil_gen_class.html'>diffusion_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='key_names.html'>key_names</a></li>
+                  <li class="list-inline-item"><a href='fixed_boltzmann_stencil_gen_class.html'>fixed_boltzmann_stencil_gen_class</a></li>
+                  <li class="list-inline-item"><a href='geometry_class.html'>geometry_class</a></li>
+                  <li class="list-inline-item"><a href='sparse_row_data_class.html'>sparse_row_data_class</a></li>
               </ul>
             </li>
         </ul>
@@ -264,7 +281,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~37"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -279,7 +296,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~8"></span>
+              <span class="anchor" id="variable-envobj~57"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -294,7 +311,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~13"></span>
+              <span class="anchor" id="variable-jsonprefix~33"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -309,7 +326,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~3"></span>
+              <span class="anchor" id="variable-evolvedvar~37"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -324,7 +341,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~2"></span>
+              <span class="anchor" id="variable-implicitvar~35"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -339,7 +356,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~12"></span>
+              <span class="anchor" id="variable-mbdata~39"></span>
               class(<a href='../type/modelbounddata.html'>ModelboundData</a>),
             </td>
 <td>intent(in),</td>
@@ -388,7 +405,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~2"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~38"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -403,7 +420,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~9"></span>
+              <span class="anchor" id="variable-envobj~58"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -418,7 +435,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~14"></span>
+              <span class="anchor" id="variable-jsonprefix~34"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -433,7 +450,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~4"></span>
+              <span class="anchor" id="variable-evolvedvar~38"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -448,7 +465,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~3"></span>
+              <span class="anchor" id="variable-implicitvar~36"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -497,7 +514,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~3"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~39"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -512,7 +529,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~10"></span>
+              <span class="anchor" id="variable-envobj~59"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -527,7 +544,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~15"></span>
+              <span class="anchor" id="variable-jsonprefix~35"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -542,7 +559,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~5"></span>
+              <span class="anchor" id="variable-evolvedvar~39"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -557,7 +574,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~4"></span>
+              <span class="anchor" id="variable-implicitvar~37"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -606,7 +623,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~4"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~40"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -621,7 +638,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~11"></span>
+              <span class="anchor" id="variable-envobj~60"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -636,7 +653,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~16"></span>
+              <span class="anchor" id="variable-jsonprefix~36"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -651,7 +668,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~6"></span>
+              <span class="anchor" id="variable-evolvedvar~40"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -666,7 +683,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~5"></span>
+              <span class="anchor" id="variable-implicitvar~38"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -715,7 +732,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~5"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~41"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -730,7 +747,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~12"></span>
+              <span class="anchor" id="variable-envobj~61"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -745,7 +762,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~17"></span>
+              <span class="anchor" id="variable-jsonprefix~37"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -760,7 +777,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~7"></span>
+              <span class="anchor" id="variable-evolvedvar~41"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -775,7 +792,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~6"></span>
+              <span class="anchor" id="variable-implicitvar~39"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -824,7 +841,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~6"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~42"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -839,7 +856,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~13"></span>
+              <span class="anchor" id="variable-envobj~62"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -854,7 +871,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~18"></span>
+              <span class="anchor" id="variable-jsonprefix~38"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -869,7 +886,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~8"></span>
+              <span class="anchor" id="variable-evolvedvar~42"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -884,7 +901,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~7"></span>
+              <span class="anchor" id="variable-implicitvar~40"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -933,7 +950,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~7"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~43"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -948,7 +965,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~14"></span>
+              <span class="anchor" id="variable-envobj~63"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -963,7 +980,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~19"></span>
+              <span class="anchor" id="variable-jsonprefix~39"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -978,7 +995,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~9"></span>
+              <span class="anchor" id="variable-evolvedvar~43"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -993,7 +1010,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~8"></span>
+              <span class="anchor" id="variable-implicitvar~41"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1042,7 +1059,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~8"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~44"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1057,7 +1074,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~15"></span>
+              <span class="anchor" id="variable-envobj~64"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1072,7 +1089,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~20"></span>
+              <span class="anchor" id="variable-jsonprefix~40"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1087,7 +1104,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~10"></span>
+              <span class="anchor" id="variable-evolvedvar~44"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1102,7 +1119,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~9"></span>
+              <span class="anchor" id="variable-implicitvar~42"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1117,7 +1134,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~13"></span>
+              <span class="anchor" id="variable-mbdata~40"></span>
               class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -1166,7 +1183,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~9"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~45"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1181,7 +1198,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~16"></span>
+              <span class="anchor" id="variable-envobj~65"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1196,7 +1213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~21"></span>
+              <span class="anchor" id="variable-jsonprefix~41"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1211,7 +1228,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~11"></span>
+              <span class="anchor" id="variable-evolvedvar~45"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1226,7 +1243,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~10"></span>
+              <span class="anchor" id="variable-implicitvar~43"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1275,7 +1292,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~10"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~46"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1290,7 +1307,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~17"></span>
+              <span class="anchor" id="variable-envobj~66"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1305,7 +1322,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~12"></span>
+              <span class="anchor" id="variable-evolvedvar~46"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1320,7 +1337,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~11"></span>
+              <span class="anchor" id="variable-implicitvar~44"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1335,7 +1352,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~14"></span>
+              <span class="anchor" id="variable-mbdata~41"></span>
               class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -1350,7 +1367,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedharmonic~2"></span>
+              <span class="anchor" id="variable-evolvedharmonic~6"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1365,7 +1382,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindex~4"></span>
+              <span class="anchor" id="variable-transitionindex~11"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1380,7 +1397,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedenergyindex"></span>
+              <span class="anchor" id="variable-fixedenergyindex~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1395,7 +1412,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterm~4"></span>
+              <span class="anchor" id="variable-absorptionterm~12"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1410,7 +1427,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbterm~3"></span>
+              <span class="anchor" id="variable-dbterm~7"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1459,7 +1476,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~11"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~47"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1474,7 +1491,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~18"></span>
+              <span class="anchor" id="variable-envobj~67"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1489,7 +1506,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~13"></span>
+              <span class="anchor" id="variable-evolvedvar~47"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1504,7 +1521,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~12"></span>
+              <span class="anchor" id="variable-implicitvar~45"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1519,7 +1536,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedxcells"></span>
+              <span class="anchor" id="variable-evolvedxcells~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1534,7 +1551,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedharmonics"></span>
+              <span class="anchor" id="variable-evolvedharmonics~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1549,7 +1566,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvcells"></span>
+              <span class="anchor" id="variable-evolvedvcells~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -1598,7 +1615,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~12"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~48"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1613,7 +1630,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~19"></span>
+              <span class="anchor" id="variable-envobj~68"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1628,7 +1645,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~14"></span>
+              <span class="anchor" id="variable-evolvedvar~48"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1643,7 +1660,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~13"></span>
+              <span class="anchor" id="variable-implicitvar~46"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1658,7 +1675,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentharmonic~2"></span>
+              <span class="anchor" id="variable-momentharmonic~4"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1673,7 +1690,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentorder~2"></span>
+              <span class="anchor" id="variable-momentorder~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1722,7 +1739,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~13"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~49"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1737,7 +1754,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~20"></span>
+              <span class="anchor" id="variable-envobj~69"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1752,7 +1769,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~15"></span>
+              <span class="anchor" id="variable-evolvedvar~49"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1767,7 +1784,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~14"></span>
+              <span class="anchor" id="variable-implicitvar~47"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1782,7 +1799,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowharmonic"></span>
+              <span class="anchor" id="variable-rowharmonic~13"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1797,7 +1814,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colharmonic"></span>
+              <span class="anchor" id="variable-colharmonic~13"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1846,7 +1863,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~14"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~50"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -1861,7 +1878,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~21"></span>
+              <span class="anchor" id="variable-envobj~70"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -1876,7 +1893,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~16"></span>
+              <span class="anchor" id="variable-evolvedvar~50"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1891,7 +1908,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~15"></span>
+              <span class="anchor" id="variable-implicitvar~48"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1906,7 +1923,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowharmonic~2"></span>
+              <span class="anchor" id="variable-rowharmonic~14"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1921,7 +1938,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colharmonic~2"></span>
+              <span class="anchor" id="variable-colharmonic~14"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1936,7 +1953,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedc"></span>
+              <span class="anchor" id="variable-fixedc~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1951,7 +1968,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedinterp"></span>
+              <span class="anchor" id="variable-fixedinterp~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1966,7 +1983,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cfatzero"></span>
+              <span class="anchor" id="variable-cfatzero~3"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1981,7 +1998,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelboundc"></span>
+              <span class="anchor" id="variable-modelboundc~3"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -1996,7 +2013,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelboundinterp"></span>
+              <span class="anchor" id="variable-modelboundinterp~3"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -2045,7 +2062,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~15"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~51"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2060,7 +2077,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~22"></span>
+              <span class="anchor" id="variable-envobj~71"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2075,7 +2092,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~17"></span>
+              <span class="anchor" id="variable-evolvedvar~51"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2090,7 +2107,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~16"></span>
+              <span class="anchor" id="variable-implicitvar~49"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2105,7 +2122,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowharmonic~3"></span>
+              <span class="anchor" id="variable-rowharmonic~15"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2120,7 +2137,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colharmonic~3"></span>
+              <span class="anchor" id="variable-colharmonic~15"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2135,7 +2152,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixeda"></span>
+              <span class="anchor" id="variable-fixeda~4"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2150,7 +2167,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-adfatzero"></span>
+              <span class="anchor" id="variable-adfatzero~5"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2165,7 +2182,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-modelbounda"></span>
+              <span class="anchor" id="variable-modelbounda~4"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -2214,7 +2231,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~16"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~52"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2229,7 +2246,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~23"></span>
+              <span class="anchor" id="variable-envobj~72"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2244,7 +2261,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~18"></span>
+              <span class="anchor" id="variable-evolvedvar~52"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2259,7 +2276,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~17"></span>
+              <span class="anchor" id="variable-implicitvar~50"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2274,7 +2291,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowharmonic~4"></span>
+              <span class="anchor" id="variable-rowharmonic~16"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2289,7 +2306,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colharmonic~4"></span>
+              <span class="anchor" id="variable-colharmonic~16"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2304,7 +2321,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-integralindex"></span>
+              <span class="anchor" id="variable-integralindex~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2319,7 +2336,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jintegral"></span>
+              <span class="anchor" id="variable-jintegral~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -2368,7 +2385,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~17"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~53"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2383,7 +2400,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~24"></span>
+              <span class="anchor" id="variable-envobj~73"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2398,7 +2415,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~19"></span>
+              <span class="anchor" id="variable-evolvedvar~53"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2413,7 +2430,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~18"></span>
+              <span class="anchor" id="variable-implicitvar~51"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2428,7 +2445,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowharmonic~5"></span>
+              <span class="anchor" id="variable-rowharmonic~17"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2443,7 +2460,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colharmonic~5"></span>
+              <span class="anchor" id="variable-colharmonic~17"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2458,7 +2475,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-decompharmonics"></span>
+              <span class="anchor" id="variable-decompharmonics~3"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -2473,7 +2490,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-derivname~2"></span>
+              <span class="anchor" id="variable-derivname~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2488,7 +2505,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-derivreqvars"></span>
+              <span class="anchor" id="variable-derivreqvars~3"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -2503,7 +2520,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-leftboundary~8"></span>
+              <span class="anchor" id="variable-leftboundary~14"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2552,7 +2569,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~18"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~54"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2567,7 +2584,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~25"></span>
+              <span class="anchor" id="variable-envobj~74"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2582,7 +2599,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~22"></span>
+              <span class="anchor" id="variable-jsonprefix~42"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2597,7 +2614,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~20"></span>
+              <span class="anchor" id="variable-evolvedvar~54"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2612,7 +2629,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~19"></span>
+              <span class="anchor" id="variable-implicitvar~52"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2661,7 +2678,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~19"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~55"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2676,7 +2693,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~26"></span>
+              <span class="anchor" id="variable-envobj~75"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2691,7 +2708,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~21"></span>
+              <span class="anchor" id="variable-evolvedvar~55"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2706,7 +2723,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~20"></span>
+              <span class="anchor" id="variable-implicitvar~53"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2721,7 +2738,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-momentorder~3"></span>
+              <span class="anchor" id="variable-momentorder~8"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2736,7 +2753,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-colharmonic~6"></span>
+              <span class="anchor" id="variable-colharmonic~18"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -2751,7 +2768,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-termname~3"></span>
+              <span class="anchor" id="variable-termname~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2800,7 +2817,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~20"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~56"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2815,7 +2832,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~27"></span>
+              <span class="anchor" id="variable-envobj~76"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2830,7 +2847,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-jsonprefix~23"></span>
+              <span class="anchor" id="variable-jsonprefix~43"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2845,7 +2862,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~22"></span>
+              <span class="anchor" id="variable-evolvedvar~56"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2860,7 +2877,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~21"></span>
+              <span class="anchor" id="variable-implicitvar~54"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2875,7 +2892,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~15"></span>
+              <span class="anchor" id="variable-mbdata~42"></span>
               class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -2924,7 +2941,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~21"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~57"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -2939,7 +2956,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~28"></span>
+              <span class="anchor" id="variable-envobj~77"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -2954,7 +2971,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~23"></span>
+              <span class="anchor" id="variable-evolvedvar~57"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2969,7 +2986,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~22"></span>
+              <span class="anchor" id="variable-implicitvar~55"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2984,7 +3001,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mbdata~16"></span>
+              <span class="anchor" id="variable-mbdata~43"></span>
               class(<a href='../type/modelboundcrmdata.html'>ModelboundCRMData</a>),
             </td>
 <td>intent(in)</td>
@@ -2999,7 +3016,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedharmonic~3"></span>
+              <span class="anchor" id="variable-evolvedharmonic~7"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -3014,7 +3031,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindex~5"></span>
+              <span class="anchor" id="variable-transitionindex~12"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -3029,7 +3046,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterm~5"></span>
+              <span class="anchor" id="variable-absorptionterm~13"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -3044,7 +3061,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-superelasticterm~2"></span>
+              <span class="anchor" id="variable-superelasticterm~6"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -3098,27 +3115,5 @@
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

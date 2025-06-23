@@ -385,21 +385,27 @@ module subroutine initSpatialDiffStencilTemplate(stencilTemplateObj,envObj,jsonP
     character(*)               ,intent(in)    :: implicitVar
 
     type(NamedInteger) ,dimension(1) :: rowHarmonic, colHarmonic
+    type(NamedLogical) ,dimension(1) :: ignoreJacobian
 
     rowHarmonic(1) = NamedInteger(jsonPrefix//"."//keyStencilData//"."//keyRowHarmonic,0)
     colHarmonic(1) = NamedInteger(jsonPrefix//"."//keyStencilData//"."//keyColHarmonic,0)
+    ignoreJacobian(1) = NamedLogical(jsonPrefix//"."//keyStencilData//"."//keyIgnoreJacobian,.true.)
 
     call envObj%jsonCont%load(rowHarmonic)
     call envObj%jsonCont%output(rowHarmonic)
     call envObj%jsonCont%load(colHarmonic)
     call envObj%jsonCont%output(colHarmonic)
+    call envObj%jsonCont%load(ignoreJacobian)
+    call envObj%jsonCont%output(ignoreJacobian)
 
     call initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-                                              rowHarmonic(1)%value,colHarmonic(1)%value)
+                                              rowHarmonic(1)%value,colHarmonic(1)%value, &
+                                              ignoreJacobian(1)%value)
 
 end subroutine initSpatialDiffStencilTemplate
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,rowHarmonic,colHarmonic)
+module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
+                                                       rowHarmonic,colHarmonic,ignoreJacobian)
     !! Initialize d/dx kinetic stencil template based on direct input. 
 
     type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -408,13 +414,14 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
     character(*)               ,intent(in)    :: implicitVar
     integer(ik)                ,intent(in)    :: rowHarmonic
     integer(ik)                ,intent(in)    :: colHarmonic
+    logical                    ,intent(in)    :: ignoreJacobian
 
     integer(ik) :: i  ,spatialStencilCase
     logical     :: pGrid, oddRowL ,oddColL, staggeredRowVar ,staggeredColVar
 
     integer(ik) ,allocatable ,dimension(:) :: lGrid 
 
-    real(rk) ,allocatable ,dimension(:) :: dx ,linInterp ,outerJ ,innerJ
+    real(rk) ,allocatable ,dimension(:) :: dx ,linInterp ,outerJ ,innerJ, centreJ, rightJ
 
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
@@ -454,9 +461,16 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
     allocate(linInterp,source=envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar))
     dx = envObj%geometryObj%getCellWidths(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
     
-    !Ignore Jacobian data by default
-    outerJ = 1/dx
-    innerJ = [(real(1,kind=rk),i=1,size(outerJ))]
+    centreJ = envObj%geometryObj%getJacobianCentre(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
+    rightJ = envObj%geometryObj%getJacobianRight(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
+
+    if (ignoreJacobian) then 
+        outerJ = 1/dx
+        innerJ = [(real(1,kind=rk),i=1,size(outerJ))]
+    else
+        outerJ = 1/(dx*centreJ)
+        innerJ = rightJ
+    end if
 
     allocate(genCore)
     call genCore%init(envObj%gridObj,envObj%partitionObj,envObj%mpiCont%getWorldRank()&

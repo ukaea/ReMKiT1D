@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">73 statements</a>
+                 title=" 0.1% of total for procedures.">79 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -154,7 +154,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, evolvedXCells, evolvedHarmonics, evolvedVCells)  
+    <h2>module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, evolvedXCells, evolvedHarmonics, evolvedVCells, harmonicOffset)  
     <a href="../interface/initkindiagonalstenciltemplatedirect.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
@@ -175,7 +175,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stenciltemplateobj~18"></span>
+              <span class="anchor" id="variable-stenciltemplateobj~3"></span>
               type(<a href='../type/stenciltemplate.html'>StencilTemplate</a>),
             </td>
 <td>intent(inout)</td>
@@ -190,7 +190,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~32"></span>
+              <span class="anchor" id="variable-envobj~13"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -205,7 +205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~17"></span>
+              <span class="anchor" id="variable-evolvedvar~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -220,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~16"></span>
+              <span class="anchor" id="variable-implicitvar~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -235,7 +235,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedxcells~3"></span>
+              <span class="anchor" id="variable-evolvedxcells~2"></span>
               integer(kind=ik),
             </td>
 <td>intent(in),</td>
@@ -274,6 +274,21 @@
             </td>
             <td>::</td>
             <td><strong>evolvedVCells</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-harmonicoffset~2"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>harmonicOffset</strong></td>
             <td>
                 
             </td>

@@ -90,6 +90,7 @@ module subroutine initKinDiagonalStencilTemplate(stencilTemplateObj,envObj,jsonP
     character(*)               ,intent(in)    :: implicitVar
 
     type(NamedIntegerArray) ,dimension(1) :: evolvedHarmonics,evolvedVelCells,evolvedXCells
+    type(NamedInteger)      ,dimension(1) :: harmonicOffset
 
     integer(ik) :: i
 
@@ -100,6 +101,7 @@ module subroutine initKinDiagonalStencilTemplate(stencilTemplateObj,envObj,jsonP
                                             [(i,i=1,envObj%gridObj%getNumH())])
     evolvedVelCells(1) = NamedIntegerArray(jsonPrefix//"."//keyStencilData//"."//keyEvolvedVCells,&
                                             [(i,i=1,envObj%gridObj%getNumV())])
+    harmonicOffset(1) = NamedInteger(jsonPrefix//"."//keyStencilData//"."//keyHarmonicOffset,0)
 
     call envObj%jsonCont%load(evolvedXCells)
     call envObj%jsonCont%output(evolvedXCells)
@@ -107,14 +109,17 @@ module subroutine initKinDiagonalStencilTemplate(stencilTemplateObj,envObj,jsonP
     call envObj%jsonCont%output(evolvedHarmonics)
     call envObj%jsonCont%load(evolvedVelCells)
     call envObj%jsonCont%output(evolvedVelCells)
+    call envObj%jsonCont%load(harmonicOffset)
+    call envObj%jsonCont%output(harmonicOffset)
 
     call initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-                                              evolvedXCells(1)%values,evolvedHarmonics(1)%values,evolvedVelCells(1)%values)
+                                              evolvedXCells(1)%values,evolvedHarmonics(1)%values,evolvedVelCells(1)%values,&
+                                              harmonicOffset(1)%value)
 
 end subroutine initKinDiagonalStencilTemplate
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-                                                       evolvedXCells,evolvedHarmonics,evolvedVCells)
+                                                       evolvedXCells,evolvedHarmonics,evolvedVCells,harmonicOffset)
     !! Initialize diagonal stencil template based on environment object and JSON file
 
     type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -124,11 +129,12 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
     integer(ik) ,dimension(:)  ,intent(in)    :: evolvedXCells
     integer(ik) ,dimension(:)  ,intent(in)    :: evolvedHarmonics
     integer(ik) ,dimension(:)  ,intent(in)    :: evolvedVCells
+    integer(ik)                ,intent(in)    :: harmonicOffset
 
     type(InterpStencilGenerator) :: interpStencilGen
 
     integer(ik) :: i
-    logical     :: pGrid, staggeredRowVar ,staggeredColVar , interpolationRequired
+    logical     :: pGrid, staggeredRowVar ,staggeredColVar , interpolationRequired, fluidCol
 
     logical ,allocatable ,dimension(:) :: oddL
 
@@ -136,6 +142,8 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
 
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
+
+    fluidCol = .not. envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar))
 
     if (assertions .or. assertionLvl >= 0) call assert(envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(evolvedVar)),&
                                 "initKinDiagonalStencilTemplateDirect must be invoked with evolvedVar being a distribution")
@@ -187,19 +195,31 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
                                                    IntArray(usedHCoords),&
                                                    IntArray(usedVCoords)])
 
-    interpolationRequired = .not. envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)) &
+    ! Interpolation in case of non-distribution column var
+    interpolationRequired = fluidCol &
                             .and. staggeredRowVar .and. (all(.not. oddL) .eqv. staggeredColVar)
+
+
+    if (.not. fluidCol) then 
+
+        staggeredColVar = staggeredColVar .and. ( all(.not. oddL) .eqv. (mod(harmonicOffset,2) .eq. 1))
+
+        interpolationRequired = all(oddL) .neqv. staggeredColVar
+
+    end if
+
     if (.not. interpolationRequired) then 
 
-        call stencilTemplateObj%defaultStencil%init(xPeriodic=pGrid,&
-             mapToDist=envObj%externalVars%isVarDist(envObj%externalVars%getVarIndex(implicitVar)))
+        call stencilTemplateObj%defaultStencil%init(hStencil=[harmonicOffset],xPeriodic=pGrid,&
+             mapToDist=.not. fluidCol)
 
         ! No stencil gen since default multConst is all ones
     else
 
         if (staggeredColVar) then 
 
-            call stencilTemplateObj%defaultStencil%init(xStencil=[-1,0],xPeriodic=pGrid)
+            call stencilTemplateObj%defaultStencil%init(xStencil=[-1,0],hStencil=[harmonicOffset],xPeriodic=pGrid,&
+                                                        mapToDist=.not. fluidCol)
             if (.not. pGrid) then !Handle extrapolation points
 
                 stencilTemplateObj%overridingStencilCoords = allCombinations([IntArray([1,envObj%gridObj%getNumX()]),&
@@ -209,9 +229,11 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
                 allocate(stencilTemplateObj%overridingStencils(size(stencilTemplateObj%overridingStencilCoords,2)))
                 do i = 1, size(stencilTemplateObj%overridingStencils)
                     if (stencilTemplateObj%overridingStencilCoords(1,i) == 1) then
-                        call stencilTemplateObj%overridingStencils(i)%init(xStencil=[0,1],xPeriodic=pGrid)
+                        call stencilTemplateObj%overridingStencils(i)%init(xStencil=[0,1],&
+                            hStencil=[harmonicOffset],xPeriodic=pGrid,mapToDist=.not. fluidCol)
                     else
-                        call stencilTemplateObj%overridingStencils(i)%init(xStencil=[-2,-1],xPeriodic=pGrid)
+                        call stencilTemplateObj%overridingStencils(i)%init(xStencil=[-2,-1],&
+                            hStencil=[harmonicOffset],xPeriodic=pGrid,mapToDist=.not. fluidCol)
 
                     end if
                 end do
@@ -219,7 +241,8 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
             end if
         else
 
-            call stencilTemplateObj%defaultStencil%init(xStencil=[0,1],xPeriodic=pGrid)
+            call stencilTemplateObj%defaultStencil%init(xStencil=[0,1],hStencil=[harmonicOffset],xPeriodic=pGrid,&
+                                                        mapToDist=.not. fluidCol)
 
         end if
 
@@ -228,9 +251,12 @@ module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj
 
         allocate(genCore)
         call genCore%init(envObj%gridObj,envObj%partitionObj,envObj%mpiCont%getWorldRank()&
-                         ,stencilTemplateObj%rowCoords,fluidCol=.true.)
+                         ,stencilTemplateObj%rowCoords,fluidCol=fluidCol)
 
-        call multStencilGen%init(genCore,fluidCol=.true.)
+        call multStencilGen%init(genCore,&
+                        initHVals=jaggedArray(reshape(real([(1,i=1,1)],kind=rk),[1,1])),&
+                    initVVals=jaggedArray(reshape(real([(1,i=1,envObj%gridObj%getNumV())],kind=rk),[1,envObj%gridObj%getNumV()])),&
+                    fluidCol=fluidCol)
 
         call multStencilGen%setXGen(interpStencilGen)
 
@@ -385,21 +411,27 @@ module subroutine initSpatialDiffStencilTemplate(stencilTemplateObj,envObj,jsonP
     character(*)               ,intent(in)    :: implicitVar
 
     type(NamedInteger) ,dimension(1) :: rowHarmonic, colHarmonic
+    type(NamedLogical) ,dimension(1) :: ignoreJacobian
 
     rowHarmonic(1) = NamedInteger(jsonPrefix//"."//keyStencilData//"."//keyRowHarmonic,0)
     colHarmonic(1) = NamedInteger(jsonPrefix//"."//keyStencilData//"."//keyColHarmonic,0)
+    ignoreJacobian(1) = NamedLogical(jsonPrefix//"."//keyStencilData//"."//keyIgnoreJacobian,.true.)
 
     call envObj%jsonCont%load(rowHarmonic)
     call envObj%jsonCont%output(rowHarmonic)
     call envObj%jsonCont%load(colHarmonic)
     call envObj%jsonCont%output(colHarmonic)
+    call envObj%jsonCont%load(ignoreJacobian)
+    call envObj%jsonCont%output(ignoreJacobian)
 
     call initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-                                              rowHarmonic(1)%value,colHarmonic(1)%value)
+                                              rowHarmonic(1)%value,colHarmonic(1)%value, &
+                                              ignoreJacobian(1)%value)
 
 end subroutine initSpatialDiffStencilTemplate
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,rowHarmonic,colHarmonic)
+module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
+                                                       rowHarmonic,colHarmonic,ignoreJacobian)
     !! Initialize d/dx kinetic stencil template based on direct input. 
 
     type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -408,13 +440,14 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
     character(*)               ,intent(in)    :: implicitVar
     integer(ik)                ,intent(in)    :: rowHarmonic
     integer(ik)                ,intent(in)    :: colHarmonic
+    logical                    ,intent(in)    :: ignoreJacobian
 
     integer(ik) :: i  ,spatialStencilCase
     logical     :: pGrid, oddRowL ,oddColL, staggeredRowVar ,staggeredColVar
 
     integer(ik) ,allocatable ,dimension(:) :: lGrid 
 
-    real(rk) ,allocatable ,dimension(:) :: dx ,linInterp ,outerJ ,innerJ
+    real(rk) ,allocatable ,dimension(:) :: dx ,linInterp ,outerJ ,innerJ, centreJ, rightJ
 
     type(MultiplicativeGeneratorCore) ,allocatable :: genCore 
     type(MultiplicativeStencilGen) :: multStencilGen
@@ -454,9 +487,16 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
     allocate(linInterp,source=envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar))
     dx = envObj%geometryObj%getCellWidths(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
     
-    !Ignore Jacobian data by default
-    outerJ = 1/dx
-    innerJ = [(real(1,kind=rk),i=1,size(outerJ))]
+    centreJ = envObj%geometryObj%getJacobianCentre(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
+    rightJ = envObj%geometryObj%getJacobianRight(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
+
+    if (ignoreJacobian) then 
+        outerJ = 1/dx
+        innerJ = [(real(1,kind=rk),i=1,size(outerJ))]
+    else
+        outerJ = 1/(dx*centreJ)
+        innerJ = rightJ
+    end if
 
     allocate(genCore)
     call genCore%init(envObj%gridObj,envObj%partitionObj,envObj%mpiCont%getWorldRank()&

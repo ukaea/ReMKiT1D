@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for procedures.">185 statements</a>
+                 title=" 0.3% of total for procedures.">187 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -156,7 +156,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      public module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, evolvedXCells, evolvedHarmonics, evolvedVCells)  
+      public module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj, envObj, evolvedVar, implicitVar, evolvedXCells, evolvedHarmonics, evolvedVCells, harmonicOffset)  
     <a href="../proc/initkindiagonalstenciltemplatedirect.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>    
 
@@ -190,7 +190,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-envobj~67"></span>
+              <span class="anchor" id="variable-envobj~73"></span>
               type(<a href='../type/environmentwrapper.html'>EnvironmentWrapper</a>),
             </td>
 <td>intent(inout)</td>
@@ -205,7 +205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedvar~47"></span>
+              <span class="anchor" id="variable-evolvedvar~48"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -220,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvar~45"></span>
+              <span class="anchor" id="variable-implicitvar~47"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -274,6 +274,21 @@
             </td>
             <td>::</td>
             <td><strong>evolvedVCells</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-harmonicoffset~3"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>harmonicOffset</strong></td>
             <td>
                 
             </td>

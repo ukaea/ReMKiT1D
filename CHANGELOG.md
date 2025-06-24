@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## v1.3.0, 2025-05-29
+## v1.3.0, 2025-06-24
 
 - Bugfixes
 - BDE integrator refactor
+- Improvements to kinetic stencils
 
 ### Breaking Changes
 
@@ -12,6 +13,8 @@
 ### New Features
 
 - BDE integrator refactor to enable more flexible adaptive timestepping
+- Added option to have Jacobian in kinetic spatial difference stencil
+- Added option to have off-diagonal harmonics in kinetic diagonal stencil
 
 ### Bug Fixes
 

@@ -135,7 +135,7 @@ module subroutine generateSecElSourceTerms(this,mbData)
         allocate(templateObj)
 
         call initKinDiagonalStencilTemplateDirect(templateObj,this%envPointer,this%distributionName,&
-                                                  this%implicitVars(i)%string,dummyXCells,[1],[1])
+                                                  this%implicitVars(i)%string,dummyXCells,[1],[1],0)
         allocate(termBuffer)
         call termBuffer%init(this%envPointer%gridObj,this%envPointer%partitionObj,this%envPointer%indexingObj,&
                             this%envPointer%mpiCont%getWorldRank(),&

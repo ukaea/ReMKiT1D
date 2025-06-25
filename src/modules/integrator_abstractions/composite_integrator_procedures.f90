@@ -159,7 +159,7 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     scaledRequestedTimestep = this%requestedTimestep
     if (allocated(this%dtController)) then 
         this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
-        scaledRequestedTimestep = this%dtController%evaluateTimestep(inputVars,scaledRequestedTimestep)
+        scaledRequestedTimestep = max(this%dtController%evaluateTimestep(inputVars,scaledRequestedTimestep),this%requestedTimestep)
     end if
     this%globalTimestep = min(this%globalTimestep,scaledRequestedTimestep)
 

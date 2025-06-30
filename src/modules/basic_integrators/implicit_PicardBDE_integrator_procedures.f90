@@ -195,7 +195,7 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
                 call printMessage(trim(tmpstring))
                 tmpstring=''
 
-                if (firstStep .and. nonlinIter == 1 .and. this%internalControlOpts%allowLazyEval) then 
+                if (firstStep .and. nonlinIter == 1 .and. dt > 0 .and. this%internalControlOpts%allowLazyEval) then 
 
                     this%internalControlOpts%lazyEval = .true.
                     exit 

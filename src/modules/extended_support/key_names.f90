@@ -313,6 +313,7 @@ module key_names
     character(len=*) ,parameter :: keyKinSpatialDiffStencil = "kineticSpatialDiffStencil"
     character(len=*) ,parameter :: keyRowHarmonic = "rowHarmonic"
     character(len=*) ,parameter :: keyColHarmonic = "colHarmonic"
+    character(len=*) ,parameter :: keyHarmonicOffset = "harmonicOffset"
     character(len=*) ,parameter :: keyDDVStencil = "ddvStencil"
     character(len=*) ,parameter :: keyFixedC = "fixedC"
     character(len=*) ,parameter :: keyFixedInterp = "fixedInterp"

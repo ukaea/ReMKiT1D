@@ -175,7 +175,7 @@ module kinetic_stencil_templates
     end subroutine initFixedBoltzmannStencilDirect 
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine initKinDiagonalStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
-        evolvedXCells,evolvedHarmonics,evolvedVCells)
+        evolvedXCells,evolvedHarmonics,evolvedVCells,harmonicOffset)
         !! Initialize diagonal stencil template based on environment object and JSON file
 
         type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -185,6 +185,7 @@ module kinetic_stencil_templates
         integer(ik) ,dimension(:)  ,intent(in)    :: evolvedXCells
         integer(ik) ,dimension(:)  ,intent(in)    :: evolvedHarmonics
         integer(ik) ,dimension(:)  ,intent(in)    :: evolvedVCells
+        integer(ik)                ,intent(in)    :: harmonicOffset
 
     end subroutine initKinDiagonalStencilTemplateDirect
 !-----------------------------------------------------------------------------------------------------------------------------------

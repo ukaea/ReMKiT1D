@@ -228,7 +228,7 @@ contains
         envObj%geometryObj = testGeometry
         envObj%vSpaceObj = testVSpace
 
-        call initSpatialDiffStencilTemplateDirect(templateObj,envObj,"f","f",1,2)
+        call initSpatialDiffStencilTemplateDirect(templateObj,envObj,"f","f",1,2,.true.)
         minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
         
         cProfs%vProfile = - testGrid%getVGrid()
@@ -297,7 +297,7 @@ contains
 
         call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
 
-        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk))
+        call testGeometry%init(real([(2.0d0/(2*i + 1),i=1,12)],kind=rk),real([(i,i=1,12)],kind=rk),real([(i + 1,i=1,12)],kind=rk))
 
         envObj%gridObj = testGrid
         envObj%partitionObj = testPart
@@ -307,7 +307,7 @@ contains
         envObj%geometryObj = testGeometry
         envObj%vSpaceObj = testVSpace
 
-        call initSpatialDiffStencilTemplateDirect(templateObj,envObj,"f","f",1,2)
+        call initSpatialDiffStencilTemplateDirect(templateObj,envObj,"f","f",1,2,.false.)
         minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
         
         cProfs%vProfile = - testGrid%getVGrid()
@@ -323,15 +323,17 @@ contains
         end do
 
         testVec = testTerm%evaluate(testVarCont1)
-        minXVal = real(1,kind=rk)
-        maxXVal = minXVal
+        minXVal = testPart%getMinXAtInd(testController%getWorldRank()+1) + 2 
+        maxXVal = testPart%getMinXAtInd(testController%getWorldRank()+1) + 6 
         vArr = real([1,2,3],kind=rk)
-        if (testPart%getMinXAtInd(testController%getWorldRank()+1) == 1) minXVal = real(2.0d00,kind=rk)
-        if (testPart%getMaxXAtInd(testController%getWorldRank()+1) == 12) maxXVal = -real(3.0d00,kind=rk)
+        if (testPart%getMinXAtInd(testController%getWorldRank()+1) == 1) minXVal = real(4.0d00,kind=rk)
+        if (testPart%getMaxXAtInd(testController%getWorldRank()+1) == 12) maxXVal = -real(36.0d00,kind=rk)
         allocate(checkVec,source=testVec)
         checkVec = 0 
 
-        xArr = real([0.0d0,minXVal,1.0d0,maxXVal,0.0d0],kind=rk)
+
+        print*,testGeometry%getJacobianRight()
+        xArr = real([0.0d0,minXVal,testPart%getMinXAtInd(testController%getWorldRank()+1)+4.0d0,maxXVal,0.0d0],kind=rk)
         if (minH == 1) then 
             call setDistHarmonic(checkVec,1,-xArr,vArr)
         end if

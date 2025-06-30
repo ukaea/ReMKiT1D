@@ -200,7 +200,8 @@ module kinetic_stencil_templates
 
     end subroutine initMomentStencilTemplateDirect
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,rowHarmonic,colHarmonic)
+    module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj,evolvedVar,&
+                                                           implicitVar,rowHarmonic,colHarmonic,ignoreJacobian)
         !! Initialize d/dx kinetic stencil template based on direct input. 
     
         type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -209,6 +210,7 @@ module kinetic_stencil_templates
         character(*)               ,intent(in)    :: implicitVar
         integer(ik)                ,intent(in)    :: rowHarmonic
         integer(ik)                ,intent(in)    :: colHarmonic
+        logical                    ,intent(in)    :: ignoreJacobian
 
     end subroutine initSpatialDiffStencilTemplateDirect
 !-----------------------------------------------------------------------------------------------------------------------------------

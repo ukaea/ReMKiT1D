@@ -68,7 +68,7 @@ module function calculateCoulombLog(this,inputArray,indices) result(output)
 
     logical :: passedZ
 
-    integer(ik) :: i
+    integer(ik) :: i, lb, ub
 
     passedZ = size(indices) == 3
 
@@ -88,17 +88,19 @@ module function calculateCoulombLog(this,inputArray,indices) result(output)
 
     allocate(output,mold=inputArray(indices(1))%entry)
     output = 0
+    lb = lbound(output, dim=1)
+    ub = ubound(output, dim=1)
 
     if (this%electronLog) then 
 
-        do i = 1,this%locNumX
+        do i = lb,ub
             output(i) = logLee(inputArray(indices(1))%entry(i)*this%tempNorm,&
                         inputArray(indices(2))%entry(i)*this%densNorm)
         end do
 
     else if (this%ionLog) then 
 
-        do i = 1,this%locNumX
+        do i = lb,ub
             output(i) = logLii(this%ionZ,this%ionZ2,this%ionMassRatio,inputArray(indices(1))%entry(i)*this%densNorm,&
                         inputArray(indices(2))%entry(i)*this%densNorm,inputArray(indices(3))%entry(i)*this%tempNorm,&
                         inputArray(indices(4))%entry(i)*this%tempNorm)
@@ -107,14 +109,14 @@ module function calculateCoulombLog(this,inputArray,indices) result(output)
     else
         
         if (passedZ) then 
-            do i = 1,this%locNumX
+            do i = lb,ub
                 output(i) = logLei(inputArray(indices(1))%entry(i)*this%tempNorm,&
                             inputArray(indices(2))%entry(i)*this%densNorm,&
                             inputArray(indices(3))%entry(i),removeDisc=this%removeLogLeiDiscontinuity)
             end do
             
         else
-            do i = 1,this%locNumX
+            do i = lb,ub
                 output(i) = logLei(inputArray(indices(1))%entry(i)*this%tempNorm,&
                             inputArray(indices(2))%entry(i)*this%densNorm,&
                             this%ionZ,removeDisc=this%removeLogLeiDiscontinuity)

@@ -154,7 +154,9 @@ module subroutine integrateAll(this,manipulatedModeller,outputVars,inputVars)
     end if
 
     this%globalTimestep = this%initialTimestep
-    if (allocated(this%dtController)) this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
+    if (allocated(this%dtController)) then 
+        this%globalTimestep = this%dtController%evaluateTimestep(inputVars,this%globalTimestep)
+    end if
     this%globalTimestep = min(this%globalTimestep,this%requestedTimestep)
 
     numStages = size(this%integrationStage)

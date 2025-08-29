@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v1.3.0, 2025-06-24
+
+- Bugfixes
+- BDE integrator refactor
+- Improvements to kinetic stencils
+
+### Breaking Changes
+
+- BDE integrator will now ignore old config keys, internal step control and consolidation are done differently
+
+### New Features
+
+- BDE integrator refactor to enable more flexible adaptive timestepping
+- Added option to have Jacobian in kinetic spatial difference stencil
+- Added option to have off-diagonal harmonics in kinetic diagonal stencil
+
+### Bug Fixes
+
+- Fixed bug where Coulomb log was not calculated for halo cells, leading to issues with interpolation
+- Fixed bug where the requested timestep wasn't rescaled, leading to different behaviour between stepping modes
+
+
 ## v1.2.1, 2025-01-15
 
 - Added an option to remove the logLei discontinuity in NRL formulary fit

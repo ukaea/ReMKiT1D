@@ -194,11 +194,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
-                  <li class="list-inline-item"><a href='basic_interfaces.html'>basic_interfaces</a></li>
                   <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
                   <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='basic_interfaces.html'>basic_interfaces</a></li>
               </ul>
             </li>
         </ul>
@@ -254,403 +254,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~49"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>input</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-realparams~24"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>realParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-intparams~25"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>intParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-logicalparams~25"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>logicalParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryexp"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    public pure module function unaryExp(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryexp.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>Unary wrapper for exp. String name "exp".</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-input~50"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>input</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-realparams~25"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>realParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-intparams~26"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>intParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-logicalparams~26"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>logicalParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarysin"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    public pure module function unarySin(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarysin.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>Unary wrapper for sin. String name "sin".</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-input~51"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>input</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-realparams~26"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>realParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-intparams~27"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>intParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-logicalparams~27"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>logicalParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarycos"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    public pure module function unaryCos(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarycos.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>Unary wrapper for cos. String name "cos".</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-input~52"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>input</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-realparams~27"></span>
-              real(kind=rk),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>realParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-intparams~28"></span>
-              integer(kind=ik),
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>intParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-logicalparams~28"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional,</td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>logicalParams</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rk), allocatable, dimension(:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryabs"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    public pure module function unaryAbs(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryabs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>Unary wrapper for absolute value. String name "abs".</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-input~53"></span>
+              <span class="anchor" id="variable-input~40"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -723,18 +327,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarysign"></span>
+      <span class="anchor" id="interface-unaryexp"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unarySign(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarysign.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryExp(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryexp.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for sign function. String name "sign".</p>
+  <p>Unary wrapper for exp. String name "exp".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -749,7 +353,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~54"></span>
+              <span class="anchor" id="variable-input~41"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -822,18 +426,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarytan"></span>
+      <span class="anchor" id="interface-unarysin"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryTan(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarytan.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unarySin(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarysin.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for tan. String name "tan".</p>
+  <p>Unary wrapper for sin. String name "sin".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -848,7 +452,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~55"></span>
+              <span class="anchor" id="variable-input~42"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -921,18 +525,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryasin"></span>
+      <span class="anchor" id="interface-unarycos"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryAsin(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryasin.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryCos(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarycos.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for arcsin. String name "asin".</p>
+  <p>Unary wrapper for cos. String name "cos".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -947,7 +551,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~56"></span>
+              <span class="anchor" id="variable-input~43"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1020,18 +624,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryacos"></span>
+      <span class="anchor" id="interface-unaryabs"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryAcos(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryacos.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryAbs(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryabs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for arccos. String name "acos".</p>
+  <p>Unary wrapper for absolute value. String name "abs".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1046,7 +650,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~57"></span>
+              <span class="anchor" id="variable-input~44"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1119,18 +723,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryatan"></span>
+      <span class="anchor" id="interface-unarysign"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryAtan(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryatan.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unarySign(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarysign.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for arctan. String name "atan".</p>
+  <p>Unary wrapper for sign function. String name "sign".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1145,7 +749,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~58"></span>
+              <span class="anchor" id="variable-input~45"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1218,18 +822,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryerf"></span>
+      <span class="anchor" id="interface-unarytan"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryErf(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryerf.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryTan(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarytan.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for the error function. String name "erf".</p>
+  <p>Unary wrapper for tan. String name "tan".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1244,7 +848,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~59"></span>
+              <span class="anchor" id="variable-input~46"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1317,18 +921,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryerfc"></span>
+      <span class="anchor" id="interface-unaryasin"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryErfc(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryerfc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryAsin(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryasin.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for the complementary error function. String name "erfc".</p>
+  <p>Unary wrapper for arcsin. String name "asin".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1343,7 +947,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~60"></span>
+              <span class="anchor" id="variable-input~47"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1416,18 +1020,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarypowreal"></span>
+      <span class="anchor" id="interface-unaryacos"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryPowReal(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarypowreal.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryAcos(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryacos.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for the raising to a real power. String name "rpow". Uses realParams(1) as the power.</p>
+  <p>Unary wrapper for arccos. String name "acos".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1442,7 +1046,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~61"></span>
+              <span class="anchor" id="variable-input~48"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1515,18 +1119,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarypowint"></span>
+      <span class="anchor" id="interface-unaryatan"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryPowInt(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarypowint.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryAtan(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryatan.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for the raising to an integer power. String name "ipow". Uses intParams(1) as the power.</p>
+  <p>Unary wrapper for arctan. String name "atan".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1541,7 +1145,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~62"></span>
+              <span class="anchor" id="variable-input~49"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1614,18 +1218,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryshift"></span>
+      <span class="anchor" id="interface-unaryerf"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryShift(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryshift.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryErf(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryerf.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper cyclically permuting input. String name "shift". Uses intParams(1) as the shift amount.</p>
+  <p>Unary wrapper for the error function. String name "erf".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1640,7 +1244,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~63"></span>
+              <span class="anchor" id="variable-input~50"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1713,26 +1317,18 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarycontract"></span>
+      <span class="anchor" id="interface-unaryerfc"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryContract(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarycontract.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryErfc(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryerfc.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper contracting an array with a smaller array. String name "cont". Uses realParams as the contracting array.
-The input size is assumed to be evenly divided by size(realParams) and by intParams(1). The input does not have to have size 
-equal to size(realParams)*intParams(1). intParams(1) determines the expected size of the output, while intParams(2)
-determines which of the strided slices is returnd. See below for example.</p>
-<p>Contraction is performed on strided slices of the input of length size(realParams). The strides are determined by intParams(1). 
-For example, contracting [1,2,3,4,5,6,7,8] with [1,2] yields the intermediate
-result [5,11,17,23]. Then if intParams(1) is , we are looking to get a result of length 1. If intParams(2) is then 2, we get [11].
-If intParams(1) is 2, we want a result of length 2, sampled evenly from the contracted array (this is useful for ReMKiT1D's
-flattened represenation of distributions). If intParams(2) is 1, we get [5,17], and if intParams(2) is 2, we get [11,23]</p>
+  <p>Unary wrapper for the complementary error function. String name "erfc".</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1747,7 +1343,7 @@ flattened represenation of distributions). If intParams(2) is 1, we get [5,17], 
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~64"></span>
+              <span class="anchor" id="variable-input~51"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1820,20 +1416,18 @@ flattened represenation of distributions). If intParams(2) is 1, we get [5,17], 
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryexpand"></span>
+      <span class="anchor" id="interface-unarypowreal"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryExpand(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryexpand.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryPowReal(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarypowreal.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper expanding an array with another array. String name "expand". Uses realParams as the expanding array.
-After expansion it uses intParams(1) to determine how many times the result should be copied. The result is
-output((i-1)<em>size(input)</em>size(realParams)+(j-1)<em>size(realParams)+k) = input(j)</em>realParams(k) where j=1,size(input) and i=1,intParams(1)</p>
+  <p>Unary wrapper for the raising to a real power. String name "rpow". Uses realParams(1) as the power.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1848,7 +1442,7 @@ output((i-1)<em>size(input)</em>size(realParams)+(j-1)<em>size(realParams)+k) = 
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~65"></span>
+              <span class="anchor" id="variable-input~52"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -1921,20 +1515,18 @@ output((i-1)<em>size(input)</em>size(realParams)+(j-1)<em>size(realParams)+k) = 
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarysloperatio"></span>
+      <span class="anchor" id="interface-unarypowint"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unarySlopeRatio(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarysloperatio.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryPowInt(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarypowint.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper calculating r_i = (u_i - u_{i-n})/(u_{i+n}-u_i) where n is intParams[1]. If the absolute value of the denominator is less than
-realParams[1], the result will be realParams[2] (with the appropriate sign) if the numerator is not less than realParams[1],
-and 1 otherwise</p>
+  <p>Unary wrapper for the raising to an integer power. String name "ipow". Uses intParams(1) as the power.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1949,7 +1541,7 @@ and 1 otherwise</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~66"></span>
+              <span class="anchor" id="variable-input~53"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2022,18 +1614,18 @@ and 1 otherwise</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarysuperbee"></span>
+      <span class="anchor" id="interface-unaryshift"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unarySuperbee(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarysuperbee.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryShift(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryshift.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for the superbee limiter. </p>
+  <p>Unary wrapper cyclically permuting input. String name "shift". Uses intParams(1) as the shift amount.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2048,7 +1640,7 @@ and 1 otherwise</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~67"></span>
+              <span class="anchor" id="variable-input~54"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2121,18 +1713,26 @@ and 1 otherwise</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryminmod"></span>
+      <span class="anchor" id="interface-unarycontract"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryMinmod(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryminmod.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryContract(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarycontract.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary wrapper for the minmod limiter. </p>
+  <p>Unary wrapper contracting an array with a smaller array. String name "cont". Uses realParams as the contracting array.
+The input size is assumed to be evenly divided by size(realParams) and by intParams(1). The input does not have to have size 
+equal to size(realParams)*intParams(1). intParams(1) determines the expected size of the output, while intParams(2)
+determines which of the strided slices is returnd. See below for example.</p>
+<p>Contraction is performed on strided slices of the input of length size(realParams). The strides are determined by intParams(1). 
+For example, contracting [1,2,3,4,5,6,7,8] with [1,2] yields the intermediate
+result [5,11,17,23]. Then if intParams(1) is , we are looking to get a result of length 1. If intParams(2) is then 2, we get [11].
+If intParams(1) is 2, we want a result of length 2, sampled evenly from the contracted array (this is useful for ReMKiT1D's
+flattened represenation of distributions). If intParams(2) is 1, we get [5,17], and if intParams(2) is 2, we get [11,23]</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2147,7 +1747,7 @@ and 1 otherwise</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~68"></span>
+              <span class="anchor" id="variable-input~55"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2220,19 +1820,20 @@ and 1 otherwise</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryabsfloor"></span>
+      <span class="anchor" id="interface-unaryexpand"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryAbsFloor(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryabsfloor.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unaryExpand(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryexpand.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Floor value filter unary wrapper, uses the absolute value of the first real param as the floor value.
-The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
+  <p>Unary wrapper expanding an array with another array. String name "expand". Uses realParams as the expanding array.
+After expansion it uses intParams(1) to determine how many times the result should be copied. The result is
+output((i-1)<em>size(input)</em>size(realParams)+(j-1)<em>size(realParams)+k) = input(j)</em>realParams(k) where j=1,size(input) and i=1,intParams(1)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2247,7 +1848,7 @@ The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~69"></span>
+              <span class="anchor" id="variable-input~56"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2320,18 +1921,20 @@ The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unarystep"></span>
+      <span class="anchor" id="interface-unarysloperatio"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryStep(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unarystep.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unarySlopeRatio(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarysloperatio.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary step function, takes no params. Returns 1 where input is &gt; 0, else 0.</p>
+  <p>Unary wrapper calculating r_i = (u_i - u_{i-n})/(u_{i+n}-u_i) where n is intParams[1]. If the absolute value of the denominator is less than
+realParams[1], the result will be realParams[2] (with the appropriate sign) if the numerator is not less than realParams[1],
+and 1 otherwise</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2346,7 +1949,7 @@ The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~70"></span>
+              <span class="anchor" id="variable-input~57"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2419,19 +2022,18 @@ The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-unaryfilter"></span>
+      <span class="anchor" id="interface-unarysuperbee"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    public pure module function unaryFilter(input, realParams, intParams, logicalParams) result(output)  
-    <a href="../proc/unaryfilter.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    public pure module function unarySuperbee(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarysuperbee.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
-  <p>Unary filter function, takes in two realParams, and returns the input, except where input<realParams(1) or
-input>realParams(2)</p>
+  <p>Unary wrapper for the superbee limiter. </p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2446,7 +2048,7 @@ input>realParams(2)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-input~71"></span>
+              <span class="anchor" id="variable-input~58"></span>
               real(kind=rk),
             </td>
 <td>intent(in),</td>
@@ -2519,6 +2121,404 @@ input>realParams(2)</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-unaryminmod"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure module function unaryMinmod(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryminmod.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Unary wrapper for the minmod limiter. </p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input~59"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>input</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-realparams~47"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>realParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-intparams~48"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>intParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-logicalparams~48"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>logicalParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-unaryabsfloor"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure module function unaryAbsFloor(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryabsfloor.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Floor value filter unary wrapper, uses the absolute value of the first real param as the floor value.
+The result it sign(input) * max(abs(input),abs(realParams(1)))</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input~60"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>input</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-realparams~48"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>realParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-intparams~49"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>intParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-logicalparams~49"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>logicalParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-unarystep"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure module function unaryStep(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unarystep.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Unary step function, takes no params. Returns 1 where input is &gt; 0, else 0.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input~61"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>input</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-realparams~49"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>realParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-intparams~50"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>intParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-logicalparams~50"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>logicalParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-unaryfilter"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure module function unaryFilter(input, realParams, intParams, logicalParams) result(output)  
+    <a href="../proc/unaryfilter.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Unary filter function, takes in two realParams, and returns the input, except where input<realParams(1) or
+input>realParams(2)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input~62"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>input</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-realparams~50"></span>
+              real(kind=rk),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>realParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-intparams~51"></span>
+              integer(kind=ik),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>intParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-logicalparams~51"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>logicalParams</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rk), allocatable, dimension(:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-associatefunctionpointer"></span>
       <h3>        interface
       </h3>
@@ -2545,7 +2545,7 @@ input>realParams(2)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~81"></span>
+              <span class="anchor" id="variable-name~77"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>

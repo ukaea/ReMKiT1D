@@ -401,7 +401,7 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
 
             do i = 1, size(this%vData%modelboundColVars)
                 call modelData%copyData(this%vData%modelboundColVars(i)%string,modelboundDataVals)
-                mbDataDim = modelData%getDataDim(this%vData%modelboundRowVars(i)%string)
+                mbDataDim = modelData%getDataDim(this%vData%modelboundColVars(i)%string)
 
                 if (size(modelboundDataVals) /= size(this%modelboundColVarBuffer)) &
                     error stop "modelbound data in general matrix column buffer is not of expected size"

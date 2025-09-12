@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v1.3.1, xxxx-xx-xx
+
+- Bugfixes
+
+### Breaking Changes
+
+- N/A
+
+### New Features
+
+- N/A
+
+### Bug Fixes
+
+- Fixed bug with modelbound data used as column variable
+
 ## v1.3.0, 2025-06-24
 
 - Bugfixes

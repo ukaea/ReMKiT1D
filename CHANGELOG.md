@@ -6,7 +6,7 @@
 
 ### Breaking Changes
 
-- N/A
+- Removed hard-coded ksp flag for initial guess
 
 ### New Features
 

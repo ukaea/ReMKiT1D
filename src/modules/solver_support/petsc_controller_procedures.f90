@@ -234,8 +234,6 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
                                      this%options%maxSolverIters,ierr)
     CHKERRQ(ierr)
 
-    call KSPSetInitialGuessNonzero(this%objs(usedGroup)%solver,PETSC_TRUE,ierr)
-    CHKERRQ(ierr)
 
     call KSPSetOperators(this%objs(usedGroup)%solver,this%objs(usedGroup)%petscMat,this%objs(usedGroup)%petscMat,ierr)
     CHKERRQ(ierr)

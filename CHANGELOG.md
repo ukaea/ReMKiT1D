@@ -10,7 +10,7 @@
 
 ### New Features
 
-- N/A
+- Add command line flag -kc or --keep-config to disable overwriting of JSON config files by ReMKiT1D at startup.
 
 ### Bug Fixes
 

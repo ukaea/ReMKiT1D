@@ -3,6 +3,7 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_white.png">
       <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_black.png">
+      <img src="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_black.png">
     </picture>
 </p>
 

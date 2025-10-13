@@ -1,9 +1,17 @@
+
+<p align="left">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_white.png">
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_black.png">
+    </picture>
+</p>
+
 # ReMKiT1D
 ![CI](https://github.com/ukaea/ReMKiT1D/actions/workflows/CI.yml/badge.svg)
 [![codecov](https://codecov.io/gh/ukaea/ReMKiT1D/branch/master/graph/badge.svg?token=I709666D08)](https://codecov.io/gh/ukaea/ReMKiT1D)
 
 Contact: stefan.mijin@ukaea.uk
-
+Logo credits: Vera Oberhauser
 
 ## **Re**active **M**ultifluid and **Ki**netic **T**ransport in **1D**
 

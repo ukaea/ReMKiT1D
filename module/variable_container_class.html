@@ -142,13 +142,13 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/variable_container_class.html#interface-getvarindex">getVarIndex</a>
-            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvardist">isVarDist</a>
-            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarscalar">isVarScalar</a>
-            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarnameregistered">isVarNameRegistered</a>
+            <a class="list-group-item" href="../module/variable_container_class.html#interface-getvarindex~2">getVarIndex</a>
+            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvardist~2">isVarDist</a>
+            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarscalar~2">isVarScalar</a>
+            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarnameregistered~2">isVarNameRegistered</a>
             <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarimplicit">isVarImplicit</a>
-            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarondualgrid">isVarOnDualGrid</a>
-            <a class="list-group-item" href="../module/variable_container_class.html#interface-getvarname">getVarName</a>
+            <a class="list-group-item" href="../module/variable_container_class.html#interface-isvarondualgrid~2">isVarOnDualGrid</a>
+            <a class="list-group-item" href="../module/variable_container_class.html#interface-getvarname~2">getVarName</a>
             <a class="list-group-item" href="../module/variable_container_class.html#interface-getallvarnames">getAllVarNames</a>
             <a class="list-group-item" href="../module/variable_container_class.html#interface-getimplicitvarnames">getImplicitVarNames</a>
             <a class="list-group-item" href="../module/variable_container_class.html#interface-getvardepth">getVarDepth</a>
@@ -204,16 +204,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
-                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
-                  <li class="list-inline-item"><a href='variable_list_class.html'>variable_list_class</a></li>
-                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
-                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
-                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
                   <li class="list-inline-item"><a href='support_functions.html'>support_functions</a></li>
-                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
-                  <li class="list-inline-item"><a href='partition_class.html'>partition_class</a></li>
                   <li class="list-inline-item"><a href='data_kinds.html'>data_kinds</a></li>
+                  <li class="list-inline-item"><a href='indexing_class.html'>indexing_class</a></li>
+                  <li class="list-inline-item"><a href='god_objects.html'>god_objects</a></li>
+                  <li class="list-inline-item"><a href='support_types.html'>support_types</a></li>
+                  <li class="list-inline-item"><a href='variable_list_class.html'>variable_list_class</a></li>
+                  <li class="list-inline-item"><a href='partition_class.html'>partition_class</a></li>
+                  <li class="list-inline-item"><a href='assertion_utility.html'>assertion_utility</a></li>
+                  <li class="list-inline-item"><a href='runtime_constants.html'>runtime_constants</a></li>
+                  <li class="list-inline-item"><a href='derivation_abstract_class.html'>derivation_abstract_class</a></li>
               </ul>
             </li>
         </ul>
@@ -243,7 +243,7 @@
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-getvarindex"></span>
+      <span class="anchor" id="interface-getvarindex~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -251,10 +251,79 @@
         <li class="list-group-item">
               <h3>
     private pure module function getVarIndex(this, name) result(ind)  
-    <a href="../proc/getvarindex.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getvarindex~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Get index of variable with given name</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~486"></span>
+              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~48"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=ik)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-isvardist~2"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function isVarDist(this, ind) result(distf)  
+    <a href="../proc/isvardist~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Check whether variable with given index is a distribution function</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -284,76 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~52"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>name</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer(kind=ik)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-isvardist"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private pure module function isVarDist(this, ind) result(distf)  
-    <a href="../proc/isvardist.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>Check whether variable with given index is a distribution function</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-this~494"></span>
-              class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ind~28"></span>
+              <span class="anchor" id="variable-ind~52"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -381,7 +381,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-isvarscalar"></span>
+      <span class="anchor" id="interface-isvarscalar~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -389,7 +389,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function isVarScalar(this, ind) result(scal)  
-    <a href="../proc/isvarscalar.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isvarscalar~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Check whether variable with given index is a scalar </p>
@@ -407,7 +407,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~495"></span>
+              <span class="anchor" id="variable-this~491"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -422,7 +422,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ind~29"></span>
+              <span class="anchor" id="variable-ind~53"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -450,7 +450,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-isvarnameregistered"></span>
+      <span class="anchor" id="interface-isvarnameregistered~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -458,7 +458,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function isVarNameRegistered(this, name) result(reg)  
-    <a href="../proc/isvarnameregistered.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isvarnameregistered~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Check whether variable with given name is registered in either the implicit or derived list</p>
@@ -476,7 +476,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~496"></span>
+              <span class="anchor" id="variable-this~492"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -491,7 +491,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~53"></span>
+              <span class="anchor" id="variable-name~49"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -545,7 +545,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~497"></span>
+              <span class="anchor" id="variable-this~493"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -560,7 +560,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~54"></span>
+              <span class="anchor" id="variable-name~50"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -588,7 +588,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-isvarondualgrid"></span>
+      <span class="anchor" id="interface-isvarondualgrid~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -596,7 +596,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function isVarOnDualGrid(this, name) result(dual)  
-    <a href="../proc/isvarondualgrid.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/isvarondualgrid~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Check whether variable with given name is on dual grid</p>
@@ -614,7 +614,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~498"></span>
+              <span class="anchor" id="variable-this~494"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -629,7 +629,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~55"></span>
+              <span class="anchor" id="variable-name~51"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -657,7 +657,7 @@
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-getvarname"></span>
+      <span class="anchor" id="interface-getvarname~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -665,7 +665,7 @@
         <li class="list-group-item">
               <h3>
     private pure module function getVarName(this, ind) result(name)  
-    <a href="../proc/getvarname.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/getvarname~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>Return variable name at index ind</p>
@@ -683,7 +683,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~499"></span>
+              <span class="anchor" id="variable-this~495"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -698,7 +698,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ind~30"></span>
+              <span class="anchor" id="variable-ind~54"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -752,7 +752,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~500"></span>
+              <span class="anchor" id="variable-this~496"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -806,7 +806,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~501"></span>
+              <span class="anchor" id="variable-this~497"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -860,7 +860,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~502"></span>
+              <span class="anchor" id="variable-this~498"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -875,7 +875,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~57"></span>
+              <span class="anchor" id="variable-name~53"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -929,7 +929,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~503"></span>
+              <span class="anchor" id="variable-this~499"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -983,7 +983,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~504"></span>
+              <span class="anchor" id="variable-this~500"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -998,7 +998,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~58"></span>
+              <span class="anchor" id="variable-name~54"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1052,7 +1052,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~507"></span>
+              <span class="anchor" id="variable-this~503"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(in)</td>
@@ -1067,7 +1067,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-names~7"></span>
+              <span class="anchor" id="variable-names~9"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -1121,7 +1121,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~488"></span>
+              <span class="anchor" id="variable-this~484"></span>
               class(<a href='../type/calculationrule.html'>CalculationRule</a>),
             </td>
 <td>intent(inout)</td>
@@ -1136,7 +1136,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-deriv~5"></span>
+              <span class="anchor" id="variable-deriv~6"></span>
               class(<a href='../type/derivation.html'>Derivation</a>),
             </td>
 <td>intent(in),</td>
@@ -1151,7 +1151,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-names~2"></span>
+              <span class="anchor" id="variable-names~4"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -1200,7 +1200,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~489"></span>
+              <span class="anchor" id="variable-this~485"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1215,7 +1215,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-implicitvars~4"></span>
+              <span class="anchor" id="variable-implicitvars~3"></span>
               type(<a href='../type/variablelist.html'>VariableList</a>),
             </td>
 <td>intent(in)</td>
@@ -1245,7 +1245,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-derivationrules~2"></span>
+              <span class="anchor" id="variable-derivationrules~3"></span>
               type(<a href='../type/calculationrule.html'>CalculationRule</a>),
             </td>
 <td>intent(in),</td>
@@ -1275,7 +1275,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-partitionobj~14"></span>
+              <span class="anchor" id="variable-partitionobj~10"></span>
               type(<a href='../type/partition.html'>Partition</a>),
             </td>
 <td>intent(in)</td>
@@ -1305,7 +1305,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-procrank~17"></span>
+              <span class="anchor" id="variable-procrank~12"></span>
               integer(kind=ik),
             </td>
 <td>intent(in)</td>
@@ -1356,7 +1356,7 @@ otherwise all variables are calculated</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~491"></span>
+              <span class="anchor" id="variable-this~487"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1435,7 +1435,7 @@ otherwise all variables are calculated</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~492"></span>
+              <span class="anchor" id="variable-this~488"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1499,7 +1499,7 @@ otherwise all variables are calculated</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~493"></span>
+              <span class="anchor" id="variable-this~489"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1578,7 +1578,7 @@ otherwise all variables are calculated</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~505"></span>
+              <span class="anchor" id="variable-this~501"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1608,7 +1608,7 @@ otherwise all variables are calculated</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-names~5"></span>
+              <span class="anchor" id="variable-names~7"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -1657,7 +1657,7 @@ otherwise all variables are calculated</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~506"></span>
+              <span class="anchor" id="variable-this~502"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1687,7 +1687,7 @@ otherwise all variables are calculated</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-names~6"></span>
+              <span class="anchor" id="variable-names~8"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -1736,7 +1736,7 @@ otherwise all variables are calculated</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~508"></span>
+              <span class="anchor" id="variable-this~504"></span>
               class(<a href='../type/variablecontainer.html'>VariableContainer</a>),
             </td>
 <td>intent(inout)</td>
@@ -1751,7 +1751,7 @@ otherwise all variables are calculated</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-names~8"></span>
+              <span class="anchor" id="variable-names~10"></span>
               type(<a href='../type/stringarray.html'>StringArray</a>),
             </td>
 <td>intent(in),</td>
@@ -1878,7 +1878,7 @@ otherwise all variables are calculated</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/calculationrule.html#boundprocedure-init~42'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcalculationrule.html'>initCalculationRule</a></td>
+  <strong><a href='../type/calculationrule.html#boundprocedure-init~29'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcalculationrule.html'>initCalculationRule</a></td>
                   <td></td>
               </tr>
           </tbody>
@@ -1980,7 +1980,7 @@ NOTE: Does not support single harmonic variables</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-derivationrules"></span>
+              <span class="anchor" id="variable-derivationrules~2"></span>
               type(<a href='../type/calculationrule.html'>CalculationRule</a>),
             </td>
               <td>private,</td>
@@ -2123,12 +2123,12 @@ NOTE: Does not support single harmonic variables</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-getvarindex'>getVarIndex</a></strong></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-getvarindex~2'>getVarIndex</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-isvarnameregistered'>isVarNameRegistered</a></strong></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-isvarnameregistered~2'>isVarNameRegistered</a></strong></td>
                   <td></td>
               </tr>
               <tr>
@@ -2148,12 +2148,12 @@ NOTE: Does not support single harmonic variables</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-isvardist'>isVarDist</a></strong></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-isvardist~2'>isVarDist</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-isvarscalar'>isVarScalar</a></strong></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-isvarscalar~2'>isVarScalar</a></strong></td>
                   <td></td>
               </tr>
               <tr>
@@ -2178,7 +2178,7 @@ NOTE: Does not support single harmonic variables</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-isvarondualgrid'>isVarOnDualGrid</a></strong></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-isvarondualgrid~2'>isVarOnDualGrid</a></strong></td>
                   <td></td>
               </tr>
               <tr>
@@ -2213,12 +2213,12 @@ NOTE: Does not support single harmonic variables</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-isstationary'>isStationary</a></strong></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-isstationary~4'>isStationary</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/variablecontainer.html#boundprocedure-init~43'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initvarcontainer.html'>initVarContainer</a></td>
+  <strong><a href='../type/variablecontainer.html#boundprocedure-init~30'>init</a></strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initvarcontainer.html'>initVarContainer</a></td>
                   <td></td>
               </tr>
           </tbody>

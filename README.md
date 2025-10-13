@@ -1,8 +1,8 @@
 <p align="left">
     <picture >
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_black.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_black.png">
-      <img src="https://raw.githubusercontent.com/ukaea/ReMKiT1D/logos/thumbnail_ReMKiT1D_black.png" alt="" width="60%" >
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ukaea/ReMKiT1D/blob/master/logos/thumbnail_ReMKiT1D_white.png">
+      <source media="(prefers-color-scheme: light)" srcset="https://github.com/ukaea/ReMKiT1D/blob/master/logos/thumbnail_ReMKiT1D_black.png">
+      <img src="https://github.com/ukaea/ReMKiT1D/blob/master/logos/thumbnail_ReMKiT1D_black.png" alt="" width="60%" >
     </picture>
 </p>
 

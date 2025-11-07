@@ -136,10 +136,10 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-vgridcopy~3">vGridCopy</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-transitionindex~2">transitionIndex</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-fixedwindex~5">fixedWIndex</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-lnum~2">lNum</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-vgridcopy">vGridCopy</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-transitionindex">transitionIndex</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-fixedwindex">fixedWIndex</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-lnum">lNum</a>
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-bufferw">bufferW</a>
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-absorptionterm~3">absorptionTerm</a>
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#variable-dbterm~2">dbTerm</a>
@@ -172,9 +172,9 @@
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-init~29">init</a>
-            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-calculateinplace~5">calculateInPlace</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-calculate~24">calculate</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-init~7">init</a>
+            <a class="list-group-item" href="../type/fixedboltzmannstencilgen.html#boundprocedure-calculateinplace~3">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -227,7 +227,7 @@ If cross-section depends on x, it assumes no halo.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vgridcopy~3"></span>
+              <span class="anchor" id="variable-vgridcopy"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -244,7 +244,7 @@ If cross-section depends on x, it assumes no halo.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindex~2"></span>
+              <span class="anchor" id="variable-transitionindex"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -261,7 +261,7 @@ If cross-section depends on x, it assumes no halo.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedwindex~5"></span>
+              <span class="anchor" id="variable-fixedwindex"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -278,7 +278,7 @@ If cross-section depends on x, it assumes no halo.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lnum~2"></span>
+              <span class="anchor" id="variable-lnum"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -527,7 +527,7 @@ If cross-section depends on x, it assumes no halo.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~24"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -632,7 +632,7 @@ If cross-section depends on x, it assumes no halo.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~29"></span>
+      <span class="anchor" id="boundprocedure-init~7"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initboltzgen.html'>initBoltzGen</a>
@@ -777,7 +777,7 @@ If cross-section depends on x, it assumes no halo.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~5"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~3"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcboltzvals.html'>calcBoltzVals</a>

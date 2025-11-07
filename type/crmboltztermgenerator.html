@@ -136,15 +136,15 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-vdata">vData</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-distributionname~2">distributionName</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-transitionindices">transitionIndices</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-fixedenergyindices~2">fixedEnergyIndices</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-absorptionterms~2">absorptionTerms</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-vdata~2">vData</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-distributionname~6">distributionName</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-transitionindices~2">transitionIndices</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-fixedenergyindices~3">fixedEnergyIndices</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-absorptionterms~3">absorptionTerms</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-dbterms~2">dbTerms</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-evolvedharmonic~2">evolvedHarmonic</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-evolvedharmonic~5">evolvedHarmonic</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-envpointer">envPointer</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-normconst">normConst</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#variable-normconst~2">normConst</a>
         </div>
       </div>
     </div>
@@ -192,7 +192,7 @@
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-getnumgeneralterms">getNumGeneralTerms</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-getgeneratorprefix">getGeneratorPrefix</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-moveterms">moveTerms</a>
-            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-init~3">init</a>
+            <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-init~29">init</a>
             <a class="list-group-item" href="../type/crmboltztermgenerator.html#boundprocedure-generate">generate</a>
         </div>
       </div>
@@ -245,7 +245,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vdata"></span>
+              <span class="anchor" id="variable-vdata~2"></span>
               type(<a href='vardata.html'>VarData</a>),
             </td>
               <td>private,</td>
@@ -262,7 +262,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distributionname~2"></span>
+              <span class="anchor" id="variable-distributionname~6"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -279,7 +279,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transitionindices"></span>
+              <span class="anchor" id="variable-transitionindices~2"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -296,7 +296,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fixedenergyindices~2"></span>
+              <span class="anchor" id="variable-fixedenergyindices~3"></span>
               integer(kind=ik),
             </td>
               <td>private,</td>
@@ -313,7 +313,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-absorptionterms~2"></span>
+              <span class="anchor" id="variable-absorptionterms~3"></span>
               logical,
             </td>
               <td>private</td>
@@ -347,7 +347,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-evolvedharmonic~2"></span>
+              <span class="anchor" id="variable-evolvedharmonic~5"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -381,7 +381,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-normconst"></span>
+              <span class="anchor" id="variable-normconst~2"></span>
               real(kind=rk),
             </td>
               <td>private</td>
@@ -1113,7 +1113,7 @@ Assumes that the cross-section values in the transitions include any nonlinear n
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~3"></span>
+      <span class="anchor" id="boundprocedure-init~29"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initcrmboltztermgenerator.html'>initCRMBoltzTermGenerator</a>

@@ -136,12 +136,12 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-userdefined">userDefined</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-outerj~18">outerJ</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-lininterp~23">linInterp</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-innerj~18">innerJ</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-periodicgrid~6">periodicGrid</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-minx~24">minX</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-maxx~24">maxX</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-outerj~20">outerJ</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-lininterp~28">linInterp</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-innerj~20">innerJ</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-periodicgrid~10">periodicGrid</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-minx~30">minX</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-maxx~30">maxX</a>
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-diffcoeffderivindices">diffCoeffDerivIndices</a>
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-diffcoeffderivrule~2">diffCoeffDerivRule</a>
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#variable-diffcoeffbuffer">diffCoeffBuffer</a>
@@ -176,9 +176,9 @@
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-isdefined">isDefined</a>
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-makedefined">makeDefined</a>
             <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-makeundefined">makeUndefined</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-calculate~13">calculate</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-init~82">init</a>
-            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-calculateinplace~14">calculateInPlace</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-calculate~24">calculate</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-init~100">init</a>
+            <a class="list-group-item" href="../type/diffusionstencilvalgenerator.html#boundprocedure-calculateinplace~17">calculateInPlace</a>
         </div>
       </div>
     </div>
@@ -229,7 +229,7 @@ at faces. The default diffusion coefficient is unity.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-outerj~18"></span>
+              <span class="anchor" id="variable-outerj~20"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -246,7 +246,7 @@ at faces. The default diffusion coefficient is unity.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lininterp~23"></span>
+              <span class="anchor" id="variable-lininterp~28"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -263,7 +263,7 @@ at faces. The default diffusion coefficient is unity.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-innerj~18"></span>
+              <span class="anchor" id="variable-innerj~20"></span>
               real(kind=rk),
             </td>
               <td>private,</td>
@@ -280,7 +280,7 @@ at faces. The default diffusion coefficient is unity.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-periodicgrid~6"></span>
+              <span class="anchor" id="variable-periodicgrid~10"></span>
               logical,
             </td>
               <td>private</td>
@@ -297,7 +297,7 @@ at faces. The default diffusion coefficient is unity.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-minx~24"></span>
+              <span class="anchor" id="variable-minx~30"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -314,7 +314,7 @@ at faces. The default diffusion coefficient is unity.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-maxx~24"></span>
+              <span class="anchor" id="variable-maxx~30"></span>
               integer(kind=ik),
             </td>
               <td>private</td>
@@ -597,7 +597,7 @@ at faces. The default diffusion coefficient is unity.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculate~13"></span>
+      <span class="anchor" id="boundprocedure-calculate~24"></span>
       <h3>
           procedure, public ::
   <strong>calculate</strong>
@@ -702,7 +702,7 @@ at faces. The default diffusion coefficient is unity.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-init~82"></span>
+      <span class="anchor" id="boundprocedure-init~100"></span>
       <h3>
           procedure, public ::
   <strong>init</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/initdiffusionstencilgen.html'>initDiffusionStencilGen</a>
@@ -892,7 +892,7 @@ at faces. The default diffusion coefficient is unity.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-calculateinplace~14"></span>
+      <span class="anchor" id="boundprocedure-calculateinplace~17"></span>
       <h3>
           procedure, public ::
   <strong>calculateInPlace</strong> => <a href='/home/runner/work/ReMKiT1D/ReMKiT1D/doc/ford/interface/calcdiffusionstencilgen.html'>calcDiffusionStencilGen</a>

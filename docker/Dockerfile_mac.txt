@@ -80,7 +80,7 @@ RUN ./configure \
     --download-fblaslapack=1 \
     --with-debugging=0 \
     COPTFLAGS="-O3 -mcpu=native" \
-    CXXOPTFLAGS="-O3 -mcpu=native"\
+    CXXOPTFLAGS="-O3 -mcpu=native" \
     FOPTFLAGS="-O3 -mcpu=native"
 RUN make PETSC_DIR=/home/petsc PETSC_ARCH=arch-linux-c-opt all check
 

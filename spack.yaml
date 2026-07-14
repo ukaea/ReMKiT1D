@@ -1,0 +1,11 @@
+spack:
+  repos:
+    remkit1d: ./spack-repo
+  specs:
+  - remkit1d@v1.3.0
+
+  concretizer:
+    unify: true
+  packages:
+    gcc:
+      externals: []

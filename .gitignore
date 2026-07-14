@@ -10,3 +10,22 @@ ford_doc.md
 .ssh
 .gitconfig
 *bash_history
+
+__pycache__/
+
+# CMake generated files
+CMakeFiles/
+CMakeScripts/
+Testing/
+cmake_install.cmake
+CMakeCache.txt
+CMakeUserPresets.json
+compile_commands.json
+CTestTestfile.cmake
+install_manifest.txt
+Makefile
+_deps/
+
+# spack
+*spack-env
+spack.lock

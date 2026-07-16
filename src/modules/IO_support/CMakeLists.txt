@@ -25,7 +25,7 @@ TARGET_COMPILE_OPTIONS(${PROJECT_NAME}  PRIVATE ${DEFAULT_Fortran_FLAGS})
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} 
    PUBLIC 
-        jsonfortran-static
+        ${JSONFORTRAN_TARGET}
         parameters
         basic_support
         variables

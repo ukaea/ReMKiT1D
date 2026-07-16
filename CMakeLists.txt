@@ -35,13 +35,26 @@ INCLUDE_DIRECTORIES(${PETSC_INCLUDE_DIRS})
 ADD_DEFINITIONS(${PETSC_DEFINITIONS})
 LINK_DIRECTORIES(${PETSC_LINK_LIBRARIES})
 
-FIND_PACKAGE(PFUNIT)
+# FIXME: Temporarily disable pFUnit - add as a dedicated spack-repo package later
+## FIND_PACKAGE(PFUNIT)
+SET(PFUNIT_FOUND OFF)
 
 FIND_PACKAGE(HDF5 REQUIRED COMPONENTS Fortran HL)
 INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIRS})
 
 FIND_PACKAGE(jsonfortran-${CMAKE_Fortran_COMPILER_ID} 8.2.5 REQUIRED)
 INCLUDE_DIRECTORIES(${jsonfortran_INCLUDE_DIRS})
+
+# DEBUG
+message(STATUS "Checking jsonfortran targets")
+
+if(TARGET jsonfortran-gnu::jsonfortran-static)
+    set(JSONFORTRAN_TARGET jsonfortran-gnu::jsonfortran-static)
+elseif(TARGET jsonfortran-gnu::jsonfortran)
+    set(JSONFORTRAN_TARGET jsonfortran-gnu::jsonfortran)
+else()
+    message(FATAL_ERROR "jsonfortran target not found")
+endif()
 
 FIND_PACKAGE(SUNDIALS REQUIRED)
 

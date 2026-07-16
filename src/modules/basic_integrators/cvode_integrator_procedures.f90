@@ -50,8 +50,8 @@ contains
         type(CommunicationData) :: commData
 
         integer(c_int) :: ierr
-        integer(c_int) :: maxres, lastOrder(1) 
-        integer(c_long) :: nlocal, neq, mu, ml, mudq, mldq, numCVODESteps(1)
+        integer(c_int) :: maxres, lastOrder(1), nlocal, neq, mudq, mldq, mu, ml
+        integer(c_int64_t) :: numCVODESteps(1)
         integer(c_int) :: iPretype0 = 1 !! Preconditioner type (left)
         integer(c_int) :: iGStype = 1 !! Gram-Schmidt orthoganlization type (classical)
         real(c_double) :: t(1) ,rtol ,atol  
@@ -167,7 +167,7 @@ contains
 
                if (this%options%stabLimitDet) ierr = FCVodeSetStabLimDet(this%cvode,SUNTRUE)
                
-               ierr = FCVodeSetMaxNumSteps(this%cvode,int(this%options%maxInternalSteps,kind=c_long))
+               ierr = FCVodeSetMaxNumSteps(this%cvode,int(this%options%maxInternalSteps,kind=c_int64_t))
 
                if (this%options%minTimestep > 0) ierr = FCVodeSetMinStep(this%cvode, this%options%minTimestep) 
                if (this%options%maxTimestep > 0) ierr = FCVodeSetMaxStep(this%cvode, this%options%maxTimestep) 
@@ -342,7 +342,7 @@ contains
       result(retval) bind(C)
 
       real(c_double), value :: t            ! current time
-      integer(c_long)       :: nnlocal      ! local space
+      integer(c_int64_t)       :: nnlocal      ! local space
       type(N_Vector)        :: sunvecY     ! solution N_Vector
       type(N_Vector)        :: sunvecG     ! output g N_Vector
       type(c_ptr)           :: uData    ! user-defined data

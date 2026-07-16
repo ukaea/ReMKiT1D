@@ -23,7 +23,7 @@ module hdf5_controller_class
     use grid_class                  ,only: Grid
     use support_types               ,only: StringArray ,RealArray
     use hdf5
-    use iso_c_binding
+    ! use iso_c_binding
     implicit none 
     public
 

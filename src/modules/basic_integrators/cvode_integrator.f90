@@ -29,7 +29,7 @@ module cvode_integrator_class
     use timestep_controller_abstract_class ,only: TimestepController
     use support_functions
     use status_printing                    
-    use, intrinsic :: iso_c_binding
+    use, intrinsic :: iso_c_binding        ,only: iso_c_ptr => c_ptr
     use mpi_f08
 
     use fcvode_mod                ! Access CVode
@@ -68,10 +68,10 @@ module cvode_integrator_class
 
     type ,public ,extends(Integrator) :: CVODEIntegrator
 
-        type(c_ptr)                                  ,private :: sunctx !! Sundials context 
+        type(iso_c_ptr)                                  ,private :: sunctx !! Sundials context 
         type(SUNLinearSolver) ,pointer               ,private :: sunls !! Sundials linear solver pointer 
         type(N_Vector)        ,pointer               ,private :: sunVecY, sunVecYDot !! Solution and RHS sundials vector objects
-        type(c_ptr)                                  ,private :: cvode !! CVODE solver context
+        type(iso_c_ptr)                                  ,private :: cvode !! CVODE solver context
         type(SUNMatrix)       ,pointer               ,private :: sunmat !! Sundials matrix (will be nulled)
         real(c_double)        ,pointer ,dimension(:) ,private :: rhsVec,yVec !! Pointers used for accessing the underlying N_Vectors 
 

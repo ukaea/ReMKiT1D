@@ -22,16 +22,13 @@ class Remkit1d(CMakePackage):
     )
 
     depends_on("cmake@3.18:", type="build")
+    depends_on("c", type="build")
     depends_on("fortran")
     depends_on("mpi")
     depends_on("hdf5+fortran+mpi+hl")
-
     depends_on("petsc@3.17.5+fortran+mpi+hypre~debug")
     depends_on("hypre+fortran")
-
-    #FIXME SUNDIALS
-    depends_on("sundials+CVODE+mpi+f2003+shared")
-
+    depends_on("sundials@7.7.0+CVODE+mpi+f2003+lapack+shared")
     depends_on("json-fortran")
 
     variant("tests", default=False)

@@ -44,17 +44,29 @@ INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIRS})
 
 FIND_PACKAGE(jsonfortran-${CMAKE_Fortran_COMPILER_ID} 8.2.5 REQUIRED)
 INCLUDE_DIRECTORIES(${jsonfortran_INCLUDE_DIRS})
+MESSAGE(STATUS "Checking jsonfortran targets in ${jsonfortran_INCLUDE_DIRS}")
 
-# DEBUG
-message(STATUS "Checking jsonfortran targets")
-
-if(TARGET jsonfortran-gnu::jsonfortran-static)
-    set(JSONFORTRAN_TARGET jsonfortran-gnu::jsonfortran-static)
-elseif(TARGET jsonfortran-gnu::jsonfortran)
-    set(JSONFORTRAN_TARGET jsonfortran-gnu::jsonfortran)
+if(TARGET jsonfortran-${CMAKE_Fortran_COMPILER_ID}::jsonfortran-static)
+  SET(JSONFORTRAN_TARGET jsonfortran-${CMAKE_Fortran_COMPILER_ID}::jsonfortran-static)
+elseif (TARGET jsonfortran-${CMAKE_Fortran_COMPILER_ID}::jsonfortran)
+  SET(JSONFORTRAN_TARGET jsonfortran-${CMAKE_Fortran_COMPILER_ID}::jsonfortran)
 else()
-    message(FATAL_ERROR "jsonfortran target not found")
+  # Fallback for special builds requiring libjsonfortran.so instead of targets; e.g. Spack
+  FIND_LIBRARY(
+    JSONFORTRAN_LIBRARY
+    NAMES jsonfortran
+    PATHS ${jsonfortran_INCLUDE_DIRS}
+    PATH_SUFFIXES lib
+  )
+
+  if(NOT JSONFORTRAN_LIBRARY)
+    MESSAGE(FATAL_ERROR "Could not locate json-fortran library")
+  endif()
+
+  set(JSONFORTRAN_TARGET ${JSONFORTRAN_LIBRARY})
 endif()
+
+MESSAGE(STATUS "JSONFORTRAN_LIBRARY=${JSONFORTRAN_LIBRARY}")
 
 FIND_PACKAGE(SUNDIALS REQUIRED)
 

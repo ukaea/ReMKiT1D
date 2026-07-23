@@ -25,14 +25,14 @@ class Remkit1d(CMakePackage):
     depends_on("c", type="build")
     depends_on("fortran")
     depends_on("mpi")
-    depends_on("hdf5+fortran+mpi+hl")
-    depends_on("petsc@3.17.5+fortran+mpi+hypre~debug")
-    depends_on("hypre+fortran")
-    depends_on("sundials@7.5.0+CVODE+mpi+f2003+lapack+shared")
-    depends_on("json-fortran")
+    depends_on("hdf5 +fortran +mpi +hl")
+    depends_on("petsc@3.17.5 +fortran +mpi +hypre ~debug")
+    depends_on("hypre +fortran")
+    depends_on("sundials@7.5.0 +CVODE +mpi +f2003 +lapack +shared")
+    depends_on("json-fortran@8.2.5")
 
-    variant("tests", default=False)
-    depends_on("pfunit", when="+tests")
+    variant("tests", default=False, description="Build unit tests with pFUnit.")
+    depends_on("pfunit@4.4.1 +mpi +mpi_f08")
 
     def install(self, spec, prefix):
         pass

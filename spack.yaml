@@ -9,3 +9,6 @@ spack:
   packages:
     gcc:
       externals: []
+    pfunit:
+      require:
+        - max_array_rank=8

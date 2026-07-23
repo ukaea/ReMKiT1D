@@ -15,7 +15,7 @@ FILE(GLOB_RECURSE pf_files "*.pf")
 add_pfunit_ctest (${PROJECT_NAME}
         TEST_SOURCES ${pf_files}
         MAX_PES 4
-        LINK_LIBRARIES ${MPI_Fortran_LIBRARIES}
+        LINK_LIBRARIES MPI::MPI_Fortran
         parameters
         basic_support
         grid

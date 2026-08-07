@@ -14,7 +14,9 @@ The [Spack](https://github.com/spack/spack) package manager can be used to manag
 
 ### Install Spack
 
-Install the prerequisites listed in the [Spack documentation](https://spack.readthedocs.io/en/v1.2.0/installing_prerequisites.html). Clone Spack into a permanent location:
+Install the prerequisites listed in the [Spack documentation](https://spack.readthedocs.io/en/v1.2.0/installing_prerequisites.html).
+
+Next, clone Spack into a permanent location:
 
 ```bash
 git clone --depth=2 https://github.com/spack/spack.git
@@ -26,13 +28,13 @@ git switch --detach v1.2.1
 
 ### Add Spack to your shell environment
 
-Add the following line to your shell startup file (e.g. `.bash_profile` or `.bashrc`), editing as appropriate:
+Add the following line to your shell startup file (e.g. `.bash_profile` or `.bashrc`), editing the path to the `spack/` repo as appropriate:
 
 ```bash
-. /path/to/spack/share/spack/setup-env.sh
+. /path_to_installation/spack/share/spack/setup-env.sh
 ```
 
-Verify the installation:
+Verify the installation by calling the version number:
 
 ```bash
 spack --version
@@ -48,7 +50,7 @@ spack compiler find
 
 ### Register the ReMKiT1D package repository
 
-From within the ReMKiT1D repository, run the following to let Spack see ReMKiT1D.
+From within the `ReMKiT1D/` repository, run the following to let Spack see ReMKiT1D.
 
 ```bash
 spack repo add spack-repo
@@ -62,20 +64,27 @@ Always begin by activating the environment:
 spack env activate .
 ```
 
-Install all package dependencies:
+To install ReMKiT1D dependencies (Note: this may take one to tens of minutes depending on available resources):
 
 ```bash
 spack install --only dependencies
 ```
 
-Build ReMKiT1D:
+Optionally, `spack install` can be parallelised by adding `-j <num. cores>`.
+
+One dependency of ReMKiT1D is a version of CMake, which you can use while in the active Spack environment by running:
+
+```bash
+spack add cmake
+```
+
+Then, build and test ReMKiT1D as normal:
 
 ```bash
 cmake -S . -B build
 cmake --build build
+ctest --test-dir build
 ```
-
-Optionally, both `spack install` and `cmake` can be parallelised by adding `-j <num. cores>`.
 
 ## Uninstalling Packages
 
@@ -109,9 +118,9 @@ Clean Spack caches and build stages:
 spack clean -a
 ```
 
-# Developer Instructions
+## Developer Instructions
 
-## Repository Layout
+### Repository Layout
 
 In general, a local Spack repository should have the following structure:
 
@@ -138,7 +147,7 @@ Expected output:
 remkit1d
 ```
 
-## Modifying package.py
+### Modifying package.py
 
 Dependency specifications are maintained in:
 
@@ -152,7 +161,7 @@ After modifying the package definition, force a reconcretization:
 spack concretize -f
 ```
 
-## Testing Without Spack
+### Testing Without Spack
 
 To verify that ReMKiT1D still builds using the older Docker-based workflow:
 

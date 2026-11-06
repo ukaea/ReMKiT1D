@@ -42,6 +42,7 @@ program ReMKiT1D
     integer(ik) :: i 
     character(len=128) :: arg 
     character(:) ,allocatable :: alternativeConfigPath
+    logical :: saveEditedConfig = .true.
 
     ! Read alternative config path from command line
 
@@ -49,6 +50,8 @@ program ReMKiT1D
         call get_command_argument(i,arg)
 
         if (arg(:18) =='-with_config_path=') alternativeConfigPath=trim(arg(19:))
+
+        if (trim(arg) == '-kc' .or. trim(arg) == '--keep-config') saveEditedConfig = .false.
 
     end do
 
@@ -83,7 +86,7 @@ program ReMKiT1D
     call timeloopObj%init(envObj,normObj)
 
     !Close config file and save changes 
-    call envObj%jsonCont%closeFile(envObj%mpiCont,saveFile=.true.)
+    call envObj%jsonCont%closeFile(envObj%mpiCont,saveFile=saveEditedConfig)
     ! Loop 
 
     call timeloopObj%loop(envObj,modellerObj)

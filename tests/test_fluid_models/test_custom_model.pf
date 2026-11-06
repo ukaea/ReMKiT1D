@@ -154,7 +154,8 @@ contains
 
         minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
 
-        allocate(linInterp,source = testEnv%geometryObj%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testEnv%geometryObj%getLinInterp()
 
         allocate(interpLeft(0:4))
         allocate(interpRight(0:4))
@@ -1175,7 +1176,8 @@ contains
         minX = testEnv%partitionObj%getMinXAtInd(testEnv%mpiCont%getWorldRank()+1)
         maxX = testEnv%partitionObj%getMaxXAtInd(testEnv%mpiCont%getWorldRank()+1)
 
-        allocate(linInterp,source = testEnv%geometryObj%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testEnv%geometryObj%getLinInterp()
 
         allocate(interpLeft(0:4))
         allocate(interpRight(0:4))
@@ -1545,7 +1547,8 @@ contains
         testVec = 0
         checkVec = testVec
 
-        allocate(linInterp,source = testEnv%geometryObj%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testEnv%geometryObj%getLinInterp()
 
         allocate(interpLeft(0:4))
         allocate(interpRight(0:4))

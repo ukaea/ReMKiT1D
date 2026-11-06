@@ -96,7 +96,8 @@ contains
         minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
         maxX = testPart%getMaxXAtInd(testController%getWorldRank()+1)
         minH = testPart%getMinHAtInd(testController%getWorldRank()+1) 
-        allocate(linInterp,source = testGeometry%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testGeometry%getLinInterp()
 
         testVec = testTerm%evaluate(testVarCont1)
         allocate(checkVec(0:4))
@@ -177,7 +178,8 @@ contains
         minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
         maxX = testPart%getMaxXAtInd(testController%getWorldRank()+1)
         minH = testPart%getMinHAtInd(testController%getWorldRank()+1) 
-        allocate(linInterp,source = testGeometry%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testGeometry%getLinInterp()
 
         testVec = testTerm%evaluate(testVarCont1)
         allocate(checkVec(0:4))

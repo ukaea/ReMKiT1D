@@ -57,7 +57,8 @@ module subroutine initLogExtrap(this,partObj,gridObj,numProc,haloWidth,geometryO
         this%interpolate = interpolate
 
         dx = geometryObj%getCellWidths()
-        allocate(linInterp,source=geometryObj%getLinInterp(dualGrid=staggeredVars))
+        allocate(linInterp(0:size(dx)))
+        linInterp = geometryObj%getLinInterp(dualGrid=staggeredVars)
 
         this%linInterp = real(1,kind=rk) - linInterp(gridObj%getNumX()-1)
         dx1 = dx(gridObj%getNumX())

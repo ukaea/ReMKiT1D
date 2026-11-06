@@ -230,7 +230,8 @@ module subroutine initCentralDifferenceInterpTemplateDirect(stencilTemplateObj,e
     if (staggeredRowVar .and. (.not. pGrid)) &
     stencilTemplateObj%rowCoords = reshape([(i,i=1,envObj%gridObj%getNumX()-1)],[1,envObj%gridObj%getNumX() - 1]) !Remove last row in staggered non-periodic case
 
-    allocate(linInterp,source=envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar))
+    allocate(linInterp(0:envObj%gridObj%getNumX()))
+    linInterp = envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar)
     dx = envObj%geometryObj%getCellWidths(dualGrid=staggeredRowVar)
     centreJ = envObj%geometryObj%getJacobianCentre(dualGrid=staggeredRowVar)
     rightJ = envObj%geometryObj%getJacobianRight(dualGrid=staggeredRowVar)
@@ -407,7 +408,8 @@ module subroutine initUpwindingDifferenceTemplateDirect(stencilTemplateObj,envOb
     if (staggeredRowVar .and. (.not. pGrid)) &
     stencilTemplateObj%rowCoords = reshape([(i,i=1,envObj%gridObj%getNumX()-1)],[1,envObj%gridObj%getNumX() - 1]) !Remove last row in staggered non-periodic case
 
-    allocate(linInterp,source=envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar))
+    allocate(linInterp(0:envObj%gridObj%getNumX()))
+    linInterp = envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar)
     dx = envObj%geometryObj%getCellWidths(dualGrid=staggeredRowVar)
     centreJ = envObj%geometryObj%getJacobianCentre(dualGrid=staggeredRowVar)
     rightJ = envObj%geometryObj%getJacobianRight(dualGrid=staggeredRowVar)
@@ -562,7 +564,8 @@ module subroutine initBCTemplateDirect(stencilTemplateObj,envObj,evolvedVar,impl
     dxReg = envObj%geometryObj%getCellWidths()
     centreJ = envObj%geometryObj%getJacobianCentre(dualGrid=staggeredRowVar)
     faceJ = envObj%geometryObj%getJacobianRight(dualGrid=staggeredRowVar)
-    allocate(linInterp,source=envObj%geometryObj%getLinInterp())
+    allocate(linInterp(0:envObj%gridObj%getNumX()))
+    linInterp = envObj%geometryObj%getLinInterp()
     if (leftBoundary) faceJ = envObj%geometryObj%getJacobianLeft(dualGrid=staggeredRowVar)
 
     lInterp = linInterp(envObj%gridObj%getNumX()-1)
@@ -720,7 +723,8 @@ module subroutine initDiffusionStencilDirect(stencilTemplateObj,envObj,evolvedVa
     dx = envObj%geometryObj%getCellWidths()
     centreJ = envObj%geometryObj%getJacobianCentre()
     rightJ = envObj%geometryObj%getJacobianRight()
-    allocate(linInterp,source=envObj%geometryObj%getLinInterp())
+    allocate(linInterp(0:envObj%gridObj%getNumX()))
+    linInterp = envObj%geometryObj%getLinInterp()
     dxp = (dx + [dx(2:size(dx)),real(0,kind=rk)])/2 
 
     if (ignoreJacobian) then 

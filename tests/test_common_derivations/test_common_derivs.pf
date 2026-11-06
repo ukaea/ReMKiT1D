@@ -362,7 +362,8 @@ contains
 
         allocate(locVector(0:4))
         allocate(locDist(-9:40))
-        allocate(linInterp,source = testGeometry%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testGeometry%getLinInterp()
         locVector = real(1,kind=rk)
         locVector(1:3) = testVarCont%variables(1)%entry(1:3)*(1.0d0-linInterp(10:12)) &
         + linInterp(10:12) * testVarCont%variables(1)%entry(2:4)
@@ -1138,7 +1139,8 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
 
-        allocate(linInterp,source = testGeometry%getLinInterp())    
+        allocate(linInterp(0:12))
+        linInterp = testGeometry%getLinInterp()    
         dx = testGeometry%getCellWidths()
 
         call leftExtrap%init(testPart,testGrid,0,1,testGeometry,.true.,.false.)

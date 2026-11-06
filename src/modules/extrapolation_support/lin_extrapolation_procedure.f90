@@ -54,7 +54,8 @@ module subroutine initLinExtrap(this,partObj,gridObj,numProc,haloWidth,geometryO
     if (this%hasBoundary()) then
         dx = geometryObj%getCellWidths(dualGrid=staggeredVars)
         dxReg = geometryObj%getCellWidths()
-        allocate(linInterp,source=geometryObj%getLinInterp())
+        allocate(linInterp(0:size(dx)))
+        linInterp = geometryObj%getLinInterp()
 
         lInterp = linInterp(gridObj%getNumX()-1)
         if (leftBoundary) lInterp = linInterp(1)

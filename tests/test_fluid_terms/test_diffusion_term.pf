@@ -238,7 +238,8 @@ contains
         minX = testPart%getMinXAtInd(testController%getWorldRank()+1)
         minH = testPart%getMinHAtInd(testController%getWorldRank()+1)
 
-        allocate(linInterp,source = testGeometry%getLinInterp())
+        allocate(linInterp(0:12))
+        linInterp = testGeometry%getLinInterp()
 
         allocate(interpLeft(0:4))
         allocate(interpRight(0:4))

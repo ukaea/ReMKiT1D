@@ -484,7 +484,8 @@ module subroutine initSpatialDiffStencilTemplateDirect(stencilTemplateObj,envObj
                                                     IntArray([rowHarmonic]),&
                                                     IntArray([(i,i=1,envObj%gridObj%getNumV())])]) !Remove last spatial row in staggered non-periodic case
 
-    allocate(linInterp,source=envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar))
+    allocate(linInterp(0:envObj%gridObj%getNumX()))
+    linInterp = envObj%geometryObj%getLinInterp(dualGrid=staggeredRowVar)
     dx = envObj%geometryObj%getCellWidths(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)
     
     centreJ = envObj%geometryObj%getJacobianCentre(dualGrid=staggeredRowVar .and. oddRowL,extendedBoundaryCells=.false.)

@@ -52,7 +52,8 @@ module subroutine initCentralDiffDeriv(this,refGeometry,refPartition,procRank,va
     containsRightBoundary = maxX == size(dx)
     pGrid = refGeometry%isPeriodic() 
 
-    allocate(fullLinInterp,source = refGeometry%getLinInterp())
+    allocate(fullLinInterp(0:size(dx)))
+    fullLinInterp = refGeometry%getLinInterp()
     allocate(linInterp(0:maxX-minX+1))
     linInterp = fullLinInterp(minX - 1:maxX)
 

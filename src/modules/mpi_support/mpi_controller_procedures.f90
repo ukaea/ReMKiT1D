@@ -238,7 +238,7 @@ module subroutine calculateRowDistData(this,partitionObj,xHaloWidth,numV)
     allocate(this%distBuffer(0:this%rowSize-1))
 
     do i = 1, this%rowSize
-        allocate(this%distBuffer(i-1)%entry(0:(this%rowNumX+2)*xHaloWidth*locNumH(i)*numV-1))
+        allocate(this%distBuffer(i-1)%entry(0:(this%rowNumX+2*xHaloWidth)*locNumH(i)*numV-1))
         this%distBuffer(i-1)%entry = 0
     end do
 

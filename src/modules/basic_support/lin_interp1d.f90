@@ -26,7 +26,7 @@ module lin_interp1D_class
     private
 
     type ,public ,extends(Object) :: Interpolation1D
-        !! Linear interpolation object housing information necessary for linearly interpolating 1D data. Will fail assertsion if interpolation points are outside of the grid. 
+        !! Linear interpolation object housing information necessary for linearly interpolating 1D data. Will fail assertion if interpolation points are outside of the grid. 
 
         integer(ik) ,allocatable ,dimension(:) ,private :: firstDataIndex !! Array containing the first interpolation index (the second is 1 above the first)
         real(rk)    ,allocatable ,dimension(:) ,private :: interpWeights !! Array containing interpolation weights for each interpolation point. Will be set to -1 if the point is outside the grid.

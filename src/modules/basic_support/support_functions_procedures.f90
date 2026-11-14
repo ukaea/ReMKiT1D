@@ -110,7 +110,7 @@ submodule (support_functions) support_functions_procedures
             pair(1) = size(array)
         else 
             closestPoint = minloc(abs(array - point),1)
-            if (array(closestPoint) - point > 0) then 
+            if (array(closestPoint) - point > 0 .or. closestPoint == size(array)) then 
                 pair(1) = closestPoint - 1
                 pair(2) = closestPoint 
             else 

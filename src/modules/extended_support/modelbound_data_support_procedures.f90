@@ -143,7 +143,7 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
 
     type(NamedStringArray) ,dimension(1) :: transitionTags
     type(NamedString) ,allocatable ,dimension(:) :: transitionType
-    type(NamedRealArray) ,dimension(1) :: fixedTransitionEnergies
+    type(NamedRealArray) ,dimension(1) :: fixedTransitionEnergies ,energyInterpGrid
     type(NamedLogical) ,dimension(1) :: activeInelData
     type(NamedInteger) ,dimension(1) :: elStateID
 
@@ -163,14 +163,27 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
     keyModels//"."//modelTag//"."//keyModelboundData//"."//keyInelGrid//"."//keyFixedTransitionEnergies
     allocate(fixedTransitionEnergies(1)%values(0))
 
+    energyInterpGrid(1)%name = &
+    keyModels//"."//modelTag//"."//keyModelboundData//"."//keyInelGrid//"."//keyEnergyInterpGrid
+    allocate(energyInterpGrid(1)%values(0))
+
     call envObj%jsonCont%load(activeInelData)
     call envObj%jsonCont%output(activeInelData)
 
     call envObj%jsonCont%load(fixedTransitionEnergies)
     call envObj%jsonCont%output(fixedTransitionEnergies)
 
+    call envObj%jsonCont%load(energyInterpGrid)
+    call envObj%jsonCont%output(energyInterpGrid)
+
     if (activeInelData(1)%value) then 
-        call inelData%init(envObj%vSpaceObj,fixedEnergies=fixedTransitionEnergies(1)%values)
+        if (assertions .or. assertionLvl >= 0) then
+            call assert(size(fixedTransitionEnergies(1)%values) > 0 .or. size(energyInterpGrid(1)%values) > 0,&
+                        "Active inelasticGridData in model "//modelTag//&
+                        " requires non-empty fixedTransitionEnergies or energyInterpolationGrid")
+        end if
+        call inelData%init(envObj%vSpaceObj,fixedEnergies=fixedTransitionEnergies(1)%values,&
+                           interpolationGrid=energyInterpGrid(1)%values)
         call crmData%setInelData(inelData)
     end if
 
@@ -181,6 +194,25 @@ module subroutine addCustomCRMDataToModel(modelObj,modelTag,envObj,normObj)
 
     call envObj%jsonCont%load(transitionType)
     call envObj%jsonCont%output(transitionType)
+
+    if (assertions .or. assertionLvl >= 0) then
+        do i = 1, size(transitionType)
+            select case (transitionType(i)%value)
+            case (keyVariableECSTransition)
+                call assert(activeInelData(1)%value,&
+                            "Active inelasticGridData required when variableECSTransition is present in model "//modelTag)
+                call assert(size(energyInterpGrid(1)%values) > 1,&
+                            "energyInterpolationGrid of length > 1 required when variableECSTransition is present in model "&
+                            //modelTag)
+            case (keyFixedECSTransition, keyDBTransition)
+                call assert(activeInelData(1)%value,&
+                            "Active inelasticGridData required when "//transitionType(i)%value//" is present in model "//modelTag)
+                call assert(size(fixedTransitionEnergies(1)%values) > 0,&
+                            "Non-empty fixedTransitionEnergies required when "//transitionType(i)%value//&
+                            " is present in model "//modelTag)
+            end select
+        end do
+    end if
 
     call crmData%init(size(transitionTags(1)%values))
 
@@ -669,8 +701,8 @@ subroutine addVariableECSTransitionToCRMData(crmData,envObj,tTag)
     allocate(reqVarIndicesCS(size(csDerivs)))
 
     do i = 1,size(csDerivs)
-        call envObj%textbookObj%copyDerivation(energyDerivName(1)%value,csDerivCont(i)%entry)
-        allocate(reqVarIndicesCS(size(csDerivsReqVars(i)%values)))
+        call envObj%textbookObj%copyDerivation(csDerivs(i)%value,csDerivCont(i)%entry)
+        allocate(reqVarIndicesCS(i)%entry(size(csDerivsReqVars(i)%values)))
         do j =1,size(csDerivsReqVars(i)%values)
             reqVarIndicesCS(i)%entry(j) = envObj%externalVars%getVarIndex(csDerivsReqVars(i)%values(j)%string)
         end do
@@ -682,7 +714,7 @@ subroutine addVariableECSTransitionToCRMData(crmData,envObj,tTag)
 
     if (assertions .or. assertionLvl >= 0) then 
         if (takeMomentumMoment(1)%value) call assert(maxval(csLIndices(1)%values)>0,&
-                                                    "Fixed energy/cross-section transition set to take momentum&
+                                                    "Variable energy/cross-section transition set to take momentum&
                                                     & moment when maximum cross-section harmonic is not 1 or higher")
     end if
 

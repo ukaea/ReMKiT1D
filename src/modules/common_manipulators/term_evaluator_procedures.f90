@@ -91,12 +91,12 @@ module subroutine evaluate(this,manipulatedModeller,outputVars,inputVars)
             if (this%update) then 
 
                 if (findloc(updatedModelData,this%evaluatedModelIndex(i),dim=1) == 0) then 
-                    updatedModelData = [updatedModelData,this%evaluatedModelIndex]
+                    updatedModelData = [updatedModelData,this%evaluatedModelIndex(i)]
                     call manipulatedModeller%updateModelData(this%evaluatedModelIndex(i),inputVars,updatePriority=0)
                 end if
                 call manipulatedModeller%updateModelTermByName(this%evaluatedModelIndex(i),&
                                                                this%evaluatedTermName(i)%string,inputVars)
-                call manipulatedModeller%calculateMatValsByTermName(this%evaluatedModelIndex(1)&
+                call manipulatedModeller%calculateMatValsByTermName(this%evaluatedModelIndex(i)&
                                                                      ,this%evaluatedTermName(i)%string&
                                                                      ,inputVars)
             end if

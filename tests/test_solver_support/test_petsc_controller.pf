@@ -87,6 +87,12 @@ module test_petsc_controller
 
         @assertEqual(locVecUnknown,real([1.0d00,1.0d00,1.0d00],kind=rk))
 
+        call testPETScController%addRowValuesToMatrix(testSRMatrix)
+        call testPETScController%linearSolve(locVecKnown,locVecUnknown)
+        @assertTrue(testPETScController%getLastConvergedReason()>0)
+        @assertEqual(testPETScController%getLastNumIterations(),0)
+        @assertEqual(locVecUnknown,real([1.0d00,1.0d00,1.0d00],kind=rk))
+
         call testPETScController%finalize()
 
 

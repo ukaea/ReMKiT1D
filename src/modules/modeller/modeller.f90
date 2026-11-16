@@ -358,7 +358,7 @@ module modeller_class
     
         class(Modeller)             ,intent(inout)  :: this
         real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
-        real(rk)      ,dimension(:) ,intent(out)    :: unknownVec
+        real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
         logical                     ,intent(in)     :: addIdentityMat
         integer(ik)                 ,intent(inout)  :: convReason
         integer(ik)   ,optional     ,intent(in)     :: petscGroup

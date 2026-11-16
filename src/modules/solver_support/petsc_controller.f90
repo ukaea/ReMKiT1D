@@ -131,12 +131,12 @@ module petsc_controller_class
     end function objectsCreated
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine linearSolve(this,knownVec,unknownVec,objGroup) 
-        !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor - assembles and zeros out the
-        !! matrix before/after the solve
+        !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor, using unknownVec as
+        !! the initial guess - assembles and zeros out the matrix before/after the solve
 
         class(PETScController)      ,intent(inout)  :: this
         real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
-        real(rk)      ,dimension(:) ,intent(out)    :: unknownVec
+        real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
         integer(ik)   ,optional     ,intent(in)     :: objGroup
 
     end subroutine linearSolve

@@ -107,6 +107,7 @@ module subroutine createPETScObjs(this)
     class(PETScController)      ,intent(inout)  :: this
 
     integer(ik) :: ierr ,i
+    KSPType     :: kspType
 
     if (assertions) then 
         call assert(this%isDefined(),"Attempted to create PETSc objects in undefined PETSc controller")
@@ -141,8 +142,19 @@ module subroutine createPETScObjs(this)
         call KSPSetType(this%objs(i)%solver,this%options%kspSolverType,ierr)
         CHKERRQ(ierr)
 
+        call KSPSetInitialGuessNonzero(this%objs(i)%solver,PETSC_TRUE,ierr)
+        CHKERRQ(ierr)
+
         call KSPSetFromOptions(this%objs(i)%solver,ierr)
         CHKERRQ(ierr)
+
+        call KSPGetType(this%objs(i)%solver,kspType,ierr)
+        CHKERRQ(ierr)
+
+        if (trim(kspType) == KSPPREONLY) then
+            call KSPSetInitialGuessNonzero(this%objs(i)%solver,PETSC_FALSE,ierr)
+            CHKERRQ(ierr)
+        end if
 
         call KSPGetPC(this%objs(i)%solver,this%objs(i)%preconditioner,ierr)
         CHKERRQ(ierr)
@@ -179,17 +191,17 @@ pure module function objectsCreated(this) result(created)
 end function objectsCreated
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine linearSolve(this,knownVec,unknownVec,objGroup) 
-    !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor - assembles and zeros out the
-    !! matrix before/after the solve
+    !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor, using unknownVec as
+    !! the initial guess - assembles and zeros out the matrix before/after the solve
 
     class(PETScController)      ,intent(inout)  :: this
     real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
-    real(rk)      ,dimension(:) ,intent(out)    :: unknownVec
+    real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
     integer(ik)   ,optional     ,intent(in)     :: objGroup
 
-    integer(ik) :: i ,ierr ,offset ,usedGroup
+    integer(ik) :: ierr ,usedGroup
 
-    PetscScalar ,dimension(:) ,pointer :: solutionPointer
+    PetscScalar ,dimension(:) ,pointer :: vecPointer ,solutionPointer
 
     if (assertions) then 
         call assert(this%isDefined(),"Attempted to solve linear system using undefined PETSc controller")
@@ -203,29 +215,17 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     CHKERRQ(ierr)
     call MatAssemblyEnd(this%objs(usedGroup)%petscMat,MAT_FINAL_ASSEMBLY,ierr)
     CHKERRQ(ierr)
-    
 
-    offset = this%preallocData%getLocalDoFOffset()
-    call VecSetValues(this%objs(usedGroup)%rhs,this%preallocData%getLocalNumDoFs(),&
-                     [(i + offset - 1,i=1,this%preallocData%getLocalNumDoFs())],&
-                              knownVec,INSERT_VALUES,ierr)
+    call VecGetArrayF90(this%objs(usedGroup)%rhs,vecPointer,ierr)
     CHKERRQ(ierr)
-
-    call VecAssemblyBegin(this%objs(usedGroup)%rhs,ierr)
-    CHKERRQ(ierr)
-    
-    call VecAssemblyEnd(this%objs(usedGroup)%rhs,ierr)
+    vecPointer = knownVec
+    call VecRestoreArrayF90(this%objs(usedGroup)%rhs,vecPointer,ierr)
     CHKERRQ(ierr)
 
-    call VecSetValues(this%objs(usedGroup)%sol,this%preallocData%getLocalNumDoFs(),&
-                     [(i + offset - 1,i=1,this%preallocData%getLocalNumDoFs())],&
-                              knownVec,INSERT_VALUES,ierr)
+    call VecGetArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
     CHKERRQ(ierr)
-
-    call VecAssemblyBegin(this%objs(usedGroup)%sol,ierr)
-    CHKERRQ(ierr)
-    
-    call VecAssemblyEnd(this%objs(usedGroup)%sol,ierr)
+    vecPointer = unknownVec
+    call VecRestoreArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
     CHKERRQ(ierr)
 
     call KSPSetTolerances(this%objs(usedGroup)%solver,this%options%solverToleranceRel,&

@@ -18,7 +18,8 @@ RUN apt update \
         m4 \
         wget \
         git \
-        gcovr 
+        gcovr \
+        flex
 
 # Packages need to be Compiled and Installed Using Fortran-11
 # CMake Commands State the Required Compilers to use
@@ -34,8 +35,8 @@ RUN tar -zvxf cmake-3.18.0.tar.gz
 
 WORKDIR /home/cmake-3.18.0
 RUN ./bootstrap -- -DCMAKE_USE_OPENSSL=OFF
-RUN make
-RUN make install
+RUN make -j
+RUN make install -j
 WORKDIR /home
 
 
@@ -49,8 +50,8 @@ WORKDIR /home/mpich-3.4.2
 # ReMKiT1D Requires gfortran-11, gcc-11 and g++-11. CMake Installs the Package to the mpich-install Folder
 RUN ./configure CC=gcc-11 CXX=g++-11 FC=gfortran-11 --prefix=/home/mpich-install  FFLAGS=-fallow-argument-mismatch --with-device=ch3
 
-RUN make
-RUN make install
+RUN make -j
+RUN make install -j
 WORKDIR /home
 
 # Include the mpich-install PATH for Compilation of ReMKiT1D
@@ -62,8 +63,8 @@ RUN git clone -b release-3.17 https://gitlab.com/petsc/petsc.git petsc
 WORKDIR petsc/
 
 #PETSc Requires MPI and PETSc is Told Where MPI (mpich-4.2.2) is Installed
-RUN ./configure --with-mpi-dir=/home/mpich-install --download-hypre=1 --download-fblaslapack=1 --with-debugging=0 COPTFLAGS=-O3 CXXOPTFLAGS=-O3 FOPTFLAGS=-O3
-RUN make PETSC_DIR=/home/petsc PETSC_ARCH=arch-linux-c-opt all check
+RUN ./configure --with-mpi-dir=/home/mpich-install --download-hypre=1 --download-fblaslapack=1 --with-debugging=0 --download-strumpack --download-metis --download-parmetis --download-mumps --download-ptscotch --download-scalapack --with-openmp --download-hwloc COPTFLAGS=-O3 CXXOPTFLAGS=-O3 FOPTFLAGS=-O3
+RUN make -j PETSC_DIR=/home/petsc PETSC_ARCH=arch-linux-c-opt all check
 
 WORKDIR /home
 
@@ -75,7 +76,7 @@ WORKDIR build
 
 # ReMKiT1D Requires gfortran-11, gcc-11 and g++-11. CMake Installs the Package to the 'installs' Folder
 RUN cmake .. -DSKIP_OPENMP=yes -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 -DCMAKE_INSTALL_PREFIX=/home/installs/pFUnit
-RUN make install
+RUN make install -j
 WORKDIR /home
 
 # ReMKiT1D is Currently using json-fortran-8.2.5
@@ -87,7 +88,7 @@ WORKDIR build
 
 # ReMKiT1D Requires gfortran-11, gcc-11 and g++-11. CMake Installs the Package to the 'installs' Folder
 RUN cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_INSTALL_PREFIX=/home/installs/json-fortran -DSKIP_DOC_GEN=TRUE
-RUN make install
+RUN make install -j
 
 WORKDIR /home
 
@@ -100,7 +101,7 @@ WORKDIR build
 
 # ReMKiT1D Requires gfortran-11, gcc-11 and g++-11. CMake Installs the Package to the 'installs' Folder
 RUN cmake .. -DCMAKE_Fortran_COMPILER=gfortran-11 -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 -DHDF5_BUILD_FORTRAN=ON -DCMAKE_INSTALL_PREFIX=/home/installs/hdf5
-RUN make install
+RUN make install -j
 WORKDIR /home
 
 # ReMKiT1D v1.2.0+ requires sundials 
@@ -110,7 +111,7 @@ RUN mkdir build
 WORKDIR build 
 
 RUN cmake .. -DENABLE_MPI=ON -DCMAKE_INSTALL_PREFIX=/home/installs/sundials -DENABLE_LAPACK=ON -DBUILD_FORTRAN_MODULE_INTERFACE=ON -DCMAKE_C_COMPILER=gcc-11
-RUN make install
+RUN make install -j
 
 WORKDIR /home
 

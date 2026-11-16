@@ -92,8 +92,13 @@ module subroutine calcVarBoltzVals(this,varCont,res,mbData,hostModel)
         if (assertions) then 
             call assert(size(energyCost) == inferredXSize,"energyCost vector in calcVarBoltzVals does not conform with&
                                                             & inferred spatial size from cross-section values")
-            call assert(all(energyCost<0) .eqv. this%superelasticTerm,"energyCost vector in calcVarBoltzVals must have values with&
-                                                                    & sign according to whether the term is superelastic or not")
+            if (this%superelasticTerm) then
+                call assert(all(energyCost < 0),"energyCost vector in calcVarBoltzVals must be strictly negative&
+                                                & for superelastic terms")
+            else
+                call assert(all(energyCost > 0),"energyCost vector in calcVarBoltzVals must be strictly positive&
+                                                & for inelastic terms")
+            end if
         end if
         if (this%absorptionTerm) then 
 

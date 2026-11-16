@@ -22,7 +22,7 @@ module physical_constants
     real(rk), parameter :: elCharge   = 1.60218d-19             !! Electron charge 
     real(rk), parameter :: bohrRadius = 5.291772d-11 
     real(rk), parameter :: hPlanck    = 6.62607004d-34 
-    real(rk), parameter :: mu0        = 4.00D00 * pi * 1d-17    !! Vacuum permeability
+    real(rk), parameter :: mu0        = 4.00D00 * pi * 1d-7     !! Vacuum permeability
     real(rk), parameter :: protonMass = 1.67262d-27
     real(rk), parameter :: amu        = 1.6605390666d-27        !! Atomic mass unit
  

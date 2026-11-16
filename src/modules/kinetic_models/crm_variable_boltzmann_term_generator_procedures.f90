@@ -129,7 +129,7 @@ module subroutine generateVarBoltzTerms(this,mbData)
 
         select type (mbData)
         type is (ModelboundCRMData)
-            call initVariableBoltzmannStencilDirect(templateObj,this%envPointer,this%distributionName,this%distributionName,mbData,&
+            call initVariableBoltzmannStencilDirect(templateObj,this%envPointer,this%distributionName,this%distributionName,&
                  this%evolvedHarmonic,this%transitionIndices(i),this%absorptionTerms,this%superelasticTerms) 
         class default 
             error stop "generate on CRMVarBoltzTermGenerator expects ModelboundCRMData type"

@@ -41,9 +41,18 @@ module test_modeller
     use group_evaluator_class
     use term_evaluator_class
     use cvode_integrator_class 
+    use modelbound_data_abstract_class ,only: ModelboundData
+    use model_surrogate_class          ,only: ModelSurrogate
 
     implicit none
 
+    type ,extends(ModelboundData) ,public :: testCountingMBData
+        integer(ik) :: updateCount = 0
+    contains
+        procedure ,public :: update => testCountingUpdate
+        procedure ,public :: copyData => testCountingCopyData
+        procedure ,public :: getDataDim => testCountingGetDataDim
+    end type testCountingMBData
 
 contains
 
@@ -484,6 +493,161 @@ contains
 
 
     end subroutine test_modeller_CVODE_int
+
+    @test( npes=[8])
+    subroutine test_term_evaluator_multimodel(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList ,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont
+        type(calculationRule) ,dimension(1) :: cRules
+        class(model) ,allocatable :: model1 ,model2 ,model3
+        type(modeller) :: testModeller
+        type(petscController) :: testPETScController
+        type(solverOptions) :: solOptions
+        type(CompositeManipulator) :: testManipulator
+        type(TermEvaluator) :: testMultiEvaluator
+
+        integer(ik) :: i ,xOffset
+        real(rk) ,allocatable ,dimension(:) :: countBuf
+
+        call testMPIController%init(8,1)
+        call preparePrinter(testMPIController%getWorldRank())
+
+        call testPart%initSimplePartition(8,1,24,1)
+        call testGrid%init(real([(i,i=1,24)],kind=rk),real([(i,i=1,5)],kind=rk),0,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+        call testListDerived%addVar("eval")
+        call cRules(1)%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+        solOptions%kspSolverType = "bcgs"
+        solOptions%hyprePC = "euclid"
+        solOptions%petscOptions = ""
+        call testPETScController%init(testIndexing,testMPIController,solOptions)
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
+        testVarCont%variables(1)%entry = 1.0d0
+        testVarCont%variables(2)%entry = 1.0d0
+        testVarCont%variables(3)%entry = 0.0d0
+
+        xOffset = testMPIController%getWorldRank()*3
+
+        ! Three models with counting modelbound data and polynomial matrix terms:
+        ! m1_t1 = n^4, m1_t2 = n*u^3, m2_t1 = n^3*u, m3_t1 = u^4
+        call initCountingModel(model1,2)
+        call addSimpleMatTerm(model1,"m1_t1","n","n","n","n","n")
+        call addSimpleMatTerm(model1,"m1_t2","n","u","n","u","u")
+
+        call initCountingModel(model2,1)
+        call addSimpleMatTerm(model2,"m2_t1","n","n","n","u","n")
+
+        call initCountingModel(model3,1)
+        call addSimpleMatTerm(model3,"m3_t1","n","u","u","u","u")
+
+        call testModeller%init(3,testVarCont,testMPIController,testPETScController)
+        call testModeller%addModel(model1)
+        call testModeller%addModel(model2)
+        call testModeller%addModel(model3)
+
+        call testManipulator%init(1)
+        call testMultiEvaluator%init(3,[1,2,1,3],&
+                                     [StringArray("m1_t1"),StringArray("m2_t1"),StringArray("m1_t2"),StringArray("m3_t1")],&
+                                     update=.true.)
+        call testManipulator%addManipulator(testMultiEvaluator,0)
+        call testModeller%setManipulator(testManipulator)
+
+        call testModeller%calculateIdentityMat(testIndexing)
+        call testModeller%assemble(withIdentityMat=.true.)
+
+        ! Mutate variables after assembly so stale matrix entries (1.0) differ from updated entries:
+        ! n = 2, u = 3 => n^4 + n^3*u + n*u^3 + u^4 = 16 + 24 + 54 + 81 = 175
+        testVarCont%variables(1)%entry = 2.0d0
+        testVarCont%variables(2)%entry = 3.0d0
+        call testModeller%copyVarValuesFrom(testVarCont)
+
+        call testModeller%callManipulator(0)
+        call testModeller%copyVarValuesTo(testVarCont)
+
+        @assertEqual(testVarCont%variables(3)%entry,real([0,175,175,175,0],kind=rk),tolerance=1d-12)
+
+        ! Verify each model's modelbound data was updated once (model 1 deduplicated, model 3 not skipped)
+        do i = 1,3
+            call testModeller%copyDataFromModel(i,"count",countBuf)
+            @assertEqual(countBuf,[1.0d0],tolerance=1d-14)
+        end do
+
+        call testPETScController%finalize()
+
+    contains
+
+        subroutine initCountingModel(targetModel,numImplicitTerms)
+            class(model) ,allocatable ,intent(out) :: targetModel
+            integer(ik)               ,intent(in)  :: numImplicitTerms
+            type(testCountingMBData) :: mbData
+
+            allocate(targetModel)
+            call targetModel%init(numImplicitTerms,0,1,1)
+            call mbData%makeDefined()
+            call targetModel%setModelData(mbData)
+        end subroutine initCountingModel
+
+        subroutine addSimpleMatTerm(targetModel,termName,evolvedVar,implicitVar,reqRow1,reqRow2,reqCol)
+            class(model) ,intent(inout) :: targetModel
+            character(*) ,intent(in)    :: termName ,evolvedVar ,implicitVar ,reqRow1 ,reqRow2 ,reqCol
+            type(testMatrixTerm) :: rawTerm
+            class(matrixTerm) ,allocatable :: matTerm
+            integer(ik) :: k
+
+            call rawTerm%makeDefined()
+            call rawTerm%setEvolvedAndImplicitVar(evolvedVar,implicitVar,testVarCont)
+            call rawTerm%setReqVars([stringArray(reqRow1),stringArray(reqRow2)],[stringArray(reqCol)],testVarCont)
+            call rawTerm%initRowData(reshape([(xOffset+k,k=1,3)],[1,3]),testMapping,testIndexing)
+            allocate(matTerm,source=rawTerm)
+            call targetModel%addImplicitTerm(matTerm,[1],[1],termName)
+        end subroutine addSimpleMatTerm
+
+    end subroutine test_term_evaluator_multimodel
+
+    subroutine testCountingUpdate(this,hostModel,inputVars,updatePriority)
+        class(testCountingMBData) ,intent(inout) :: this
+        class(ModelSurrogate)     ,intent(in)    :: hostModel
+        class(VariableContainer)  ,intent(in)    :: inputVars
+        integer(ik) ,optional     ,intent(in)    :: updatePriority
+
+        this%updateCount = this%updateCount + 1
+    end subroutine testCountingUpdate
+
+    subroutine testCountingCopyData(this,name,container)
+        class(testCountingMBData)             ,intent(in)    :: this
+        character(*)                          ,intent(in)    :: name
+        real(rk) ,allocatable ,dimension(..)  ,intent(inout) :: container
+
+        select rank (container)
+        rank (1)
+            if (.not. allocated(container)) allocate(container(1))
+            container(1) = real(this%updateCount,kind=rk)
+        rank default
+            error stop "container passed to testCountingCopyData is not rank 1"
+        end select
+    end subroutine testCountingCopyData
+
+    function testCountingGetDataDim(this,name) result(dim)
+        class(testCountingMBData) ,intent(in) :: this
+        character(*)              ,intent(in) :: name
+        integer(ik)                           :: dim
+
+        dim = 0
+    end function testCountingGetDataDim
 
 
     pure function testMapping(inputArray) result(output)

@@ -10,11 +10,19 @@
 
 ### New Features
 
+- Added `energyInterpolationGrid` JSON option to CRM `inelasticGridData`
 - Add command line flag -kc or --keep-config to disable overwriting of JSON config files by ReMKiT1D at startup.
 
 ### Bug Fixes
 
 - Fixed bug with modelbound data used as column variable
+- Fixed bounds error causing issues with gfortran-11.5.0
+- Fixed vacuum permeability constant `mu0` exponent (`1d-17` -> `1d-7`)
+- Fixed 1D linear interpolation assertions at grid nodes and upper boundary clamping in `findNearestPoints`
+- Fixed MPI row distribution buffer sizing when `xHaloWidth /= 1`
+- Fixed multi-model `TermEvaluator` matrix updates and `ModelboundData` update deduplication
+- Fixed `momentumMoment = .false.` handling in CRM transitions and cross-section derivation wiring in JSON `variableECSTransition` setup
+- Tightened energy-cost and interpolation-grid assertions in CRM transitions and variable Boltzmann stencils, and removed unused `mbData` argument from `initVariableBoltzmannStencil*`
 
 ## v1.3.0, 2025-06-24
 

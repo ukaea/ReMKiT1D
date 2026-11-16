@@ -57,9 +57,11 @@ pure module subroutine initFixedECSTransition(this,locNumX,inStates,outStates,en
     this%distFunVarIndex = distVarIndex
     this%transitionEnergy = energy 
     if (present(momentumMoment)) then 
-        if (momentumMoment) call this%setRateMomentum(rateVec)
-        this%takeMomentumMoment = .true. 
-        this%l1HarmonicInd = l1Index
+        if (momentumMoment) then
+            call this%setRateMomentum(rateVec)
+            this%takeMomentumMoment = .true. 
+            this%l1HarmonicInd = l1Index
+        end if
     end if 
 
     call this%setStates(inStates,outStates)

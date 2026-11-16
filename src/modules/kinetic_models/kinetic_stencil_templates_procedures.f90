@@ -65,9 +65,9 @@ module subroutine initKineticStencilTemplate(stencilTemplateObj,envObj,jsonPrefi
 
         select type(mbData)
         type is (ModelboundCRMData)
-            call initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPrefix,evolvedVar,implicitVar,mbData)
+            call initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPrefix,evolvedVar,implicitVar)
         class default
-            error stop "Unexpected modelbound data type detected for fixed Boltzmann stencil template"
+            error stop "Unexpected modelbound data type detected for variable Boltzmann stencil template"
         end select
 
     case (keyScalingLBC)
@@ -1520,7 +1520,7 @@ module subroutine initTermMomentStencilDirect(stencilTemplateObj,envObj,evolvedV
 
 end subroutine initTermMomentStencilDirect
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPrefix,evolvedVar,implicitVar,mbData)
+module subroutine initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPrefix,evolvedVar,implicitVar)
     !! Initialize variable mapping Boltzmann kinetic stencil template based on environment object and JSON file. 
 
     type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -1528,7 +1528,6 @@ module subroutine initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPre
     character(*)               ,intent(in)    :: jsonPrefix !! prefix for JSON keys for this template
     character(*)               ,intent(in)    :: evolvedVar
     character(*)               ,intent(in)    :: implicitVar
-    class(ModelboundCRMData)   ,intent(in)    :: mbData
     
     type(NamedInteger) ,dimension(1) :: rowHarmonic ,transitionIndex
     type(NamedLogical) ,dimension(1) :: absorptionTerm ,superelasticTerm
@@ -1548,12 +1547,12 @@ module subroutine initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPre
     call envObj%jsonCont%load(superelasticTerm)
     call envObj%jsonCont%output(superelasticTerm)
 
-    call initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,mbData,rowHarmonic(1)%value,&
+    call initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,rowHarmonic(1)%value,&
                                          transitionIndex(1)%value,absorptionTerm(1)%value,superelasticTerm(1)%value)
 
 end subroutine initVariableBoltzmannStencil
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,mbData,&
+module subroutine initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
     evolvedHarmonic,transitionIndex,absorptionTerm,superelasticTerm)
     !! Initialize variable mapping Boltzmann kinetic stencil template based on environment non-JSON inputs. 
 
@@ -1561,7 +1560,6 @@ module subroutine initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,e
     type(EnvironmentWrapper)   ,intent(inout) :: envObj
     character(*)               ,intent(in)    :: evolvedVar
     character(*)               ,intent(in)    :: implicitVar
-    class(ModelboundCRMData)   ,intent(in)    :: mbData
     integer(ik)                ,intent(in)    :: evolvedHarmonic
     integer(ik)                ,intent(in)    :: transitionIndex
     logical                    ,intent(in)    :: absorptionTerm

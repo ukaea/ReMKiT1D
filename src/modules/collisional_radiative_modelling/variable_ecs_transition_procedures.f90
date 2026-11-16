@@ -64,9 +64,11 @@ pure module subroutine initVariableECSTransition(this,locNumX,inStates,outStates
     this%takeMomentumMoment = .false.
     this%distFunVarIndex = distVarIndex
     if (present(momentumMoment)) then 
-        if (momentumMoment) call this%setRateMomentum(rateVec)
-        this%takeMomentumMoment = .true. 
-        this%l1HarmonicInd = l1Index
+        if (momentumMoment) then
+            call this%setRateMomentum(rateVec)
+            this%takeMomentumMoment = .true. 
+            this%l1HarmonicInd = l1Index
+        end if
     end if 
 
     call this%setStates(inStates,outStates)
@@ -118,6 +120,11 @@ module subroutine updateCSRates(this,varCont,hostModel,hostData,updatePriority)
     calcBuffer = this%energyDeriv%calculate(varCont%variables,this%energyDerivIndices)
     inferredHaloWidth = (size(calcBuffer) - this%locNumX)/2
     this%energyCost = calcBuffer(1+inferredHaloWidth:this%locNumX+inferredHaloWidth) !Remove halo before saving
+
+    if (assertions) then
+        call assert(all(this%energyCost > 0) .or. all(this%energyCost < 0),&
+                    "energyCost in VariableECSTransition must have a consistent non-zero sign")
+    end if
 
     numV = this%vSpaceRef%getNumV()
     select type (hostData)

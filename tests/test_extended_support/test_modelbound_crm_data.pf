@@ -1,0 +1,226 @@
+!-----------------------------------------------------------------------------------------------------------------------------------
+! This file is part of ReMKiT1D.
+!
+! ReMKiT1D is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as 
+! published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+!
+! ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+!
+! Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
+module test_modelbound_crm_data
+
+    use pfunit
+    use data_kinds                      ,only: ik, rk
+    use support_types
+    use json_controller_class
+    use mpi_controller_class
+    use grid_class
+    use v_space_class
+    use partition_class
+    use indexing_class
+    use variable_list_class
+    use variable_container_class
+    use derivation_abstract_class
+    use simple_derivation_class
+    use vel_tensor_prod_derivation_class
+    use textbook_class
+    use basic_environment_wrapper
+    use normalization_abstract_class
+    use model_class
+    use modelbound_data_support         ,only: addModelboundDataToModel
+    use modelbound_CRM_data_class
+    use inelastic_grid_data_class
+    use variable_ecs_transition_class
+    use initialization_support          ,only: setDistHarmonic
+    use key_names
+
+    implicit none
+
+    type ,extends(Normalization) :: dummyNorm
+    end type dummyNorm
+
+contains
+
+    @test( npes=[8])
+    subroutine test_custom_crm_var_ecs_data(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(MPIController) :: testMPIController
+        type(JSONController) ,target :: testJSONController
+        type(VariableList) :: testList ,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont
+        type(CalculationRule) ,dimension(4) :: cRules
+        type(SimpleDerivation) :: eDeriv
+        type(VelTProdDerivation) :: csDerivL0 ,csDerivL1
+        type(DerivationContainer) ,dimension(2) :: csDerivs1
+        type(DerivationContainer) ,dimension(1) :: csDerivs2
+        type(Textbook) :: testTextbook
+        type(EnvironmentWrapper) :: envObj
+        type(dummyNorm) :: normObj
+        type(Model) :: testModel
+        type(InelasticGridData) :: refInelGrid
+        type(VariableECSTransition) :: refTrans1 ,refTrans2
+        type(ModelboundCRMData) :: refCRMData
+        type(NamedScalarContainer) :: scalarParams
+        type(NamedArrayContainer) :: arrayParams
+
+        real(rk) ,allocatable ,dimension(:) :: eGrid ,jsonVec ,refVec ,refVec2
+        integer(ik) :: i
+        character(*) ,parameter :: mbPrefix = keyModels//".crm_var_ecs."//keyModelboundData
+        character(*) ,parameter :: t1Prefix = mbPrefix//"."//keyTransitions//".varTransMom"
+        character(*) ,parameter :: t2Prefix = mbPrefix//"."//keyTransitions//".varTransNoMom"
+
+        call testPart%initSimplePartition(4,2,12,2)
+        call testMPIController%init(4,2)
+
+        eGrid = real([(1.0d0*i - 0.5d0,i=1,10)],kind=rk)
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,eGrid,1,0)
+        call testVSpace%init(testGrid)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+
+        call testListDerived%init()
+        call testListDerived%addVar("eTrans")
+        call testListDerived%addVar("csScale0")
+        call testListDerived%addVar("csScale1")
+        call testListDerived%addVar("csShift1")
+
+        do i = 1,4
+            call cRules(i)%init()
+        end do
+
+        call testIndexing%init(testPart,testGrid,testList)
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
+
+        call setDistHarmonic(testVarCont%variables(1)%entry,1,[1.0d0,1.5d0,2.0d0,2.5d0,1.0d0],exp(-eGrid**2))
+        call setDistHarmonic(testVarCont%variables(1)%entry,2,[0.5d0,0.7d0,1.1d0,1.3d0,0.5d0],eGrid*exp(-eGrid**2))
+        testVarCont%variables(2)%entry = [1.0d0,2.2d0,3.3d0,4.5d0,1.0d0]
+        testVarCont%variables(3)%entry = [1.0d0,1.8d0,2.2d0,2.7d0,1.0d0]
+        testVarCont%variables(4)%entry = [1.0d0,0.8d0,1.1d0,1.4d0,1.0d0]
+        testVarCont%variables(5)%entry = [0.0d0,0.25d0,0.5d0,0.75d0,0.0d0]
+
+        call eDeriv%init([1.0d0])
+        call csDerivL0%init(testVSpace,power=1.0d0)
+        call csDerivL1%init(testVSpace,power=2.0d0)
+
+        call testTextbook%init()
+        call testTextbook%addDerivation(eDeriv,"eDeriv")
+        call testTextbook%addDerivation(csDerivL0,"csDerivL0")
+        call testTextbook%addDerivation(csDerivL1,"csDerivL1")
+
+        ! JSON configuration for custom ModelboundCRMData with two variableECSTransition entries
+        scalarParams%intData = [NamedInteger(mbPrefix//"."//keyElState,0)]
+        scalarParams%logicalData = [ &
+            NamedLogical(mbPrefix//"."//keyInelGrid//"."//keyActive,.true.), &
+            NamedLogical(t1Prefix//"."//keyTakeMomentumMoment,.true.), &
+            NamedLogical(t2Prefix//"."//keyTakeMomentumMoment,.false.) &
+        ]
+        allocate(scalarParams%realData(0))
+        scalarParams%stringData = [ &
+            NamedString(mbPrefix//"."//keyModelboundDataType,keyCRMData), &
+            NamedString(t1Prefix//"."//keyType,keyVariableECSTransition), &
+            NamedString(t1Prefix//"."//keyDistributionVarName,"f"), &
+            NamedString(t1Prefix//"."//keyEnergyDerivationName,"eDeriv"), &
+            NamedString(t1Prefix//"."//keyCrossSectionDerivations//".l=0."//keyRuleName,"csDerivL0"), &
+            NamedString(t1Prefix//"."//keyCrossSectionDerivations//".l=1."//keyRuleName,"csDerivL1"), &
+            NamedString(t2Prefix//"."//keyType,keyVariableECSTransition), &
+            NamedString(t2Prefix//"."//keyDistributionVarName,"f"), &
+            NamedString(t2Prefix//"."//keyEnergyDerivationName,"eDeriv"), &
+            NamedString(t2Prefix//"."//keyCrossSectionDerivations//".l=0."//keyRuleName,"csDerivL0") &
+        ]
+
+        arrayParams%realData = [NamedRealArray(mbPrefix//"."//keyInelGrid//"."//keyEnergyInterpGrid,eGrid)]
+        arrayParams%intData = [ &
+            NamedIntegerArray(t1Prefix//"."//keyIngoingStatePlural,[0,1]), &
+            NamedIntegerArray(t1Prefix//"."//keyOutgoingStatePlural,[0,2]), &
+            NamedIntegerArray(t1Prefix//"."//keyCrossSectionDerivations//"."//keyCSDerivationHarmonics,[0,1]), &
+            NamedIntegerArray(t2Prefix//"."//keyIngoingStatePlural,[0,1]), &
+            NamedIntegerArray(t2Prefix//"."//keyOutgoingStatePlural,[0,2]), &
+            NamedIntegerArray(t2Prefix//"."//keyCrossSectionDerivations//"."//keyCSDerivationHarmonics,[0]) &
+        ]
+        arrayParams%stringData = [ &
+            NamedStringArray(mbPrefix//"."//keyTransitionTags,[StringArray("varTransMom"),StringArray("varTransNoMom")]), &
+            NamedStringArray(t1Prefix//"."//keyEnergyDerivationReqVars,[StringArray("eTrans")]), &
+            NamedStringArray(t1Prefix//"."//keyCrossSectionDerivations//".l=0."//keyReqVarNames,[StringArray("csScale0")]), &
+            NamedStringArray(t1Prefix//"."//keyCrossSectionDerivations//".l=1."//keyReqVarNames, &
+                             [StringArray("csScale1"),StringArray("csShift1")]), &
+            NamedStringArray(t2Prefix//"."//keyEnergyDerivationReqVars,[StringArray("csScale0")]), &
+            NamedStringArray(t2Prefix//"."//keyCrossSectionDerivations//".l=0."//keyReqVarNames,[StringArray("csScale0")]) &
+        ]
+        allocate(arrayParams%logicalData(0))
+
+        call testJSONController%loadFile(testMPIController,filepath="./empty.json")
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        call testJSONController%loadFile(testMPIController)
+        call testJSONController%output(scalarParams)
+        call testJSONController%output(arrayParams)
+
+        envObj%gridObj = testGrid
+        envObj%partitionObj = testPart
+        envObj%mpiCont = testMPIController
+        envObj%indexingObj = testIndexing
+        envObj%externalVars = testVarCont
+        envObj%vSpaceObj = testVSpace
+        envObj%textbookObj = testTextbook
+        envObj%jsonCont => testJSONController
+        call envObj%makeDefined()
+        call normObj%makeDefined()
+
+        call testModel%init()
+        call addModelboundDataToModel(testModel,"crm_var_ecs",envObj,normObj)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.)
+        call testModel%updateModelData(testVarCont)
+
+        ! Build reference ModelboundCRMData directly in Fortran
+        allocate(csDerivs1(1)%entry,source=csDerivL0)
+        allocate(csDerivs1(2)%entry,source=csDerivL1)
+        allocate(csDerivs2(1)%entry,source=csDerivL0)
+
+        call refTrans1%init(3,[0,1],[0,2],eDeriv,[2],csDerivs1,[IntArray([3]),IntArray([4,5])],[1,2],1,testVSpace,&
+                            momentumMoment=.true.,l1Index=2)
+        call refTrans2%init(3,[0,1],[0,2],eDeriv,[3],csDerivs2,[IntArray([3])],[1],1,testVSpace,&
+                            momentumMoment=.false.,l1Index=2)
+
+        call refCRMData%init(2)
+        call refInelGrid%init(testVSpace,interpolationGrid=eGrid)
+        call refCRMData%setInelData(refInelGrid)
+        call refCRMData%addTransition(refTrans1)
+        call refCRMData%addTransition(refTrans2)
+        call refCRMData%update(testModel,testVarCont)
+
+        ! Verify distinct l=0 and l=1 cross-section columns and rates match direct construction
+        call testModel%copyModelboundDataEntry("cssl1index1",jsonVec)
+        call refCRMData%copyData("cssl1index1",refVec)
+        @assertEqual(jsonVec,refVec,tolerance=1.0d-14)
+
+        call testModel%copyModelboundDataEntry("cssl2index1",jsonVec)
+        call refCRMData%copyData("cssl2index1",refVec2)
+        @assertEqual(jsonVec,refVec2,tolerance=1.0d-14)
+        @assertTrue(any(abs(refVec - refVec2) > 1.0d-6))
+
+        call testModel%copyModelboundDataEntry("rate0index1",jsonVec)
+        @assertEqual(jsonVec,refCRMData%getTransitionRate(1),tolerance=1.0d-14)
+        @assertTrue(all(jsonVec > 0.0d0))
+
+        call testModel%copyModelboundDataEntry("rate1index1",jsonVec)
+        @assertEqual(jsonVec,refCRMData%getTransitionRateMomentum(1),tolerance=1.0d-14)
+        @assertTrue(all(jsonVec > 0.0d0))
+
+        call testModel%copyModelboundDataEntry("rate2index1",jsonVec)
+        @assertEqual(jsonVec,refCRMData%getTransitionRateEnergy(1),tolerance=1.0d-14)
+
+        call testModel%copyModelboundDataEntry("rate0index2",jsonVec)
+        @assertEqual(jsonVec,refCRMData%getTransitionRate(2),tolerance=1.0d-14)
+        @assertTrue(all(jsonVec > 0.0d0))
+
+    end subroutine test_custom_crm_var_ecs_data
+
+end module test_modelbound_crm_data

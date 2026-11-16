@@ -204,6 +204,67 @@ end subroutine test_controller
 
     end subroutine test_communication
 
+    @test( npes=[8])
+    subroutine test_dist_row_exchange_halo_widths(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList ,testListDerived
+        type(indexing) :: testIndexing
+
+        integer(ik) :: i
+
+        call testPart%initSimplePartition(4,2,12,6)
+        call testGrid%init(real([(i,i=1,12)],kind=rk),real([(i,i=1,5)],kind=rk),5,0)
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testListDerived%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+
+        ! xHaloWidth = 0 (previously allocated zero-length distBuffer) and xHaloWidth = 2 (multi-cell halo slices)
+        call checkRowExchangeForHalo(0)
+        call checkRowExchangeForHalo(2)
+
+    contains
+
+        subroutine checkRowExchangeForHalo(haloWidth)
+            integer(ik) ,intent(in) :: haloWidth
+
+            type(MPIController) :: testController
+            type(variableContainer) :: testVarCont
+            type(calculationRule) ,dimension(0) :: cRules
+            real(rk) ,allocatable ,dimension(:) :: expected
+            integer(ik) :: x ,h ,k ,idx ,colRank ,rowRank
+
+            call testController%init(4,2)
+            colRank = testController%getColRank()
+            rowRank = testController%getRowRank()
+
+            call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,haloWidth,testController%getWorldRank())
+            allocate(expected(1 - 30*haloWidth:90 + 30*haloWidth))
+            testVarCont%variables(1)%entry = -999.0d0
+
+            do x = 1, 3 + 2*haloWidth
+                do h = 1, 6
+                    do k = 1, 5
+                        idx = (x - haloWidth - 1)*30 + (h - 1)*5 + k
+                        expected(idx) = real(1000*colRank + 100*x + 10*h + k,kind=rk)
+                        if ((h - 1)/3 == rowRank) testVarCont%variables(1)%entry(idx) = expected(idx)
+                    end do
+                end do
+            end do
+
+            call testController%calculateRowDistData(testPart,haloWidth,5)
+            call testController%exchangeDistVarInRow(testVarCont,"f")
+
+            @assertEqual(testVarCont%variables(1)%entry,expected,tolerance=1d-14)
+        end subroutine checkRowExchangeForHalo
+
+    end subroutine test_dist_row_exchange_halo_widths
+
     module function testCalculate(this,inputArray,indices) result(output)
 
         class(testDerivation)               ,intent(inout) :: this

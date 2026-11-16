@@ -238,6 +238,7 @@ module key_names
     character(len=*) ,parameter :: keyElState = "electronStateID"
     character(len=*) ,parameter :: keyInelGrid = "inelasticGridData"
     character(len=*) ,parameter :: keyFixedTransitionEnergies = "fixedTransitionEnergies"
+    character(len=*) ,parameter :: keyEnergyInterpGrid = "energyInterpolationGrid"
     character(len=*) ,parameter :: keyTransitionTags = "transitionTags"
     character(len=*) ,parameter :: keyTransitions = "transitions"
     character(len=*) ,parameter :: keyIngoingState = "ingoingState"

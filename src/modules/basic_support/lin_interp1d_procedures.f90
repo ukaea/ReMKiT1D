@@ -28,6 +28,12 @@ pure module subroutine initInterpolation(this,gridPoints,interpolationPoints)
     real(rk) ,dimension(:)           ,intent(in)     :: gridPoints 
     real(rk) ,dimension(:) ,optional ,intent(in)     :: interpolationPoints
 
+    if (assertions) then
+        call assertPure(size(gridPoints) > 1,"Interpolation1D requires gridPoints of length > 1")
+        call assertPure(all(gridPoints(2:size(gridPoints)) > gridPoints(1:size(gridPoints)-1)),&
+                        "Interpolation1D requires strictly monotonically increasing gridPoints")
+    end if
+
     this%gridBuffer = gridPoints
 
     if (present(interpolationPoints)) call this%updateInterpolationPoints(interpolationPoints)
@@ -131,7 +137,8 @@ pure module function interpolate (this,targetArray) result(interpVals)
         call assertPure(this%isDefined(),"interpolate called for undefined Interpolation1D object")
         call assertPure(allocated(this%InterpPoints),&
                         "interpolate called before interpolation points defined for Interpolation1D object")
-        call assertPure(all(this%interpWeights > 0),"interpolate called with some points outside of grid in Interpolation1D object")
+        call assertPure(all(this%interpWeights >= 0),&
+                        "interpolate called with some points outside of grid in Interpolation1D object")
     end if
 
     interpVals = targetArray(this%firstDataIndex) * (real(1,kind=rk) - this%interpWeights) &

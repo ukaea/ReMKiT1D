@@ -44,8 +44,17 @@ module test_kinetic_models
     use textbook_class
     use physics_functions
     use model_class
+    use crm_variable_boltzmann_term_generator_class
+    use normalization_abstract_class
+    use species_list_class
+    use json_controller_class
+    use key_names
 
     implicit none
+
+    type ,extends(Normalization) :: dummyNorm
+
+    end type dummyNorm
 
     type ,extends(modelSurrogate) ,public :: dummyModel 
 
@@ -1470,7 +1479,7 @@ contains
         call testCRMData%setInelData(testInelGrid)
         call testCRMData%update(dummyM,testVarCont1)
 
-        call initVariableBoltzmannStencilDirect(templateObj,envObj,"f","f",testCRMData,1,1,.false.,.false.)
+        call initVariableBoltzmannStencilDirect(templateObj,envObj,"f","f",1,1,.false.,.false.)
         
         call testTerm%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj&
                           ,mbData=testCRMData)
@@ -1487,7 +1496,7 @@ contains
             @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(1),tolerance=1.0d-14)
         end if  
 
-        call initVariableBoltzmannStencilDirect(templateObj2,envObj,"f","f",testCRMData,1,1,.true.,.false.)
+        call initVariableBoltzmannStencilDirect(templateObj2,envObj,"f","f",1,1,.true.,.false.)
 
         call testTerm2%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj2,&
                            mbData=testCRMData)
@@ -1502,7 +1511,7 @@ contains
             @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(1),tolerance=1.0d-14)
         end if
         
-        call initVariableBoltzmannStencilDirect(templateObj3,envObj,"f","f",testCRMData,1,2,.false.,.true.)
+        call initVariableBoltzmannStencilDirect(templateObj3,envObj,"f","f",1,2,.false.,.true.)
 
         call testTerm3%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj3,&
         mbData=testCRMData)
@@ -1517,7 +1526,7 @@ contains
             @assertEqual(rateVec(2:4),testCRMData%getTransitionRate(2),tolerance=1.0d-14)
         end if
 
-        call initVariableBoltzmannStencilDirect(templateObj4,envObj,"f","f",testCRMData,1,2,.true.,.true.)
+        call initVariableBoltzmannStencilDirect(templateObj4,envObj,"f","f",1,2,.true.,.true.)
 
         call testTerm4%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateObj4,&
         mbData=testCRMData)
@@ -1533,6 +1542,156 @@ contains
         end if
 
     end subroutine test_var_boltz_stencil_template
+
+    @test( npes=[8])
+    subroutine test_var_boltz_term_generator(this)
+
+        class(MpiTestMethod), intent(inout) :: this
+        type(Partition) :: testPart
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(Geometry) :: testGeometry
+        type(MPIController) :: testController
+        type(JSONController) ,target :: testJSONController
+        type(SpeciesList) :: testSpeciesList
+        type(VariableList) :: testList ,testListDerived
+        type(Indexing) :: testIndexing
+        type(VariableContainer) :: testVarCont1
+        type(CalculationRule) ,dimension(1) :: cRules
+        type(EnvironmentWrapper) :: envObj
+        type(dummyNorm) :: normObj
+        type(dummyModel) :: dummyM
+        type(testDerivation) :: testDeriv
+        type(testDerivation2) :: testDeriv2
+        type(DerivationContainer) ,dimension(1) :: derivCont
+        type(VariableECSTransition) :: testVariableECSTransition
+        type(InelasticGridData) :: testInelGrid
+        type(ModelboundCRMData) :: testCRMData
+        type(StencilTemplate) :: templateJSON
+        type(GeneralMatrixTerm) :: testTermJSON
+        type(CRMVarBoltzTermGenerator) :: genEmit ,genAbs
+        type(Model) :: testModel
+        type(NamedScalarContainer) :: scalarParams
+        type(NamedArrayContainer) :: arrayParams
+
+        real(rk) ,allocatable ,dimension(:) :: xArr ,nInterior ,testVec ,rateVec ,expectedRate
+        integer(ik) :: i
+        character(*) ,parameter :: sPrefix = "varBoltzJSON."//keyStencilData
+
+        call testPart%initSimplePartition(4,2,12,4)
+        call testController%init(4,2)
+
+        call testGrid%init(real([(i,i=1,12)],kind=rk)-0.5d0,real([(i*1.0d0 - 0.5d0,i=1,10)],kind=rk),1,0)
+        call testVSpace%init(testGrid)
+        call testGeometry%init(real([(1.0d0,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk),real([(1,i=1,12)],kind=rk))
+
+        call testList%init()
+        call testList%addVar("f",.true.)
+        call testList%addVar("n")
+
+        call testListDerived%init()
+        call testListDerived%addVar("En")
+
+        call cRules(1)%init()
+        call testIndexing%init(testPart,testGrid,testList)
+        call testVarCont1%init(testList,testListDerived,cRules,testIndexing,testPart,1,testController%getWorldRank())
+
+        xArr = real([1,2,3,4,5],kind=rk)*pi**(-1.5d0)
+        call setDistHarmonic(testVarCont1%variables(1)%entry,1,xArr,exp(-testGrid%getVGrid()**2))
+        testVarCont1%variables(2)%entry = [1.0d0,2.0d0,3.0d0,4.0d0,1.0d0]
+        testVarCont1%variables(3)%entry = [1.0d0,2.0d0,3.0d0,4.0d0,5.0d0]
+        nInterior = testVarCont1%variables(2)%entry(1:3)
+
+        scalarParams%intData = [NamedInteger(keySpecies//".n."//keyID,1), &
+                                NamedInteger(sPrefix//"."//keyRowHarmonic,1), &
+                                NamedInteger(sPrefix//"."//keyTransitionIndex,1)]
+        scalarParams%stringData = [NamedString(sPrefix//"."//keyStencilType,keyVariableBoltzmann)]
+        allocate(scalarParams%realData(0),scalarParams%logicalData(0))
+
+        arrayParams%stringData = [NamedStringArray(keySpecies//"."//keyNames,[StringArray("n")]), &
+                                  NamedStringArray(keySpecies//".n."//keyAssociatedVars,[StringArray("n")])]
+        allocate(arrayParams%intData(0),arrayParams%realData(0),arrayParams%logicalData(0))
+
+        call testJSONController%loadFile(testController,filepath="./empty.json")
+        call testJSONController%closeFile(testController,saveFile=.true.)
+        call testJSONController%loadFile(testController)
+        call testJSONController%output(scalarParams)
+        call testJSONController%output(arrayParams)
+        call testSpeciesList%init(testJSONController,testController)
+
+        call normObj%setNormalizationVals([NamedReal(keyDensNorm,2.0d0), &
+                                           NamedReal(keyVelGridNorm,1.5d0), &
+                                           NamedReal(keyTimeNorm,1.0d0), &
+                                           NamedReal(keyCrossSectionNorm,0.5d0)])
+        call normObj%makeDefined()
+
+        envObj%gridObj = testGrid
+        envObj%partitionObj = testPart
+        envObj%mpiCont = testController
+        envObj%indexingObj = testIndexing
+        envObj%externalVars = testVarCont1
+        envObj%geometryObj = testGeometry
+        envObj%vSpaceObj = testVSpace
+        envObj%speciesListObj = testSpeciesList
+        envObj%jsonCont => testJSONController
+        call envObj%makeDefined()
+
+        call testDeriv%makeDefined()
+        call testDeriv2%makeDefined()
+        allocate(derivCont(1)%entry,source=testDeriv2)
+
+        call testVariableECSTransition%init(3,[0,1],[0,2],testDeriv,[3],derivCont,[IntArray([3])],[1],1,testVSpace)
+        call testCRMData%init(1)
+        call testCRMData%addTransition(testVariableECSTransition)
+        call testInelGrid%init(testVSpace,interpolationGrid=[(i*1.0d0 - 0.5d0,i=1,10)])
+        call testCRMData%setInelData(testInelGrid)
+
+        ! Check JSON variable Boltzmann stencil template initialization
+        call initKineticStencilTemplate(templateJSON,envObj,"varBoltzJSON","f","f",mbData=testCRMData)
+        call testJSONController%closeFile(testController,saveFile=.true.)
+
+        call dummyM%makeDefined()
+        call testCRMData%update(dummyM,testVarCont1)
+        call testTermJSON%init(testGrid,testPart,testIndexing,testController%getWorldRank(),"f","f",testVarCont1,templateJSON,&
+                               mbData=testCRMData)
+        call testTermJSON%update(testVarCont1,modelData=testCRMData)
+        call testTermJSON%calculateValues(testVarCont1)
+
+        ! Check CRMVarBoltzTermGenerator emission & absorption terms on a standalone Model
+        call genEmit%init(envObj,normObj,testCRMData,"f",[1],1,"varBoltzEmit",absorptionTerms=.false.)
+        call genAbs%init(envObj,normObj,testCRMData,"f",[1],1,"varBoltzAbs",absorptionTerms=.true.)
+        call genEmit%generate(testCRMData)
+        call genAbs%generate(testCRMData)
+
+        call testModel%init(numImplicitTerms=2,numGeneralTerms=0,numImplicitGroups=2,numGeneralGroups=0)
+        call testModel%setModelData(testCRMData)
+        call genEmit%moveTerms(testModel,impTermImpGroups=[IntArray([1])])
+        call genAbs%moveTerms(testModel,impTermImpGroups=[IntArray([2])])
+        call testModel%assemble()
+        call testModel%updateModelData(testVarCont1)
+
+        do i = 1,2
+            call testModel%updateTermGroup(i,testVarCont1)
+            call testModel%calculateMatGroupValues(i,testVarCont1)
+        end do
+
+        if (testPart%getMinHAtInd(testController%getWorldRank()+1) == 1) then
+            expectedRate = testCRMData%getTransitionRate(1)
+
+            testVec = testTermJSON%evaluate(testVarCont1)
+            rateVec = -testVSpace%calculateMoment(testVec,1,0)
+            @assertEqual(rateVec(2:4),expectedRate,tolerance=1.0d-14)
+
+            testVec = testModel%evaluateTermGroup(1,testVarCont1)
+            rateVec = -testVSpace%calculateMoment(testVec,1,0)
+            @assertEqual(rateVec(2:4),nInterior*1.5d0*expectedRate,tolerance=1.0d-14)
+
+            testVec = testModel%evaluateTermGroup(2,testVarCont1)
+            rateVec = testVSpace%calculateMoment(testVec,1,0)
+            @assertEqual(rateVec(2:4),nInterior*1.5d0*expectedRate,tolerance=1.0d-14)
+        end if
+
+    end subroutine test_var_boltz_term_generator
 
     module function testCalculate(this,inputArray,indices) result(output)
 

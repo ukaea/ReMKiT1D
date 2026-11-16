@@ -50,6 +50,14 @@ pure module subroutine initInelData(this,space,fixedEnergies,interpolationGrid)
     end if
 
     if (present(interpolationGrid)) then 
+        if (assertions .and. size(interpolationGrid) > 0) then
+            call assertPure(size(interpolationGrid) > 1,&
+                            "interpolationGrid in InelasticGridData must have length > 1")
+            call assertPure(all(interpolationGrid(2:size(interpolationGrid)) > interpolationGrid(1:size(interpolationGrid)-1)),&
+                            "interpolationGrid in InelasticGridData must be strictly monotonically increasing")
+            call assertPure(all(interpolationGrid /= 0),&
+                            "interpolationGrid in InelasticGridData cannot contain zero energy")
+        end if
         this%eInterpGrid = interpolationGrid 
         allocate(this%interpW(size(interpolationGrid)))
         do i = 1,size(interpolationGrid)
@@ -115,12 +123,22 @@ pure module subroutine interpolateW(this,E,wRes)
 
     integer(ik) :: i ,j ,rowInd
 
-    if (assertions) call assertPure(this%isDefined(),&
-    "interpolateW called for undefined inelastic grid data object")
+    if (assertions) then
+        call assertPure(this%isDefined(),&
+                        "interpolateW called for undefined inelastic grid data object")
+        call assertPure(size(this%eInterpGrid) > 1,&
+                        "interpolateW requires energy interpolation grid of length > 1")
+    end if
 
     call interpObj%init(this%eInterpGrid,[E])
     ind = interpObj%getFirstDataIndices()
     weight = interpObj%getInterpWeights()
+
+    if (assertions) then
+        call assertPure(weight(1) >= 0,"Transition energy E outside energy interpolation grid in interpolateW")
+        call assertPure(this%eInterpGrid(ind(1)) * this%eInterpGrid(ind(1)+1) > 0,&
+                        "Transition energy E falls in sign-changing interval of energy interpolation grid in interpolateW")
+    end if
 
     !Handle upper triangular wRes with positive E 
     if (E > 0) then 
@@ -180,13 +198,24 @@ pure module function getInterpolatedEmissionVector(this,E) result(emit)
     integer(ik) ,allocatable ,dimension(:) :: ind 
     real(rk) ,allocatable ,dimension(:) :: weight, tempEmit
  
-    if (assertions) call assertPure(this%isDefined(),&
-    "getInterpolatedEmissionVector called for undefined inelastic grid data object")
+    if (assertions) then
+        call assertPure(this%isDefined(),&
+                        "getInterpolatedEmissionVector called for undefined inelastic grid data object")
+        call assertPure(size(this%eInterpGrid) > 1,&
+                        "getInterpolatedEmissionVector requires energy interpolation grid of length > 1")
+    end if
     allocate(emit(this%numV))
     allocate(tempEmit(this%numV))
     call interpObj%init(this%eInterpGrid,[E])
     ind = interpObj%getFirstDataIndices()
     weight = interpObj%getInterpWeights()
+    if (assertions) then
+        call assertPure(weight(1) >= 0,&
+                        "Transition energy E outside energy interpolation grid in getInterpolatedEmissionVector")
+        call assertPure(this%eInterpGrid(ind(1)) * this%eInterpGrid(ind(1)+1) > 0,&
+                        "Transition energy E falls in sign-changing interval of energy interpolation grid in&
+                        & getInterpolatedEmissionVector")
+    end if
     call fillEmissionVector(this%interpW(ind(1)),emit)
     call fillEmissionVector(this%interpW(ind(1)+1),tempEmit)
 

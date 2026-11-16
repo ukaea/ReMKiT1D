@@ -305,7 +305,7 @@ module kinetic_stencil_templates
 
     end subroutine initTermMomentStencilDirect
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPrefix,evolvedVar,implicitVar,mbData)
+    module subroutine initVariableBoltzmannStencil(stencilTemplateObj,envObj,jsonPrefix,evolvedVar,implicitVar)
         !! Initialize variable mapping Boltzmann kinetic stencil template based on environment object and JSON file. 
 
         type(StencilTemplate)      ,intent(inout) :: stencilTemplateObj
@@ -313,11 +313,10 @@ module kinetic_stencil_templates
         character(*)               ,intent(in)    :: jsonPrefix !! prefix for JSON keys for this template
         character(*)               ,intent(in)    :: evolvedVar
         character(*)               ,intent(in)    :: implicitVar
-        class(ModelboundCRMData)   ,intent(in)    :: mbData
 
     end subroutine initVariableBoltzmannStencil
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,mbData,&
+    module subroutine initVariableBoltzmannStencilDirect(stencilTemplateObj,envObj,evolvedVar,implicitVar,&
         evolvedHarmonic,transitionIndex,absorptionTerm,superelasticTerm)
         !! Initialize variable mapping Boltzmann kinetic stencil template based on environment non-JSON inputs. 
 
@@ -325,7 +324,6 @@ module kinetic_stencil_templates
         type(EnvironmentWrapper)   ,intent(inout) :: envObj
         character(*)               ,intent(in)    :: evolvedVar
         character(*)               ,intent(in)    :: implicitVar
-        class(ModelboundCRMData)   ,intent(in)    :: mbData
         integer(ik)                ,intent(in)    :: evolvedHarmonic
         integer(ik)                ,intent(in)    :: transitionIndex
         logical                    ,intent(in)    :: absorptionTerm

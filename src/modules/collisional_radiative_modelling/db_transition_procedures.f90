@@ -69,9 +69,11 @@ pure module subroutine initDBTransition(this,locNumX,inStates,outStates,energy,d
     this%distFunVarIndex = distVarIndex
     this%transitionEnergy = energy 
     if (present(momentumMoment)) then 
-        if (momentumMoment) call this%setRateMomentum(rateVec)
-        this%takeMomentumMoment = .true. 
-        this%l1HarmonicInd = l1Index
+        if (momentumMoment) then
+            call this%setRateMomentum(rateVec)
+            this%takeMomentumMoment = .true. 
+            this%l1HarmonicInd = l1Index
+        end if
     end if 
 
     this%directTransitionIndex = directTransitionIndex

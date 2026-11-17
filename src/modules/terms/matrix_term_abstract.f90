@@ -204,7 +204,7 @@ module matrix_term_abstract_class
     module subroutine addRowDataPatternToController(this,petscCont) 
     !! Add this term's row data to a petsc preallocation object in PETSc controller
 
-        class(MatrixTerm)     ,intent(in)     :: this
+        class(MatrixTerm)     ,intent(inout)  :: this
         type(PETScController) ,intent(inout)  :: petscCont
 
     end subroutine addRowDataPatternToController

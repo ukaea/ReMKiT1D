@@ -40,6 +40,11 @@ pure module subroutine initSparseRowData(this,rowIndices,colVectors)
 
     call this%makeDefined()
 
+    if (allocated(this%rowIndex)) deallocate(this%rowIndex)
+    if (allocated(this%columnVector)) deallocate(this%columnVector)
+    if (allocated(this%values)) deallocate(this%values)
+    if (allocated(this%cooIndices)) deallocate(this%cooIndices)
+
     if (present(rowIndices)) then 
         this%rowIndex = rowIndices
         this%columnVector = colVectors
@@ -74,6 +79,8 @@ pure module subroutine addRow(this,rowIndex,columnIndices,values)
         if (present(values)) call assertPure(size(values) == size(columnIndices),"Values passed to addRow routine of sparse row&
         & data object do not conform to passed column indices")
     end if
+
+    if (allocated(this%cooIndices)) deallocate(this%cooIndices)
 
     this%rowIndex = [this%rowIndex,rowIndex]
     this%columnVector =  [this%columnVector,intArray(columnIndices)]

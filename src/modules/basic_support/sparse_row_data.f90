@@ -31,6 +31,7 @@ module sparse_row_data_class
         integer(ik)     ,allocatable ,dimension(:) ,public :: rowIndex !! Row indices of each sparse row vector
         type(IntArray)  ,allocatable ,dimension(:) ,public :: columnVector !! Arrays of column indices for each row
         type(RealArray) ,allocatable ,dimension(:) ,public :: values !! Values associated with each sparse row vector
+        type(IntArray)  ,allocatable ,dimension(:) ,public :: cooIndices !! Cached 1-based flat COO value buffer indices per row
 
         contains
 

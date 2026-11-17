@@ -131,20 +131,33 @@ pure module function findLocationOfIndices (this,row,column) result(indices)
 
 end function findLocationOfIndices
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine addEntry(this,row,column) 
+pure module subroutine addEntry(this,row,column,loc)
     !! Add entry if not already present
 
     class(COOSparsityPattern)   ,intent(inout)  :: this
     integer(ik)                 ,intent(in)     :: row !! Row index
     integer(ik)                 ,intent(in)     :: column !! Column Index
+    integer(ik) ,optional       ,intent(out)    :: loc !! 1-based index of (row,column) in COO arrays
 
     integer(ik) ,allocatable ,dimension(:) :: tempRow ,tempCol
+    integer(ik) :: j ,locRow ,entryIdx
 
     if (assertions) then 
         call assertPure(this%isDefined(),"Attempted to add entry to undefined sparsity pattern")
     end if
 
-    if (.not. this%hasIndices([row],[column])) then 
+    locRow = row - this%rowOffset
+    entryIdx = 0
+    if (this%addedRow(locRow) .and. this%addedCol(column)) then
+        do j = 1,size(this%rowGlobalIndices(locRow)%entry)
+            if (this%colIndex(this%rowGlobalIndices(locRow)%entry(j)) == column) then
+                entryIdx = this%rowGlobalIndices(locRow)%entry(j)
+                exit
+            end if
+        end do
+    end if
+
+    if (entryIdx == 0) then
         if (this%numNonZeros < size(this%rowIndex)) then
             this%numNonZeros = this%numNonZeros + 1
             this%rowIndex(this%numNonZeros) = row
@@ -168,14 +181,17 @@ pure module subroutine addEntry(this,row,column)
 
         end if
         
-        if (.not. this%addedRow(row-this%rowOffset)) this%firstInstRow(row-this%rowOffset) = this%numNonZeros
+        if (.not. this%addedRow(locRow)) this%firstInstRow(locRow) = this%numNonZeros
         if (.not. this%addedCol(column)) this%firstInstCol(column) = this%numNonZeros
 
-        this%addedRow(row-this%rowOffset) = .true.
+        this%addedRow(locRow) = .true.
         this%addedCol(column) = .true.
 
-        this%rowGlobalIndices(row-this%rowOffset)%entry = [this%rowGlobalIndices(row-this%rowOffset)%entry,this%numNonZeros]
+        this%rowGlobalIndices(locRow)%entry = [this%rowGlobalIndices(locRow)%entry,this%numNonZeros]
+        entryIdx = this%numNonZeros
     end if
+
+    if (present(loc)) loc = entryIdx
 
 end subroutine addEntry
 !-----------------------------------------------------------------------------------------------------------------------------------

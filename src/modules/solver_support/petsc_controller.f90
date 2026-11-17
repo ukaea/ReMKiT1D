@@ -18,7 +18,7 @@ module petsc_controller_class
 #include "petsc/finclude/petscpc.h"
 
     use data_kinds                       ,only: rk, ik
-    use runtime_constants                ,only: debugging, assertions
+    use runtime_constants                ,only: debugging, assertions, assertionLvl
     use god_objects                      ,only: Object
     use assertion_utility                ,only: assert, assertIdentical, assertPure
     use petsc_preallocation_data_class   ,only: PetscPreallocationData
@@ -49,6 +49,7 @@ module petsc_controller_class
         Mat                          ,private :: petscMat !! PETSc matrix object used in linear solve
         PC                           ,private :: preconditioner !! Precondition object used in solve 
         KSP                          ,private :: solver !! KSP solver object
+        PetscScalar ,allocatable ,dimension(:) ,private :: cooValues !! Preallocated flat value buffer for MatSetValuesCOO
 
     end type 
 
@@ -101,7 +102,7 @@ module petsc_controller_class
         !! Add sparse row data structure to total preallocation sparsity pattern
 
         class(PETScController)      ,intent(inout)  :: this
-        type(SparseRowData)         ,intent(in)     :: rowData 
+        type(SparseRowData)         ,intent(inout)  :: rowData
 
     end subroutine addRowDataToPreallocation
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -93,12 +93,13 @@ module coo_sparsity_pattern_class
  
         end function findLocationOfIndices
 !-----------------------------------------------------------------------------------------------------------------------------------
-        pure module subroutine addEntry(this,row,column) 
+        pure module subroutine addEntry(this,row,column,loc)
             !! Add entry if not already present
 
             class(COOSparsityPattern)   ,intent(inout)  :: this
             integer(ik)                 ,intent(in)     :: row !! Row index
             integer(ik)                 ,intent(in)     :: column !! Column Index
+            integer(ik) ,optional       ,intent(out)    :: loc !! 1-based index of (row,column) in COO arrays
 
         end subroutine addEntry
 !-----------------------------------------------------------------------------------------------------------------------------------

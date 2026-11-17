@@ -453,8 +453,7 @@ module subroutine assemble(this,petscCont)
 
     if (present(petscCont)) then
         do i = 1, size(this%implicitTerms)
-            if (.not. this%skipPattern(i)) &
-                call this%implicitTerms(i)%entry%addRowDataPatternToController(petscCont) 
+            call this%implicitTerms(i)%entry%addRowDataPatternToController(petscCont)
         end do
     end if
 

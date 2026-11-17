@@ -32,7 +32,7 @@ module test_petsc_controller
     
         class (MpiTestMethod), intent(inout) :: this
         type(MPIController) :: testMPIController 
-        type(sparseRowData) :: testSRMatrix
+        type(sparseRowData) :: testSRMatrix ,testSRMatrixOverlap
         type(petscController) :: testPETScController 
         type(solverOptions) :: solOptions 
 
@@ -41,9 +41,11 @@ module test_petsc_controller
         type(variableList) :: testList
         type(indexing) :: testIndexing
 
-        real(rk) ,dimension(3) :: locVecUnknown, locVecKnown
+        real(rk) ,dimension(3) :: locVecUnknown, locVecKnown ,expectedSol
         integer(ik) ,dimension(3) :: locRows 
         type(intArray) ,dimension(3) :: locCols
+        integer(ik) ,dimension(1) :: overlapRows
+        type(intArray) ,dimension(1) :: overlapCols
 
         integer(ik) :: i
 
@@ -71,10 +73,16 @@ module test_petsc_controller
                                realArray(real([locRows(2)],kind=rk)),&
                                realArray(real([locRows(3)],kind=rk))]
 
+        overlapRows = [locRows(2)]
+        overlapCols = [intArray([locRows(2)])]
+        call testSRMatrixOverlap%init(overlapRows,overlapCols)
+        testSRMatrixOverlap%values = [realArray(real([locRows(2)],kind=rk))]
+
         locVecUnknown = 0.0 
         locVecKnown = real(locRows,kind=rk)
 
         call testPETScController%addRowDataToPreallocation(testSRMatrix)
+        call testPETScController%addRowDataToPreallocation(testSRMatrixOverlap)
         call testPETScController%createPETScObjs()
         call testPETScController%addRowValuesToMatrix(testSRMatrix)
 
@@ -92,6 +100,17 @@ module test_petsc_controller
         @assertTrue(testPETScController%getLastConvergedReason()>0)
         @assertEqual(testPETScController%getLastNumIterations(),0)
         @assertEqual(locVecUnknown,real([1.0d00,1.0d00,1.0d00],kind=rk))
+
+        call testPETScController%addRowValuesToMatrix(testSRMatrix,0.5d0)
+        call testPETScController%addRowValuesToMatrix(testSRMatrix,0.5d0)
+        if (testMPIController%getWorldRank() == 0) then
+            call testPETScController%addRowValuesToMatrix(testSRMatrixOverlap,1.0d0)
+        end if
+        call testPETScController%linearSolve(2.0d0*locVecKnown,locVecUnknown)
+        @assertTrue(testPETScController%getLastConvergedReason()>0)
+        expectedSol = real([2.0d00,2.0d00,2.0d00],kind=rk)
+        if (testMPIController%getWorldRank() == 0) expectedSol(2) = 1.0d00
+        @assertEqual(locVecUnknown,expectedSol,tolerance=1.0d-12)
 
         call testPETScController%finalize()
 

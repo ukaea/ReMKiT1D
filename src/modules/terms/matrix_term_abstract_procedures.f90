@@ -195,9 +195,10 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
     procedure(coordMapping)                      :: rowToColMapping
     type(Indexing)               ,intent(in)     :: indexingObj
 
-    integer(ik) :: i ,j
+    integer(ik) :: i ,j ,numRows ,numCols
 
-    type(IntArray) ,allocatable ,dimension(:) :: mappedColIndices ,mappedColIndicesLocal
+    type(IntArray) ,allocatable ,dimension(:) :: mappedColIndices ,mappedColIndicesLocal ,colVectors
+    integer(ik) ,allocatable ,dimension(:)    :: rowIndices
     integer(ik) ,allocatable ,dimension(:,:)  :: allCombinationsMappedInd 
 
     if (assertions) then 
@@ -206,23 +207,31 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
         & be of dimension (1,:) or (3,:) depending on whether the row variable is a distribution")
     end if
 
-    call this%rowData%init()
-    allocate(this%indexingData%rowDataCoordsGlobal(size(rowCoords,2)))
-    allocate(this%indexingData%rowDataCoordsLocal(size(rowCoords,2)))
-    allocate(this%multConst(size(rowCoords,2)))
-    allocate(this%colBuffer(size(rowCoords,2)))
-    allocate(this%rowBuffer(size(rowCoords,2)))
-    allocate(this%indexingData%localRowIndices(size(rowCoords,2)))
-    allocate(this%indexingData%localColIndices(size(rowCoords,2)))
+    numRows = size(rowCoords,2)
+    allocate(rowIndices(numRows))
+    allocate(colVectors(numRows))
+    allocate(this%indexingData%rowDataCoordsGlobal(numRows))
+    allocate(this%indexingData%rowDataCoordsLocal(numRows))
+    allocate(this%multConst(numRows))
+    allocate(this%colBuffer(numRows))
+    allocate(this%rowBuffer(numRows))
+    allocate(this%indexingData%localRowIndices(numRows))
+    allocate(this%indexingData%localColIndices(numRows))
 
     this%rowBuffer = real(1,kind=rk)
     if (size(rowCoords,1) == 1) then
-        do i = 1,size(rowCoords,2)
+        do i = 1,numRows
             mappedColIndices = rowToColMapping(rowCoords(:,i))
             mappedColIndicesLocal = mappedColIndices
             allCombinationsMappedInd = allCombinations(mappedColIndices)
-            call this%rowData%addRow(indexingObj%findIndex(this%indexingData%rowVarName,rowCoords(1,i)),&
-                                     indexingObj%mapToGlobalIndices(this%indexingData%colVarName,mappedColIndices))
+            rowIndices(i) = indexingObj%findIndex(this%indexingData%rowVarName,rowCoords(1,i))
+            colVectors(i)%entry = indexingObj%mapToGlobalIndices(this%indexingData%colVarName,mappedColIndices)
+            numCols = size(colVectors(i)%entry)
+
+            if (assertions) then
+                call assert(.not. any(rowIndices(1:i-1) == rowIndices(i)),&
+                "Attempted to add row vector with same index as one already in sparse row data object")
+            end if
 
             this%indexingData%rowDataCoordsGlobal(i)%rowCoords = rowCoords(:,i)
             this%indexingData%localRowIndices(i) = indexingObj%findLocalXIndex(rowCoords(1,i))
@@ -238,20 +247,20 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
 
             this%indexingData%rowDataCoordsLocal(i)%colCoords = allCombinations(mappedColIndicesLocal)
 
-            allocate(this%multConst(i)%entry(size(this%rowData%values(i)%entry)))
-            allocate(this%colBuffer(i)%entry(size(this%rowData%values(i)%entry)))
+            allocate(this%multConst(i)%entry(numCols))
+            allocate(this%colBuffer(i)%entry(numCols))
             this%multConst(i)%entry = real(1.0d00,kind=rk)
             this%colBuffer(i)%entry = real(1.0d00,kind=rk)
 
-            allocate(this%indexingData%localColIndices(i)%entry(size(this%rowData%values(i)%entry)))
+            allocate(this%indexingData%localColIndices(i)%entry(numCols))
 
             if (size(mappedColIndices) == 1) then
-                do j = 1, size(this%indexingData%localColIndices(i)%entry)
+                do j = 1, numCols
                     this%indexingData%localColIndices(i)%entry(j) = indexingObj%findLocalXIndex(allCombinationsMappedInd(1,j),&
                                                                                                 locXInd=rowCoords(1,i))
                 end do
             else 
-                do j = 1, size(this%indexingData%localColIndices(i)%entry)
+                do j = 1, numCols
                     this%indexingData%localColIndices(i)%entry(j) = indexingObj%findDistIndex(allCombinationsMappedInd(1,j),&
                                                                                  allCombinationsMappedInd(2,j),&
                                                                                  allCombinationsMappedInd(3,j),&
@@ -264,14 +273,20 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
         end do
     else 
 
-        do i = 1,size(rowCoords,2)
+        do i = 1,numRows
             mappedColIndices = rowToColMapping(rowCoords(:,i))
             mappedColIndicesLocal = mappedColIndices
             allCombinationsMappedInd = allCombinations(mappedColIndices)
-            call this%rowData%addRow(indexingObj%findIndex(this%indexingData%rowVarName,rowCoords(1,i),&
-                                                                           rowCoords(2,i),&
-                                                                           rowCoords(3,i)),&
-                                     indexingObj%mapToGlobalIndices(this%indexingData%colVarName,mappedColIndices))
+            rowIndices(i) = indexingObj%findIndex(this%indexingData%rowVarName,rowCoords(1,i),&
+                                                                   rowCoords(2,i),&
+                                                                   rowCoords(3,i))
+            colVectors(i)%entry = indexingObj%mapToGlobalIndices(this%indexingData%colVarName,mappedColIndices)
+            numCols = size(colVectors(i)%entry)
+
+            if (assertions) then
+                call assert(.not. any(rowIndices(1:i-1) == rowIndices(i)),&
+                "Attempted to add row vector with same index as one already in sparse row data object")
+            end if
 
             this%indexingData%rowDataCoordsGlobal(i)%rowCoords = rowCoords(:,i)
             this%indexingData%localRowIndices(i) = indexingObj%findDistIndex(rowCoords(1,i),&
@@ -290,18 +305,18 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
 
             this%indexingData%rowDataCoordsLocal(i)%colCoords = allCombinations(mappedColIndicesLocal)
 
-            allocate(this%multConst(i)%entry(size(this%rowData%values(i)%entry)))
+            allocate(this%multConst(i)%entry(numCols))
             this%multConst(i)%entry = real(1.0d00,kind=rk)
 
-            allocate(this%indexingData%localColIndices(i)%entry(size(this%rowData%values(i)%entry)))
+            allocate(this%indexingData%localColIndices(i)%entry(numCols))
 
             if (size(mappedColIndices) == 1) then
-                do j = 1, size(this%indexingData%localColIndices(i)%entry)
+                do j = 1, numCols
                     this%indexingData%localColIndices(i)%entry(j) = indexingObj%findLocalXIndex(allCombinationsMappedInd(1,j),&
                                                                                                 locXInd=rowCoords(1,i))
                 end do
             else 
-                do j = 1, size(this%indexingData%localColIndices(i)%entry)
+                do j = 1, numCols
                     this%indexingData%localColIndices(i)%entry(j) = indexingObj%findDistIndex(allCombinationsMappedInd(1,j),&
                                                                                 allCombinationsMappedInd(2,j),&
                                                                                 allCombinationsMappedInd(3,j),&
@@ -313,6 +328,8 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
         end do
 
     end if
+
+    call this%rowData%init(rowIndices,colVectors)
 
 end subroutine initRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -334,7 +351,7 @@ end subroutine addRowDataToPreallocationData
 module subroutine addRowDataPatternToController(this,petscCont) 
     !! Add this term's row data to a petsc preallocation object in PETSc controller
 
-    class(MatrixTerm)     ,intent(in)     :: this
+    class(MatrixTerm)     ,intent(inout)  :: this
     type(PETScController) ,intent(inout)  :: petscCont
 
     call petscCont%addRowDataToPreallocation(this%rowData)

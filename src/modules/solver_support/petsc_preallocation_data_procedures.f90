@@ -61,7 +61,7 @@ pure module subroutine addRowDataToPattern(this,rowData)
     !! Add sparse row data structure to total sparsity pattern 
 
     class(PETScPreallocationData)      ,intent(inout)  :: this
-    type(SparseRowData)                ,intent(in)     :: rowData
+    type(SparseRowData)                ,intent(inout)  :: rowData
 
     integer(ik) :: i ,j
 
@@ -70,9 +70,14 @@ pure module subroutine addRowDataToPattern(this,rowData)
         call assertPure(rowData%isDefined(),"Attempted to add undefined row data structure to petsc preallocation data object")
     end if
 
+    if (allocated(rowData%cooIndices)) deallocate(rowData%cooIndices)
+    allocate(rowData%cooIndices(size(rowData%rowIndex)))
+
     do i = 1,size(rowData%rowIndex)
+        allocate(rowData%cooIndices(i)%entry(size(rowData%columnVector(i)%entry)))
         do j = 1,size(rowData%columnVector(i)%entry)
-            call this%totalCOOPattern%addEntry(rowData%rowIndex(i),rowData%columnVector(i)%entry(j))
+            call this%totalCOOPattern%addEntry(rowData%rowIndex(i),rowData%columnVector(i)%entry(j),&
+                                               rowData%cooIndices(i)%entry(j))
         end do 
     end do
 
@@ -193,6 +198,55 @@ module subroutine deallocatePattern(this)
     if (allocated(this%totalCOOPattern)) deallocate(this%totalCOOPattern)
 
 end subroutine deallocatePattern
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module function getNumNonzerosCOO (this) result(numNZ)
+    !! Return total number of deduplicated COO entries on this processor
+
+    class(PETScPreallocationData) ,intent(in) :: this
+    integer(ik)                               :: numNZ
+
+    if (assertions) call assertPure(this%isDefined(),&
+    "Attempted to get number of COO nonzeros from undefined petsc preallocation object")
+
+    numNZ = this%totalCOOPattern%numNonZeros
+
+end function getNumNonzerosCOO
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module function getCOORowIndices0 (this) result(rows0)
+    !! Return 0-based global row indices of deduplicated COO pattern
+
+    class(PETScPreallocationData)          ,intent(in) :: this
+    integer(ik) ,allocatable ,dimension(:)             :: rows0
+
+    integer(ik) :: nnz
+
+    if (assertions) call assertPure(this%isDefined(),&
+    "Attempted to get COO row indices from undefined petsc preallocation object")
+
+    nnz = this%totalCOOPattern%numNonZeros
+    allocate(rows0(max(1,nnz)))
+    rows0 = 0
+    if (nnz > 0) rows0(1:nnz) = this%totalCOOPattern%rowIndex(1:nnz) - 1
+
+end function getCOORowIndices0
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module function getCOOColIndices0 (this) result(cols0)
+    !! Return 0-based global column indices of deduplicated COO pattern
+
+    class(PETScPreallocationData)          ,intent(in) :: this
+    integer(ik) ,allocatable ,dimension(:)             :: cols0
+
+    integer(ik) :: nnz
+
+    if (assertions) call assertPure(this%isDefined(),&
+    "Attempted to get COO col indices from undefined petsc preallocation object")
+
+    nnz = this%totalCOOPattern%numNonZeros
+    allocate(cols0(max(1,nnz)))
+    cols0 = 0
+    if (nnz > 0) cols0(1:nnz) = this%totalCOOPattern%colIndex(1:nnz) - 1
+
+end function getCOOColIndices0
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule petsc_preallocation_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

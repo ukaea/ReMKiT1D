@@ -57,7 +57,7 @@ pure module subroutine addRowDataToPreallocation(this,rowData)
     !! Add sparse row data structure to total preallocation sparsity pattern
 
     class(PETScController)      ,intent(inout)  :: this
-    type(SparseRowData)         ,intent(in)     :: rowData 
+    type(SparseRowData)         ,intent(inout)  :: rowData
 
     if (assertions) then 
         call assertPure(this%isDefined(),"Attempted to add row data structure to PETSc preallocation data using &
@@ -79,12 +79,16 @@ module subroutine addRowValuesToMatrix(this,rowData,multConst,objGroup)
 
     real(rk) :: mult
 
-    integer(ik) :: i ,ierr ,usedGroup
+    integer(ik) :: i ,j ,usedGroup
 
-    if (assertions) then 
+    if (assertions .or. assertionLvl >= 0) then
         call assert(this%isDefined(),"Attempted to add row values to matrix of undefined PETSc controller object")
         call assert(this%objCreated,&
         "Attempted to add row values to matrix of PETSc controller before PETSc objects were generated")
+        call assert(allocated(rowData%cooIndices),&
+        "Attempted to add row values to PETSc matrix from SparseRowData not registered during preallocation")
+        call assert(size(rowData%cooIndices) == size(rowData%rowIndex),&
+        "SparseRowData cooIndices size mismatch - row structure modified after preallocation registration")
     end if
 
     mult = real(1.0d0,kind=rk)
@@ -93,11 +97,11 @@ module subroutine addRowValuesToMatrix(this,rowData,multConst,objGroup)
     if (present(multConst)) mult = multConst 
 
     do i = 1,size(rowData%rowIndex)
-        call MatSetValues(this%objs(usedGroup)%petscMat,1, [rowData%rowIndex(i) - 1], &
-                                        size(rowData%columnVector(i)%entry),rowData%columnVector(i)%entry - 1,&
-                                        mult * rowData%values(i)%entry,ADD_VALUES,ierr)
-        CHKERRQ(ierr)
-    end do  
+        do j = 1,size(rowData%cooIndices(i)%entry)
+            this%objs(usedGroup)%cooValues(rowData%cooIndices(i)%entry(j)) = &
+                this%objs(usedGroup)%cooValues(rowData%cooIndices(i)%entry(j)) + mult * rowData%values(i)%entry(j)
+        end do
+    end do
 
 end subroutine addRowValuesToMatrix
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -106,7 +110,9 @@ module subroutine createPETScObjs(this)
 
     class(PETScController)      ,intent(inout)  :: this
 
-    integer(ik) :: ierr ,i
+    integer(ik) :: ierr ,i ,nnzCOO
+    PetscCount  :: ncoo
+    PetscInt ,allocatable ,dimension(:) :: cooRows0 ,cooCols0
     KSPType     :: kspType
 
     if (assertions) then 
@@ -115,18 +121,32 @@ module subroutine createPETScObjs(this)
     end if
 
     call this%preallocData%assembleData()
+    nnzCOO = this%preallocData%getNumNonzerosCOO()
+    ncoo = int(nnzCOO,kind=kind(ncoo))
+    cooRows0 = this%preallocData%getCOORowIndices0()
+    cooCols0 = this%preallocData%getCOOColIndices0()
 
     do i = 1, size(this%objs)
 
         call PETScOptionsInsertString(PETSC_NULL_OPTIONS,this%options%petscOptions,ierr)
         CHKERRQ(ierr)
 
-        call MatCreateAIJ(PETSc_Comm_World,this%preallocData%getLocalNumDoFs(),this%preallocData%getLocalNumDoFs(),&
-                                        this%preallocData%getTotalNumDoFs(),this%preallocData%getTotalNumDoFs(),&
-                                        1,this%preallocData%getNumNonzerosDiag(),&
-                                        1,this%preallocData%getNumNonzerosOffDiag(),&
-                                        this%objs(i)%petscMat,ierr)
-        CHKERRQ(ierr) 
+        call MatCreate(PETSc_Comm_World,this%objs(i)%petscMat,ierr)
+        CHKERRQ(ierr)
+        call MatSetSizes(this%objs(i)%petscMat,this%preallocData%getLocalNumDoFs(),this%preallocData%getLocalNumDoFs(),&
+                                        this%preallocData%getTotalNumDoFs(),this%preallocData%getTotalNumDoFs(),ierr)
+        CHKERRQ(ierr)
+        call MatSetType(this%objs(i)%petscMat,MATAIJ,ierr)
+        CHKERRQ(ierr)
+        call MatSetFromOptions(this%objs(i)%petscMat,ierr)
+        CHKERRQ(ierr)
+        call MatSetOption(this%objs(i)%petscMat,MAT_NO_OFF_PROC_ENTRIES,PETSC_TRUE,ierr)
+        CHKERRQ(ierr)
+        call MatSetPreallocationCOO(this%objs(i)%petscMat,ncoo,cooRows0,cooCols0,ierr)
+        CHKERRQ(ierr)
+
+        allocate(this%objs(i)%cooValues(max(1,nnzCOO)))
+        this%objs(i)%cooValues = 0.0d0
 
         call VecCreateMPI(PETSc_Comm_World,this%preallocData%getLocalNumDoFs(),&
                                         this%preallocData%getTotalNumDoFs(),&
@@ -211,10 +231,9 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     usedGroup = 1
     if (present(objGroup)) usedGroup = objGroup
 
-    call MatAssemblyBegin(this%objs(usedGroup)%petscMat,MAT_FINAL_ASSEMBLY,ierr)
+    call MatSetValuesCOO(this%objs(usedGroup)%petscMat,this%objs(usedGroup)%cooValues,INSERT_VALUES,ierr)
     CHKERRQ(ierr)
-    call MatAssemblyEnd(this%objs(usedGroup)%petscMat,MAT_FINAL_ASSEMBLY,ierr)
-    CHKERRQ(ierr)
+    this%objs(usedGroup)%cooValues = 0.0d0
 
     call VecGetArrayF90(this%objs(usedGroup)%rhs,vecPointer,ierr)
     CHKERRQ(ierr)
@@ -253,9 +272,6 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     unknownVec = real(solutionPointer,kind=rk)
 
     call VecRestoreArrayReadF90(this%objs(usedGroup)%sol,solutionPointer,ierr)
-    CHKERRQ(ierr)
-
-    call MatZeroEntries(this%objs(usedGroup)%petscMat,ierr) 
     CHKERRQ(ierr)
 
 end subroutine linearSolve

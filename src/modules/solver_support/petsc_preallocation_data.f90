@@ -48,6 +48,9 @@ module petsc_preallocation_data_class
 
         procedure ,public :: getNumNonzerosDiag
         procedure ,public :: getNumNonzerosOffDiag
+        procedure ,public :: getNumNonzerosCOO
+        procedure ,public :: getCOORowIndices0
+        procedure ,public :: getCOOColIndices0
 
         procedure ,public :: getLocalNumDoFs
         procedure ,public :: getTotalNumDoFs
@@ -74,7 +77,7 @@ module petsc_preallocation_data_class
             !! Add sparse row data structure to total sparsity pattern 
 
             class(PETScPreallocationData)      ,intent(inout)  :: this
-            type(SparseRowData)                ,intent(in)     :: rowData 
+            type(SparseRowData)                ,intent(inout)  :: rowData
 
         end subroutine addRowDataToPattern
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -139,6 +142,30 @@ module petsc_preallocation_data_class
             class(PETScPreallocationData)      ,intent(inout)  :: this
 
         end subroutine deallocatePattern
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getNumNonzerosCOO (this) result(numNZ)
+            !! Return total number of deduplicated COO entries on this processor
+
+            class(PETScPreallocationData) ,intent(in) :: this
+            integer(ik)                               :: numNZ
+
+        end function getNumNonzerosCOO
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getCOORowIndices0 (this) result(rows0)
+            !! Return 0-based global row indices of deduplicated COO pattern
+
+            class(PETScPreallocationData)          ,intent(in) :: this
+            integer(ik) ,allocatable ,dimension(:)             :: rows0
+
+        end function getCOORowIndices0
+!-----------------------------------------------------------------------------------------------------------------------------------
+        pure module function getCOOColIndices0 (this) result(cols0)
+            !! Return 0-based global column indices of deduplicated COO pattern
+
+            class(PETScPreallocationData)          ,intent(in) :: this
+            integer(ik) ,allocatable ,dimension(:)             :: cols0
+
+        end function getCOOColIndices0
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -80,4 +80,14 @@ subroutine test_sparse_row_data
         @assertTrue(all(abs(testArray(i)%entry - real(i**2,kind=rk)) <= 1.0d-14))
     end do
 
+    allocate(testData%cooIndices(4))
+    @assertTrue(allocated(testData%cooIndices))
+    call testData%addRow(5,[5,6])
+    @assertFalse(allocated(testData%cooIndices))
+
+    allocate(testData%cooIndices(5))
+    @assertTrue(allocated(testData%cooIndices))
+    call testData%init(rows,colVecs)
+    @assertFalse(allocated(testData%cooIndices))
+
 end subroutine test_sparse_row_data

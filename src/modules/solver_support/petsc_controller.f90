@@ -131,14 +131,16 @@ module petsc_controller_class
 
     end function objectsCreated
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine linearSolve(this,knownVec,unknownVec,objGroup) 
+    module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC)
         !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor, using unknownVec as
-        !! the initial guess - assembles and zeros out the matrix before/after the solve
+        !! the initial guess - assembles and zeros out the matrix before/after the solve.
+        !! Reuse requires an iterative KSP. A diverged reused-PC solve gets one fresh-PC retry.
 
         class(PETScController)      ,intent(inout)  :: this
         real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
         real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
         integer(ik)   ,optional     ,intent(in)     :: objGroup
+        logical       ,optional     ,intent(in)     :: reusePC !! Default false; overrides -ksp_reuse_preconditioner
 
     end subroutine linearSolve
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -151,7 +153,7 @@ module petsc_controller_class
     end function getLastConvergedReason
 !-----------------------------------------------------------------------------------------------------------------------------------
     pure module function getLastNumIterations(this) result(numIters)
-        !! Getter for lastNumIterations
+        !! Getter for lastNumIterations (reflects the final solve attempt when a reused-PC solve is retried)
 
         class(PETScController)      ,intent(in)  :: this
         integer(ik)                              :: numIters

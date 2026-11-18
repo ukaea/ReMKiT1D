@@ -210,7 +210,7 @@ pure module function objectsCreated(this) result(created)
 
 end function objectsCreated
 !-----------------------------------------------------------------------------------------------------------------------------------
-module subroutine linearSolve(this,knownVec,unknownVec,objGroup) 
+module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC)
     !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor, using unknownVec as
     !! the initial guess - assembles and zeros out the matrix before/after the solve
 
@@ -218,8 +218,11 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
     real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
     integer(ik)   ,optional     ,intent(in)     :: objGroup
+    logical       ,optional     ,intent(in)     :: reusePC !! Default false; overrides -ksp_reuse_preconditioner
 
-    integer(ik) :: ierr ,usedGroup
+    integer(ik) :: ierr ,usedGroup ,attempt
+    PetscBool :: reuseThisSolve
+    KSPType :: solverType
 
     PetscScalar ,dimension(:) ,pointer :: vecPointer ,solutionPointer
 
@@ -231,6 +234,15 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     usedGroup = 1
     if (present(objGroup)) usedGroup = objGroup
 
+    reuseThisSolve = PETSC_FALSE
+    if (present(reusePC)) reuseThisSolve = reusePC
+    if (reuseThisSolve) then
+        call KSPGetType(this%objs(usedGroup)%solver,solverType,ierr)
+        CHKERRQ(ierr)
+        if (trim(solverType) == KSPPREONLY) &
+            error stop "PC reuse requires an iterative KSP: preonly cannot correct stale factors for a changed operator"
+    end if
+
     call MatSetValuesCOO(this%objs(usedGroup)%petscMat,this%objs(usedGroup)%cooValues,INSERT_VALUES,ierr)
     CHKERRQ(ierr)
     this%objs(usedGroup)%cooValues = 0.0d0
@@ -239,12 +251,6 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     CHKERRQ(ierr)
     vecPointer = knownVec
     call VecRestoreArrayF90(this%objs(usedGroup)%rhs,vecPointer,ierr)
-    CHKERRQ(ierr)
-
-    call VecGetArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
-    CHKERRQ(ierr)
-    vecPointer = unknownVec
-    call VecRestoreArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
     CHKERRQ(ierr)
 
     call KSPSetTolerances(this%objs(usedGroup)%solver,this%options%solverToleranceRel,&
@@ -257,14 +263,32 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup)
     call KSPSetOperators(this%objs(usedGroup)%solver,this%objs(usedGroup)%petscMat,this%objs(usedGroup)%petscMat,ierr)
     CHKERRQ(ierr)
 
-    call KSPSolve(this%objs(usedGroup)%solver,this%objs(usedGroup)%rhs,this%objs(usedGroup)%sol,ierr)
-    CHKERRQ(ierr)
+    do attempt = 1,2
+        ! Set explicitly on every solve so reuse cannot leak to another caller of this group.
+        call KSPSetReusePreconditioner(this%objs(usedGroup)%solver,reuseThisSolve,ierr)
+        CHKERRQ(ierr)
 
-    call KSPGetConvergedReason(this%objs(usedGroup)%solver,this%lastConvergedReason,ierr)
-    CHKERRQ(ierr)
+        ! Keep the initial guess unchanged until the final result is extracted.
+        call VecGetArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
+        CHKERRQ(ierr)
+        vecPointer = unknownVec
+        call VecRestoreArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
+        CHKERRQ(ierr)
 
-    call KSPGetIterationNumber(this%objs(usedGroup)%solver,this%lastNumIterations,ierr)
-    CHKERRQ(ierr)
+        call KSPSolve(this%objs(usedGroup)%solver,this%objs(usedGroup)%rhs,this%objs(usedGroup)%sol,ierr)
+        CHKERRQ(ierr)
+
+        call KSPGetConvergedReason(this%objs(usedGroup)%solver,this%lastConvergedReason,ierr)
+        CHKERRQ(ierr)
+        call KSPGetIterationNumber(this%objs(usedGroup)%solver,this%lastNumIterations,ierr)
+        CHKERRQ(ierr)
+
+        if (this%lastConvergedReason >= 0 .or. .not. reuseThisSolve) exit
+        ! Retry the installed matrix once, without reassembly or consuming the cleared COO buffer.
+        reuseThisSolve = PETSC_FALSE
+        call PetscPrintf(PETSC_COMM_WORLD,"Reused PC solve diverged; refreshing PC and retrying once."//achar(10),ierr)
+        CHKERRQ(ierr)
+    end do
 
     call VecGetArrayReadF90(this%objs(usedGroup)%sol,solutionPointer,ierr)
     CHKERRQ(ierr)

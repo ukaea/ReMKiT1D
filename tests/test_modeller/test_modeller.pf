@@ -141,8 +141,19 @@ contains
 
     @test( npes=[8])
     subroutine test_modeller_BDE_int(this)
-
         class (MpiTestMethod), intent(inout) :: this
+        call check_modeller_BDE_int(this)
+    end subroutine test_modeller_BDE_int
+
+    @test( npes=[8])
+    subroutine test_modeller_BDE_reuse(this)
+        class (MpiTestMethod), intent(inout) :: this
+        call check_modeller_BDE_int(this,reusePC=.true.)
+    end subroutine test_modeller_BDE_reuse
+
+    subroutine check_modeller_BDE_int(this,reusePC)
+        class (MpiTestMethod), intent(inout) :: this
+        logical ,optional ,intent(in) :: reusePC
         type(MPIController) :: testMPIController 
         type(partition) :: testPart
         type(grid) :: testGrid
@@ -255,7 +266,8 @@ contains
         call assertEqual(testVarCont%variables(6)%entry(1:3),real([1,1,1],kind=rk),tolerance=1d-12)
 
         call testIntegrator%init(testIndexing,testMPIController%getWorldRank(),convergenceIndices=[1,3],&
-        modelList=[1],termGroups=[intArray([1,2])],evolvesTimeVar=.true.,initialTimestep=0.1d0)
+        modelList=[1],termGroups=[intArray([1,2])],evolvesTimeVar=.true.,initialTimestep=0.1d0,&
+        reusePreconditioner=reusePC)
         call testIntegrator%setCommunicationNeeded(.false.)
         call testIntegrator%setUpdateRules([logicalArray([.false.])])
         call testModeller%setIntegrator(testIntegrator)
@@ -275,9 +287,13 @@ contains
         call testModeller%copyVarValuesTo(testVarCont)
         call assertEqual(testVarCont%variables(6)%entry,2*testModeller%evaluateModelTermGroup(1,2,testVarCont),tolerance=1d-12)
 
-        call testPETScController%finalize()
-
-    end subroutine test_modeller_BDE_int
+        ! Solution-parity check across a second outer step.
+        call testModeller%integrate()
+        call testModeller%copyVarValuesTo(testVarCont)
+        call assertEqual(testVarCont%variables(4)%entry(1),0.2d0,tolerance=1d-12)
+        call assertEqual(testVarCont%variables(1)%entry(1),1d0/0.9d0**2,tolerance=1d-12)
+        ! PetscFinalize is called once at the end of the final PETSc test in this binary.
+    end subroutine check_modeller_BDE_int
 
     @test( npes=[8])
     subroutine test_modeller_composite_int(this)
@@ -394,8 +410,7 @@ contains
         call assertEqual(testVarCont%variables(1)%entry(1),1.2d0/0.9d0,tolerance=1d-12)
         call assertEqual(testVarCont%variables(2)%entry(1),1.0d0)
 
-        call testPETScController%finalize()
-
+        ! PETSc remains initialized for the remaining tests in this binary.
 
     end subroutine test_modeller_composite_int
 

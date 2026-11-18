@@ -63,6 +63,7 @@ module implicit_PicardBDE_integrator_class
         integer(ik)                                  ,private :: timesCalled !! Tracker for number of times called
         integer(ik)                                  ,private :: totNumIters !! Tracker for total number of iterations
 
+        logical                                      ,private :: reusePreconditioner !! Opt-in PC reuse within a substep
         logical                                      ,private :: use2Norm !! True if the norm to be used is the 2norm instead of local inf-norm
 
         integer(ik)                                  ,private :: associatedPETScObjGroup !! PETSc obj group this solver should interact with (defaults to 1)
@@ -106,7 +107,7 @@ module implicit_PicardBDE_integrator_class
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,maxIters,convergenceIndices,&
         modelList,termGroups,evolvesTimeVar,dtController,initialTimestep,&
-        use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight)
+        use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight,reusePreconditioner)
         !! BDE integrator constructor 
     
         class(PicardBDEIntegrator)                ,intent(inout) :: this
@@ -126,6 +127,7 @@ module implicit_PicardBDE_integrator_class
         type(InternalControllerOptions) ,optional ,intent(in)    :: intContOptions !! InternalControlOptions (if present turns on internal control)
         character(*)                    ,optional ,intent(in)    :: integratorName !! Name of integrator used in printing
         real(rk)                  ,optional       ,intent(in)    :: relaxationWeight !! relaxationWeight
+        logical                   ,optional       ,intent(in)    :: reusePreconditioner !! Reuse within each attempted substep
 
     end subroutine initBDEIntegrator
 !-----------------------------------------------------------------------------------------------------------------------------------

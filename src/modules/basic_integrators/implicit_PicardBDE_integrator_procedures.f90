@@ -24,7 +24,7 @@ contains
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,maxIters,convergenceIndices,&
     modelList,termGroups,evolvesTimeVar,dtController,initialTimestep&
-    ,use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight)
+    ,use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight,reusePreconditioner)
     !! BDE integrator constructor 
 
     class(PicardBDEIntegrator)                ,intent(inout) :: this
@@ -44,6 +44,7 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     type(InternalControllerOptions) ,optional ,intent(in)    :: intContOptions !! InternalControlOptions (if present turns on internal control)
     character(*)                    ,optional ,intent(in)    :: integratorName !! Name of integrator used in printing
     real(rk)                  ,optional       ,intent(in)    :: relaxationWeight !! relaxationWeight
+    logical                   ,optional       ,intent(in)    :: reusePreconditioner !! Reuse within each attempted substep
     
     integer(ik) ,allocatable ,dimension(:) :: procDoFs
 
@@ -74,6 +75,8 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     this%nonlinTol = real(1.0d-12,kind=rk)
     this%maxIterations = 100
     this%absTol = real(1,kind=rk)
+    this%reusePreconditioner = .false.
+    if (present(reusePreconditioner)) this%reusePreconditioner = reusePreconditioner
     this%use2Norm = .false.
     if (present(use2Norm)) this%use2Norm = use2Norm
     this%associatedPETScObjGroup = 1
@@ -449,8 +452,10 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
                 end do
             end do
 
+            ! Refresh PC on the first Picard solve (nonlinIter == 0) of every attempted substep/split, and never reuse for dt == 0.
             call manipulatedModeller%linearSolvePETSc(this%implicitVectorInit,this%implicitVectorNew,.true.,&
-                                                    convReason,this%associatedPETScObjGroup)
+                                                    convReason,this%associatedPETScObjGroup,&
+                                                    reusePC=this%reusePreconditioner .and. nonlinIter > 0 .and. dt /= 0.0d0)
 
             ! Check if PETSc diverged 
             if (convReason < -1) then 

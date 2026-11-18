@@ -124,6 +124,7 @@ module key_names
     character(len=*) ,parameter :: keyMaxNonlinIters = "maxNonlinIters"
     character(len=*) ,parameter :: keyAssociatedPETScGroup = "associatedPETScGroup"
     character(len=*) ,parameter :: keyUse2Norm = "use2Norm"
+    character(len=*) ,parameter :: keyReusePreconditioner = "reusePreconditioner"
     character(len=*) ,parameter :: keyInternalStepControl = "internalStepControl"
     character(len=*) ,parameter :: keyStepMultiplier = "stepMultiplier"
     character(len=*) ,parameter :: keyMinNumNonlinInters = "minNumNonlinIters"

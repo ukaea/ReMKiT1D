@@ -352,7 +352,7 @@ module modeller_class
 
     end function getGlobalMax
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine linearSolvePETSc(this,knownVec,unknownVec,addIdentityMat,convReason,petscGroup) 
+    module subroutine linearSolvePETSc(this,knownVec,unknownVec,addIdentityMat,convReason,petscGroup,reusePC)
         !! Call linearSolve routine on PETScController of this modeller. Creates PETSc objects if they've not yet been created. If 
         !! addIdentityMat is true adds an identity matrix to the PETSc matrix.
     
@@ -362,6 +362,7 @@ module modeller_class
         logical                     ,intent(in)     :: addIdentityMat
         integer(ik)                 ,intent(inout)  :: convReason
         integer(ik)   ,optional     ,intent(in)     :: petscGroup
+        logical       ,optional     ,intent(in)     :: reusePC !! Reuse PC for this solve only (default false)
 
     end subroutine linearSolvePETSc
 !-----------------------------------------------------------------------------------------------------------------------------------

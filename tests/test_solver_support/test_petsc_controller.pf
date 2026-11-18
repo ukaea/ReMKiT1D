@@ -112,10 +112,146 @@ module test_petsc_controller
         if (testMPIController%getWorldRank() == 0) expectedSol(2) = 1.0d00
         @assertEqual(locVecUnknown,expectedSol,tolerance=1.0d-12)
 
+        call checkPCReusePerGroup(testIndexing,testMPIController)
+        call checkPCReuseFreshRetry(testIndexing,testMPIController)
+        call checkPCReuseTerminalFailure(testIndexing,testMPIController)
+
         call testPETScController%finalize()
 
 
 
     end subroutine test_controller
+
+    subroutine checkPCReusePerGroup(testIndexing,testMPIController)
+        ! Three distinct diagonal entries distinguish a stale Jacobi PC (3 GMRES iterations)
+        ! from a refreshed one (1 iteration) independently per PETSc object group.
+        type(indexing) ,intent(in) :: testIndexing
+        type(MPIController) ,intent(in) :: testMPIController
+        type(PETScController) :: controller
+        type(SolverOptions) :: options
+        type(SparseRowData) :: matrix
+        integer(ik) ,dimension(3) :: rows
+        type(IntArray) ,dimension(3) :: cols
+        real(rk) ,dimension(3) :: solution
+        integer(ik) :: group
+
+        options%kspSolverType = "gmres"
+        options%hyprePC = ""
+        options%petscOptions = "-pc_type jacobi"
+        options%solverToleranceRel = 1.0d-10
+        options%solverToleranceAbs = 1.0d-14
+        call controller%init(testIndexing,testMPIController,options,numObjs=2)
+        rows = [1,2,3] + testMPIController%getWorldRank()*3
+        cols = [IntArray([rows(1)]),IntArray([rows(2)]),IntArray([rows(3)])]
+        call matrix%init(rows,cols)
+        call controller%addRowDataToPreallocation(matrix)
+        call controller%createPETScObjs()
+
+        do group = 1,2
+            matrix%values = [RealArray([1.0d0]),RealArray([1.0d0]),RealArray([1.0d0])]
+            call controller%addRowValuesToMatrix(matrix,objGroup=group)
+            solution = 0.0d0
+            call controller%linearSolve([1.0d0,1.0d0,1.0d0],solution,objGroup=group)
+            @assertEqual(controller%getLastNumIterations(),1)
+        end do
+
+        ! Each group retains its own PC even after solves on the other group.
+        do group = 1,2
+            matrix%values = [RealArray([1.0d0]),RealArray([2.0d0]),RealArray([3.0d0])]
+            call controller%addRowValuesToMatrix(matrix,objGroup=group)
+            solution = 0.0d0
+            call controller%linearSolve([1.0d0,2.0d0,3.0d0],solution,objGroup=group,reusePC=.true.)
+            @assertTrue(controller%getLastConvergedReason()>0)
+            @assertEqual(controller%getLastNumIterations(),3)
+            @assertEqual(solution,[1.0d0,1.0d0,1.0d0],tolerance=1.0d-10)
+
+            call controller%addRowValuesToMatrix(matrix,objGroup=group)
+            solution = 0.0d0
+            if (group == 1) then
+                call controller%linearSolve([1.0d0,2.0d0,3.0d0],solution,objGroup=group,reusePC=.false.)
+            else
+                call controller%linearSolve([1.0d0,2.0d0,3.0d0],solution,objGroup=group)
+            end if
+            @assertEqual(controller%getLastNumIterations(),1)
+            @assertEqual(solution,[1.0d0,1.0d0,1.0d0],tolerance=1.0d-10)
+        end do
+    end subroutine checkPCReusePerGroup
+
+    subroutine checkPCReuseFreshRetry(testIndexing,testMPIController)
+        ! Stale Jacobi PC cannot solve diag(1,2,3) in 1 GMRES iteration; only the fresh-PC retry succeeds.
+        type(indexing) ,intent(in) :: testIndexing
+        type(MPIController) ,intent(in) :: testMPIController
+        type(PETScController) :: retryController
+        type(SolverOptions) :: options
+        type(SparseRowData) :: matrix
+        integer(ik) ,dimension(3) :: rows
+        type(IntArray) ,dimension(3) :: cols
+        real(rk) ,dimension(3) :: solution
+
+        options%kspSolverType = "gmres"
+        options%hyprePC = ""
+        options%petscOptions = "-pc_type jacobi"
+        options%solverToleranceRel = 1.0d-10
+        options%solverToleranceAbs = 1.0d-14
+        options%maxSolverIters = 1
+        call retryController%init(testIndexing,testMPIController,options)
+        rows = [1,2,3] + testMPIController%getWorldRank()*3
+        cols = [IntArray([rows(1)]),IntArray([rows(2)]),IntArray([rows(3)])]
+        call matrix%init(rows,cols)
+        call retryController%addRowDataToPreallocation(matrix)
+        call retryController%createPETScObjs()
+
+        matrix%values = [RealArray([1.0d0]),RealArray([1.0d0]),RealArray([1.0d0])]
+        call retryController%addRowValuesToMatrix(matrix)
+        solution = 0.0d0
+        call retryController%linearSolve([1.0d0,1.0d0,1.0d0],solution)
+
+        matrix%values = [RealArray([1.0d0]),RealArray([2.0d0]),RealArray([3.0d0])]
+        call retryController%addRowValuesToMatrix(matrix)
+        solution = 0.0d0
+        call retryController%linearSolve([1.0d0,2.0d0,3.0d0],solution,reusePC=.true.)
+        @assertTrue(retryController%getLastConvergedReason()>0)
+        @assertEqual(retryController%getLastNumIterations(),1)
+        @assertEqual(solution,[1.0d0,1.0d0,1.0d0],tolerance=1.0d-10)
+    end subroutine checkPCReuseFreshRetry
+
+    subroutine checkPCReuseTerminalFailure(testIndexing,testMPIController)
+        ! Without a preconditioner, diag(1,2,3) needs 3 GMRES iterations on both the reused-PC attempt
+        ! and the fresh-PC retry; verify the retry loop terminates and propagates KSP_DIVERGED_ITS (-3).
+        type(indexing) ,intent(in) :: testIndexing
+        type(MPIController) ,intent(in) :: testMPIController
+        type(PETScController) :: failController
+        type(SolverOptions) :: options
+        type(SparseRowData) :: matrix
+        integer(ik) ,dimension(3) :: rows
+        type(IntArray) ,dimension(3) :: cols
+        real(rk) ,dimension(3) :: solution
+
+        options%kspSolverType = "gmres"
+        options%hyprePC = ""
+        options%petscOptions = "-pc_type none"
+        options%solverToleranceRel = 1.0d-10
+        options%solverToleranceAbs = 1.0d-14
+        options%maxSolverIters = 1
+        call failController%init(testIndexing,testMPIController,options)
+        rows = [1,2,3] + testMPIController%getWorldRank()*3
+        cols = [IntArray([rows(1)]),IntArray([rows(2)]),IntArray([rows(3)])]
+        call matrix%init(rows,cols)
+        call failController%addRowDataToPreallocation(matrix)
+        call failController%createPETScObjs()
+
+        matrix%values = [RealArray([1.0d0]),RealArray([1.0d0]),RealArray([1.0d0])]
+        call failController%addRowValuesToMatrix(matrix)
+        solution = 0.0d0
+        call failController%linearSolve([1.0d0,1.0d0,1.0d0],solution)
+        @assertTrue(failController%getLastConvergedReason()>0)
+
+        matrix%values = [RealArray([1.0d0]),RealArray([2.0d0]),RealArray([3.0d0])]
+        call failController%addRowValuesToMatrix(matrix)
+        solution = 0.0d0
+        call failController%linearSolve([1.0d0,2.0d0,3.0d0],solution,reusePC=.true.)
+        @assertEqual(failController%getLastConvergedReason(),-3)
+        @assertEqual(failController%getLastNumIterations(),1)
+    end subroutine checkPCReuseTerminalFailure
 
 end module

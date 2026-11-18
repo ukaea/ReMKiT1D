@@ -115,6 +115,7 @@ module test_petsc_controller
         call checkPCReusePerGroup(testIndexing,testMPIController)
         call checkPCReuseFreshRetry(testIndexing,testMPIController)
         call checkPCReuseTerminalFailure(testIndexing,testMPIController)
+        call checkPCReusePreonlyFallback(testIndexing,testMPIController)
 
         call testPETScController%finalize()
 
@@ -253,5 +254,40 @@ module test_petsc_controller
         @assertEqual(failController%getLastConvergedReason(),-3)
         @assertEqual(failController%getLastNumIterations(),1)
     end subroutine checkPCReuseTerminalFailure
+
+    subroutine checkPCReusePreonlyFallback(testIndexing,testMPIController)
+        ! KSPPREONLY automatically disables reusePC so changed operators refresh the PC cleanly.
+        type(indexing) ,intent(in) :: testIndexing
+        type(MPIController) ,intent(in) :: testMPIController
+        type(PETScController) :: preonlyController
+        type(SolverOptions) :: options
+        type(SparseRowData) :: matrix
+        integer(ik) ,dimension(3) :: rows
+        type(IntArray) ,dimension(3) :: cols
+        real(rk) ,dimension(3) :: solution
+
+        options%kspSolverType = "preonly"
+        options%hyprePC = ""
+        options%petscOptions = "-pc_type jacobi"
+        call preonlyController%init(testIndexing,testMPIController,options)
+        rows = [1,2,3] + testMPIController%getWorldRank()*3
+        cols = [IntArray([rows(1)]),IntArray([rows(2)]),IntArray([rows(3)])]
+        call matrix%init(rows,cols)
+        call preonlyController%addRowDataToPreallocation(matrix)
+        call preonlyController%createPETScObjs()
+
+        matrix%values = [RealArray([1.0d0]),RealArray([1.0d0]),RealArray([1.0d0])]
+        call preonlyController%addRowValuesToMatrix(matrix)
+        solution = 0.0d0
+        call preonlyController%linearSolve([1.0d0,1.0d0,1.0d0],solution)
+        @assertEqual(solution,[1.0d0,1.0d0,1.0d0],tolerance=1.0d-12)
+
+        matrix%values = [RealArray([1.0d0]),RealArray([2.0d0]),RealArray([3.0d0])]
+        call preonlyController%addRowValuesToMatrix(matrix)
+        solution = 0.0d0
+        call preonlyController%linearSolve([1.0d0,2.0d0,3.0d0],solution,reusePC=.true.)
+        @assertTrue(preonlyController%getLastConvergedReason()>0)
+        @assertEqual(solution,[1.0d0,1.0d0,1.0d0],tolerance=1.0d-12)
+    end subroutine checkPCReusePreonlyFallback
 
 end module

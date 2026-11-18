@@ -239,8 +239,7 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC)
     if (reuseThisSolve) then
         call KSPGetType(this%objs(usedGroup)%solver,solverType,ierr)
         CHKERRQ(ierr)
-        if (trim(solverType) == KSPPREONLY) &
-            error stop "PC reuse requires an iterative KSP: preonly cannot correct stale factors for a changed operator"
+        if (trim(solverType) == KSPPREONLY) reuseThisSolve = PETSC_FALSE
     end if
 
     call MatSetValuesCOO(this%objs(usedGroup)%petscMat,this%objs(usedGroup)%cooValues,INSERT_VALUES,ierr)

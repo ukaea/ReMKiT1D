@@ -40,6 +40,9 @@ module test_abstract_term
 
     end type testDerivation
 
+    type ,extends(MatrixTerm) :: defaultUnityMatrixTerm
+    end type defaultUnityMatrixTerm
+
 contains
 
     @test
@@ -53,9 +56,10 @@ contains
         type(calculationRule) ,dimension(2) :: cRules
         type(testDerivation) :: method
         type(testMatrixTerm) :: testTerm ,testTerm2
+        type(defaultUnityMatrixTerm) :: testUnityKinTerm
         type(petscPreallocationData) :: testPreallocData
         type(intArray) ,allocatable ,dimension(:) :: coordsF
-        real(rk) ,allocatable ,dimension(:) :: testVec
+        real(rk) ,allocatable ,dimension(:) :: testVec ,expectedUnityVec
         type(stencil) :: testStencil1 ,testStencil2
 
         integer(ik) :: i ,j
@@ -132,6 +136,20 @@ contains
         end do
 
         @assertEqual(testTerm2%evaluate(testVarCont1),testVec)
+
+        call testUnityKinTerm%makeDefined()
+        call testUnityKinTerm%setEvolvedAndImplicitVar("f","f",testVarCont1)
+        call testUnityKinTerm%initRowData(allCombinations(coordsF),testMapping,testIndexing)
+        call testUnityKinTerm%calculateValues(testVarCont1)
+
+        allocate(expectedUnityVec(-5:24))
+        expectedUnityVec = 0.0d0
+        do i = 1,3
+            do j = 1,3
+                expectedUnityVec((i-1)*6 + j) = 4.0d0
+            end do
+        end do
+        @assertEqual(testUnityKinTerm%evaluate(testVarCont1),expectedUnityVec)
 
         contains 
 

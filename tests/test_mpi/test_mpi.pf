@@ -45,6 +45,8 @@ subroutine test_controller(this)
     @assertEqual(testController%getWorldSize(),8)
     @assertEqual(testController%getRowSize(),2)
     @assertEqual(testController%getRowRank(),mod(testController%getWorldRank(),2))
+
+    call testController%finalize()
    
 end subroutine test_controller
 

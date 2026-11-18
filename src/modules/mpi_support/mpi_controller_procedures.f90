@@ -582,5 +582,34 @@ module function allreduceMax (this,input) result(max)
 
 end function allreduceMax
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine finalizeMPIController(this,finalizeMPI)
+    !! Free MPIController communicators and optionally call MPI_Finalize
+
+    class(MPIController)      ,intent(inout)  :: this
+    logical       ,optional   ,intent(in)     :: finalizeMPI
+
+    logical :: shouldFinalizeMPI ,mpiInitialized ,mpiFinalized
+
+    shouldFinalizeMPI = .false.
+    if (present(finalizeMPI)) shouldFinalizeMPI = finalizeMPI
+
+    call MPI_Initialized(mpiInitialized)
+    call MPI_Finalized(mpiFinalized)
+
+    if (this%isDefined() .and. mpiInitialized .and. (.not. mpiFinalized)) then
+        if (this%rowsSetUp) then
+            if (this%rowComm /= MPI_COMM_NULL) call MPI_Comm_free(this%rowComm)
+            if (this%colComm /= MPI_COMM_NULL) call MPI_Comm_free(this%colComm)
+            this%rowsSetUp = .false.
+        end if
+        if (this%worldComm /= MPI_COMM_NULL) call MPI_Comm_free(this%worldComm)
+    end if
+
+    if (shouldFinalizeMPI .and. mpiInitialized .and. (.not. mpiFinalized)) then
+        call MPI_Finalize()
+    end if
+
+end subroutine finalizeMPIController
+!-----------------------------------------------------------------------------------------------------------------------------------
 end submodule mpi_controller_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

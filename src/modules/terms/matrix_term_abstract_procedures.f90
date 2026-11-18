@@ -306,7 +306,9 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
             this%indexingData%rowDataCoordsLocal(i)%colCoords = allCombinations(mappedColIndicesLocal)
 
             allocate(this%multConst(i)%entry(numCols))
+            allocate(this%colBuffer(i)%entry(numCols))
             this%multConst(i)%entry = real(1.0d00,kind=rk)
+            this%colBuffer(i)%entry = real(1.0d00,kind=rk)
 
             allocate(this%indexingData%localColIndices(i)%entry(numCols))
 

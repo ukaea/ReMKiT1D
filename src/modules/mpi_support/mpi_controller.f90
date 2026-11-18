@@ -103,6 +103,7 @@ module mpi_controller_class
         procedure ,public :: allreduceMin
 
         procedure ,public :: init => initMPIController
+        procedure ,public :: finalize => finalizeMPIController
 
 
     end type MPIController
@@ -117,6 +118,14 @@ module mpi_controller_class
             integer(ik)   ,optional   ,intent(in)     :: numProcsH !! Number of processes in the h-direction
 
         end subroutine initMPIController
+!-----------------------------------------------------------------------------------------------------------------------------------
+        module subroutine finalizeMPIController(this,finalizeMPI)
+            !! Free MPIController communicators and optionally call MPI_Finalize
+
+            class(MPIController)      ,intent(inout)  :: this
+            logical       ,optional   ,intent(in)     :: finalizeMPI
+
+        end subroutine finalizeMPIController
 !-----------------------------------------------------------------------------------------------------------------------------------
         module subroutine setUpRows(this,numProcsX,numProcsH) 
             !! Set up row/column communication in controller

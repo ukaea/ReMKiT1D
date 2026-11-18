@@ -90,10 +90,12 @@ program ReMKiT1D
     if (debugging) call printMessage("WARNING: Code ran with debugging enabled. Likely compiled in debug mode.")
     if (assertions) call printMessage("WARNING: Code ran with assertions enabled. Likely compiled in debug mode.")
 
-    ! Clean up PETSc 
+    ! Clean up PETSc and MPI
     call normalizationJSONCont%closeFile(normalizationMPICont)
     if (allocated(envObj%petscCont))&
     call envObj%petscCont%finalize()
+    call envObj%mpiCont%finalize()
+    call normalizationMPICont%finalize(finalizeMPI=.true.)
 
 end program 
 !-----------------------------------------------------------------------------------------------------------------------------------

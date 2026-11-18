@@ -90,6 +90,15 @@ module support_functions
 
     end function findNearestPointsInArray
 !-----------------------------------------------------------------------------------------------------------------------------------
+    pure elemental module function powerWithUnitSnap(base,power) result(res)
+        !! Return base**power, snapping abs(power-1) <= 100*epsilon(1d0) to one.
+        !! Deliberately treats near-unit fractional powers of negative bases as identity.
+
+        real(rk) ,intent(in) :: base ,power
+        real(rk) :: res
+
+    end function powerWithUnitSnap
+!-----------------------------------------------------------------------------------------------------------------------------------
     elemental module function expInt1(val) result(res)
         !! Allan and Hastings approximation of E1 exponential integral, with coefficients from routine in:
         !! Shanjie Zhang, Jianming Jin,

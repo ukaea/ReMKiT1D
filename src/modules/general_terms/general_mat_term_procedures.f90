@@ -16,6 +16,8 @@ submodule (general_mat_term_class) general_mat_term_procedures
 !! 
 !! Contains module procedures associated with the general matrix term
 
+use support_functions ,only: powerWithUnitSnap
+
 implicit none
 
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -347,7 +349,9 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
                 select case (mbDataDim)
                 case (0)
                     this%modelboundRowVarBuffer = this%modelboundRowVarBuffer * &
-                    modelboundDataVals(1)**this%vData%modelboundRowVarPowers(i)
+                    powerWithUnitSnap( &
+                    modelboundDataVals(1), &
+                    this%vData%modelboundRowVarPowers(i))
                 case (1) 
                     mbHalo = (size(modelboundDataVals) - this%locNumX)/2
                     haloDiff = bufferHalo - mbHalo
@@ -356,14 +360,17 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
                         do j = 1, this%locNumX
                             this%modelboundRowVarBuffer((j-1)*this%numH*this%numV+1:j*this%numH*this%numV) = &
                             this%modelboundRowVarBuffer((j-1)*this%numH*this%numV+1:j*this%numH*this%numV) &
-                            * modelboundDataVals(j-1+mbLBound+mbHalo)**this%vData%modelboundRowVarPowers(i)
+                            * powerWithUnitSnap( &
+                            modelboundDataVals(j-1+mbLBound+mbHalo), &
+                            this%vData%modelboundRowVarPowers(i))
                         end do
 
                     else
                         this%modelboundRowVarBuffer(lboundBuffer+haloDiff:lboundBuffer&
                         +haloDiff+size(modelboundDataVals)-1) = &
                         this%modelboundRowVarBuffer(lboundBuffer+haloDiff:lboundBuffer&
-                        +haloDiff+size(modelboundDataVals)-1) * modelboundDataVals**this%vData%modelboundRowVarPowers(i)
+                        +haloDiff+size(modelboundDataVals)-1) * &
+                        powerWithUnitSnap(modelboundDataVals,this%vData%modelboundRowVarPowers(i))
                     end if
                 case (2) 
                     mbHalo = (size(modelboundDataVals) - this%locNumX*this%numV)/(2*this%numV)
@@ -375,8 +382,9 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
                                                        :(j-1)*this%numH*this%numV+k*this%numV) = &
                             this%modelboundRowVarBuffer((j-1)*this%numH*this%numV+(k-1)*this%numV + 1 &
                                                        :(j-1)*this%numH*this%numV+k*this%numV) &
-                            * modelboundDataVals(mbLBound+(j+mbHalo-1)*this%numV:mbLBound+(j+mbHalo)*this%numV-1)&
-                            **this%vData%modelboundRowVarPowers(i)
+                            * powerWithUnitSnap( &
+                            modelboundDataVals(mbLBound+(j+mbHalo-1)*this%numV:mbLBound+(j+mbHalo)*this%numV-1), &
+                            this%vData%modelboundRowVarPowers(i))
                         end do
                     end do
                 case (3)
@@ -386,9 +394,10 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
                     error stop "Distribution modelbound data detected in general matrix term when evolved variable is fluid"
 
                     this%modelboundRowVarBuffer(lboundBuffer+haloDiff:lboundBuffer&
-                        +haloDiff+size(modelboundDataVals)-1) = &
-                        this%modelboundRowVarBuffer(lboundBuffer+haloDiff:lboundBuffer&
-                        +haloDiff+size(modelboundDataVals)-1) * modelboundDataVals**this%vData%modelboundRowVarPowers(i)
+                    +haloDiff+size(modelboundDataVals)-1) = &
+                    this%modelboundRowVarBuffer(lboundBuffer+haloDiff:lboundBuffer&
+                    +haloDiff+size(modelboundDataVals)-1) * &
+                    powerWithUnitSnap(modelboundDataVals,this%vData%modelboundRowVarPowers(i))
 
                 case default
                     error stop "Unsupported dimensionality of rank 1 modelbound data detected in general matrix term"
@@ -407,7 +416,9 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
                     error stop "modelbound data in general matrix column buffer is not of expected size"
                 
                 this%modelboundColVarBuffer = &
-                this%modelboundColVarBuffer * modelboundDataVals**this%vData%modelboundColVarPowers(i)
+                this%modelboundColVarBuffer * powerWithUnitSnap( &
+                modelboundDataVals, &
+                this%vData%modelboundColVarPowers(i))
                 
             end do
         end if
@@ -523,15 +534,17 @@ pure module subroutine generalRow(this,varCont,rowVals,indexingData)
 
     do i = 1, size(indexingData%rowReqVarIndices)
         if (varCont%isVarScalar(indexingData%rowReqVarIndices(i))) then 
-            rowVals = rowVals * varCont%variables(indexingData%rowReqVarIndices(i))%entry(1) &
-            ** this%vData%rowVarPowers(i)
+            rowVals = rowVals * powerWithUnitSnap( &
+            varCont%variables(indexingData%rowReqVarIndices(i))%entry(1), &
+            this%vData%rowVarPowers(i))
         else if (this%kineticRow .and. .not. this%reqRowVarIsDist(i)) then 
-            rowVals = rowVals * varCont%variables(indexingData%rowReqVarIndices(i))%entry&
-            (this%rowCoordsX) &
-            ** this%vData%rowVarPowers(i)
+            rowVals = rowVals * powerWithUnitSnap( &
+            varCont%variables(indexingData%rowReqVarIndices(i))%entry(this%rowCoordsX), &
+            this%vData%rowVarPowers(i))
         else
-            rowVals = rowVals * varCont%variables(indexingData%rowReqVarIndices(i))%entry(indexingData%localRowIndices) &
-            ** this%vData%rowVarPowers(i)
+            rowVals = rowVals * powerWithUnitSnap( &
+            varCont%variables(indexingData%rowReqVarIndices(i))%entry(indexingData%localRowIndices), &
+            this%vData%rowVarPowers(i))
         end if
     end do
 
@@ -560,16 +573,17 @@ pure module subroutine generalCol(this,varCont,colVals,indexingData)
         if (this%kineticCol .and. .not. this%reqColVarIsDist(i)) then 
             do j = 1,size(colVals)
                 do k = 1,size(colVals(j)%entry) 
-                    colVals(j)%entry(k) = colVals(j)%entry(k) * varCont%variables(indexingData%colReqVarIndices(i))%entry&
-                    (indexingData%rowDataCoordsLocal(j)%colCoords(1,k)) &
-                    ** this%vData%colVarPowers(i)
+                    colVals(j)%entry(k) = colVals(j)%entry(k) * powerWithUnitSnap( &
+                    varCont%variables(indexingData%colReqVarIndices(i))%entry(indexingData%rowDataCoordsLocal(j)%colCoords(1,k)), &
+                    this%vData%colVarPowers(i))
                 end do
             end do
         else
             do j = 1,size(colVals)
                 colVals(j)%entry = colVals(j)%entry &
-                * varCont%variables(indexingData%colReqVarIndices(i))%entry(indexingData%localColIndices(j)%entry) &
-                ** this%vData%colVarPowers(i)
+                * powerWithUnitSnap( &
+                varCont%variables(indexingData%colReqVarIndices(i))%entry(indexingData%localColIndices(j)%entry), &
+                this%vData%colVarPowers(i))
             end do
         end if
     end do

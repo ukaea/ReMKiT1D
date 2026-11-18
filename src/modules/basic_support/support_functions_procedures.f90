@@ -121,6 +121,19 @@ submodule (support_functions) support_functions_procedures
 
     end function findNearestPointsInArray
 !-----------------------------------------------------------------------------------------------------------------------------------
+    pure elemental module function powerWithUnitSnap(base,power) result(res)
+        real(rk) ,intent(in) :: base ,power
+        real(rk) :: res
+        real(rk) ,parameter :: unitPowerTolerance = 100.0d0 * epsilon(1.0d0)
+
+        if (abs(power - 1.0d0) <= unitPowerTolerance) then
+            res = base
+        else
+            res = base**power
+        end if
+
+    end function powerWithUnitSnap
+!-----------------------------------------------------------------------------------------------------------------------------------
     elemental module function expInt1(val) result(res)
         !! Allan and Hastings approximation of E1 exponential integral, with coefficients from routine in:
         !! Shanjie Zhang, Jianming Jin,

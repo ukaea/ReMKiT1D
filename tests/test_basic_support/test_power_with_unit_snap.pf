@@ -1,0 +1,49 @@
+module test_power_with_unit_snap
+    use pfunit
+    use data_kinds ,only: rk ,ik
+    use support_functions ,only: powerWithUnitSnap
+    implicit none
+contains
+
+    @test
+    subroutine test_unit_and_near_unit_powers()
+        real(rk) ,parameter :: values(3) = [-2.0d0,0.0d0,3.0d0]
+        integer(ik) :: direction
+        real(rk) :: power
+
+        @assertEqual(-2.0d0,powerWithUnitSnap(-2.0d0,1.0d0))
+        @assertEqual(values,powerWithUnitSnap(values,1.0d0))
+        do direction = -1,1,2
+            power = 1.0d0 + real(direction,kind=rk)*3.0d0*epsilon(1.0d0)
+            @assertEqual(values,powerWithUnitSnap(values,power))
+            ! Both tolerance boundaries are inclusive, even for negative bases.
+            power = 1.0d0 + real(direction,kind=rk)*100.0d0*epsilon(1.0d0)
+            @assertEqual(values,powerWithUnitSnap(values,power))
+        end do
+    end subroutine test_unit_and_near_unit_powers
+
+    @test
+    subroutine test_just_outside_unit_tolerance()
+        real(rk) ,parameter :: values(3) = [0.25d0,2.0d0,4.0d0]
+        real(rk) ,dimension(3) :: expected
+        real(rk) :: power ,tolerance
+        integer(ik) :: direction
+
+        do direction = -1,1,2
+            power = 1.0d0 + real(direction,kind=rk)*101.0d0*epsilon(1.0d0)
+            expected = values**power
+            tolerance = 4.0d0*epsilon(1.0d0)*maxval(abs(expected))
+            @assertEqual(expected,powerWithUnitSnap(values,power),tolerance=tolerance)
+        end do
+    end subroutine test_just_outside_unit_tolerance
+
+    @test
+    subroutine test_non_unit_powers()
+        real(rk) ,parameter :: positiveValues(3) = [0.25d0,1.0d0,4.0d0]
+
+        @assertEqual(9.0d0,powerWithUnitSnap(-3.0d0,2.0d0))
+        @assertEqual([4.0d0,0.0d0,9.0d0],powerWithUnitSnap([-2.0d0,0.0d0,3.0d0],2.0d0))
+        @assertEqual([4.0d0,1.0d0,0.25d0],powerWithUnitSnap(positiveValues,-1.0d0),tolerance=1.0d-15)
+        @assertEqual([0.5d0,1.0d0,2.0d0],powerWithUnitSnap(positiveValues,0.5d0),tolerance=1.0d-15)
+    end subroutine test_non_unit_powers
+end module test_power_with_unit_snap

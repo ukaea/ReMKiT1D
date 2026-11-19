@@ -391,11 +391,10 @@ subroutine addMatrixTermToModel(this,termJSONPrefix,termTag,env,normObject,mbDat
     intArrayParams(1) = NamedIntegerArray(termJSONPrefix//"."//termTag//"."//keyImplicitTermGroups,[1])
     intArrayParams(2) = NamedIntegerArray(termJSONPrefix//"."//termTag//"."//keyGeneralTermGroups,[1])
 
-    allocate(logicalParams(3))
+    allocate(logicalParams(2))
 
     logicalParams(1) = NamedLogical(termJSONPrefix//"."//termTag//"."//keyTimeSignalData//"."//keyRealTimePeriod,.false.)
-    logicalParams(2) = NamedLogical(termJSONPrefix//"."//termTag//"."//keySkipPattern,.false.)
-    logicalParams(3) = NamedLogical(termJSONPrefix//"."//termTag//"."//keyFixedMatrix,.false.)
+    logicalParams(2) = NamedLogical(termJSONPrefix//"."//termTag//"."//keyFixedMatrix,.false.)
 
     call env%jsonCont%load(stringParams)
     call env%jsonCont%load(stringArrayParams)
@@ -519,10 +518,9 @@ subroutine addMatrixTermToModel(this,termJSONPrefix,termTag,env,normObject,mbDat
 
     end if
 
-    if (logicalParams(3)%value) call genTerm%setFixedMatrix(.true.)
+    if (logicalParams(2)%value) call genTerm%setFixedMatrix(.true.)
     allocate(termBuffer,source=genTerm)
-    call this%modelBuffer%addImplicitTerm(termBuffer,intArrayParams(1)%values,intArrayParams(2)%values,termTag,&
-                                          skipPattern=logicalParams(2)%value)
+    call this%modelBuffer%addImplicitTerm(termBuffer,intArrayParams(1)%values,intArrayParams(2)%values,termTag)
 
 end subroutine addMatrixTermToModel
 !-----------------------------------------------------------------------------------------------------------------------------------

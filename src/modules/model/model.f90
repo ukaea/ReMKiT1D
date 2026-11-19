@@ -70,8 +70,6 @@ module model_class
         type(StringArray) ,allocatable ,dimension(:)      ,private :: implicitTermNames !! Names of implicit terms
         type(StringArray) ,allocatable ,dimension(:)      ,private :: generalTermNames !! Names of general terms
 
-        logical ,allocatable ,dimension(:)                ,private :: skipPattern !! Flag to skip pattern of particular implicit term when adding (for performance on startup)
-
         contains
 
         procedure ,public :: isAssembled 
@@ -167,7 +165,7 @@ module model_class
 
     end function isAssembled
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups,termName,skipPattern)
+    pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups,termName)
         !! Add a MatrixTerm object to the model (deallocating the source!), and specify which implicit and general groups it belongs to
 
         class(Model)                          ,intent(inout)  :: this
@@ -175,7 +173,6 @@ module model_class
         integer(ik)             ,dimension(:) ,intent(in)     :: implicitGroups !! Implicit groups the added term should belong to
         integer(ik)             ,dimension(:) ,intent(in)     :: generalGroups !! General groups the added term should belong to
         character(*)                          ,intent(in)     :: termName !! Name of added term for indexing purposes
-        logical  ,optional                    ,intent(in)     :: skipPattern !! True if the matrix term pattern should not be added to PETSc preallocation
 
     end subroutine addImplicitTerm
 !-----------------------------------------------------------------------------------------------------------------------------------

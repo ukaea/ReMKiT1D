@@ -72,8 +72,6 @@ pure module subroutine setNumImplicitTerms(this,numImplicitTerms)
 
     allocate(this%implicitTerms(numImplicitTerms))
     allocate(this%implicitTermNames(numImplicitTerms))
-    allocate(this%skipPattern(numImplicitTerms))
-    this%skipPattern = .false.
     this%setupCounter(1) = .true.
 
 end subroutine setNumImplicitTerms
@@ -149,7 +147,7 @@ pure module subroutine setNumGeneralGroups(this,numGeneralGroups)
 
 end subroutine setNumGeneralGroups
 !-----------------------------------------------------------------------------------------------------------------------------------
-pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups,termName,skipPattern)
+pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups,termName)
     !! Add a MatrixTerm object to the model (deallocating the source!), and specify which implicit and general groups it belongs to
 
     class(Model)                          ,intent(inout)  :: this
@@ -157,7 +155,6 @@ pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups
     integer(ik)             ,dimension(:) ,intent(in)     :: implicitGroups !! Implicit groups the added term should belong to
     integer(ik)             ,dimension(:) ,intent(in)     :: generalGroups !! General groups the added term should belong to
     character(*)                          ,intent(in)     :: termName !! Name of added term for indexing purposes
-    logical  ,optional                    ,intent(in)     :: skipPattern !! True if the matrix term pattern should not be added to PETSc preallocation
 
     integer(ik) :: i ,prevIndex ,prevGeneralTermIndex
 
@@ -172,7 +169,6 @@ pure module subroutine addImplicitTerm(this,impTerm,implicitGroups,generalGroups
     end if
 
     this%numAddedMatrixTerms = this%numAddedMatrixTerms + 1
-    if (present(skipPattern)) this%skipPattern(this%numAddedMatrixTerms) = skipPattern
     call move_alloc(impTerm,this%implicitTerms(this%numAddedMatrixTerms)%entry)
     this%implicitTermNames(this%numAddedMatrixTerms)%string = termName
     do i = 1, size(implicitGroups)

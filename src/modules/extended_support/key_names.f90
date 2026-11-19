@@ -200,7 +200,6 @@ module key_names
     character(len=*) ,parameter :: keyTimeSignalPeriod = "timeSignalPeriod"
     character(len=*) ,parameter :: keyTimeSignalParams = "timeSignalParams"
     character(len=*) ,parameter :: keyRealTimePeriod = "realTimePeriod"
-    character(len=*) ,parameter :: keySkipPattern = "skipPattern"
     character(len=*) ,parameter :: keyMultCopyTermName = "multCopyTermName"
     character(len=*) ,parameter :: keyReqMBVarName = "requiredMBVarName"
     character(len=*) ,parameter :: keyMatrixTerm = "matrixTerm"

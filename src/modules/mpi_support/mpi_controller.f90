@@ -101,6 +101,7 @@ module mpi_controller_class
         procedure ,public :: isTrueEverywhere
         procedure ,public :: allreduceMax
         procedure ,public :: allreduceMin
+        procedure ,public :: allreduceSumVec
 
         procedure ,public :: init => initMPIController
         procedure ,public :: finalize => finalizeMPIController
@@ -334,6 +335,16 @@ module mpi_controller_class
             real(rk)                              :: max
         
         end function allreduceMax
+!-----------------------------------------------------------------------------------------------------------------------------------
+        module subroutine allreduceSumVec(this,localVec,globalVec)
+            !! Compute element-wise sum of a real vector across all ranks in worldComm via MPI_Allreduce.
+            !! No-op when size(localVec) == 0. Used to batch distributed inner products into a single collective.
+
+            class(MPIController)          ,intent(inout) :: this !! MPIController owning worldComm
+            real(rk) ,dimension(:)        ,intent(in)    :: localVec !! Local rank contribution vector
+            real(rk) ,dimension(:)        ,intent(out)   :: globalVec !! Global element-wise sum across all ranks (must match size(localVec))
+
+        end subroutine allreduceSumVec
 !-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------

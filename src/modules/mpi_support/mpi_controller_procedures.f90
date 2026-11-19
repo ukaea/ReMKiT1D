@@ -582,6 +582,25 @@ module function allreduceMax (this,input) result(max)
 
 end function allreduceMax
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine allreduceSumVec(this,localVec,globalVec)
+    !! Compute element-wise sum of a real vector across all ranks in worldComm via MPI_Allreduce.
+    !! No-op when size(localVec) == 0. Used to batch distributed inner products into a single collective.
+
+    class(MPIController)          ,intent(inout) :: this !! MPIController owning worldComm
+    real(rk) ,dimension(:)        ,intent(in)    :: localVec !! Local rank contribution vector
+    real(rk) ,dimension(:)        ,intent(out)   :: globalVec !! Global element-wise sum across all ranks (must match size(localVec))
+
+    if (assertions) then
+        call assert(this%isDefined(),"allreduceSumVec called on undefined MPI Controller")
+        call assert(size(localVec) == size(globalVec),"allreduceSumVec localVec and globalVec sizes must match")
+    end if
+
+    if (size(localVec) == 0) return
+
+    call MPI_Allreduce(localVec,globalVec,size(localVec),MPI_Real8,MPI_SUM,this%worldComm)
+
+end subroutine allreduceSumVec
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine finalizeMPIController(this,finalizeMPI)
     !! Free MPIController communicators and optionally call MPI_Finalize
 

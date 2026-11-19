@@ -691,6 +691,19 @@ module function getGlobalMax (this,input) result(max)
 
 end function getGlobalMax
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine getGlobalSumVec(this,localVec,globalVec)
+    !! Compute element-wise sum of a real vector across all ranks using this modeller's MPIController.
+
+    class(Modeller)        ,intent(inout) :: this !! Modeller owning the MPIController
+    real(rk) ,dimension(:) ,intent(in)    :: localVec !! Local rank contribution vector
+    real(rk) ,dimension(:) ,intent(out)   :: globalVec !! Global element-wise sum across all ranks (must match size(localVec))
+
+    if (assertions) call assert(this%isDefined(),"getGlobalSumVec called on undefined modeller")
+
+    call this%MPICont%allreduceSumVec(localVec,globalVec)
+
+end subroutine getGlobalSumVec
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine linearSolvePETSc(this,knownVec,unknownVec,addIdentityMat,convReason,petscGroup,reusePC)
     !! Call linearSolve routine on PETScController of this modeller. Creates PETSc objects if they've not yet been created. If 
     !! addIdentityMat is true adds an identity matrix to the PETSc matrix.

@@ -75,6 +75,13 @@ module implicit_PicardBDE_integrator_class
         character(:) ,allocatable                    ,private :: integratorName !! Integrator named used in printing 
 
         real(rk)                                     ,private :: relaxationWeight !! <1 for under-relaxation >1 for over-relaxation
+        integer(ik)                                  ,private :: andersonDepth !! Type-II Anderson acceleration history depth m (0 disables AA and allocates no AA workspace)
+        real(rk) ,allocatable ,dimension(:,:)        ,private :: aaDeltaX !! Circular buffer (nLoc, m) of iterate differences Delta x = x_k - x_{k-1}
+        real(rk) ,allocatable ,dimension(:,:)        ,private :: aaDeltaF !! Circular buffer (nLoc, m) of residual differences Delta f = f_k - f_{k-1}
+        real(rk) ,allocatable ,dimension(:)          ,private :: aaPrevX !! Previous nonlinear iterate x_{k-1} (size nLoc) for forming Delta x
+        real(rk) ,allocatable ,dimension(:)          ,private :: aaPrevF !! Previous raw residual f_{k-1} = g(x_{k-1}) - x_{k-1} (size nLoc) for forming Delta f
+        real(rk) ,allocatable ,dimension(:)          ,private :: aaWorkF !! Current raw Picard residual f_k = g(x_k) - x_k (size nLoc), retained for convergence verification and damped fallback
+        real(rk) ,allocatable ,dimension(:,:)        ,private :: aaQ !! Distributed orthonormal QR basis Q (nLoc, m) of accepted DeltaF columns (CGS2)
         contains
 
         procedure ,public :: affect => integrateBDE
@@ -107,7 +114,7 @@ module implicit_PicardBDE_integrator_class
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,maxIters,convergenceIndices,&
         modelList,termGroups,evolvesTimeVar,dtController,initialTimestep,&
-        use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight,reusePreconditioner)
+        use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight,reusePreconditioner,andersonDepth)
         !! BDE integrator constructor 
     
         class(PicardBDEIntegrator)                ,intent(inout) :: this
@@ -128,6 +135,7 @@ module implicit_PicardBDE_integrator_class
         character(*)                    ,optional ,intent(in)    :: integratorName !! Name of integrator used in printing
         real(rk)                  ,optional       ,intent(in)    :: relaxationWeight !! relaxationWeight
         logical                   ,optional       ,intent(in)    :: reusePreconditioner !! Reuse within each attempted substep
+        integer(ik)               ,optional       ,intent(in)    :: andersonDepth !! Type-II Anderson acceleration history depth m >= 0 (default 0 = disabled; allocates no AA workspace when 0)
 
     end subroutine initBDEIntegrator
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -16,6 +16,8 @@ submodule (implicit_PicardBDE_integrator_class) implicit_PicardBDE_integrator_pr
     !! 
     !! Contains module procedures associated with the implicit BDE integrator class
 
+    use ,intrinsic :: ieee_arithmetic ,only: ieee_is_finite
+
 implicit none
 
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -24,7 +26,7 @@ contains
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,maxIters,convergenceIndices,&
     modelList,termGroups,evolvesTimeVar,dtController,initialTimestep&
-    ,use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight,reusePreconditioner)
+    ,use2Norm,petscGroup,intContOptions,integratorName,relaxationWeight,reusePreconditioner,andersonDepth)
     !! BDE integrator constructor 
 
     class(PicardBDEIntegrator)                ,intent(inout) :: this
@@ -45,8 +47,10 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
     character(*)                    ,optional ,intent(in)    :: integratorName !! Name of integrator used in printing
     real(rk)                  ,optional       ,intent(in)    :: relaxationWeight !! relaxationWeight
     logical                   ,optional       ,intent(in)    :: reusePreconditioner !! Reuse within each attempted substep
+    integer(ik)               ,optional       ,intent(in)    :: andersonDepth !! Type-II Anderson acceleration history depth m >= 0 (default 0 = disabled; allocates no AA workspace when 0)
     
     integer(ik) ,allocatable ,dimension(:) :: procDoFs
+    integer(ik)                            :: nLoc
 
     if (assertions .or. assertionLvl >= 0) then
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to BDE integrator constructor")
@@ -56,13 +60,15 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
         & term groups arguments are passed to initBDEIntegrator both must have the same length")
         if (present(dtController)) call assert(dtController%isDefined(),"Undefined timestep controller passed to BDE&
         & integrator constructor")
+        if (present(andersonDepth)) call assert(andersonDepth >= 0,"andersonDepth passed to initBDEIntegrator must be >= 0")
     end if
 
     procDoFs = indexingObj%getProcDoF()
+    nLoc = procDoFs(procRank+1)
 
-    allocate(this%implicitVectorNew(procDoFs(procRank+1)))
-    allocate(this%implicitVectorOld(procDoFs(procRank+1)))
-    allocate(this%implicitVectorInit(procDoFs(procRank+1)))
+    allocate(this%implicitVectorNew(nLoc))
+    allocate(this%implicitVectorOld(nLoc))
+    allocate(this%implicitVectorInit(nLoc))
 
     this%implicitVectorNew = 0
     this%implicitVectorOld = 0
@@ -105,6 +111,24 @@ module subroutine initBDEIntegrator(this,indexingObj,procRank,nonlinTol,absTol,m
 
     this%relaxationWeight = 1.0d0 
     if (present(relaxationWeight)) this%relaxationWeight = relaxationWeight
+
+    this%andersonDepth = 0
+    if (present(andersonDepth)) this%andersonDepth = andersonDepth
+    if (this%andersonDepth > 0) then
+        allocate(this%aaDeltaX(nLoc,this%andersonDepth))
+        allocate(this%aaDeltaF(nLoc,this%andersonDepth))
+        allocate(this%aaQ(nLoc,this%andersonDepth))
+        allocate(this%aaPrevX(nLoc))
+        allocate(this%aaPrevF(nLoc))
+        allocate(this%aaWorkF(nLoc))
+        this%aaDeltaX = 0.0d0
+        this%aaDeltaF = 0.0d0
+        this%aaQ = 0.0d0
+        this%aaPrevX = 0.0d0
+        this%aaPrevF = 0.0d0
+        this%aaWorkF = 0.0d0
+    end if
+
     call this%makeDefined()
 
 end subroutine initBDEIntegrator
@@ -383,12 +407,15 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
     logical                 :: nonTrivialUpdate
     logical                 :: nonTrivialModelDataUpdate
     logical                 :: nonTrivialConvergenceCheck
-    logical                 :: tolReached ,locConverged
+    logical                 :: tolReached
 
     type(CommunicationData) :: commData
 
     
-    integer(ik)    ,allocatable ,dimension(:)  :: convergenceCounter 
+    integer(ik)    ,allocatable ,dimension(:)  :: convergenceCounter
+    integer(ik)    ,allocatable ,dimension(:)  :: aaOrder
+    integer(ik)                                :: aaHistCount ,aaNextSlot
+    logical                                    :: aaHasPrev ,aaApplied
 
     termGroups = this%getTermGroups()
     modelIndices = this%getModelIndices()
@@ -399,6 +426,7 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
     nonTrivialConvergenceCheck = allocated(this%convergenceTestVars) 
 
     if (nonTrivialConvergenceCheck) allocate(convergenceCounter(size(this%convergenceTestVars)))
+    if (this%andersonDepth > 0) allocate(aaOrder(this%andersonDepth))
 
     !Check if communication needed
     commNeeded = this%isCommunicationNeeded()
@@ -424,6 +452,12 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
         end if
         tolReached = .false.
         if (nonTrivialConvergenceCheck) convergenceCounter = 1
+        ! Start every attempted substep/restart with an empty AA history so stale secants never cross timestep changes.
+        aaHasPrev = .false.
+        aaHistCount = 0
+        aaNextSlot = 0
+        aaApplied = .false.
+        if (this%andersonDepth > 0) aaOrder = 0
 
         call this%buffer%copyImplicitVarsToVec(this%implicitVectorInit,ignoreStationary=.true.)
         nonlinIter = 0
@@ -468,26 +502,39 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
             end if
             this%oldBufferVals = this%buffer%variables
 
-            this%implicitVectorNew = this%relaxationWeight*this%implicitVectorNew &
-                                    + (1.0d0-this%relaxationWeight)*this%implicitVectorOld
-            call this%buffer%extractImplicitVars(this%implicitVectorNew)
-            call manipulatedModeller%callManipulator(0,this%buffer,this%buffer)
-            if (commNeeded) then 
-                call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
+            aaApplied = .false.
+            if (this%andersonDepth > 0) then
+                call andersonExtrapolate(this,manipulatedModeller,this%implicitVectorOld,this%implicitVectorNew,&
+                                         aaHasPrev,aaHistCount,aaNextSlot,aaOrder,aaApplied)
             else
-                !Calculate only highest priority derived variables in internal iterations
-                call this%buffer%calculateDerivedVars(derivPriority=0)
+                this%implicitVectorNew = this%relaxationWeight*this%implicitVectorNew &
+                                        + (1.0d0-this%relaxationWeight)*this%implicitVectorOld
             end if
 
-            if (nonTrivialConvergenceCheck) then
-                locConverged = &
-                checkConvergence(this%oldBufferVals,this%buffer%variables,this%convergenceTestVars,&
-                                this%nonlinTol,this%absTol,this%use2Norm,convergenceCounter)
-            else
-                locConverged = (norm2(this%implicitVectorOld-this%implicitVectorNew)/norm2(this%implicitVectorOld)) &
-                            < this%nonlinTol
+            call applyIterateAndCheckConvergence(this,manipulatedModeller,commNeeded,commData,&
+                                                 nonTrivialConvergenceCheck,this%implicitVectorNew,&
+                                                 convergenceCounter,tolReached)
+
+            ! Guard against false AA convergence: because convergence tests step change ||x_{k+1} - x_k||,
+            ! an extrapolated step can stall (x_{k+1}^{AA} ~= x_k) while the true residual f_k = g(x_k) - x_k is still large.
+            ! Re-verify the unextrapolated Picard map g(x_k) = x_k + f_k. Reusing convergenceCounter is safe because
+            ! the AA candidate already passed on every rank (so no counter was incremented on the first check).
+            if (tolReached .and. aaApplied) then
+                this%implicitVectorNew = this%implicitVectorOld + this%aaWorkF
+                call applyIterateAndCheckConvergence(this,manipulatedModeller,commNeeded,commData,&
+                                                     nonTrivialConvergenceCheck,this%implicitVectorNew,&
+                                                     convergenceCounter,tolReached)
+                if (.not. tolReached) then
+                    ! Discard stalled AA subspace; when relaxationWeight /= 1, restore damped iterate x_k + w*f_k
+                    ! (and its buffer/derived state) rather than advancing from the unrelaxed g(x_k) used above.
+                    aaHistCount = 0
+                    aaHasPrev = .false.
+                    if (this%relaxationWeight /= 1.0d0) then
+                        this%implicitVectorNew = this%implicitVectorOld + this%relaxationWeight * this%aaWorkF
+                        call applyImplicitIterate(this,manipulatedModeller,commNeeded,commData,this%implicitVectorNew)
+                    end if
+                end if
             end if
-            tolReached =  manipulatedModeller%isTrueEverywhere(locConverged)
 
             nonlinIter = nonlinIter + 1
             
@@ -518,6 +565,211 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
     end select
 
 end subroutine tryIntegrate
+!-----------------------------------------------------------------------------------------------------------------------------------
+subroutine applyImplicitIterate(this,manipulatedModeller,commNeeded,commData,implicitVec)
+    !! Unpack an implicit iterate vector into this%buffer and run priority-0 manipulator, halo communication, and derivations.
+    !! Shared by candidate evaluation, AA raw-map verification, and damped fallback so all paths leave this%buffer consistent.
+
+    type(PicardBDEIntegrator) ,intent(inout) :: this !! Integrator whose buffer is updated in place
+    type(Modeller)            ,intent(inout) :: manipulatedModeller !! Modeller providing manipulator and communication callbacks
+    logical                   ,intent(in)    :: commNeeded !! True if inter-rank communication is required during Picard iterations
+    type(CommunicationData)   ,intent(in)    :: commData !! Communication pattern metadata for safeCommAndDeriv
+    real(rk) ,dimension(:)    ,intent(in)    :: implicitVec !! Local rank slice of the candidate implicit state vector (size nLoc)
+
+    call this%buffer%extractImplicitVars(implicitVec)
+    call manipulatedModeller%callManipulator(0,this%buffer,this%buffer)
+    if (commNeeded) then
+        call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
+    else
+        !Calculate only highest priority derived variables in internal iterations
+        call this%buffer%calculateDerivedVars(derivPriority=0)
+    end if
+
+end subroutine applyImplicitIterate
+!-----------------------------------------------------------------------------------------------------------------------------------
+subroutine applyIterateAndCheckConvergence(this,manipulatedModeller,commNeeded,commData,nonTrivialConvergenceCheck,&
+                                           implicitVec,convergenceCounter,tolReached)
+    !! Apply an implicit iterate to this%buffer via applyImplicitIterate and evaluate global nonlinear convergence across all ranks.
+    !! Compares the updated state against this%oldBufferVals (or this%implicitVectorOld when no convergenceTestVars are set).
+
+    type(PicardBDEIntegrator)              ,intent(inout) :: this !! Integrator owning buffer, oldBufferVals, implicitVectorOld, and tolerances
+    type(Modeller)                         ,intent(inout) :: manipulatedModeller !! Modeller used for postprocessing and global all-true reduction
+    logical                                ,intent(in)    :: commNeeded !! True if inter-rank communication is required during Picard iterations
+    type(CommunicationData)                ,intent(in)    :: commData !! Communication pattern metadata for safeCommAndDeriv
+    logical                                ,intent(in)    :: nonTrivialConvergenceCheck !! True to check named convergenceTestVars; false to check relative L2 norm of implicitVec
+    real(rk) ,dimension(:)                 ,intent(in)    :: implicitVec !! Local rank slice of the candidate implicit state vector (size nLoc)
+    integer(ik) ,allocatable ,dimension(:) ,intent(inout) :: convergenceCounter !! Per-variable failure counters for bottleneck reporting (incremented only on variables failing tol)
+    logical                                ,intent(out)   :: tolReached !! True iff every MPI rank satisfies nonlinear convergence tolerance
+
+    logical :: locConverged
+
+    call applyImplicitIterate(this,manipulatedModeller,commNeeded,commData,implicitVec)
+
+    if (nonTrivialConvergenceCheck) then
+        locConverged = checkConvergence(this%oldBufferVals,this%buffer%variables,this%convergenceTestVars,&
+                                        this%nonlinTol,this%absTol,this%use2Norm,convergenceCounter)
+    else
+        locConverged = (norm2(this%implicitVectorOld-implicitVec)/norm2(this%implicitVectorOld)) &
+                    < this%nonlinTol
+    end if
+    tolReached = manipulatedModeller%isTrueEverywhere(locConverged)
+
+end subroutine applyIterateAndCheckConvergence
+!-----------------------------------------------------------------------------------------------------------------------------------
+subroutine andersonExtrapolate(this,manipulatedModeller,xOld,gAndOut,aaHasPrev,aaHistCount,aaNextSlot,aaOrder,aaApplied)
+    !! Type-II Anderson Acceleration (AA) in unconstrained difference form using distributed CGS2 QR.
+    !!
+    !! Given current iterate x_k (= xOld) and unrelaxed Picard map g(x_k) (= gAndOut on entry), this routine:
+    !!   1. Forms the raw Picard residual f_k = g(x_k) - x_k (stored in this%aaWorkF).
+    !!   2. Appends the newest step difference pair (Delta x, Delta f) = (x_k - x_{k-1}, f_k - f_{k-1}) to the
+    !!      circular buffers aaDeltaX/aaDeltaF (up to m = this%andersonDepth columns, tracked newest-to-oldest).
+    !!   3. Builds a distributed CGS2 QR factorization DeltaF = Q * R over the nActive linearly independent
+    !!      columns of DeltaF = [Delta f_{slot(1)}, ..., Delta f_{slot(nActive)}] (newest first, dropping
+    !!      tiny or nearly collinear columns).
+    !!   4. Solves min_{gamma} ||f_k - DeltaF * gamma||_2 (i.e. R * gamma = Q^T * f_k) for the least-squares
+    !!      coefficient vector gamma(1:nActive).
+    !!   5. Forms the accelerated iterate with relaxation weight w = this%relaxationWeight:
+    !!        x_{k+1} = (x_k + w * f_k) - sum_{p=1}^{nActive} gamma(p) * (Delta x_{slot(p)} + w * Delta f_{slot(p)}).
+    !!
+    !! Because the unconstrained formulation works on step differences, each gamma(p) adds -gamma(p) and +gamma(p)
+    !! to a pair of consecutive iterates in the underlying affine combination of previous damped Picard steps
+    !! (x_j + w * f_j). The total weight therefore always sums to 1, even when collinear columns are dropped.
+    !!
+    !! On exit: gAndOut holds x_{k+1} (or damped Picard x_k + w * f_k if history is empty, all columns are dropped,
+    !! or gamma fails conditioning guards), and this%aaWorkF retains raw f_k = g(x_k) - x_k for convergence
+    !! verification and fallback in tryIntegrate.
+
+    type(PicardBDEIntegrator) ,intent(inout) :: this !! Integrator holding relaxationWeight, andersonDepth, and AA workspace arrays
+    type(Modeller)            ,intent(inout) :: manipulatedModeller !! Modeller providing global vector sum reductions (getGlobalSumVec)
+    real(rk) ,dimension(:)    ,intent(in)    :: xOld !! Current nonlinear iterate x_k on this rank (size nLoc)
+    real(rk) ,dimension(:)    ,intent(inout) :: gAndOut !! On entry: raw Picard solve g(x_k); on exit: proposed next iterate x_{k+1}
+    logical                   ,intent(inout) :: aaHasPrev !! True once aaPrevX/aaPrevF hold a valid previous (x_{k-1}, f_{k-1}) pair; reset on fallback
+    integer(ik)               ,intent(inout) :: aaHistCount !! Number of valid difference columns stored in aaDeltaX/aaDeltaF (0 .. m)
+    integer(ik)               ,intent(inout) :: aaNextSlot !! Circular buffer write pointer (1 .. m) for the newest difference column
+    integer(ik) ,dimension(:) ,intent(inout) :: aaOrder !! Slot indices ordered newest-to-oldest (aaOrder(1) = newest); size m
+    logical                   ,intent(out)   :: aaApplied !! True iff an AA correction was actually applied (false on damped Picard fallback)
+
+    integer(ik) :: m ,j ,p ,pass ,slot ,nActive
+    real(rk)    :: normV ,normRes ,normFloor ,rhsVal ,maxGammaSum ,locNorm(1) ,globNorm(1)
+    logical     :: solveOk
+    real(rk) ,allocatable ,dimension(:)   :: v ,locDots ,globDots ,rCol ,rhs ,gamma
+    real(rk) ,allocatable ,dimension(:,:) :: R
+    integer(ik) ,allocatable ,dimension(:) :: activeSlots
+
+    m = this%andersonDepth
+    this%aaWorkF = gAndOut - xOld
+
+    ! Overwrite the oldest circular slot without shifting nLoc-sized vectors; keep aaOrder sorted newest-to-oldest.
+    if (aaHasPrev) then
+        aaNextSlot = mod(aaNextSlot,m) + 1
+        this%aaDeltaX(:,aaNextSlot) = xOld - this%aaPrevX
+        this%aaDeltaF(:,aaNextSlot) = this%aaWorkF - this%aaPrevF
+        do j = min(aaHistCount + 1,m), 2, -1
+            aaOrder(j) = aaOrder(j - 1)
+        end do
+        aaOrder(1) = aaNextSlot
+        aaHistCount = min(aaHistCount + 1,m)
+    end if
+
+    this%aaPrevX = xOld
+    this%aaPrevF = this%aaWorkF
+    aaHasPrev = .true.
+
+    ! Pre-populate damped Picard x_k + w*f_k so any early exit or guard failure falls back cleanly.
+    gAndOut = xOld + this%relaxationWeight * this%aaWorkF
+    aaApplied = .false.
+    if (aaHistCount <= 0) return
+
+    allocate(v(size(xOld)))
+    allocate(locDots(aaHistCount),globDots(aaHistCount),rCol(aaHistCount),rhs(aaHistCount),gamma(aaHistCount))
+    allocate(R(aaHistCount,aaHistCount),activeSlots(aaHistCount))
+
+    nActive = 0
+    R = 0.0d0
+    ! normFloor guards against zero/near-underflow norms; maxGammaSum caps L1 extrapolation amplification.
+    normFloor = sqrt(tiny(1.0d0))
+    maxGammaSum = 1.0d3
+
+    ! Build orthonormal basis Q for DeltaF newest-to-oldest so fresher secant directions take priority
+    ! when older columns are linearly dependent.
+    do j = 1, aaHistCount
+        slot = aaOrder(j)
+        v = this%aaDeltaF(:,slot)
+        locNorm(1) = dot_product(v,v)
+        call manipulatedModeller%getGlobalSumVec(locNorm,globNorm)
+        if (.not. ieee_is_finite(globNorm(1))) cycle
+        normV = sqrt(max(globNorm(1),0.0d0))
+        if (normV <= normFloor) cycle
+
+        ! Two-pass Classical Gram-Schmidt (CGS2): restores near-machine orthogonality while batching
+        ! all nActive inner products into 2 MPI all-reduces per column instead of nActive sequential reductions.
+        if (nActive > 0) then
+            rCol(1:nActive) = 0.0d0
+            do pass = 1, 2
+                do p = 1, nActive
+                    locDots(p) = dot_product(this%aaQ(:,p),v)
+                end do
+                call manipulatedModeller%getGlobalSumVec(locDots(1:nActive),globDots(1:nActive))
+                rCol(1:nActive) = rCol(1:nActive) + globDots(1:nActive)
+                do p = 1, nActive
+                    v = v - globDots(p) * this%aaQ(:,p)
+                end do
+            end do
+        end if
+
+        locNorm(1) = dot_product(v,v)
+        call manipulatedModeller%getGlobalSumVec(locNorm,globNorm)
+        if (.not. ieee_is_finite(globNorm(1))) cycle
+        normRes = sqrt(max(globNorm(1),0.0d0))
+
+        ! Drop nearly collinear columns (||v_perp|| <= 1e-10 * ||v||) to keep R well-conditioned.
+        if (normRes > 1.0d-10 * normV .and. normRes > normFloor) then
+            nActive = nActive + 1
+            activeSlots(nActive) = slot
+            this%aaQ(:,nActive) = v / normRes
+            if (nActive > 1) R(1:nActive-1,nActive) = rCol(1:nActive-1)
+            R(nActive,nActive) = normRes
+        end if
+    end do
+
+    if (nActive <= 0) return
+
+    ! Project raw residual f_k onto Q; R and rhs are small (<= m) and replicated identically on every rank.
+    do p = 1, nActive
+        locDots(p) = dot_product(this%aaQ(:,p),this%aaWorkF)
+    end do
+    call manipulatedModeller%getGlobalSumVec(locDots(1:nActive),rhs(1:nActive))
+
+    ! Guarded back-substitution for R * gamma = rhs: test |rhsVal| <= maxGammaSum * R(p,p) before dividing
+    ! to prevent division blow-up or overflow FPE traps on small diagonals.
+    solveOk = .true.
+    gamma(1:nActive) = 0.0d0
+    do p = nActive, 1, -1
+        if (p < nActive) then
+            rhsVal = rhs(p) - dot_product(R(p,p+1:nActive),gamma(p+1:nActive))
+        else
+            rhsVal = rhs(p)
+        end if
+        if (.not. ieee_is_finite(rhsVal) .or. abs(rhsVal) > maxGammaSum * R(p,p)) then
+            solveOk = .false.
+            exit
+        end if
+        gamma(p) = rhsVal / R(p,p)
+    end do
+
+    if (solveOk .and. all(ieee_is_finite(gamma(1:nActive))) .and. sum(abs(gamma(1:nActive))) <= maxGammaSum) then
+        do p = 1, nActive
+            slot = activeSlots(p)
+            gAndOut = gAndOut - gamma(p) * (this%aaDeltaX(:,slot) + this%relaxationWeight * this%aaDeltaF(:,slot))
+        end do
+        aaApplied = .true.
+    else
+        ! gAndOut already holds damped Picard x_k + w*f_k; clear ill-conditioned history.
+        aaHistCount = 0
+        aaHasPrev = .false.
+    end if
+
+end subroutine andersonExtrapolate
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule implicit_PicardBDE_integrator_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

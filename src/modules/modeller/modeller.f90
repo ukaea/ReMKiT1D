@@ -97,6 +97,7 @@ module modeller_class
         procedure ,public :: performComm
         procedure ,public :: safeCommAndDeriv
         procedure ,public :: isTrueEverywhere
+        procedure ,public :: getGlobalSumVec
 
         procedure ,public :: assemble
 
@@ -351,6 +352,15 @@ module modeller_class
         real(rk)                              :: max
 
     end function getGlobalMax
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine getGlobalSumVec(this,localVec,globalVec)
+        !! Compute element-wise sum of a real vector across all ranks using this modeller's MPIController.
+
+        class(Modeller)        ,intent(inout) :: this !! Modeller owning the MPIController
+        real(rk) ,dimension(:) ,intent(in)    :: localVec !! Local rank contribution vector
+        real(rk) ,dimension(:) ,intent(out)   :: globalVec !! Global element-wise sum across all ranks (must match size(localVec))
+
+    end subroutine getGlobalSumVec
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine linearSolvePETSc(this,knownVec,unknownVec,addIdentityMat,convReason,petscGroup,reusePC)
         !! Call linearSolve routine on PETScController of this modeller. Creates PETSc objects if they've not yet been created. If 

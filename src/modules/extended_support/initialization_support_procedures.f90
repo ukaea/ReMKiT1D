@@ -1024,7 +1024,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
         case ("BDE")
 
             if (allocated(integerParams)) deallocate(integerParams)
-            allocate(integerParams(5))
+            allocate(integerParams(6))
 
             integerParams(1) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyMaxNonlinIters,100)
             integerParams(2) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAssociatedPETScGroup,1)
@@ -1035,6 +1035,7 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
 
             integerParams(5) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string&
                                             //"."//keyInternalStepControl//"."//keyMaxBDERestarts,3)
+            integerParams(6) = NamedInteger(keyIntegrator//"."//integratorTags(1)%values(i)%string//"."//keyAndersonDepth,0)
 
             call jsonCont%load(integerParams)
             call jsonCont%output(integerParams)
@@ -1097,14 +1098,16 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                                                                       integerParams(5)%value,&
                                                                                       logicalParams(3)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string&
-                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value)
+                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value&
+                                            ,andersonDepth=integerParams(6)%value)
                 else
                     call integratorBDE%init(indexingObj,mpiCont%getWorldRank(),nonlinTol=realParams(1)%value&
                                             ,absTol=realParams(2)%value,maxIters=integerParams(1)%value&
                                             ,convergenceIndices=convIndices,petscGroup=integerParams(2)%value&
                                             ,use2Norm=logicalParams(1)%value&
                                             ,integratorName=integratorTags(1)%values(i)%string&
-                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value)
+                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value&
+                                            ,andersonDepth=integerParams(6)%value)
                 end if
 
             else
@@ -1118,14 +1121,16 @@ module subroutine initStandardIntegrator(integratorObj,varCont,indexingObj,jsonC
                                                                                       integerParams(5)%value,&
                                                                                       logicalParams(3)%value)&
                                             ,integratorName=integratorTags(1)%values(i)%string&
-                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value)
+                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value&
+                                            ,andersonDepth=integerParams(6)%value)
                     
                 else
                     call integratorBDE%init(indexingObj,mpiCont%getWorldRank(),nonlinTol=realParams(1)%value&
                                             ,absTol=realParams(2)%value,maxIters=integerParams(1)%value&
                                             ,petscGroup=integerParams(2)%value,use2Norm=logicalParams(1)%value&
                                             ,integratorName=integratorTags(1)%values(i)%string&
-                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value)
+                                            ,relaxationWeight=realParams(3)%value,reusePreconditioner=logicalParams(4)%value&
+                                            ,andersonDepth=integerParams(6)%value)
                 end if
 
             end if

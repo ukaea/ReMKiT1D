@@ -54,6 +54,15 @@ module test_modeller
         procedure ,public :: getDataDim => testCountingGetDataDim
     end type testCountingMBData
 
+    type ,extends(MatrixTerm) ,public :: testAffineMapTerm
+        real(rk) :: a1 = 0.0d0
+        real(rk) :: a2 = 0.0d0
+        real(rk) :: c0 = 0.0d0
+        real(rk) :: xInit = 1.0d0
+    contains
+        procedure ,private :: calculateRows => testAffineMapRow
+    end type testAffineMapTerm
+
 contains
 
     @test( npes=[8])
@@ -294,6 +303,280 @@ contains
         call assertEqual(testVarCont%variables(1)%entry(1),1d0/0.9d0**2,tolerance=1d-12)
         ! PetscFinalize is called once at the end of the final PETSc test in this binary.
     end subroutine check_modeller_BDE_int
+
+    @test( npes=[8])
+    subroutine test_modeller_BDE_anderson(this)
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList ,testListDerived
+        type(indexing) :: testIndexing
+        type(calculationRule) ,dimension(1) :: cRules
+        type(solverOptions) :: solOptions
+
+        integer(ik) :: i ,xOffset ,itersNoAA ,itersAA ,itersDamped
+        real(rk) ,parameter :: dt = 0.05d0
+        real(rk) ,dimension(3) :: nInit ,uInit ,nRef ,uRef ,nAA ,uAA ,nDamped ,uDamped
+
+        call testMPIController%init(8,1)
+        call preparePrinter(testMPIController%getWorldRank())
+
+        call testPart%initSimplePartition(8,1,24,1)
+        call testGrid%init(real([(i,i=1,24)],kind=rk),real([(i,i=1,5)],kind=rk),0,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+        call testListDerived%addVar("time")
+        call cRules(1)%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+        solOptions%kspSolverType = "bcgs"
+        solOptions%hyprePC = "euclid"
+        solOptions%petscOptions = ""
+
+        xOffset = testMPIController%getWorldRank()*3
+        do i = 1,3
+            nInit(i) = 0.8d0 + 0.025d0*real(xOffset + i,kind=rk)
+            uInit(i) = 1.15d0 - 0.015d0*real(xOffset + i,kind=rk)
+        end do
+
+        ! Coupled spatially varying nonlinear fixed-point system across 8 ranks:
+        !   n - dt * n^3 * u = nInit,   u - dt * u^3 * n = uInit
+        ! 1) Reference plain Picard (andersonDepth = 0)
+        call runCoupledSolve(0,1.0d0,nRef,uRef,itersNoAA)
+
+        ! 2) Anderson acceleration with small depth = 3 (exercises multi-column CGS2 QR + circular rollover)
+        call runCoupledSolve(3,1.0d0,nAA,uAA,itersAA)
+
+        ! 3) Under-relaxed Anderson acceleration (relaxationWeight = 0.7, andersonDepth = 3)
+        call runCoupledSolve(3,0.7d0,nDamped,uDamped,itersDamped)
+
+        @assertEqual(nAA,nRef,tolerance=1.0d-11)
+        @assertEqual(uAA,uRef,tolerance=1.0d-11)
+        @assertEqual(nDamped,nRef,tolerance=1.0d-11)
+        @assertEqual(uDamped,uRef,tolerance=1.0d-11)
+
+        ! Verify discrete BDE fixed-point residual directly
+        @assertEqual(nAA - dt*(nAA**3)*uAA,nInit,tolerance=1.0d-10)
+        @assertEqual(uAA - dt*(uAA**3)*nAA,uInit,tolerance=1.0d-10)
+
+        ! Confirm AA accelerates convergence while filling and rolling over the depth-3 history
+        @assertTrue(itersAA < itersNoAA)
+        @assertTrue(itersAA > 4)
+        @assertTrue(itersDamped < itersNoAA)
+
+    contains
+
+        subroutine runCoupledSolve(aaDepth,relaxW,nOut,uOut,itersOut)
+            integer(ik)            ,intent(in)  :: aaDepth
+            real(rk)               ,intent(in)  :: relaxW
+            real(rk) ,dimension(3) ,intent(out) :: nOut ,uOut
+            integer(ik)            ,intent(out) :: itersOut
+
+            type(variableContainer) :: locVarCont
+            class(matrixTerm) ,allocatable :: matTerm
+            type(testMatrixTerm) :: termN ,termU
+            type(testCountingMBData) :: mbData
+            class(model) ,allocatable :: locModel
+            type(modeller) :: locModeller
+            type(picardBDEIntegrator) :: locInteg
+            type(petscController) :: locPETSc
+            real(rk) ,allocatable ,dimension(:) :: countBuf
+            integer(ik) :: k
+
+            call locPETSc%init(testIndexing,testMPIController,solOptions)
+            call locVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
+            locVarCont%variables(1)%entry = 1.0d0
+            locVarCont%variables(2)%entry = 1.0d0
+            locVarCont%variables(1)%entry(1:3) = nInit
+            locVarCont%variables(2)%entry(1:3) = uInit
+            locVarCont%variables(3)%entry = 0.0d0
+
+            allocate(locModel)
+            call locModel%init(2,0,1,1)
+            call mbData%makeDefined()
+            call locModel%setModelData(mbData)
+
+            call termN%makeDefined()
+            call termN%setEvolvedAndImplicitVar("n","n",locVarCont)
+            call termN%setReqVars([stringArray("n"),stringArray("n")],[stringArray("u")],locVarCont)
+            call termN%initRowData(reshape([(xOffset+k,k=1,3)],[1,3]),testMapping,testIndexing)
+            allocate(matTerm,source=termN)
+            call locModel%addImplicitTerm(matTerm,[1],[1],"n_cub_u")
+
+            call termU%makeDefined()
+            call termU%setEvolvedAndImplicitVar("u","u",locVarCont)
+            call termU%setReqVars([stringArray("u"),stringArray("u")],[stringArray("n")],locVarCont)
+            call termU%initRowData(reshape([(xOffset+k,k=1,3)],[1,3]),testMapping,testIndexing)
+            allocate(matTerm,source=termU)
+            call locModel%addImplicitTerm(matTerm,[1],[1],"u_cub_n")
+
+            call locModeller%init(1,locVarCont,testMPIController,locPETSc)
+            call locModeller%addModel(locModel)
+            call locModeller%calculateIdentityMat(testIndexing)
+            call locModeller%assemble(withIdentityMat=.true.)
+
+            call locInteg%init(testIndexing,testMPIController%getWorldRank(),nonlinTol=1.0d-12,maxIters=100,&
+                               convergenceIndices=[1,2],modelList=[1],termGroups=[intArray([1])],&
+                               evolvesTimeVar=.false.,initialTimestep=dt,relaxationWeight=relaxW,andersonDepth=aaDepth)
+            call locInteg%setCommunicationNeeded(.false.)
+            call locInteg%setNonTrivialModelDataUpdate(.true.)
+            call locInteg%setModelDataUpdateRules([.true.])
+            call locModeller%setIntegrator(locInteg)
+            call locModeller%integrate()
+
+            call locModeller%copyDataFromModel(1,"count",countBuf)
+            itersOut = nint(countBuf(1))
+            call locModeller%copyVarValuesTo(locVarCont)
+            nOut = locVarCont%variables(1)%entry(1:3)
+            uOut = locVarCont%variables(2)%entry(1:3)
+        end subroutine runCoupledSolve
+
+    end subroutine test_modeller_BDE_anderson
+
+    @test( npes=[8])
+    subroutine test_modeller_BDE_anderson_safeguards(this)
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController
+        type(partition) :: testPart
+        type(grid) :: testGrid
+        type(variableList) :: testList ,testListDerived
+        type(indexing) :: testIndexing
+        type(variableContainer) :: testVarCont
+        type(calculationRule) ,dimension(1) :: cRules
+        class(matrixTerm) ,allocatable :: matTerm
+        type(testAffineMapTerm) :: mapN ,mapU
+        type(testMatrixTerm) :: termCollinear
+        type(testCountingMBData) :: mbData
+        class(model) ,allocatable :: testModel
+        type(modeller) :: testModeller1 ,testModeller2
+        type(picardBDEIntegrator) :: testIntegrator1 ,testIntegrator2
+        type(petscController) :: testPETSc1 ,testPETSc2
+        type(solverOptions) :: solOptions
+
+        integer(ik) :: i ,xOffset ,itersGuard
+        real(rk) :: nSol
+        real(rk) ,allocatable ,dimension(:) :: countBuf
+
+        call testMPIController%init(8,1)
+        call preparePrinter(testMPIController%getWorldRank())
+
+        call testPart%initSimplePartition(8,1,24,1)
+        call testGrid%init(real([(i,i=1,24)],kind=rk),real([(i,i=1,5)],kind=rk),0,0)
+
+        call testList%init()
+        call testList%addVar("n")
+        call testList%addVar("u")
+
+        call testListDerived%init()
+        call testListDerived%addVar("time")
+        call cRules(1)%init()
+
+        call testIndexing%init(testPart,testGrid,testList)
+        solOptions%kspSolverType = "bcgs"
+        solOptions%hyprePC = "euclid"
+        solOptions%petscOptions = ""
+        call testPETSc1%init(testIndexing,testMPIController,solOptions)
+
+        call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
+        xOffset = testMPIController%getWorldRank()*3
+
+        ! Subcase 1: False AA convergence rejection + under-relaxed recovery.
+        ! Affine fixed-point map g(n,u) = (n - 0.4*u + 0.8, 0.4*n + 0.2*u + 0.8) has unique fixed point (2,2).
+        ! Starting from (1.0, 1.5) with w = 0.5: f_0 = (0.2, 0.0), x_1 = (1.1, 1.5), f_1 = (0.2, 0.04).
+        ! Then DeltaF_1 = (0.0, 0.04) is orthogonal to f_0, giving gamma_1 = 1.0 and x_2^{AA} = x_1 identically.
+        ! The false-convergence guard must reject x_2^{AA}, reset AA history, restore damped Picard, and converge to (2,2).
+        testVarCont%variables(1)%entry = 1.0d0
+        testVarCont%variables(2)%entry = 1.5d0
+        testVarCont%variables(3)%entry = 0.0d0
+
+        allocate(testModel)
+        call testModel%init(2,0,1,1)
+        call mbData%makeDefined()
+        call testModel%setModelData(mbData)
+
+        mapN%a1 = 1.0d0
+        mapN%a2 = -0.4d0
+        mapN%c0 = 0.8d0
+        mapN%xInit = 1.0d0
+        call mapN%makeDefined()
+        call mapN%setEvolvedAndImplicitVar("n","n",testVarCont)
+        call mapN%setReqVars([stringArray("n"),stringArray("u")],[stringArray("n")],testVarCont)
+        call mapN%initRowData(reshape([(xOffset+i,i=1,3)],[1,3]),testMapping,testIndexing)
+        allocate(matTerm,source=mapN)
+        call testModel%addImplicitTerm(matTerm,[1],[1],"map_n")
+
+        mapU%a1 = 0.4d0
+        mapU%a2 = 0.2d0
+        mapU%c0 = 0.8d0
+        mapU%xInit = 1.5d0
+        call mapU%makeDefined()
+        call mapU%setEvolvedAndImplicitVar("u","u",testVarCont)
+        call mapU%setReqVars([stringArray("n"),stringArray("u")],[stringArray("u")],testVarCont)
+        call mapU%initRowData(reshape([(xOffset+i,i=1,3)],[1,3]),testMapping,testIndexing)
+        allocate(matTerm,source=mapU)
+        call testModel%addImplicitTerm(matTerm,[1],[1],"map_u")
+
+        call testModeller1%init(1,testVarCont,testMPIController,testPETSc1)
+        call testModeller1%addModel(testModel)
+        call testModeller1%calculateIdentityMat(testIndexing)
+        call testModeller1%assemble(withIdentityMat=.true.)
+
+        call testIntegrator1%init(testIndexing,testMPIController%getWorldRank(),nonlinTol=1.0d-12,maxIters=100,&
+                                  convergenceIndices=[1,2],modelList=[1],termGroups=[intArray([1])],&
+                                  evolvesTimeVar=.false.,initialTimestep=1.0d0,relaxationWeight=0.5d0,andersonDepth=3)
+        call testIntegrator1%setCommunicationNeeded(.false.)
+        call testIntegrator1%setNonTrivialModelDataUpdate(.true.)
+        call testIntegrator1%setModelDataUpdateRules([.true.])
+        call testModeller1%setIntegrator(testIntegrator1)
+        call testModeller1%integrate()
+
+        call testModeller1%copyVarValuesTo(testVarCont)
+        call testModeller1%copyDataFromModel(1,"count",countBuf)
+        itersGuard = nint(countBuf(1))
+        @assertTrue(itersGuard > 2)
+        @assertEqual(testVarCont%variables(1)%entry(1:3),[2.0d0,2.0d0,2.0d0],tolerance=1.0d-11)
+        @assertEqual(testVarCont%variables(2)%entry(1:3),[2.0d0,2.0d0,2.0d0],tolerance=1.0d-11)
+
+        ! Subcase 2: Collinear history rejection in 1D uniform subspace with andersonDepth = 3.
+        ! Only n evolves uniformly (u = 1 constant), so all DeltaF columns are collinear (rank 1) and
+        ! CGS2 QR must drop dependent columns cleanly without FPEs and converge to n - 0.12*n^3 = 1.
+        testVarCont%variables(1)%entry = 1.0d0
+        testVarCont%variables(2)%entry = 1.0d0
+        testVarCont%variables(3)%entry = 0.0d0
+
+        allocate(testModel)
+        call testModel%init(1,0,1,1)
+        call termCollinear%makeDefined()
+        call termCollinear%setEvolvedAndImplicitVar("n","n",testVarCont)
+        call termCollinear%setReqVars([stringArray("n"),stringArray("u")],[stringArray("n")],testVarCont)
+        call termCollinear%initRowData(reshape([(xOffset+i,i=1,3)],[1,3]),testMapping,testIndexing)
+        allocate(matTerm,source=termCollinear)
+        call testModel%addImplicitTerm(matTerm,[1],[1],"collinear_n")
+
+        call testPETSc2%init(testIndexing,testMPIController,solOptions)
+        call testModeller2%init(1,testVarCont,testMPIController,testPETSc2)
+        call testModeller2%addModel(testModel)
+        call testModeller2%calculateIdentityMat(testIndexing)
+        call testModeller2%assemble(withIdentityMat=.true.)
+
+        call testIntegrator2%init(testIndexing,testMPIController%getWorldRank(),nonlinTol=1.0d-12,maxIters=100,&
+                                  convergenceIndices=[1],modelList=[1],termGroups=[intArray([1])],&
+                                  evolvesTimeVar=.false.,initialTimestep=0.12d0,relaxationWeight=0.5d0,andersonDepth=3)
+        call testIntegrator2%setCommunicationNeeded(.false.)
+        call testModeller2%setIntegrator(testIntegrator2)
+        call testModeller2%integrate()
+
+        call testModeller2%copyVarValuesTo(testVarCont)
+        nSol = testVarCont%variables(1)%entry(1)
+        @assertEqual(testVarCont%variables(1)%entry(1:3),[nSol,nSol,nSol],tolerance=1.0d-12)
+        @assertEqual(nSol - 0.12d0*(nSol**3),1.0d0,tolerance=1.0d-11)
+
+    end subroutine test_modeller_BDE_anderson_safeguards
 
     @test( npes=[8])
     subroutine test_modeller_composite_int(this)
@@ -664,6 +947,20 @@ contains
         dim = 0
     end function testCountingGetDataDim
 
+
+    pure subroutine testAffineMapRow(this,varCont,rowVals,indexingData)
+        class(testAffineMapTerm)      ,intent(inout) :: this
+        type(VariableContainer)       ,intent(in)    :: varCont
+        real(rk) ,dimension(:)        ,intent(inout) :: rowVals
+        type(MatrixTermIndexingData)  ,intent(in)    :: indexingData
+
+        real(rk) ,dimension(size(rowVals)) :: gVal
+
+        gVal = this%a1 * varCont%variables(indexingData%rowReqVarIndices(1))%entry(indexingData%localRowIndices) &
+             + this%a2 * varCont%variables(indexingData%rowReqVarIndices(2))%entry(indexingData%localRowIndices) &
+             + this%c0
+        rowVals = 1.0d0 - this%xInit / gVal
+    end subroutine testAffineMapRow
 
     pure function testMapping(inputArray) result(output)
 

@@ -22,38 +22,40 @@ implicit none
 contains
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initIJInt(this,vSpaceObj,ind,isJInt)
-    !! Initialize Shkarofsky I/J integral derivation derivation
+    !! Initialize Shkarofsky I/J integral derivation
 
     class(IJIntDerivation)     ,intent(inout) :: this
     type(VSpace)               ,intent(in)    :: vSpaceObj
-    integer(ik)                ,intent(in)    :: ind !! Index of indegral
-    logical ,optional          ,intent(in)    :: isJInt !! If true the lower triangular J integral is calculated instead of the I integral. Defaults to false.
+    integer(ik)                ,intent(in)    :: ind !! Index of integral
+    logical ,optional          ,intent(in)    :: isJInt !! If true the upper-triangular J integral is calculated instead of the I integral. Defaults to false.
 
-    logical :: jInt 
+    real(rk) ,allocatable ,dimension(:) :: vGrid ,vWidths
     if (assertions) call assert(vSpaceObj%isDefined(),"Undefined VSpace object passed to initIJInt")
 
     this%numV = vSpaceObj%getNumV()
     
-    jInt = .false. 
-    if (present(isJInt)) jInt = isJInt 
+    this%isJInt = .false.
+    if (present(isJInt)) this%isJInt = isJInt
 
-    if (jInt) then 
-        this%ijMatBuffer = vSpaceObj%getShkarofskyJMat(ind)
-    else
-        this%ijMatBuffer = vSpaceObj%getShkarofskyIMat(ind)
-    end if
+    vGrid = vSpaceObj%getVGrid()
+    vWidths = vSpaceObj%getVCellWidths()
+    this%weights = 4.0d0*pi*(vGrid**(2+ind))*vWidths
+    this%invVPow = 1.0d0/(vGrid**ind)
+
     call this%makeDefined()
     
 end subroutine initIJInt  
 !-----------------------------------------------------------------------------------------------------------------------------------
 module function calculateIJInt(this,inputArray,indices) result(output)
+    !! Evaluate the Shkarofsky I (forward prefix sum) or J (backward suffix sum) integral over each velocity slice of inputArray(indices(1))
 
     class(IJIntDerivation)             ,intent(inout)    :: this 
     type(RealArray)       ,dimension(:) ,intent(in)    :: inputArray 
     integer(ik)           ,dimension(:) ,intent(in)    :: indices           
     real(rk) ,allocatable ,dimension(:)                :: output
 
-    integer(ik) :: i ,j ,inferredHarmonics ,indOffset ,lboundInput
+    integer(ik) :: i ,j ,inferredHarmonics ,indOffset ,outOffset ,lboundInput ,inIdx
+    real(rk)    :: runningSum ,term
 
     if (assertions) then 
 
@@ -64,19 +66,35 @@ module function calculateIJInt(this,inputArray,indices) result(output)
 
     end if
 
-    inferredHarmonics = size(inputArray(indices(1))%entry)/this%numV
+    inIdx = indices(1)
+    inferredHarmonics = size(inputArray(inIdx)%entry)/this%numV
 
     allocate(output(inferredHarmonics*this%numV))
-    output = 0
-    lBoundInput = lbound(inputArray(indices(1))%entry,1)
+    lBoundInput = lbound(inputArray(inIdx)%entry,1)
 
-    do i = 1, inferredHarmonics
-        indOffset = (i-1)*this%numV + lboundInput -1
-        do j = 1,size(this%ijMatBuffer%values)
-            output((i-1)*this%numV+this%ijMatBuffer%rowIndex(j)) = dot_product(this%ijMatBuffer%values(j)%entry &
-                                                            ,inputArray(1)%entry(indOffset+this%ijMatBuffer%columnVector(j)%entry))
+    if (this%isJInt) then
+        do i = 1, inferredHarmonics
+            outOffset = (i-1)*this%numV
+            indOffset = outOffset + lboundInput - 1
+            runningSum = 0.0d0
+            do j = this%numV, 1, -1
+                term = this%weights(j) * inputArray(inIdx)%entry(indOffset+j)
+                output(outOffset+j) = (runningSum + 0.5d0*term) * this%invVPow(j)
+                runningSum = runningSum + term
+            end do
         end do
-    end do
+    else
+        do i = 1, inferredHarmonics
+            outOffset = (i-1)*this%numV
+            indOffset = outOffset + lboundInput - 1
+            runningSum = 0.0d0
+            do j = 1, this%numV
+                term = this%weights(j) * inputArray(inIdx)%entry(indOffset+j)
+                output(outOffset+j) = (runningSum + 0.5d0*term) * this%invVPow(j)
+                runningSum = runningSum + term
+            end do
+        end do
+    end if
 
 end function calculateIJInt
 !-----------------------------------------------------------------------------------------------------------------------------------

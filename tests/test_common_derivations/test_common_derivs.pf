@@ -880,6 +880,61 @@ contains
     end subroutine test_ij_int_deriv
 
     @test
+    subroutine test_ij_int_deriv_nonzero_index
+
+        type(Grid) :: testGrid
+        type(VSpace) :: testVSpace
+        type(IJIntDerivation) :: methodI ,methodJ
+        type(SparseRowData) :: iMat ,jMat
+        type(RealArray) ,dimension(2) :: inputs
+
+        integer(ik) :: i ,b ,numV ,numBlocks ,inOff ,outOff
+        integer(ik) ,parameter :: lb = -3
+
+        real(rk) ,allocatable ,dimension(:) :: vArr ,vArrI ,vArrJ ,outI ,outJ ,checkI ,checkJ
+
+        numV = 10
+        numBlocks = 4
+        ! Dummy 1-cell x-grid: VSpace and IJIntDerivation only use the velocity grid
+        call testGrid%init([0.5d0],real([(0.05d0 + (i-1)**2*0.1d0,i=1,numV)],kind=rk),1,0)
+        call testVSpace%init(testGrid)
+
+        call methodI%init(testVSpace,3)
+        call methodJ%init(testVSpace,-2,.true.)
+
+        iMat = testVSpace%getShkarofskyIMat(3)
+        jMat = testVSpace%getShkarofskyJMat(-2)
+
+        vArr = exp(-testGrid%getVGrid()**2)
+        allocate(inputs(1)%entry(numBlocks*numV))
+        inputs(1)%entry = real(99,kind=rk)
+        allocate(inputs(2)%entry(lb:lb + numBlocks*numV - 1))
+
+        allocate(vArrI(numV),vArrJ(numV),checkI(numBlocks*numV),checkJ(numBlocks*numV))
+        do i = 1,size(iMat%values)
+            vArrI(i) = dot_product(iMat%values(i)%entry,vArr(iMat%columnVector(i)%entry))
+        end do
+        do i = 1,size(jMat%values)
+            vArrJ(i) = dot_product(jMat%values(i)%entry,vArr(jMat%columnVector(i)%entry))
+        end do
+
+        do b = 1,numBlocks
+            inOff = lb + (b - 1)*numV
+            outOff = (b - 1)*numV
+            inputs(2)%entry(inOff:inOff + numV - 1) = real(b,kind=rk) * vArr
+            checkI(outOff + 1:outOff + numV) = real(b,kind=rk) * vArrI
+            checkJ(outOff + 1:outOff + numV) = real(b,kind=rk) * vArrJ
+        end do
+
+        outI = methodI%calculate(inputs,[2])
+        outJ = methodJ%calculate(inputs,[2])
+
+        @assertEqual(outI,checkI,tolerance=1.0d-12)
+        @assertEqual(outJ,checkJ,tolerance=1.0d-12)
+
+    end subroutine test_ij_int_deriv_nonzero_index
+
+    @test
     subroutine test_ccl_weights
     
         type(Grid) :: testGrid

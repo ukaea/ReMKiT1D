@@ -24,7 +24,7 @@ module ij_int_derivation_class
     use physics_functions
     use derivation_abstract_class   ,only: Derivation
     use v_space_class               ,only: VSpace
-    use sparse_row_data_class       ,only: SparseRowData
+    use physical_constants          ,only: pi
 
     implicit none
     private
@@ -32,7 +32,9 @@ module ij_int_derivation_class
     type ,public ,extends(Derivation) :: IJIntDerivation
         !! Calculates the Shkarofsky I or J integrals for each passed harmonic. 
 
-        type(SparseRowData) ,private :: ijMatBuffer !! Sparse buffer used to calculate the integrals
+        real(rk) ,allocatable ,dimension(:) ,private :: weights !! Precomputed 4*pi*v**(2+ind)*dv quadrature weights
+        real(rk) ,allocatable ,dimension(:) ,private :: invVPow !! Precomputed 1/v**ind scaling factors
+        logical                             ,private :: isJInt  !! If true computes upper-triangular J integral, else I integral
 
         integer(ik) ,private :: numV
         
@@ -47,16 +49,17 @@ module ij_int_derivation_class
     interface
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine initIJInt(this,vSpaceObj,ind,isJInt)
-        !! Initialize Shkarofsky I/J integral derivation derivation
+        !! Initialize Shkarofsky I/J integral derivation
 
         class(IJIntDerivation)     ,intent(inout) :: this
         type(VSpace)               ,intent(in)    :: vSpaceObj
-        integer(ik)                ,intent(in)    :: ind !! Index of indegral
-        logical ,optional          ,intent(in)    :: isJInt !! If true the lower triangular J integral is calculated instead of the I integral. Defaults to false.
+        integer(ik)                ,intent(in)    :: ind !! Index of integral
+        logical ,optional          ,intent(in)    :: isJInt !! If true the upper-triangular J integral is calculated instead of the I integral. Defaults to false.
 
     end subroutine initIJInt  
 !-----------------------------------------------------------------------------------------------------------------------------------
     module function calculateIJInt(this,inputArray,indices) result(output)
+        !! Evaluate the Shkarofsky I (forward prefix sum) or J (backward suffix sum) integral over each velocity slice of inputArray(indices(1))
 
         class(IJIntDerivation)             ,intent(inout)    :: this 
         type(RealArray)       ,dimension(:) ,intent(in)    :: inputArray 

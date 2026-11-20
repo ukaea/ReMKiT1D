@@ -67,6 +67,9 @@ module mpi_controller_class
                                                                  !! first element is left neighbour rank, second is right - allows 
                                                                  !! for periodic domain 
 
+        real(rk) ,allocatable ,dimension(:) ,private :: haloSendBuf !! Persistent send scratch buffer for X halo exchanges
+        real(rk) ,allocatable ,dimension(:) ,private :: haloRecvBuf !! Persistent receive scratch buffer for X halo exchanges
+
         logical :: rowsSetUp !! True if row data is set up and ready for communication
         contains
 

@@ -176,6 +176,8 @@ module subroutine broadcastVarInRow(this,varContainer,name)
         call assert(varContainer%isDefined(),"Undefined variable container passeed to boradcastVarInRow routine")
     end if
 
+    if (this%rowSize <= 1) return
+
     varIndex = varContainer%getVarIndex(name)
     count = size(varContainer%variables(varIndex)%entry)
     buffer = varContainer%variables(varIndex)%entry
@@ -260,6 +262,9 @@ module subroutine exchangeDistVarInRow(this,varContainer,name)
         call assert(varContainer%isDefined(),"Undefined variable container passeed to exchangeDistVarInRow routine")
         call assert(allocated(this%rowNumH),"exchangeDistVarInRow called before calculateRowDistData")
     end if
+
+    if (this%rowSize <= 1) return
+
     varIndex = varContainer%getVarIndex(name)
     !Fill local buffer
     !Some MPI implementations will change the buffer bounds on communication, hence the explicit lbound call
@@ -337,11 +342,9 @@ module subroutine exchangeVarXHalos(this,varContainer,name,varIsDist)
     character(*)              ,intent(in)    :: name !! Name of variable to exchange
     logical                   ,intent(in)    :: varIsDist !! Set to true if variable is a distribution
 
-    integer(ik) :: haloDataSize ,varSize ,varIndex ,firstBufferIndex,lastBufferIndex
+    integer(ik) :: haloDataSize ,varIndex ,firstBufferIndex,lastBufferIndex
 
     integer(ik) :: i
-
-    real(rk) ,allocatable ,dimension(:) :: sendbuf, recvbuf
 
     if (assertions) then 
         call assert(this%isDefined(),"exchangeVarXHalos called from undefined mpi controller")
@@ -350,37 +353,44 @@ module subroutine exchangeVarXHalos(this,varContainer,name,varIsDist)
         call assert(allocated(this%neighbourPairs),"exchangeVarXHalos called before initializeNeighbourPairs")
     end if
 
-    if (this%xHaloWidth > 0) then 
+    if (this%xHaloWidth > 0 .and. size(this%neighbourPairs) > 0) then 
         varIndex = varContainer%getVarIndex(name)
 
         haloDataSize = this%xHaloWidth
         if (varIsDist) haloDataSize = haloDataSize * this%numH * this%numV
         firstBufferIndex = size(varContainer%variables(varIndex)%entry)-3*haloDataSize+1
         lastBufferIndex = size(varContainer%variables(varIndex)%entry) - 2*haloDataSize 
-        allocate(sendbuf(0:haloDataSize-1))
-        allocate(recvbuf(0:haloDataSize-1))
+        if (.not. allocated(this%haloSendBuf)) then
+            allocate(this%haloSendBuf(haloDataSize))
+            allocate(this%haloRecvBuf(haloDataSize))
+        else if (size(this%haloSendBuf) < haloDataSize) then
+            deallocate(this%haloSendBuf,this%haloRecvBuf)
+            allocate(this%haloSendBuf(haloDataSize))
+            allocate(this%haloRecvBuf(haloDataSize))
+        end if
         do i = 1,size(this%neighbourPairs)
             if (this%worldRank == this%neighbourPairs(i)%entry(1)) &
-            sendbuf = varContainer%variables(varIndex)%entry(firstBufferIndex:lastBufferIndex)
+            this%haloSendBuf(1:haloDataSize) = varContainer%variables(varIndex)%entry(firstBufferIndex:lastBufferIndex)
             if (this%worldRank == this%neighbourPairs(i)%entry(2)) &
-            sendbuf =varContainer%variables(varIndex)%entry(1:haloDataSize) 
+            this%haloSendBuf(1:haloDataSize) = varContainer%variables(varIndex)%entry(1:haloDataSize) 
 
             if (this%worldRank == this%neighbourPairs(i)%entry(1)) &
-            call MPI_Sendrecv(sendbuf,haloDataSize,MPI_Real8,&
+            call MPI_Sendrecv(this%haloSendBuf(1:haloDataSize),haloDataSize,MPI_Real8,&
                                 this%neighbourPairs(i)%entry(2),i,&
-                                recvbuf,haloDataSize,MPI_Real8,&
+                                this%haloRecvBuf(1:haloDataSize),haloDataSize,MPI_Real8,&
                                 this%neighbourPairs(i)%entry(2),i,this%worldComm,MPI_STATUS_IGNORE) 
 
             if (this%worldRank == this%neighbourPairs(i)%entry(2)) &
-            call MPI_Sendrecv(sendbuf,haloDataSize,MPI_Real8,&
+            call MPI_Sendrecv(this%haloSendBuf(1:haloDataSize),haloDataSize,MPI_Real8,&
                                 this%neighbourPairs(i)%entry(1),i,&
-                                recvbuf,haloDataSize,MPI_Real8,&
+                                this%haloRecvBuf(1:haloDataSize),haloDataSize,MPI_Real8,&
                                 this%neighbourPairs(i)%entry(1),i,this%worldComm,MPI_STATUS_IGNORE) 
 
             if (this%worldRank == this%neighbourPairs(i)%entry(2)) &
-            varContainer%variables(varIndex)%entry(1-haloDataSize:0) = recvbuf
+            varContainer%variables(varIndex)%entry(1-haloDataSize:0) = this%haloRecvBuf(1:haloDataSize)
             if (this%worldRank == this%neighbourPairs(i)%entry(1)) &
-            varContainer%variables(varIndex)%entry(firstBufferIndex+haloDataSize:lastBufferIndex+haloDataSize) = recvbuf
+            varContainer%variables(varIndex)%entry(firstBufferIndex+haloDataSize:lastBufferIndex+haloDataSize) = &
+                this%haloRecvBuf(1:haloDataSize)
 
         end do
 

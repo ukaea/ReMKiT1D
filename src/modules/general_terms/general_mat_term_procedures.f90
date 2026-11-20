@@ -277,6 +277,7 @@ module subroutine initGeneralTerm(this,gridObj,partitionObj,indexingObj,procRank
     call this%setNonTrivialColFun(nonTrivialColFun)
     call this%setNonTrivialRowFun(nonTrivialRowFun)
 
+    this%copyTermIndex = 0
     if (present(copyTermName)) this%copyTermName = copyTermName
 
     contains 
@@ -454,12 +455,14 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
                 end select
             end if
 
-            select type (hostModel)
-            type is (Model)
-                this%copyTermVals = hostModel%getImplicitTermRowData(hostModel%getImplicitTermIndex(this%copyTermName))
-            class default 
-                error stop "Unsupported ModelSurrogate passed to updateGeneralTerm"
-            end select
+            if (this%copyTermIndex == 0) then
+                select type (hostModel)
+                type is (Model)
+                    this%copyTermIndex = hostModel%getImplicitTermIndex(this%copyTermName)
+                class default 
+                    error stop "Unsupported ModelSurrogate passed to updateGeneralTerm"
+                end select
+            end if
 
         end if
 
@@ -485,7 +488,13 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
             if (.not. allocated(this%copyTermName)) then
                 call this%setMultConst(this%stencilVals)
             else 
-                call this%setMultConst(this%stencilVals * this%copyTermVals)
+                select type (hostModel)
+                type is (Model)
+                    call hostModel%multiplyImplicitTermRowValues(this%copyTermIndex,this%stencilVals,this%copyMultBuffer)
+                class default 
+                    error stop "Unsupported ModelSurrogate passed to updateGeneralTerm"
+                end select
+                call this%setMultConst(this%copyMultBuffer)
 
             end if
 

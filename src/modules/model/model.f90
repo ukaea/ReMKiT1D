@@ -24,7 +24,7 @@ module model_class
     use matrix_term_abstract_class     ,only: MatrixTerm ,MatrixTermIndexingData
     use variable_container_class       ,only: VariableContainer
     use petsc_controller_class         ,only: PETScController
-    use support_types                  ,only: IntArray ,StringArray
+    use support_types                  ,only: IntArray ,RealArray ,StringArray
     use model_surrogate_class          ,only: ModelSurrogate
     use modelbound_data_abstract_class ,only: ModelboundData
     use sparse_row_data_class          ,only: SparseRowData
@@ -102,6 +102,8 @@ module model_class
         procedure ,public :: init => initModel
 
         procedure ,public :: getImplicitTermRowData
+        procedure ,public :: accumulateImplicitTermMoment
+        procedure ,public :: multiplyImplicitTermRowValues
         procedure ,public :: getImplicitTermIndexingData
 
         procedure ,public :: isTermNameRegistered
@@ -285,6 +287,26 @@ module model_class
         type(SparseRowData)                   :: rowData
 
     end function getImplicitTermRowData
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine accumulateImplicitTermMoment(this,termIndex,vVec,res)
+        !! Accumulate velocity moment of implicit term with given term index into pre-allocated res without copying SparseRowData
+
+        class(Model)                  ,intent(in)    :: this
+        integer(ik)                   ,intent(in)    :: termIndex
+        real(rk) ,dimension(:)        ,intent(in)    :: vVec
+        type(RealArray) ,dimension(:) ,intent(inout) :: res
+
+    end subroutine accumulateImplicitTermMoment
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine multiplyImplicitTermRowValues(this,termIndex,lhs,res)
+        !! Multiply lhs element-wise with row values of implicit term at termIndex in place without copying SparseRowData
+
+        class(Model)                               ,intent(in)    :: this
+        integer(ik)                                ,intent(in)    :: termIndex
+        type(RealArray) ,dimension(:)              ,intent(in)    :: lhs
+        type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: res
+
+    end subroutine multiplyImplicitTermRowValues
 !-----------------------------------------------------------------------------------------------------------------------------------
     pure module function getImplicitTermIndexingData(this,termIndex) result(indexingData)
         !! Return indexing data of implicit term with given term index

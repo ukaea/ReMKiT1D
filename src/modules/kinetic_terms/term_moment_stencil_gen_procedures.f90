@@ -46,6 +46,7 @@ module subroutine initTermMomentGen(this,partitionObj,vspaceObj,procRank,momentO
     this%locNumX = maxX - minX + 1
 
     this%termName = termName 
+    this%termIndex = 0
 
     rLastCell = .false. 
     if (present(removeLastCell)) rLastCell = removeLastCell
@@ -69,55 +70,21 @@ module subroutine calcTermMomentVals(this,varCont,res,mbData,hostModel)
     class(ModelboundData) ,optional             ,intent(in)    :: mbData
     class(ModelSurrogate) ,optional             ,intent(in)    :: hostModel
 
-    integer(ik) :: i ,dim
-
     if (assertions) then 
         call assert(this%isDefined(),"calcTermMomentVals called from undefined stencil generator")
         call assert(present(hostModel),"No hostModel passed to calcTermMomentVals when expected")
+        call assert(allocated(res),"calcTermMomentVals requires pre-allocated res")
+        call assert(size(res) == this%locNumX,"res passed to calcTermMomentVals has unexpected size")
     end if
 
     select type(hostModel)
     type is (Model)
-        if (.not. allocated(this%indexingDataBuffer)) then 
-            allocate(this%indexingDataBuffer)
-            this%indexingDataBuffer = hostModel%getImplicitTermIndexingData(hostModel%getImplicitTermIndex(this%termName))
-        end if
-
-        this%matBuffer = hostModel%getImplicitTermRowData(hostModel%getImplicitTermIndex(this%termName))
+        if (this%termIndex == 0) this%termIndex = hostModel%getImplicitTermIndex(this%termName)
+        call hostModel%accumulateImplicitTermMoment(this%termIndex,this%vVec,res)
     class default 
         error stop "Unexpected ModelSurrogate detected in calcTermMomentVals"
     end select
 
-    dim = size(this%indexingDataBuffer%rowDataCoordsLocal(1)%colCoords,1)
-
-    if (allocated(res)) then
-        if (assertions) call assert(size(res) == this%locNumX,"res passed to calcTermMomentVals has unexpected size")
-    else
-        allocate(res(this%locNumX))
-        do i = 1,size(this%indexingDataBuffer%rowDataCoordsLocal)
-            if (.not. allocated(res(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(1))%entry)) &
-            allocate(res(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(1))%entry(&
-                     size(this%indexingDataBuffer%rowDataCoordsLocal(i)%colCoords(dim,:))))
-        end do
-    end if
-    do i = 1,size(res)
-        res(i)%entry = 0
-    end do
-    if (dim == 3) then
-        do i = 1,size(this%indexingDataBuffer%rowDataCoordsLocal)
-            res(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(1))%entry(&
-                this%indexingDataBuffer%rowDataCoordsLocal(i)%colCoords(dim,:)) = &
-                res(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(1))%entry(&
-                this%indexingDataBuffer%rowDataCoordsLocal(i)%colCoords(dim,:)) &
-                + this%vVec(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(3)) * this%matBuffer%values(i)%entry
-        end do
-    else
-        do i = 1,size(this%indexingDataBuffer%rowDataCoordsLocal)
-            res(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(1))%entry = &
-            res(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(1))%entry &
-                + this%vVec(this%indexingDataBuffer%rowDataCoordsLocal(i)%rowCoords(3)) * this%matBuffer%values(i)%entry
-        end do
-    end if
 end subroutine calcTermMomentVals
 !-----------------------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------------------------------------------------------------------------------------------

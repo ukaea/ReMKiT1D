@@ -110,6 +110,8 @@ module matrix_term_abstract_class
         procedure ,public  :: getVarName => getRowVarName
 
         procedure ,public  :: getRowData
+        procedure ,public  :: accumulateRowMoment
+        procedure ,public  :: multiplyRowValuesInPlace
         procedure ,public  :: update => matTermUpdate
         procedure ,public  :: matrixTermUpdate => matrixNoUpdate
 
@@ -292,6 +294,24 @@ module matrix_term_abstract_class
         type(SparseRowData)                     :: rowData
 
     end function 
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine accumulateRowMoment(this,vVec,res)
+        !! Accumulate velocity moment of this term's rowData values into pre-allocated res without copying SparseRowData
+
+        class(MatrixTerm)              ,intent(in)    :: this
+        real(rk) ,dimension(:)         ,intent(in)    :: vVec
+        type(RealArray) ,dimension(:)  ,intent(inout) :: res
+
+    end subroutine accumulateRowMoment
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine multiplyRowValuesInPlace(this,lhs,res)
+        !! Compute element-wise product lhs * this%rowData%values in place without copying SparseRowData
+
+        class(MatrixTerm)                          ,intent(in)    :: this
+        type(RealArray) ,dimension(:)              ,intent(in)    :: lhs
+        type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: res
+
+    end subroutine multiplyRowValuesInPlace
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine matTermUpdate(this,varCont,modelData,hostModel) 
         !! Default matrix term update, call matrixTermUpdate 

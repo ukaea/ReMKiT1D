@@ -108,6 +108,7 @@ contains
         call testModel%assemble()
         call testModel%calculateMatGroupValues(1,testVarCont1)
         call testTerm2%update(testVarCont1,hostModel=testModel)
+        call testTerm2%update(testVarCont1,hostModel=testModel)
 
         call testTerm2%calculateValues(testVarCont1)
 
@@ -117,7 +118,6 @@ contains
             @assertEqual(testVec(2:4),checkVec(2:4),tolerance=1.d-14)
         end if
     end subroutine test_t_moment
-
 
 end module test_term_moment
 

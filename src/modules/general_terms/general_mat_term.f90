@@ -90,9 +90,10 @@ module general_mat_term_class
 
         type(RealArray) ,allocatable ,dimension(:) ,private :: stencilVals !! Current values of stencil variables, used as this term's multConst
 
-        type(SparseRowData)                 ,private :: copyTermVals !! Matrix values of the optional copy term
+        type(RealArray) ,allocatable ,dimension(:) ,private :: copyMultBuffer !! Persistent buffer for stencilVals * copyTerm row values
 
         character(:) ,allocatable           ,private :: copyTermName !! Name of the term whose values should be copied and multiplied with this term's stencil
+        integer(ik)                         ,private :: copyTermIndex = 0 !! Cached implicit term index of copyTermName in hostModel
 
         real(rk) ,allocatable ,dimension(:) ,private :: modelboundRowVarBuffer !! Buffer holding the product of modelbound row variables raised to their corresponding powers 
         

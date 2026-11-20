@@ -499,6 +499,86 @@ pure module function getRowData(this) result(rowData)
     
 end function getRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine accumulateRowMoment(this,vVec,res)
+    !! Accumulate velocity moment of this term's rowData values into pre-allocated res without copying SparseRowData
+
+    class(MatrixTerm)              ,intent(in)    :: this
+    real(rk) ,dimension(:)         ,intent(in)    :: vVec
+    type(RealArray) ,dimension(:)  ,intent(inout) :: res
+
+    integer(ik) :: i ,j ,nRows ,dim ,rowX ,colIdx
+    real(rk)    :: vWeight
+
+    if (assertions) call assertPure(this%isDefined(),"Called accumulateRowMoment on undefined matrix term")
+
+    do i = 1, size(res)
+        if (assertions) call assertPure(allocated(res(i)%entry),&
+            "Unallocated entry in res passed to accumulateRowMoment")
+        res(i)%entry(:) = 0.0d0
+    end do
+
+    nRows = size(this%indexingData%rowDataCoordsLocal)
+    if (nRows == 0) return
+
+    dim = size(this%indexingData%rowDataCoordsLocal(1)%colCoords,1)
+
+    if (dim == 3) then
+        do i = 1, nRows
+            rowX = this%indexingData%rowDataCoordsLocal(i)%rowCoords(1)
+            vWeight = vVec(this%indexingData%rowDataCoordsLocal(i)%rowCoords(3))
+            do j = 1, size(this%rowData%values(i)%entry)
+                colIdx = this%indexingData%rowDataCoordsLocal(i)%colCoords(3,j)
+                res(rowX)%entry(colIdx) = res(rowX)%entry(colIdx) + vWeight * this%rowData%values(i)%entry(j)
+            end do
+        end do
+    else
+        do i = 1, nRows
+            rowX = this%indexingData%rowDataCoordsLocal(i)%rowCoords(1)
+            vWeight = vVec(this%indexingData%rowDataCoordsLocal(i)%rowCoords(3))
+            res(rowX)%entry(:) = res(rowX)%entry(:) + vWeight * this%rowData%values(i)%entry(:)
+        end do
+    end if
+
+end subroutine accumulateRowMoment
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine multiplyRowValuesInPlace(this,lhs,res)
+    !! Compute element-wise product lhs * this%rowData%values in place without copying SparseRowData
+
+    class(MatrixTerm)                          ,intent(in)    :: this
+    type(RealArray) ,dimension(:)              ,intent(in)    :: lhs
+    type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: res
+
+    integer(ik) :: i ,nRows ,nCols
+
+    if (assertions) then
+        call assertPure(this%isDefined(),"Called multiplyRowValuesInPlace on undefined matrix term")
+        call assertPure(size(lhs) == size(this%rowData%values),&
+            "Row sizes in element-wise sparse row data/real array multiplication do not conform")
+    end if
+
+    nRows = size(this%rowData%values)
+    if (.not. allocated(res)) then
+        allocate(res(nRows))
+    else if (size(res) /= nRows) then
+        deallocate(res)
+        allocate(res(nRows))
+    end if
+
+    do i = 1, nRows
+        nCols = size(this%rowData%values(i)%entry)
+        if (assertions) call assertPure(size(lhs(i)%entry) == nCols,&
+            "Column vectors do not conform in element-wise sparse row data/real array multiplication")
+        if (.not. allocated(res(i)%entry)) then
+            allocate(res(i)%entry(nCols))
+        else if (size(res(i)%entry) /= nCols) then
+            deallocate(res(i)%entry)
+            allocate(res(i)%entry(nCols))
+        end if
+        res(i)%entry(:) = lhs(i)%entry(:) * this%rowData%values(i)%entry(:)
+    end do
+
+end subroutine multiplyRowValuesInPlace
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine matTermUpdate(this,varCont,modelData,hostModel) 
     !! Default matrix term update, call matrixTermUpdate 
 

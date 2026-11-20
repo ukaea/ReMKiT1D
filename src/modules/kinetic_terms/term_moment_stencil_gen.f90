@@ -45,9 +45,7 @@ module term_moment_stencil_gen_class
         real(rk) ,allocatable ,dimension(:) ,private :: vVec !! Vector used to calculate the moment (4*pi*v**(2+m)*dv)
 
         character(:) ,allocatable ,private :: termName !! Name of the term whose moment is to be taken 
-        
-        type(SparseRowData) ,private :: matBuffer !! Buffer for the matrix values of used term
-        type(MatrixTermIndexingData) ,allocatable ,private :: indexingDataBuffer !! Buffer for matrix term indexing data used to take moment
+        integer(ik)               ,private :: termIndex = 0 !! Cached implicit term index in hostModel
         
         contains
 

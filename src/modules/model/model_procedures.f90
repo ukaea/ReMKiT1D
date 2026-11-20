@@ -585,6 +585,40 @@ pure module function getImplicitTermRowData(this,termIndex) result(rowData)
 
 end function getImplicitTermRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine accumulateImplicitTermMoment(this,termIndex,vVec,res)
+    !! Accumulate velocity moment of implicit term with given term index into pre-allocated res without copying SparseRowData
+
+    class(Model)                  ,intent(in)    :: this
+    integer(ik)                   ,intent(in)    :: termIndex
+    real(rk) ,dimension(:)        ,intent(in)    :: vVec
+    type(RealArray) ,dimension(:) ,intent(inout) :: res
+
+    if (assertions) then
+        call assertPure(this%isDefined(),"accumulateImplicitTermMoment called on undefined model")
+        call assertPure(this%assembled,"accumulateImplicitTermMoment called on unassembled model")
+    end if
+
+    call this%implicitTerms(termIndex)%entry%accumulateRowMoment(vVec,res)
+
+end subroutine accumulateImplicitTermMoment
+!-----------------------------------------------------------------------------------------------------------------------------------
+pure module subroutine multiplyImplicitTermRowValues(this,termIndex,lhs,res)
+    !! Multiply lhs element-wise with row values of implicit term at termIndex in place without copying SparseRowData
+
+    class(Model)                               ,intent(in)    :: this
+    integer(ik)                                ,intent(in)    :: termIndex
+    type(RealArray) ,dimension(:)              ,intent(in)    :: lhs
+    type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: res
+
+    if (assertions) then
+        call assertPure(this%isDefined(),"multiplyImplicitTermRowValues called on undefined model")
+        call assertPure(this%assembled,"multiplyImplicitTermRowValues called on unassembled model")
+    end if
+
+    call this%implicitTerms(termIndex)%entry%multiplyRowValuesInPlace(lhs,res)
+
+end subroutine multiplyImplicitTermRowValues
+!-----------------------------------------------------------------------------------------------------------------------------------
 pure module function getImplicitTermIndexingData(this,termIndex) result(indexingData)
     !! Return indexing data of implicit term with given term index
 

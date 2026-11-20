@@ -114,6 +114,16 @@ module subroutine closeFile(this,mpiCont,saveFile,filepath)
 
 end subroutine closeFile
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine setOutputEnabled(this,enabled)
+    !! Enable or disable writing updates into the in-memory JSON DOM
+
+    class(JSONController)           ,intent(inout)  :: this
+    logical                         ,intent(in)     :: enabled
+
+    this%outputEnabled = enabled
+
+end subroutine setOutputEnabled
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine loadScalarParams(this,vars) 
     !! Load named scalar parameters by calling individual load routines. 
 
@@ -395,6 +405,7 @@ module subroutine outputNamedRealsToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedRealsToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -414,6 +425,7 @@ module subroutine outputNamedIntsToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedIntsToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -433,6 +445,7 @@ module subroutine outputNamedLogicalsToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedLogicalsToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -451,6 +464,7 @@ module subroutine outputNamedStringsToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedStringsToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -469,6 +483,7 @@ module subroutine outputNamedRealArraysToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedRealArraysToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -487,6 +502,7 @@ module subroutine outputNamedIntArraysToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedIntArraysToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -505,6 +521,7 @@ module subroutine outputNamedLogicalArraysToFile(this,vars)
     integer(ik)                                     :: i
 
     if (assertions) call assert(this%fileOpen,"outputNamedLogicalArraysToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
 
@@ -525,6 +542,7 @@ module subroutine outputNamedStringArraysToFile(this,vars)
     character(len = 80)                             :: tmpstring
 
     if (assertions) call assert(this%fileOpen,"outputNamedStringArraysToFile called with no open json file")
+    if (.not. this%outputEnabled) return
 
     do i = 1, size(vars)
         do j = 1,size(vars(i)%values)

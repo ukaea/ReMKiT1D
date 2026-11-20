@@ -228,4 +228,30 @@ contains
 
 
     end subroutine test_json_controller
+
+@test( npes=[8])
+    subroutine test_json_output_disabled(this)
+
+        class (MpiTestMethod), intent(inout) :: this
+        type(MPIController) :: testMPIController
+        type(JSONController) :: testJSONController
+        type(NamedReal) ,dimension(1) :: initialVal ,skippedVal ,loadedVal
+
+        call testMPIController%init(4,2)
+
+        initialVal(1) = NamedReal("preservedKey",3.5d0)
+        call testJSONController%loadFile(testMPIController,filepath="./used_config_test_json_disabled.json")
+        call testJSONController%output(initialVal)
+        call testJSONController%closeFile(testMPIController,saveFile=.true.,filepath="./used_config_test_json_disabled.json")
+
+        call testJSONController%loadFile(testMPIController,filepath="./used_config_test_json_disabled.json")
+        call testJSONController%setOutputEnabled(.false.)
+        skippedVal(1) = NamedReal("preservedKey",9.0d0)
+        call testJSONController%output(skippedVal)
+        loadedVal(1) = NamedReal("preservedKey",0.0d0)
+        call testJSONController%load(loadedVal)
+        @assertEqual(loadedVal(1)%value,3.5d0,tolerance=1.0d-14)
+        call testJSONController%closeFile(testMPIController,saveFile=.false.)
+
+    end subroutine test_json_output_disabled
 end module

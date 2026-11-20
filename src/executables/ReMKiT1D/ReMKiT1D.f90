@@ -57,6 +57,7 @@ program ReMKiT1D
     call normalizationMPICont%init()
     if (allocated(alternativeConfigPath)) call normalizationJSONCont%setAlternativeJSONPath(alternativeConfigPath)
     call normalizationJSONCont%loadFile(normalizationMPICont)
+    if (normalizationMPICont%getWorldRank() /= 0) call normalizationJSONCont%setOutputEnabled(.false.)
     call normObj%init(normalizationJSONCont,normalizationMPICont)
     ! First Environment initialization pass
     envObj%jsonCont => normalizationJSONCont

@@ -29,12 +29,15 @@ module json_controller_class
 
         type(json_file)           ,private :: file !! json file handle
         logical                   ,private :: fileOpen = .false. !! True if this controller has opened a file
+        logical                   ,private :: outputEnabled = .true. !! If false, output* routines skip mutating the in-memory JSON DOM
         character(:) ,allocatable ,private :: alternativeJSONFilepath !! If allocated will be used instead of default config.json
 
         contains 
 
         procedure ,public :: loadFile 
         procedure ,public :: closeFile 
+
+        procedure ,public :: setOutputEnabled
 
         procedure ,public :: setAlternativeJSONPath
         procedure ,public :: getAlternativeJSONPath
@@ -96,6 +99,14 @@ module json_controller_class
         character(*)      ,optional     ,intent(in)     :: filepath !! Non-default filepath for saving
 
     end subroutine closeFile
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine setOutputEnabled(this,enabled)
+        !! Enable or disable writing updates into the in-memory JSON DOM
+
+        class(JSONController)           ,intent(inout)  :: this
+        logical                         ,intent(in)     :: enabled
+
+    end subroutine setOutputEnabled
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine setAlternativeJSONPath(this,filepath) 
         !! Set alternative default JSON filepath

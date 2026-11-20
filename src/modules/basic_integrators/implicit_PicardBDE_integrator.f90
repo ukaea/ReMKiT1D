@@ -25,6 +25,7 @@ module implicit_PicardBDE_integrator_class
     use modeller_class                     ,only: Modeller 
     use integrator_abstract_class          ,only: Integrator
     use support_types                      ,only: IntArray ,RealArray ,LogicalArray
+    use support_functions                  ,only: copyRealArrayInPlace ,copyRealArraysInPlace
     use mpi_controller_class               ,only: CommunicationData
     use timestep_controller_abstract_class ,only: TimestepController
     use indexing_class                     ,only: Indexing

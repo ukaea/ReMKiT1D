@@ -181,6 +181,22 @@ module support_functions
 
     end function triangularIntArray
 !-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine copyRealArrayInPlace(dest,src)
+        !! Copy an allocatable 1D real array in place while preserving exact allocation status and lower/upper bounds
+
+        real(rk) ,allocatable ,dimension(:) ,intent(inout) :: dest
+        real(rk) ,allocatable ,dimension(:) ,intent(in)    :: src
+
+    end subroutine copyRealArrayInPlace
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine copyRealArraysInPlace(dest,src)
+        !! Copy an array of RealArray entries in place while preserving exact allocation status and bounds of every entry
+
+        type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: dest
+        type(RealArray) ,dimension(:)              ,intent(in)    :: src
+
+    end subroutine copyRealArraysInPlace
+!-----------------------------------------------------------------------------------------------------------------------------------
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
 end module support_functions

@@ -245,7 +245,7 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
             end if 
         end do
    
-        outputVars%variables = this%buffer%variables
+        call copyRealArraysInPlace(outputVars%variables,this%buffer%variables)
         if (inputVars%isVarNameRegistered("time") .and. (.not. timeEvolving)) &
             outputVars%variables(timeVarIndex)%entry = startingTime
 
@@ -259,7 +259,7 @@ module subroutine integrateBDE(this,manipulatedModeller,outputVars,inputVars)
     else 
                     call printMessage(this%integratorName//&
                     ": Lazy evaluation triggered, evolving only time")
-        outputVars%variables = inputVars%variables
+        call copyRealArraysInPlace(outputVars%variables,inputVars%variables)
         if (inputVars%isVarNameRegistered("time") .and. timeEvolving) &
             outputVars%variables(timeVarIndex)%entry = startingTime + fullTimestep
     end if
@@ -277,14 +277,13 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
     logical                       ,intent(in) :: use2Norm !! True if this should use 2-norm instead of local inf-norm
     integer(ik)     ,dimension(:) ,intent(inout) :: convergenceCounter !! Incremented if the variable with a given index has not yet converged
 
-    logical :: conv 
-    logical ,allocatable ,dimension(:) :: varConverged
+    logical :: conv ,varConverged
 
     integer(ik) :: i ,haloDataChunkSize ,ind ,nonHaloLen
-    real(rk) :: relError ,absError
+    real(rk) :: relError ,absError ,oldNorm ,absTolScaled
 
-    allocate(varConverged(size(indicesToCheck)))
-    varConverged = .false. 
+    conv = .true.
+    absTolScaled = epsilon(absError)*absTol
     do i = 1, size(indicesToCheck)
         ind = indicesToCheck(i)
         haloDataChunkSize = 1 - lbound(newVars(ind)%entry,1)
@@ -293,30 +292,31 @@ function checkConvergence(oldVars,newVars,indicesToCheck,nonlinTol,absTol,use2No
         if (use2Norm) then
 
             absError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))
+            oldNorm = norm2(oldVars(ind)%entry(1:nonHaloLen))
 
-            if (norm2(oldVars(ind)%entry(1:nonHaloLen))>epsilon(absError)*absTol) then
-                relError = norm2(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))&
-                        /norm2(oldVars(ind)%entry(1:nonHaloLen))
+            if (oldNorm > absTolScaled) then
+                relError = absError / oldNorm
             else
                 relError = absError
             end if
         else
 
-            absError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))))
+            absError = maxval(abs(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen)))
 
-            if (all(abs(oldVars(ind)%entry(1:nonHaloLen)) > epsilon(absError)*absTol)) then 
-                relError = maxval(abs((oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen)))&
+            if (all(abs(oldVars(ind)%entry(1:nonHaloLen)) > absTolScaled)) then 
+                relError = maxval(abs(oldVars(ind)%entry(1:nonHaloLen)-newVars(ind)%entry(1:nonHaloLen))&
                     /abs(oldVars(ind)%entry(1:nonHaloLen)))
-                else
-                    relError = absError
+            else
+                relError = absError
             end if
             
         end if
-        varConverged(i) = relError < nonlinTol .or. absError < epsilon(absError)*absTol
-        if (.not. varConverged(i)) convergenceCounter(i) = convergenceCounter(i) + 1
+        varConverged = relError < nonlinTol .or. absError < absTolScaled
+        if (.not. varConverged) then
+            conv = .false.
+            convergenceCounter(i) = convergenceCounter(i) + 1
+        end if
     end do
-
-    conv = all(varConverged)
 
 end function
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -434,10 +434,11 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
 
     select type (manipulatedModeller)
     type is (Modeller)
-        if (.not. allocated(this%buffer)) allocate(this%buffer,source=inputVars)
-        if (.not. allocated(this%oldBufferVals)) allocate(this%oldBufferVals,source=inputVars%variables)
-        this%buffer%variables = inputVars%variables
-        this%oldBufferVals = inputVars%variables
+        if (.not. allocated(this%buffer)) then
+            allocate(this%buffer,source=inputVars)
+        else
+            call copyRealArraysInPlace(this%buffer%variables,inputVars%variables)
+        end if
         
             if (commNeeded) then 
                 call manipulatedModeller%safeCommAndDeriv(commData,this%buffer,derivPriority=0)
@@ -500,7 +501,18 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
                 end if
                 return
             end if
-            this%oldBufferVals = this%buffer%variables
+            if (nonTrivialConvergenceCheck) then
+                if (.not. allocated(this%oldBufferVals)) then
+                    allocate(this%oldBufferVals(size(this%buffer%variables)))
+                else if (size(this%oldBufferVals) /= size(this%buffer%variables)) then
+                    deallocate(this%oldBufferVals)
+                    allocate(this%oldBufferVals(size(this%buffer%variables)))
+                end if
+                do j = 1, size(this%convergenceTestVars)
+                    k = this%convergenceTestVars(j)
+                    call copyRealArrayInPlace(this%oldBufferVals(k)%entry,this%buffer%variables(k)%entry)
+                end do
+            end if
 
             aaApplied = .false.
             if (this%andersonDepth > 0) then

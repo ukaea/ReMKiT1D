@@ -417,7 +417,7 @@ pure module subroutine setMultConst(this,multConst)
     class(MatrixTerm)              ,intent(inout)  :: this
     type(RealArray) ,dimension(:)  ,intent(in)     :: multConst
 
-    this%multConst = multConst
+    call copyRealArraysInPlace(this%multConst,multConst)
 
 end subroutine setMultConst
 !-----------------------------------------------------------------------------------------------------------------------------------

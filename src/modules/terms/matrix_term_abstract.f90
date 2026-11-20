@@ -28,7 +28,7 @@ module matrix_term_abstract_class
     use petsc_controller_class         ,only: PETScController
     use basic_interfaces               ,only: coordMapping
     use indexing_class                 ,only: Indexing
-    use support_functions              ,only: allCombinations
+    use support_functions              ,only: allCombinations ,copyRealArraysInPlace
     use term_abstract_class            ,only: Term
     use modelbound_data_abstract_class ,only: ModelboundData
     use model_surrogate_class          ,only: ModelSurrogate

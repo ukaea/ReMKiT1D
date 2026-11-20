@@ -209,6 +209,62 @@ contains
 
     end subroutine test_explicit_term
 
+    @test
+    subroutine test_set_mult_const_reuse
+
+        type(testMatrixTerm) :: testTerm
+        type(RealArray) ,dimension(2) :: initialVals ,mixedVals ,resizedVals
+        type(RealArray) ,dimension(1) :: shrunkVals
+        type(RealArray) ,allocatable ,dimension(:) :: retrieved
+
+        call testTerm%makeDefined()
+
+        allocate(initialVals(1)%entry(0:2))
+        initialVals(1)%entry = [1.0d0, 2.0d0, 3.0d0]
+        allocate(initialVals(2)%entry(2))
+        initialVals(2)%entry = [4.0d0, 5.0d0]
+
+        call testTerm%setMultConst(initialVals)
+        retrieved = testTerm%getMultConst()
+        @assertEqual(size(retrieved),2)
+        @assertTrue(allocated(retrieved(1)%entry))
+        @assertEqual(lbound(retrieved(1)%entry,1),0)
+        @assertEqual(ubound(retrieved(1)%entry,1),2)
+        @assertEqual(retrieved(1)%entry,[1.0d0, 2.0d0, 3.0d0])
+        @assertEqual(retrieved(2)%entry,[4.0d0, 5.0d0])
+
+        ! Transition row 1 from allocated to unallocated, and change row 2 bounds/values
+        allocate(mixedVals(2)%entry(-1:0))
+        mixedVals(2)%entry = [6.0d0, 7.0d0]
+        call testTerm%setMultConst(mixedVals)
+        retrieved = testTerm%getMultConst()
+        @assertFalse(allocated(retrieved(1)%entry))
+        @assertTrue(allocated(retrieved(2)%entry))
+        @assertEqual(lbound(retrieved(2)%entry,1),-1)
+        @assertEqual(ubound(retrieved(2)%entry,1),0)
+        @assertEqual(retrieved(2)%entry,[6.0d0, 7.0d0])
+
+        ! Transition row 1 back to allocated and change row 2 length
+        allocate(resizedVals(1)%entry(2))
+        resizedVals(1)%entry = [8.0d0, 9.0d0]
+        allocate(resizedVals(2)%entry(3))
+        resizedVals(2)%entry = [10.0d0, 11.0d0, 12.0d0]
+        call testTerm%setMultConst(resizedVals)
+        retrieved = testTerm%getMultConst()
+        @assertTrue(allocated(retrieved(1)%entry))
+        @assertEqual(retrieved(1)%entry,[8.0d0, 9.0d0])
+        @assertEqual(retrieved(2)%entry,[10.0d0, 11.0d0, 12.0d0])
+
+        ! Shrink outer array size
+        allocate(shrunkVals(1)%entry(1))
+        shrunkVals(1)%entry = [13.0d0]
+        call testTerm%setMultConst(shrunkVals)
+        retrieved = testTerm%getMultConst()
+        @assertEqual(size(retrieved),1)
+        @assertEqual(retrieved(1)%entry,[13.0d0])
+
+    end subroutine test_set_mult_const_reuse
+
     module function testCalculate(this,inputArray,indices) result(output)
 
         class(testDerivation)               ,intent(inout) :: this

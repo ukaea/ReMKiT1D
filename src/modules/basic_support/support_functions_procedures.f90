@@ -380,6 +380,53 @@ submodule (support_functions) support_functions_procedures
 
     end function triangularIntArray
 !-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine copyRealArrayInPlace(dest,src)
+        !! Copy an allocatable 1D real array in place while preserving exact allocation status and lower/upper bounds
+
+        real(rk) ,allocatable ,dimension(:) ,intent(inout) :: dest
+        real(rk) ,allocatable ,dimension(:) ,intent(in)    :: src
+
+        integer(ik) :: lb ,ub
+
+        if (.not. allocated(src)) then
+            if (allocated(dest)) deallocate(dest)
+            return
+        end if
+
+        lb = lbound(src,1)
+        ub = ubound(src,1)
+        if (.not. allocated(dest)) then
+            allocate(dest(lb:ub))
+        else if (lbound(dest,1) /= lb .or. ubound(dest,1) /= ub) then
+            deallocate(dest)
+            allocate(dest(lb:ub))
+        end if
+        dest(:) = src(:)
+
+    end subroutine copyRealArrayInPlace
+!-----------------------------------------------------------------------------------------------------------------------------------
+    pure module subroutine copyRealArraysInPlace(dest,src)
+        !! Copy an array of RealArray entries in place while preserving exact allocation status and bounds of every entry
+
+        type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: dest
+        type(RealArray) ,dimension(:)              ,intent(in)    :: src
+
+        integer(ik) :: i ,nVars
+
+        nVars = size(src)
+        if (.not. allocated(dest)) then
+            allocate(dest(nVars))
+        else if (lbound(dest,1) /= 1 .or. ubound(dest,1) /= nVars) then
+            deallocate(dest)
+            allocate(dest(nVars))
+        end if
+
+        do i = 1, nVars
+            call copyRealArrayInPlace(dest(i)%entry,src(i)%entry)
+        end do
+
+    end subroutine copyRealArraysInPlace
+!-----------------------------------------------------------------------------------------------------------------------------------
     pure recursive subroutine mergeSort(buffer, start, end, array)
 
         integer(ik) ,dimension(:),intent(inout) :: array, buffer

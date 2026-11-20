@@ -489,6 +489,30 @@ contains
     end subroutine test_poly_fun_deriv
 
     @test
+    subroutine test_poly_fun_unit_power_snap
+
+        use support_functions ,only: unitPowerTolerance
+
+        type(PolyFunDeriv) :: linearMethod ,mixedMethod
+        type(RealArray) ,dimension(2) :: inputs
+        real(rk) ,allocatable ,dimension(:) :: outLinear ,outMixed
+
+        inputs(1)%entry = [-3.0d0, 0.0d0, 2.5d0]
+        inputs(2)%entry = [4.0d0, -2.0d0, 1.0d0]
+
+        ! Near-unit power on negative base must follow unitPowerTolerance snap without invalid pow
+        call linearMethod%init([1.0d0, 1.0d0 + 0.5d0 * unitPowerTolerance],[2.0d0, -3.0d0],1.5d0)
+        outLinear = linearMethod%calculate(inputs,[1,2])
+        @assertEqual(outLinear,1.5d0 + 2.0d0 * inputs(1)%entry - 3.0d0 * inputs(2)%entry,tolerance=1.0d-14)
+
+        ! Single-index mixed unit and non-unit powers
+        call mixedMethod%init([1.0d0, 2.0d0],[-1.0d0, 0.5d0],2.0d0)
+        outMixed = mixedMethod%calculate(inputs,[1])
+        @assertEqual(outMixed,2.0d0 - inputs(1)%entry + 0.5d0 * (inputs(1)%entry ** 2.0d0),tolerance=1.0d-14)
+
+    end subroutine test_poly_fun_unit_power_snap
+
+    @test
     subroutine test_gen_int_poly_fun_deriv
     
         type(Partition) :: testPart

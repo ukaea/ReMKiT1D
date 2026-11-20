@@ -52,7 +52,8 @@ module function calculatePolyFun(this,inputArray,indices) result(output)
     integer(ik)           ,dimension(:) ,intent(in)    :: indices           
     real(rk) ,allocatable ,dimension(:)                :: output
 
-    integer(ik) :: i 
+    integer(ik) :: i ,srcIdx
+    real(rk)    :: p
 
     if (assertions) then 
 
@@ -64,17 +65,22 @@ module function calculatePolyFun(this,inputArray,indices) result(output)
 
     end if
 
-    output = this%constCoeff + this%polyCoeffs(1) * inputArray(indices(1))%entry ** this%polyPowers(1)
-    
-    if (size(indices) > 1) then  
-        do i = 2, size(this%polyPowers)
-            output = output + this%polyCoeffs(i) * inputArray(indices(i))%entry ** this%polyPowers(i)
-        end do
-    else
-        do i = 2, size(this%polyPowers)
-            output = output + this%polyCoeffs(i) * inputArray(indices(1))%entry ** this%polyPowers(i)
-        end do
-    end if
+    allocate(output(size(inputArray(indices(1))%entry)))
+    output(:) = this%constCoeff
+
+    do i = 1, size(this%polyPowers)
+        if (size(indices) > 1) then
+            srcIdx = indices(i)
+        else
+            srcIdx = indices(1)
+        end if
+        p = this%polyPowers(i)
+        if (abs(p - 1.0d0) <= unitPowerTolerance) then
+            output(:) = output(:) + this%polyCoeffs(i) * inputArray(srcIdx)%entry(:)
+        else
+            output(:) = output(:) + this%polyCoeffs(i) * (inputArray(srcIdx)%entry(:) ** p)
+        end if
+    end do
 
 end function calculatePolyFun
 !-----------------------------------------------------------------------------------------------------------------------------------

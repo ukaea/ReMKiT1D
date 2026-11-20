@@ -124,7 +124,6 @@ submodule (support_functions) support_functions_procedures
     pure elemental module function powerWithUnitSnap(base,power) result(res)
         real(rk) ,intent(in) :: base ,power
         real(rk) :: res
-        real(rk) ,parameter :: unitPowerTolerance = 100.0d0 * epsilon(1.0d0)
 
         if (abs(power - 1.0d0) <= unitPowerTolerance) then
             res = base

@@ -21,6 +21,7 @@ module polynomial_fun_derivation_class
     use assertion_utility           ,only: assert, assertIdentical, assertPure
     use god_objects                 ,only: Object
     use support_types               ,only: RealArray 
+    use support_functions           ,only: unitPowerTolerance
     use derivation_abstract_class   ,only: Derivation
 
     implicit none

@@ -58,7 +58,8 @@ contains
         type(VSpace) :: testVSpace
 
         class(MatrixTerm) ,allocatable :: matBuffer
-        integer(ik) :: i 
+        type(RealArray) ,allocatable ,dimension(:) :: calcRes ,expectedMultConst
+        integer(ik) :: i
         real(rk) ,allocatable ,dimension(:) :: xArr ,vArr ,vVec
 
         integer(ik) ,dimension(2) :: locHs
@@ -112,10 +113,22 @@ contains
 
         call testTerm2%calculateValues(testVarCont1)
 
+        ! Verify direct calculate() (allocating res and res(:)%entry on demand) works on all ranks
+        calcRes = stencilGen%calculate(testVarCont1,hostModel=testModel)
+        @assertEqual(size(calcRes),3)
+
         if (testPart%getMinHAtInd(testController%getWorldRank()+1)==1) then
+            expectedMultConst = testTerm2%getMultConst()
+            do i = 1,size(calcRes)
+                @assertEqual(calcRes(i)%entry,expectedMultConst(i)%entry,tolerance=1.d-14)
+            end do
             testVec = testTerm2%evaluate(testVarCont1)
             checkVec = testVSpace%calculateMoment(testVarCont1%variables(1)%entry,1,1) 
             @assertEqual(testVec(2:4),checkVec(2:4),tolerance=1.d-14)
+        else
+            do i = 1,size(calcRes)
+                @assertEqual(size(calcRes(i)%entry),0)
+            end do
         end if
     end subroutine test_t_moment
 

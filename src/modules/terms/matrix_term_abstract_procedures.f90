@@ -590,7 +590,8 @@ pure module function getRowData(this) result(rowData)
 end function getRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module subroutine accumulateRowMoment(this,vVec,res)
-    !! Accumulate velocity moment of this term's rowData values into pre-allocated res without copying SparseRowData
+    !! Accumulate velocity moment of this term's flatValues into res without copying SparseRowData.
+    !! Reuses pre-allocated res(:)%entry in place on the hot path, and allocates missing entries on demand.
 
     class(MatrixTerm)              ,intent(in)    :: this
     real(rk) ,dimension(:)         ,intent(in)    :: vVec
@@ -598,21 +599,26 @@ pure module subroutine accumulateRowMoment(this,vVec,res)
 
     integer(ik) :: i ,k ,nRows ,rowX ,colIdx
     real(rk)    :: vWeight
+    logical     :: needsAlloc
 
     if (assertions) call assertPure(this%isDefined(),"Called accumulateRowMoment on undefined matrix term")
 
-    do i = 1, size(res)
-        if (assertions) call assertPure(allocated(res(i)%entry),&
-            "Unallocated entry in res passed to accumulateRowMoment")
-        res(i)%entry(:) = 0.0d0
-    end do
-
     nRows = size(this%flatRowPtr) - 1
-    if (nRows == 0) return
+    if (nRows == 0) then
+        do i = 1, size(res)
+            if (.not. allocated(res(i)%entry)) allocate(res(i)%entry(0))
+            res(i)%entry(:) = 0.0d0
+        end do
+        return
+    end if
 
     associate(ptr => this%flatRowPtr, fVals => this%flatValues, &
               rX => this%momentRowX, rV => this%momentRowV)
         if (this%momentDim == 3) then
+            do i = 1, size(res)
+                if (.not. allocated(res(i)%entry)) allocate(res(i)%entry(size(vVec)))
+                res(i)%entry(:) = 0.0d0
+            end do
             associate(cV => this%momentColV)
                 do i = 1, nRows
                     rowX = rX(i)
@@ -624,6 +630,25 @@ pure module subroutine accumulateRowMoment(this,vVec,res)
                 end do
             end associate
         else
+            needsAlloc = .false.
+            do i = 1, size(res)
+                if (.not. allocated(res(i)%entry)) then
+                    needsAlloc = .true.
+                    exit
+                end if
+            end do
+            if (needsAlloc) then
+                do i = 1, nRows
+                    rowX = rX(i)
+                    if (.not. allocated(res(rowX)%entry)) allocate(res(rowX)%entry(ptr(i+1) - ptr(i)))
+                end do
+                do i = 1, size(res)
+                    if (.not. allocated(res(i)%entry)) allocate(res(i)%entry(0))
+                end do
+            end if
+            do i = 1, size(res)
+                res(i)%entry(:) = 0.0d0
+            end do
             do i = 1, nRows
                 rowX = rX(i)
                 vWeight = vVec(rV(i))

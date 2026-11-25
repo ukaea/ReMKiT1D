@@ -73,8 +73,12 @@ module subroutine calcTermMomentVals(this,varCont,res,mbData,hostModel)
     if (assertions) then 
         call assert(this%isDefined(),"calcTermMomentVals called from undefined stencil generator")
         call assert(present(hostModel),"No hostModel passed to calcTermMomentVals when expected")
-        call assert(allocated(res),"calcTermMomentVals requires pre-allocated res")
-        call assert(size(res) == this%locNumX,"res passed to calcTermMomentVals has unexpected size")
+    end if
+
+    if (allocated(res)) then
+        if (assertions) call assert(size(res) == this%locNumX,"res passed to calcTermMomentVals has unexpected size")
+    else
+        allocate(res(this%locNumX))
     end if
 
     select type(hostModel)

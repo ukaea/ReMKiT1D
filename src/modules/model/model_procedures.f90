@@ -586,7 +586,7 @@ pure module function getImplicitTermRowData(this,termIndex) result(rowData)
 end function getImplicitTermRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module subroutine accumulateImplicitTermMoment(this,termIndex,vVec,res)
-    !! Accumulate velocity moment of implicit term with given term index into pre-allocated res without copying SparseRowData
+    !! Accumulate velocity moment of implicit term with given term index into res without copying SparseRowData
 
     class(Model)                  ,intent(in)    :: this
     integer(ik)                   ,intent(in)    :: termIndex

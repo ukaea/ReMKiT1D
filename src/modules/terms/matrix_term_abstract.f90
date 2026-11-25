@@ -306,7 +306,7 @@ module matrix_term_abstract_class
     end function 
 !-----------------------------------------------------------------------------------------------------------------------------------
     pure module subroutine accumulateRowMoment(this,vVec,res)
-        !! Accumulate velocity moment of this term's rowData values into pre-allocated res without copying SparseRowData
+        !! Accumulate velocity moment of this term's flatValues into res (reusing pre-allocated entries or allocating on demand)
 
         class(MatrixTerm)              ,intent(in)    :: this
         real(rk) ,dimension(:)         ,intent(in)    :: vVec

@@ -4,46 +4,40 @@
 #
 # ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+# You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>.
 #
 # Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 #
-# This file is adapted from cmake_fortran_template
-# <https://github.com/SethMMorton/cmake_fortran_template>
-# Copyright (c) 2018 Seth M. Morton
-#
-PROJECT(ReMKiT1D Fortran)
 
-FILE(GLOB_RECURSE ${PROJECT_NAME}_sources *.f90 *.F90)
-
-MESSAGE(STATUS "Sources for project ${PROJECT_NAME}: ${${PROJECT_NAME}_sources}")
-
-# Define the executable in terms of the source files
-ADD_EXECUTABLE(${PROJECT_NAME} ${${PROJECT_NAME}_sources})
-
-TARGET_COMPILE_OPTIONS(${PROJECT_NAME} PRIVATE ${DEFAULT_Fortran_FLAGS})
-
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} 
-  PUBLIC
-    parameters
-    basic_support
-    grid
-    variables
-    solver_support
-    modeller 
-    mpi_support
-    IO_support
-    extended_support
-    timeloop
-    modeller_assembly
-  PRIVATE
-    ${BUILD_TYPE_Fortran_FLAGS}
+FILE(GLOB_RECURSE ReMKiT1D_sources CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.f90"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.F90"
 )
 
-INSTALL(TARGETS ${PROJECT_NAME}
-  EXPORT ${PROJECT_NAME}_installation
-  ARCHIVE DESTINATION ${LIBDIR}
-  LIBRARY DESTINATION ${LIBDIR}
-  PUBLIC_HEADER DESTINATION ${INCDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+ADD_EXECUTABLE(ReMKiT1D ${ReMKiT1D_sources})
+
+TARGET_COMPILE_OPTIONS(ReMKiT1D PRIVATE ${DEFAULT_Fortran_FLAGS})
+
+IF(BUILD_TYPE_Fortran_LINK_OPTIONS)
+    TARGET_LINK_OPTIONS(ReMKiT1D PRIVATE ${BUILD_TYPE_Fortran_LINK_OPTIONS})
+ENDIF()
+
+TARGET_LINK_LIBRARIES(ReMKiT1D
+    PRIVATE
+        parameters
+        basic_support
+        grid
+        variables
+        solver_support
+        modeller
+        mpi_support
+        IO_support
+        extended_support
+        timeloop
+        modeller_assembly
+)
+
+INSTALL(TARGETS ReMKiT1D
+    EXPORT ReMKiT1D_installation
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )

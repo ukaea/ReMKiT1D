@@ -8,8 +8,6 @@
 #
 # Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 
-project(src Fortran)
-
 add_subdirectory(modules)
 add_subdirectory(executables)
 

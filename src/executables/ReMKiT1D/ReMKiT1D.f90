@@ -16,8 +16,10 @@ program ReMKiT1D
 !!
 !! Main project executable 
 
-    use data_kinds                 ,only: ik, rk
+    use data_kinds                 ,only: ik
     use runtime_constants          ,only: debugging, assertions
+    use version_info               ,only: remkit1dVersion
+    use iso_fortran_env            ,only: output_unit
     use mpi_controller_class       ,only: MPIController
     use modeller_class             ,only: Modeller  
     use petsc_controller_class     ,only: PETScController
@@ -39,16 +41,24 @@ program ReMKiT1D
     type(Modeller)           :: modellerObj           !! Main container of models/terms/data
     type(Timeloop)           :: timeloopObj           !! Object controlling the main time loop
 
-    integer(ik) :: i 
-    character(len=128) :: arg 
+    integer(ik) :: i ,argLen
+    character(:) ,allocatable :: arg
     character(:) ,allocatable :: alternativeConfigPath
 
-    ! Read alternative config path from command line
+    ! Read CLI flags (version or alternative config path)
 
     do i = 1, command_argument_count()
-        call get_command_argument(i,arg)
+        call get_command_argument(i, length=argLen)
+        if (allocated(arg)) deallocate(arg)
+        allocate(character(len=argLen) :: arg)
+        call get_command_argument(i, value=arg)
 
-        if (arg(:18) =='-with_config_path=') alternativeConfigPath=trim(arg(19:))
+        if (arg == "--version" .or. arg == "-v") then
+            write(output_unit,'(A)') "ReMKiT1D "//remkit1dVersion
+            stop
+        else if (argLen >= 18) then
+            if (arg(1:18) == "-with_config_path=") alternativeConfigPath = trim(arg(19:))
+        end if
 
     end do
 

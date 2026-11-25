@@ -4,23 +4,21 @@
 #
 # ReMKiT1D is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>. 
+# You should have received a copy of the GNU General Public License along with ReMKiT1D. If not, see <https://www.gnu.org/licenses/>.
 #
 # Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 #
-project(test_mpi Fortran)
 
-FILE(GLOB_RECURSE pf_files "*.pf")
+FILE(GLOB_RECURSE pf_files CONFIGURE_DEPENDS "*.pf")
 
-add_pfunit_ctest (${PROJECT_NAME}
-        TEST_SOURCES ${pf_files}
-        MAX_PES 8
-        LINK_LIBRARIES ${MPI_Fortran_LIBRARIES}
+add_pfunit_ctest(test_mpi
+    TEST_SOURCES ${pf_files}
+    MAX_PES 8
+    LINK_LIBRARIES
+        MPI::MPI_Fortran
         parameters
         basic_support
         grid
         variables
         mpi_support
-        )
-
-
+)

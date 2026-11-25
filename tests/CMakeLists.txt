@@ -8,8 +8,6 @@
 #
 # Copyright 2023 United Kingdom Atomic Energy Authority (stefan.mijin@ukaea.uk)
 #
-project(tests Fortran)
-
 add_subdirectory(test_basic_support)
 add_subdirectory(test_grid)
 add_subdirectory(test_variables)

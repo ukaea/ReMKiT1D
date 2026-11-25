@@ -68,12 +68,14 @@ module cvode_integrator_class
 
     type ,public ,extends(Integrator) :: CVODEIntegrator
 
-        type(c_ptr)                                  ,private :: sunctx !! Sundials context 
-        type(SUNLinearSolver) ,pointer               ,private :: sunls !! Sundials linear solver pointer 
-        type(N_Vector)        ,pointer               ,private :: sunVecY, sunVecYDot !! Solution and RHS sundials vector objects
-        type(c_ptr)                                  ,private :: cvode !! CVODE solver context
-        type(SUNMatrix)       ,pointer               ,private :: sunmat !! Sundials matrix (will be nulled)
-        real(c_double)        ,pointer ,dimension(:) ,private :: rhsVec,yVec !! Pointers used for accessing the underlying N_Vectors 
+        type(c_ptr)                                  ,private :: sunctx = c_null_ptr !! Sundials context 
+        type(SUNLinearSolver) ,pointer               ,private :: sunls => null() !! Sundials linear solver pointer 
+        type(N_Vector)        ,pointer               ,private :: sunVecY => null() !! Solution sundials vector object
+        type(N_Vector)        ,pointer               ,private :: sunVecYDot => null() !! RHS sundials vector object
+        type(c_ptr)                                  ,private :: cvode = c_null_ptr !! CVODE solver context
+        type(SUNMatrix)       ,pointer               ,private :: sunmat => null() !! Sundials matrix (will be nulled)
+        real(c_double)        ,pointer ,dimension(:) ,private :: rhsVec => null() !! Pointer used for accessing RHS N_Vector
+        real(c_double)        ,pointer ,dimension(:) ,private :: yVec => null() !! Pointer used for accessing solution N_Vector
 
         type(VariableContainer) ,allocatable               ,private :: bufferRHS ,bufferY !! ReMKiT1D variable containers corresponding to the RHS and solutions - enable derivation and communication calls
         real(rk)                ,allocatable ,dimension(:) ,private :: copyBufferVals !! Buffer for moving data between the C pointers and the ReMKiT1D variable containers 
@@ -100,7 +102,7 @@ module cvode_integrator_class
     interface
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine integrateCVODE(this,manipulatedModeller,outputVars,inputVars) 
-        !! Implementation of abstract manipulate routine for the case of Runge-Kutta integrator
+        !! Implementation of abstract manipulate routine for the SUNDIALS CVODE integrator
 
         class(CVODEIntegrator)                ,intent(inout) :: this 
         class(ModellerSurrogate)              ,intent(inout) :: manipulatedModeller !! Modeller to be used in callbacks during integration

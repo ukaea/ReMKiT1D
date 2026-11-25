@@ -32,7 +32,7 @@ Libraries:
 - MPI - tested with mpich-3.4.1
 - HDF5 
 - pFUnit - only if unit testing required 
-- PETSc - tested with versions 3.16 and 3.17 (3.18 not compatible) - requires hypre
+- PETSc - requires hypre and version 3.17 or later for the `PetscCount` COO interface. Tested with 3.17; 3.18 is not compatible.
 - json-fortran - currently using version 8.2.5
 - sundials (as of v.1.2.0)
 

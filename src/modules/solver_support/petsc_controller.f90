@@ -46,10 +46,12 @@ module petsc_controller_class
 
         Vec                          ,private :: rhs !! RHS PETSc vector object in linear solve
         Vec                          ,private :: sol !! LHS PETSc vector object in linear solve
+        Vec                          ,private :: workVec !! Scratch PETSc vector for preconditioned RHS norm in relative-reduction test
         Mat                          ,private :: petscMat !! PETSc matrix object used in linear solve
         PC                           ,private :: preconditioner !! Precondition object used in solve 
         KSP                          ,private :: solver !! KSP solver object
         PetscScalar ,allocatable ,dimension(:) ,private :: cooValues !! Preallocated flat value buffer for MatSetValuesCOO
+        logical                      ,private :: usingRelRedConv = .false. !! True when custom relative-reduction convergence test is installed
 
     end type 
 
@@ -131,16 +133,21 @@ module petsc_controller_class
 
     end function objectsCreated
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC)
+    module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,usedExactTol)
         !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor, using unknownVec as
         !! the initial guess - assembles and zeros out the matrix before/after the solve.
         !! Reuse requires an iterative KSP. A diverged reused-PC solve gets one fresh-PC retry.
+        !! When optional rtol > solverToleranceRel is passed (for an iterative KSP), installs a relative-reduction convergence test
+        !! stopping at max(solverToleranceRel * ||b_norm||, rtol * ||r_0||, solverToleranceAbs) and reports via usedExactTol
+        !! whether the exact solverToleranceRel / solverToleranceAbs floor was satisfied.
 
         class(PETScController)      ,intent(inout)  :: this
         real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
         real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
         integer(ik)   ,optional     ,intent(in)     :: objGroup
         logical       ,optional     ,intent(in)     :: reusePC !! Default false; overrides -ksp_reuse_preconditioner
+        real(rk)      ,optional     ,intent(in)     :: rtol !! Optional relative residual reduction vs ||r_0|| (ignored if <= solverToleranceRel or KSPPREONLY)
+        logical       ,optional     ,intent(out)    :: usedExactTol !! True iff solverToleranceRel/Abs was met (always true if inexact mode inactive)
 
     end subroutine linearSolve
 !-----------------------------------------------------------------------------------------------------------------------------------

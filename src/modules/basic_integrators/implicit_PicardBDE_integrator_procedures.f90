@@ -416,6 +416,9 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
     integer(ik)    ,allocatable ,dimension(:)  :: aaOrder
     integer(ik)                                :: aaHistCount ,aaNextSlot
     logical                                    :: aaHasPrev ,aaApplied
+    logical                                    :: forceExactTol !! When true, bypass inexact rtol and solve to exact solverToleranceRel
+    logical                                    :: solveWasExact !! True iff the latest linear solve satisfied solverToleranceRel/Abs
+    real(rk) ,parameter                        :: inexactKSPRelRed = real(1.0d-2,kind=rk) !! Per-Picard-iteration KSP residual reduction target
 
     termGroups = this%getTermGroups()
     modelIndices = this%getModelIndices()
@@ -459,6 +462,8 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
         aaNextSlot = 0
         aaApplied = .false.
         if (this%andersonDepth > 0) aaOrder = 0
+        ! Stationary solves (dt == 0) and single-iteration linear steps always run at exact solverToleranceRel.
+        forceExactTol = (dt == 0.0d0 .or. this%maxIterations <= 1)
 
         call this%buffer%copyImplicitVarsToVec(this%implicitVectorInit,ignoreStationary=.true.)
         nonlinIter = 0
@@ -488,9 +493,19 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
             end do
 
             ! Refresh PC on the first Picard solve (nonlinIter == 0) of every attempted substep/split, and never reuse for dt == 0.
-            call manipulatedModeller%linearSolvePETSc(this%implicitVectorInit,this%implicitVectorNew,.true.,&
-                                                    convReason,this%associatedPETScObjGroup,&
-                                                    reusePC=this%reusePreconditioner .and. nonlinIter > 0 .and. dt /= 0.0d0)
+            ! Intermediate Picard solves use relative reduction inexactKSPRelRed against ||r_0||; the final allowed iteration or
+            ! any verification pass after forceExactTol is triggered runs at exact solverToleranceRel.
+            if (forceExactTol .or. nonlinIter == this%maxIterations - 1) then
+                call manipulatedModeller%linearSolvePETSc(this%implicitVectorInit,this%implicitVectorNew,.true.,&
+                                                        convReason,this%associatedPETScObjGroup,&
+                                                        reusePC=this%reusePreconditioner .and. nonlinIter > 0 .and. dt /= 0.0d0)
+                solveWasExact = .true.
+            else
+                call manipulatedModeller%linearSolvePETSc(this%implicitVectorInit,this%implicitVectorNew,.true.,&
+                                                        convReason,this%associatedPETScObjGroup,&
+                                                        reusePC=this%reusePreconditioner .and. nonlinIter > 0 .and. dt /= 0.0d0,&
+                                                        rtol=inexactKSPRelRed,usedExactTol=solveWasExact)
+            end if
 
             ! Check if PETSc diverged 
             if (convReason < -1) then 
@@ -546,6 +561,14 @@ subroutine tryIntegrate(this,manipulatedModeller,inputVars,dt,nonlinIter,solveSu
                         call applyImplicitIterate(this,manipulatedModeller,commNeeded,commData,this%implicitVectorNew)
                     end if
                 end if
+            end if
+
+            ! Guarantee the accepted iterate was verified at exact solverToleranceRel: if nonlinear convergence fired on an
+            ! inexact linear solve, reject termination and force exact KSP tolerance on the next iteration(s) so conservation
+            ! and fixed-point accuracy match full-tolerance solves.
+            if (tolReached .and. .not. solveWasExact) then
+                tolReached = .false.
+                forceExactTol = .true.
             end if
 
             nonlinIter = nonlinIter + 1

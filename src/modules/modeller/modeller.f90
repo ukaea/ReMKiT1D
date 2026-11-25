@@ -362,7 +362,7 @@ module modeller_class
 
     end subroutine getGlobalSumVec
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine linearSolvePETSc(this,knownVec,unknownVec,addIdentityMat,convReason,petscGroup,reusePC)
+    module subroutine linearSolvePETSc(this,knownVec,unknownVec,addIdentityMat,convReason,petscGroup,reusePC,rtol,usedExactTol)
         !! Call linearSolve routine on PETScController of this modeller. Creates PETSc objects if they've not yet been created. If 
         !! addIdentityMat is true adds an identity matrix to the PETSc matrix.
     
@@ -373,6 +373,8 @@ module modeller_class
         integer(ik)                 ,intent(inout)  :: convReason
         integer(ik)   ,optional     ,intent(in)     :: petscGroup
         logical       ,optional     ,intent(in)     :: reusePC !! Reuse PC for this solve only (default false)
+        real(rk)      ,optional     ,intent(in)     :: rtol !! Optional relative residual reduction vs ||r_0|| (for linearSolve)
+        logical       ,optional     ,intent(out)    :: usedExactTol !! True iff solverToleranceRel/Abs was met (from linearSolve)
 
     end subroutine linearSolvePETSc
 !-----------------------------------------------------------------------------------------------------------------------------------

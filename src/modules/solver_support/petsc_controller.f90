@@ -42,16 +42,26 @@ module petsc_controller_class
 
     end type
 
+    type :: RelRedConvContext
+        !! Per-KSP-group callback state wrapping PETSc KSPConvergedDefault with optional relative-reduction early stopping.
+        PetscFortranAddr :: defaultCtxAddr = 0 !! Opaque C address of owned PETSc KSPConvergedDefault context
+        PetscReal        :: relRedTarget = 0.0d0 !! Residual reduction target vs ||r_0|| (<= 0 disables early stopping)
+        PetscReal        :: initRnorm = 0.0d0  !! Initial KSP residual norm ||r_0|| recorded at iteration n == 0
+        logical          :: hitExact = .false. !! True iff KSPConvergedDefault itself declared convergence
+    end type RelRedConvContext
+
     type ,public :: PETSsObjs
 
         Vec                          ,private :: rhs !! RHS PETSc vector object in linear solve
         Vec                          ,private :: sol !! LHS PETSc vector object in linear solve
-        Vec                          ,private :: workVec !! Scratch PETSc vector for preconditioned RHS norm in relative-reduction test
         Mat                          ,private :: petscMat !! PETSc matrix object used in linear solve
         PC                           ,private :: preconditioner !! Precondition object used in solve 
         KSP                          ,private :: solver !! KSP solver object
         PetscScalar ,allocatable ,dimension(:) ,private :: cooValues !! Preallocated flat value buffer for MatSetValuesCOO
-        logical                      ,private :: usingRelRedConv = .false. !! True when custom relative-reduction convergence test is installed
+        logical                      ,private :: isPreonly = .false. !! True when KSP type is KSPPREONLY
+        logical                      ,private :: allowRelRedConv = .false. !! True when KSP uses wrapped KSPConvergedDefault
+        type(RelRedConvContext) ,pointer ,private :: relRedCtx => null() !! Heap-owned callback state for relRedKSPConverged
+        PetscFortranAddr             ,private :: relRedCtxAddr = 0 !! Opaque C address of relRedCtx passed to PETSc Fortran callback
 
     end type 
 
@@ -150,17 +160,17 @@ module petsc_controller_class
         !! Solve the equation petscMat * unknownVec = knownVec where the vectors are local to each processor, using unknownVec as
         !! the initial guess - assembles and zeros out the matrix before/after the solve.
         !! Reuse requires an iterative KSP. A diverged reused-PC solve gets one fresh-PC retry.
-        !! When optional rtol > solverToleranceRel is passed (for an iterative KSP), installs a relative-reduction convergence test
-        !! stopping at max(solverToleranceRel * ||b_norm||, rtol * ||r_0||, solverToleranceAbs) and reports via usedExactTol
-        !! whether the exact solverToleranceRel / solverToleranceAbs floor was satisfied.
+        !! When optional rtol > solverToleranceRel is passed for a compatible iterative KSP (norm-based default convergence),
+        !! installs a relative-reduction convergence test stopping at max(solverToleranceRel * ||b_norm||, rtol * ||r_0||,
+        !! solverToleranceAbs) and reports via usedExactTol whether the solve converged at the exact floor.
 
         class(PETScController)      ,intent(inout)  :: this
         real(rk)      ,dimension(:) ,intent(in)     :: knownVec 
         real(rk)      ,dimension(:) ,intent(inout)  :: unknownVec
         integer(ik)   ,optional     ,intent(in)     :: objGroup
         logical       ,optional     ,intent(in)     :: reusePC !! Default false; overrides -ksp_reuse_preconditioner
-        real(rk)      ,optional     ,intent(in)     :: rtol !! Optional relative residual reduction vs ||r_0|| (ignored if <= solverToleranceRel or KSPPREONLY)
-        logical       ,optional     ,intent(out)    :: usedExactTol !! True iff solverToleranceRel/Abs was met (always true if inexact mode inactive)
+        real(rk)      ,optional     ,intent(in)     :: rtol !! Optional relative residual reduction vs ||r_0|| (ignored if <= solverToleranceRel or incompatible KSP config)
+        logical       ,optional     ,intent(out)    :: usedExactTol !! True if the configured KSP policy or the exact floor accepted the solve
 
     end subroutine linearSolve
 !-----------------------------------------------------------------------------------------------------------------------------------

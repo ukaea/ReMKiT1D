@@ -61,7 +61,7 @@ module test_petsc_controller
 
 
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
         call testPETScController%init(testIndexing,testMPIController,solOptions) 
         locRows = [1,2,3] + testMPIController%getWorldRank()*3

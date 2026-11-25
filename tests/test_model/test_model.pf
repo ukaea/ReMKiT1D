@@ -81,7 +81,7 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
 
         call testPETScController%init(testIndexing,testMPIController,solOptions) 

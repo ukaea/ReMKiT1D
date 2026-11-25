@@ -326,7 +326,7 @@ module subroutine initPETScContFromJSON(petscCont,indexingObj,jsonCont,mpiCont)
     realParams(2) = NamedReal(keyPETSc//"."//keySolOptions//"."//keySolAbsTol,real(1.0d-20,kind=rk))
     realParams(3) = NamedReal(keyPETSc//"."//keySolOptions//"."//keySolDivTol,real(1.0d07,kind=rk))
     charParams(1) = NamedString(keyPETSc//"."//keySolOptions//"."//keySolKSP,"bcgs")
-    charParams(2) = NamedString(keyPETSc//"."//keySolOptions//"."//keyHyprePC,"euclid")
+    charParams(2) = NamedString(keyPETSc//"."//keySolOptions//"."//keyHyprePC,"")
     charParams(3) = NamedString(keyPETSc//"."//keySolOptions//"."//keyPETScOpts,"")
 
     call jsonCont%load(realParams)

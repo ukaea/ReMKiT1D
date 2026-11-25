@@ -205,7 +205,7 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
         call testPETScController%init(testIndexing,testMPIController,solOptions) 
 
@@ -335,7 +335,7 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
 
         xOffset = testMPIController%getWorldRank()*3
@@ -478,7 +478,7 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
         call testPETSc1%init(testIndexing,testMPIController,solOptions)
 
@@ -624,7 +624,7 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
         call testPETScController%init(testIndexing,testMPIController,solOptions) 
         call testVarCont%init(testList,testListDerived,cRules,testIndexing,testPart,1,testMPIController%getWorldRank())
@@ -829,7 +829,7 @@ contains
 
         call testIndexing%init(testPart,testGrid,testList)
         solOptions%kspSolverType = "bcgs"
-        solOptions%hyprePC = "euclid"
+        solOptions%hyprePC = ""
         solOptions%petscOptions = ""
         call testPETScController%init(testIndexing,testMPIController,solOptions)
 

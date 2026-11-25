@@ -16,6 +16,7 @@ submodule (petsc_controller_class) petsc_controller_procedures
     !! 
     !! Contains module procedures associated with the petsc controller class
 
+#include "petscversion.h"
 #include "petsc/finclude/petscksp.h"
 #include "petsc/finclude/petscpc.h"
 
@@ -70,17 +71,22 @@ module subroutine initPETScController(this,indexingObj,mpiCont,solOptions,numObj
     type(SolverOptions)    ,intent(in)     :: solOptions !! KSP solver options
     integer(ik)  ,optional ,intent(in)     :: numObjs !! Number of PETSc object groups
 
-    integer(ik)                            :: ierr 
+    PetscErrorCode                         :: ierr 
 
     if (assertions) then 
         call assert(indexingObj%isDefined(),"Undefined indexing object passed to PETSc controller constructor")
-        call assert(indexingObj%isDefined(),"Undefined MPI controller passed to PETSc controller constructor")
+        call assert(mpiCont%isDefined(),"Undefined MPI controller passed to PETSc controller constructor")
     end if
 
     call this%makeDefined()
     call this%preallocData%init(indexingObj,mpiCont%getWorldRank())
     this%options = solOptions
+#if PETSC_VERSION_GE(3,19,0)
+    call PetscInitialize(ierr)
+#else
     call PetscInitialize(PETSC_NULL_CHARACTER,ierr)
+#endif
+    CHKERRQ(ierr)
     if (present(numObjs)) then 
         allocate(this%objs(numObjs))
     else
@@ -181,7 +187,8 @@ module subroutine createPETScObjs(this)
 
     class(PETScController)      ,intent(inout)  :: this
 
-    integer(ik) :: ierr ,i ,nnzCOO
+    PetscErrorCode :: ierr
+    integer(ik)    :: i ,nnzCOO
     PetscCount  :: ncoo
     PetscInt ,allocatable ,dimension(:) :: cooRows0 ,cooCols0
     KSPType     :: kspType
@@ -327,7 +334,8 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,use
     real(rk)      ,optional     ,intent(in)     :: rtol !! Optional relative residual reduction vs ||r_0||
     logical       ,optional     ,intent(out)    :: usedExactTol !! True if the configured KSP policy or exact floor accepted the solve
 
-    integer(ik) :: ierr ,usedGroup ,attempt
+    PetscErrorCode :: ierr
+    integer(ik)    :: usedGroup ,attempt
     logical     :: useRelRed ,exactTol
     PetscBool :: reuseThisSolve
 
@@ -355,10 +363,18 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,use
     CHKERRQ(ierr)
     this%objs(usedGroup)%cooValues = 0.0d0
 
+#if PETSC_VERSION_GE(3,23,0)
+    call VecGetArray(this%objs(usedGroup)%rhs,vecPointer,ierr)
+#else
     call VecGetArrayF90(this%objs(usedGroup)%rhs,vecPointer,ierr)
+#endif
     CHKERRQ(ierr)
     vecPointer = knownVec
+#if PETSC_VERSION_GE(3,23,0)
+    call VecRestoreArray(this%objs(usedGroup)%rhs,vecPointer,ierr)
+#else
     call VecRestoreArrayF90(this%objs(usedGroup)%rhs,vecPointer,ierr)
+#endif
     CHKERRQ(ierr)
 
     call KSPSetTolerances(this%objs(usedGroup)%solver,this%options%solverToleranceRel,&
@@ -385,10 +401,18 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,use
         CHKERRQ(ierr)
 
         ! Keep the initial guess unchanged until the final result is extracted.
+#if PETSC_VERSION_GE(3,23,0)
+        call VecGetArray(this%objs(usedGroup)%sol,vecPointer,ierr)
+#else
         call VecGetArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
+#endif
         CHKERRQ(ierr)
         vecPointer = unknownVec
+#if PETSC_VERSION_GE(3,23,0)
+        call VecRestoreArray(this%objs(usedGroup)%sol,vecPointer,ierr)
+#else
         call VecRestoreArrayF90(this%objs(usedGroup)%sol,vecPointer,ierr)
+#endif
         CHKERRQ(ierr)
 
         call KSPSolve(this%objs(usedGroup)%solver,this%objs(usedGroup)%rhs,this%objs(usedGroup)%sol,ierr)
@@ -417,12 +441,20 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,use
     end if
     if (present(usedExactTol)) usedExactTol = exactTol
 
+#if PETSC_VERSION_GE(3,23,0)
+    call VecGetArrayRead(this%objs(usedGroup)%sol,solutionPointer,ierr)
+#else
     call VecGetArrayReadF90(this%objs(usedGroup)%sol,solutionPointer,ierr)
+#endif
     CHKERRQ(ierr)
 
     unknownVec = real(solutionPointer,kind=rk)
 
+#if PETSC_VERSION_GE(3,23,0)
+    call VecRestoreArrayRead(this%objs(usedGroup)%sol,solutionPointer,ierr)
+#else
     call VecRestoreArrayReadF90(this%objs(usedGroup)%sol,solutionPointer,ierr)
+#endif
     CHKERRQ(ierr)
 
 end subroutine linearSolve
@@ -502,7 +534,8 @@ module subroutine finalize(this)
 
     class(PETScController)      ,intent(inout)  :: this
 
-    integer(ik) :: ierr ,i 
+    PetscErrorCode :: ierr
+    integer(ik)    :: i 
 
     if (this%isDefined()) then 
 

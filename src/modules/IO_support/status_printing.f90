@@ -24,47 +24,22 @@ module status_printing
     implicit none
     private
 
-    integer(ik) ,private :: rank !! MPI rank for printing purposes
+    integer(ik) ,private :: rank = 0 !! MPI rank for printing purposes
 
-    logical     ,private :: printerReady !! True if the printer can be used
+    logical     ,private :: printerReady = .false. !! True if the printer can be used
 
     public :: preparePrinter ,printNamedValue ,printError ,printMessage
 
 !-----------------------------------------------------------------------------------------------------------------------------------
     interface printNamedValue
-
-        module subroutine printNamedInt(name,input,allProcs)
-
-            character(*)      ,intent(in) :: name
-            integer(ik)       ,intent(in) :: input
-
-            logical ,optional ,intent(in) :: allProcs
-
-        end subroutine printNamedInt
-
-        module subroutine printNamedReal(name,input,allProcs)
-    
-            character(*) ,intent(in) :: name
-            real(rk)     ,intent(in) :: input
-
-            logical ,optional ,intent(in) :: allProcs
-
-        end subroutine printNamedReal
-
-        module subroutine printNamedLogical(name,input,allProcs)
-    
-            character(*) ,intent(in) :: name
-            logical      ,intent(in) :: input
-
-            logical ,optional ,intent(in) :: allProcs
-
-        end subroutine printNamedLogical
-
+        module procedure printNamedInt
+        module procedure printNamedReal
+        module procedure printNamedLogical
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
     contains
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine preparePrinter(rankIn)
+    subroutine preparePrinter(rankIn)
         !! Prepare printer utility for use - currently only sets rank
 
         integer(ik) ,intent(in) :: rankIn 
@@ -74,7 +49,7 @@ module status_printing
 
     end subroutine preparePrinter
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine printNamedInt(name,input,allProcs)
+    subroutine printNamedInt(name,input,allProcs)
         !! Generic printNamedValue interface component - prints name: input for integer input. Prefaces with rank number if allProcs is true
 
         character(*) ,intent(in) :: name
@@ -98,7 +73,7 @@ module status_printing
 
     end subroutine printNamedInt
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine printNamedReal(name,input,allProcs)
+    subroutine printNamedReal(name,input,allProcs)
         !! Generic printNamedValue interface component - prints name: input for real input. Prefaces with rank number if allProcs is true
 
         character(*) ,intent(in) :: name
@@ -122,7 +97,7 @@ module status_printing
 
     end subroutine printNamedReal
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine printNamedLogical(name,input,allProcs)
+    subroutine printNamedLogical(name,input,allProcs)
         !! Generic printNamedValue interface component - prints name: input for logical input. Prefaces with rank number if allProcs is true
 
         character(*) ,intent(in) :: name
@@ -146,7 +121,7 @@ module status_printing
 
     end subroutine printNamedLogical
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine printMessage(msg,allProcs)
+    subroutine printMessage(msg,allProcs)
         !! Print message to output_unit - if allProcs true prefaces with rank number
 
         character(*) ,intent(in) :: msg
@@ -169,15 +144,15 @@ module status_printing
 
     end subroutine printMessage
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine printError(msg)
+    subroutine printError(msg)
         !! Print error to error_unit on all processes
 
         character(*) ,intent(in) :: msg
 
         if (assertions) call assert(printerReady,"Attempted to use printer module before printer was prepared")
 
-        write(output_unit,*) "PID",rank," - ERROR:",msg
-        write(output_unit,*)
+        write(error_unit,*) "PID",rank," - ERROR:",msg
+        write(error_unit,*)
 
     end subroutine printError
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -21,6 +21,20 @@ implicit none
 !-----------------------------------------------------------------------------------------------------------------------------------
 contains
 !-----------------------------------------------------------------------------------------------------------------------------------
+subroutine checkHDF5Error(hdferr, contextMsg)
+    !! Halt with diagnostic message if an HDF5 Fortran call returned a non-zero error status
+
+    integer(ik)  ,intent(in) :: hdferr
+    character(*) ,intent(in) :: contextMsg
+    character(len=32)        :: codeStr
+
+    if (hdferr /= 0) then
+        write(codeStr,'(I0)') hdferr
+        call assert(.false., "HDF5 error ("//trim(codeStr)//") during "//contextMsg)
+    end if
+
+end subroutine checkHDF5Error
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine initHDF5Controller(this,varCont,varNames,filepath) 
     !! HDF5 controller initialization routine - determines variables this controller is responsible for and the output path. The default
     !! path is "./", corresponding to the executable location in the build tree.
@@ -93,6 +107,7 @@ module subroutine outputVarsSerial(this,mpiCont,varCont,filename,IDNum)
     if (mpiCont%getWorldRank() == 0) then 
 
         call h5open_f(hdferr)
+        call checkHDF5Error(hdferr, "h5open_f in outputVarsSerial")
 
         !Handle file naming
         usedFilename = this%filepath//defaultFilename
@@ -106,21 +121,25 @@ module subroutine outputVarsSerial(this,mpiCont,varCont,filename,IDNum)
         end if
 
         call h5fcreate_f(usedFilename, H5F_ACC_TRUNC_F, file, hdferr)
+        call checkHDF5Error(hdferr, "h5fcreate_f for "//usedFilename)
 
         do i = 1,size(this%IOVarIndices)
             dsetsize(1) = size(this%IOBuffer(i)%entry)
             call h5screate_simple_f(1, dsetsize, space, hdferr)
+            call checkHDF5Error(hdferr, "h5screate_simple_f for "//this%IOVarNames(i)%string)
             call h5dcreate_f(file, this%IOVarNames(i)%string, int(H5T_IEEE_F64LE, HID_T), space, dset, hdferr)
+            call checkHDF5Error(hdferr, "h5dcreate_f for "//this%IOVarNames(i)%string)
             call h5dwrite_f(dset, h5kind_to_type(rk,H5_REAL_KIND), this%IOBuffer(i)%entry, dsetsize,hdferr)
+            call checkHDF5Error(hdferr, "h5dwrite_f for "//this%IOVarNames(i)%string)
             call h5dclose_f(dset , hdferr)
             call h5sclose_f(space, hdferr)
         end do
 
         call h5fclose_f(file , hdferr)
+        call checkHDF5Error(hdferr, "h5fclose_f for "//usedFilename)
         call h5close_f(hdferr)
     end if
 
-    !Maybe need a Barrier here?
 end subroutine outputVarsSerial
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine loadVarsSerial(this,mpiCont,varCont,filename) 
@@ -133,8 +152,7 @@ module subroutine loadVarsSerial(this,mpiCont,varCont,filename)
     character(*) ,optional          ,intent(in)     :: filename  !! Name of input file
 
     character(:) ,allocatable                       :: usedFilename 
-    character(len = 80)                             :: tmpstring
-    integer(HID_T)                                  :: file ,rootID
+    integer(HID_T)                                  :: file
     integer(HID_T)                                  :: dset ,space
     character(len=16) ,parameter                    :: defaultFilename = "ReMKiT1DVarInput"
 
@@ -156,10 +174,11 @@ module subroutine loadVarsSerial(this,mpiCont,varCont,filename)
     end do
     allocate(varFound(size(this%IOVarIndices)))
     varFound = .false.
-    !Start output from rank 0
+    !Start input from rank 0
     if (mpiCont%getWorldRank() == 0) then 
 
         call h5open_f(hdferr)
+        call checkHDF5Error(hdferr, "h5open_f in loadVarsSerial")
 
         !Handle file naming
         usedFilename = this%filepath//defaultFilename
@@ -167,17 +186,21 @@ module subroutine loadVarsSerial(this,mpiCont,varCont,filename)
         usedFilename = usedFilename//".h5"
 
         call h5fopen_f(usedFilename, H5F_ACC_RDONLY_F, file, hdferr)
+        call checkHDF5Error(hdferr, "h5fopen_f for "//usedFilename)
         
         do i = 1,size(this%IOVarIndices)
             call h5lexists_f(file,this%IOVarNames(i)%string,varFound(i),hdferr)
-            !Add more sofisticated handling of missing variables
+            call checkHDF5Error(hdferr, "h5lexists_f for "//this%IOVarNames(i)%string)
             if (varFound(i)) then 
                 call h5dopen_f(file,this%IOVarNames(i)%string,dset,hdferr)
+                call checkHDF5Error(hdferr, "h5dopen_f for "//this%IOVarNames(i)%string)
                 call h5dget_space_f(dset,space,hdferr)
+                call checkHDF5Error(hdferr, "h5dget_space_f for "//this%IOVarNames(i)%string)
                 call h5sget_simple_extent_dims_f(space,dsetsize,maxsize,hdferr)
                 allocate(this%IOBuffer(i)%entry(dsetsize(1)))
 
                 call h5dread_f(dset, h5kind_to_type(rk,H5_REAL_KIND), this%IOBuffer(i)%entry, dsetsize,hdferr,H5S_ALL_F,space)
+                call checkHDF5Error(hdferr, "h5dread_f for "//this%IOVarNames(i)%string)
 
                 call h5sclose_f(space, hdferr)
                 call h5dclose_f(dset , hdferr)
@@ -186,14 +209,15 @@ module subroutine loadVarsSerial(this,mpiCont,varCont,filename)
         end do
 
         call h5fclose_f(file , hdferr)
+        call checkHDF5Error(hdferr, "h5fclose_f for "//usedFilename)
         call h5close_f(hdferr)
     end if
 
     call mpiCont%barrier()
+    call mpiCont%broadcastLogical(varFound)
 
     do i = 1,size(this%IOVarIndices)
         if (allocated(locBuffer)) deallocate(locBuffer)
-        call mpiCont%broadcastLogical(varFound)
         if (varFound(i)) then
             if (varCont%isVarScalar(this%IOVarIndices(i))) then  !Handle scalar var case
                 allocate(locBuffer(1))
@@ -227,7 +251,7 @@ module subroutine outputGridDataSerial(this,mpiCont,gridObj,filename)
     integer(HID_T)                                  :: dset ,space
     character(len=18) ,parameter                    :: defaultFilename = "ReMKiT1DGridOutput"
 
-    integer(ik)                                     :: i ,hdferr
+    integer(ik)                                     :: hdferr
 
     real(rk)             ,allocatable ,dimension(:) :: xGrid, vGrid
     integer(ik)          ,allocatable ,dimension(:) :: lGrid ,mGrid ,imaginary
@@ -238,13 +262,14 @@ module subroutine outputGridDataSerial(this,mpiCont,gridObj,filename)
     if (assertions) then 
         call assert(this%isDefined(),"outputGridDataSerial called from undefined HDF5 controller")
         call assert(mpiCont%isDefined(),"Undefined MPI controller passed to outputGridDataSerial")
-        call assert(gridObj%isDefined(),"Undefined variable container passed to outputGridDataSerial")
+        call assert(gridObj%isDefined(),"Undefined grid object passed to outputGridDataSerial")
     end if
 
     !Start output from rank 0
     if (mpiCont%getWorldRank() == 0) then 
 
         call h5open_f(hdferr)
+        call checkHDF5Error(hdferr, "h5open_f in outputGridDataSerial")
 
         !Handle file naming
         usedFilename = this%filepath//defaultFilename
@@ -267,12 +292,14 @@ module subroutine outputGridDataSerial(this,mpiCont,gridObj,filename)
         end where
 
         call h5fcreate_f(usedFilename, H5F_ACC_TRUNC_F, file, hdferr)
+        call checkHDF5Error(hdferr, "h5fcreate_f for "//usedFilename)
 
         !Write xgrid data
         dsetsize(1) = size(xGrid)
         call h5screate_simple_f(1, dsetsize, space, hdferr)
         call h5dcreate_f(file, "x", int(H5T_IEEE_F64LE, HID_T), space, dset, hdferr)
         call h5dwrite_f(dset, h5kind_to_type(rk,H5_REAL_KIND), xGrid, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dwrite_f for x")
         call h5dclose_f(dset , hdferr)
         call h5sclose_f(space, hdferr)
 
@@ -281,6 +308,7 @@ module subroutine outputGridDataSerial(this,mpiCont,gridObj,filename)
         call h5screate_simple_f(1, dsetsize, space, hdferr)
         call h5dcreate_f(file, "v", int(H5T_IEEE_F64LE, HID_T), space, dset, hdferr)
         call h5dwrite_f(dset, h5kind_to_type(rk,H5_REAL_KIND), vGrid, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dwrite_f for v")
         call h5dclose_f(dset , hdferr)
         call h5sclose_f(space, hdferr)
 
@@ -290,19 +318,23 @@ module subroutine outputGridDataSerial(this,mpiCont,gridObj,filename)
 
         call h5dcreate_f(file, "l", int(H5T_STD_I32LE, HID_T), space, dset, hdferr)
         call h5dwrite_f(dset, h5kind_to_type(ik,H5_INTEGER_KIND), lGrid, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dwrite_f for l")
         call h5dclose_f(dset , hdferr)
 
         call h5dcreate_f(file, "m", int(H5T_STD_I32LE, HID_T), space, dset, hdferr)
         call h5dwrite_f(dset, h5kind_to_type(ik,H5_INTEGER_KIND), mGrid, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dwrite_f for m")
         call h5dclose_f(dset , hdferr)
 
         call h5dcreate_f(file, "im", int(H5T_STD_I32LE, HID_T), space, dset, hdferr)
         call h5dwrite_f(dset, h5kind_to_type(ik,H5_INTEGER_KIND), imaginary, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dwrite_f for im")
         call h5dclose_f(dset , hdferr)
 
         call h5sclose_f(space, hdferr)
 
         call h5fclose_f(file , hdferr)
+        call checkHDF5Error(hdferr, "h5fclose_f for "//usedFilename)
         call h5close_f(hdferr)
     end if
 
@@ -333,6 +365,7 @@ module subroutine dumpRestartFiles(this,mpiCont,varCont,filename)
     end if
 
     call h5open_f(hdferr)
+    call checkHDF5Error(hdferr, "h5open_f in dumpRestartFiles")
 
     !Handle file naming
     usedFilename = this%filepath//defaultFilename
@@ -342,17 +375,20 @@ module subroutine dumpRestartFiles(this,mpiCont,varCont,filename)
     usedFilename = usedFilename//"_"//trim(tmpstring)//".h5"
 
     call h5fcreate_f(usedFilename, H5F_ACC_TRUNC_F, file, hdferr)
+    call checkHDF5Error(hdferr, "h5fcreate_f for "//usedFilename)
 
     do i = 1,size(varCont%variables)
         dsetsize(1) = size(varCont%variables(i)%entry)
         call h5screate_simple_f(1, dsetsize, space, hdferr)
         call h5dcreate_f(file, varCont%getVarName(i), int(H5T_IEEE_F64LE, HID_T), space, dset, hdferr)
         call h5dwrite_f(dset, h5kind_to_type(rk,H5_REAL_KIND), varCont%variables(i)%entry, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dwrite_f for "//varCont%getVarName(i))
         call h5dclose_f(dset , hdferr)
         call h5sclose_f(space, hdferr)
     end do
 
     call h5fclose_f(file , hdferr)
+    call checkHDF5Error(hdferr, "h5fclose_f for "//usedFilename)
     call h5close_f(hdferr)
 
 end subroutine dumpRestartFiles
@@ -377,12 +413,13 @@ module subroutine loadRestartFiles(this,mpiCont,varCont,filename)
     integer(HSIZE_T)                  ,dimension(1) :: dsetsize
 
     if (assertions) then 
-        call assert(this%isDefined(),"dumpRestartFiles called from undefined HDF5 controller")
-        call assert(mpiCont%isDefined(),"Undefined MPI controller passed to dumpRestartFiles")
-        call assert(varCont%isDefined(),"Undefined variable container passed to dumpRestartFiles")
+        call assert(this%isDefined(),"loadRestartFiles called from undefined HDF5 controller")
+        call assert(mpiCont%isDefined(),"Undefined MPI controller passed to loadRestartFiles")
+        call assert(varCont%isDefined(),"Undefined variable container passed to loadRestartFiles")
     end if
 
     call h5open_f(hdferr)
+    call checkHDF5Error(hdferr, "h5open_f in loadRestartFiles")
 
     !Handle file naming
     usedFilename = this%filepath//defaultFilename
@@ -392,15 +429,19 @@ module subroutine loadRestartFiles(this,mpiCont,varCont,filename)
     usedFilename = usedFilename//"_"//trim(tmpstring)//".h5"
 
     call h5fopen_f(usedFilename, H5F_ACC_RDONLY_F, file, hdferr)
+    call checkHDF5Error(hdferr, "h5fopen_f for "//usedFilename)
 
     do i = 1,size(varCont%variables)
         dsetsize(1) = size(varCont%variables(i)%entry)
         call h5dopen_f(file, varCont%getVarName(i), dset, hdferr)
-        call h5dread_f(dset, int(H5T_IEEE_F64LE, HID_T), varCont%variables(i)%entry, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dopen_f for "//varCont%getVarName(i))
+        call h5dread_f(dset, h5kind_to_type(rk,H5_REAL_KIND), varCont%variables(i)%entry, dsetsize,hdferr)
+        call checkHDF5Error(hdferr, "h5dread_f for "//varCont%getVarName(i))
         call h5dclose_f(dset , hdferr)
     end do
 
     call h5fclose_f(file , hdferr)
+    call checkHDF5Error(hdferr, "h5fclose_f for "//usedFilename)
     call h5close_f(hdferr)
 
 end subroutine loadRestartFiles

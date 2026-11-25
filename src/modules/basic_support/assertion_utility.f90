@@ -25,44 +25,18 @@ module assertion_utility
 
 !-----------------------------------------------------------------------------------------------------------------------------------
     interface assert
-
-        module subroutine assertSingle(assertion,error)
-
-        logical                ,intent(in) :: assertion
-        character(*) ,optional ,intent(in) :: error
-
-        end subroutine assertSingle
-
-        module subroutine assertVector(assertion,error)
-    
-            logical  ,dimension(:) ,intent(in) :: assertion
-            character(*) ,optional ,intent(in) :: error
-
-        end subroutine assertVector
-
+        module procedure assertSingle
+        module procedure assertVector
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
     interface assertPure
-
-        pure module subroutine assertPureSingle(assertion,error)
-
-        logical                ,intent(in) :: assertion
-        character(*) ,optional ,intent(in) :: error
-
-        end subroutine assertPureSingle
-
-        pure module subroutine assertPureVector(assertion,error)
-    
-            logical  ,dimension(:) ,intent(in) :: assertion
-            character(*) ,optional ,intent(in) :: error
-
-        end subroutine assertPureVector
-
+        module procedure assertPureSingle
+        module procedure assertPureVector
     end interface
 !-----------------------------------------------------------------------------------------------------------------------------------
     contains
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine assertSingle(assertion,error)
+    subroutine assertSingle(assertion,error)
         !! Checks whether assertion is .false. and stops the program excecution with error text
 
         implicit none 
@@ -83,7 +57,7 @@ module assertion_utility
         end if
     end subroutine assertSingle
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine assertVector(assertion,error)
+    subroutine assertVector(assertion,error)
         !!  Checks whether any assertion is .false. and stops the program excecution with error text
 
         implicit none 
@@ -104,7 +78,7 @@ module assertion_utility
         end if
     end subroutine assertVector
 !-----------------------------------------------------------------------------------------------------------------------------------
-    module subroutine assertIdentical(integers, error)
+    subroutine assertIdentical(integers, error)
         !! Checks all integers are identical and if not stops the program excecution with error text
 
         implicit none 
@@ -126,7 +100,7 @@ module assertion_utility
 
     end subroutine assertIdentical
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine assertPureVector(assertion,error)
+    pure subroutine assertPureVector(assertion,error)
         !! Pure version of assertVector routine, does not write separately to std out
 
         implicit none 
@@ -147,7 +121,7 @@ module assertion_utility
         end if
     end subroutine assertPureVector
 !-----------------------------------------------------------------------------------------------------------------------------------
-    pure module subroutine assertPureSingle(assertion,error)
+    pure subroutine assertPureSingle(assertion,error)
         !! Pure version of assertSingle routine, does not write separately to std out
 
         implicit none 

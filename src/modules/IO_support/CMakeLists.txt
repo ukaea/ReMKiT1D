@@ -25,12 +25,12 @@ TARGET_COMPILE_OPTIONS(${PROJECT_NAME}  PRIVATE ${DEFAULT_Fortran_FLAGS})
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} 
    PUBLIC 
-        jsonfortran-static
+        ReMKiT1D::jsonfortran
         parameters
         basic_support
         variables
         mpi_support
-        ${HDF5_Fortran_LIBRARIES}
+        ReMKiT1D::HDF5
   PRIVATE
         ${BUILD_TYPE_Fortran_FLAGS}
 )

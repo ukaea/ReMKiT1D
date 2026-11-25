@@ -16,7 +16,7 @@
 # when executing FORD and will override any settings provided in the
 # project file.
 #
-# SETUP_TARGET_FOR_COVERAGE_GCOVR_XML(
+# add_ford_documentation(
 #     doc_name                        - New target name
 #     project_file                    - Path to the FORD project file
 #     [ WARN ]                        - Run FORD with the --warn flag
@@ -46,12 +46,12 @@
 include(CMakeParseArguments)
 
 # Check prereqs
-find_package(PythonInterp)
+find_package(Python3 COMPONENTS Interpreter QUIET)
 find_program(FORD_PATH ford)
 find_program(GRAPHVIZ_PATH NAMES dot neato twopi circo gdp sfdp patchwork osage)
 
 if(NOT FORD_PATH)
-  message(STATUS "FORD not found! Cannot build documenation!")
+  message(STATUS "FORD not found! Cannot build documentation!")
 else()
   function(list_to_absolute_paths var base_dir)
     set(listvar "")
@@ -94,28 +94,28 @@ else()
     endif()
     if(FORD_SRC_DIR)
       list_to_absolute_paths(src_dirs ${CMAKE_CURRENT_SOURCE_DIR} ${FORD_SRC_DIR})
-      list(append fordArgs --src_dir ${src_dirs})
+      list(APPEND fordArgs --src_dir ${src_dirs})
     endif()
     if(FORD_EXCLUDE)
-      list(append fordArgs --exclude ${FORD_EXCLUDE})
+      list(APPEND fordArgs --exclude ${FORD_EXCLUDE})
     endif()
     if(FORD_EXCLUDE_DIR)
       list_to_absolute_paths(excl_dirs ${CMAKE_CURRENT_SOURCE_DIR} ${FORD_EXCLUDE_DIR})
-      list(append fordArgs --exclude_dir ${excl_dirs})
+      list(APPEND fordArgs --exclude_dir ${excl_dirs})
     endif()
     if(FORD_EXTENSIONS)
-      list(append fordArgs --extensions ${FORD_EXTENSIONS})
+      list(APPEND fordArgs --extensions ${FORD_EXTENSIONS})
     endif()
     if(FORD_MACROS)
       foreach(m ${FORD_MACROS})
-        list(append fordArgs -m ${m})
+        list(APPEND fordArgs -m ${m})
       endforeach()
     endif()
 
     file(READ ${project_file_abs} projfile_contents)
     if(NOT GRAPHVIZ_PATH AND ${projfile_contents}
         MATCHES "(^|\n|\r)[ \t]*[Gg][Rr][Aa][Pp][Hh][ \t]*:[ \t]*[Tt][Rr][Uu][Ee][ \t]*($|\n|\r)")
-      message(FATAL_ERROR "FORD documentation requies Graphviz, which is not installed! Aborting...")
+      message(FATAL_ERROR "FORD documentation requires Graphviz, which is not installed! Aborting...")
     endif()
 
     if(NOT FORD_PAGE_DIR)

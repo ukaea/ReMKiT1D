@@ -23,7 +23,7 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_sources})
 TARGET_COMPILE_OPTIONS(${PROJECT_NAME} PRIVATE -cpp ${BUILD_TYPE_Fortran_FLAGS})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} 
    PUBLIC 
-        ${PETSC_LINK_LIBRARIES}
+        PkgConfig::PETSC
         parameters
         basic_support
         grid

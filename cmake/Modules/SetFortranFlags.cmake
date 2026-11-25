@@ -22,7 +22,7 @@
 ####################################################################
 # Infer build type if not specified.
 ####################################################################
-INCLUDE(${CMAKE_MODULE_PATH}/SetCompileFlag.cmake)
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/SetCompileFlag.cmake")
 
 # Make sure the build type is uppercase
 STRING(TOUPPER "${CMAKE_BUILD_TYPE}" BT)

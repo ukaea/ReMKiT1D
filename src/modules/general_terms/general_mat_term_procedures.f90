@@ -16,7 +16,7 @@ submodule (general_mat_term_class) general_mat_term_procedures
 !! 
 !! Contains module procedures associated with the general matrix term
 
-use support_functions ,only: powerWithUnitSnap
+use support_functions ,only: powerWithUnitSnap ,unitPowerTolerance
 
 implicit none
 
@@ -505,62 +505,123 @@ module subroutine updateGeneralTerm(this,varCont,indexingData,modelData,hostMode
 
 end subroutine updateGeneralTerm
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure subroutine mulIndexedPower(dst,src,lb,idx,pow)
+    !! Accumulate dst(m) = dst(m) * src(idx(m))**pow in place without temporary gather arrays.
+    !! Mirrors powerWithUnitSnap for exponents within unitPowerTolerance of 1, and uses direct
+    !! arithmetic / sqrt fast paths for binary-exact exponents (-1, 2, 0.5, -0.5).
+
+    integer(ik)                 ,intent(in)    :: lb  !! Lower bound of src (preserved explicitly for halo-offset variable arrays)
+    real(rk)    ,dimension(:)   ,intent(inout) :: dst !! Row value accumulator updated in place
+    real(rk)    ,dimension(lb:) ,intent(in)    :: src !! Source variable array indexed using its original lower bound lb
+    integer(ik) ,dimension(:)   ,intent(in)    :: idx !! Index map into src for each entry of dst
+    real(rk)                    ,intent(in)    :: pow !! Exponent applied to gathered src entries
+
+    integer(ik) :: m
+    real(rk)    :: v
+    ! Tolerance for binary-exact exponent checks (-1, 2, 0.5, -0.5) to avoid direct float equality (-Wcompare-reals)
+    real(rk) ,parameter :: exactTol = tiny(real(1.0d0,kind=rk))
+
+    if (assertions) call assertPure(size(dst) == size(idx), &
+                                    "Mismatched dst and idx sizes passed to mulIndexedPower")
+
+    if (abs(pow - 1.0d0) <= unitPowerTolerance) then
+        do m = 1, size(dst)
+            dst(m) = dst(m) * src(idx(m))
+        end do
+    else if (abs(pow + 1.0d0) < exactTol) then
+        do m = 1, size(dst)
+            dst(m) = dst(m) / src(idx(m))
+        end do
+    else if (abs(pow - 2.0d0) < exactTol) then
+        do m = 1, size(dst)
+            v = src(idx(m))
+            dst(m) = dst(m) * (v * v)
+        end do
+    else if (abs(pow - 0.5d0) < exactTol) then
+        do m = 1, size(dst)
+            dst(m) = dst(m) * sqrt(src(idx(m)))
+        end do
+    else if (abs(pow + 0.5d0) < exactTol) then
+        do m = 1, size(dst)
+            dst(m) = dst(m) / sqrt(src(idx(m)))
+        end do
+    else
+        do m = 1, size(dst)
+            dst(m) = dst(m) * (src(idx(m))**pow)
+        end do
+    end if
+
+end subroutine mulIndexedPower
+!-----------------------------------------------------------------------------------------------------------------------------------
 pure module subroutine generalRow(this,varCont,rowVals,indexingData) 
-!! Multiplies all required variables and raises them to their corresponding power,using modelbound row variable buffer if allocated, and adding 
-!! spatial and time profiles
+    !! Evaluates row multiplicative factors for this general matrix term by combining the cached
+    !! static coordinate profile, explicit time signal, required row variables (raised to their
+    !! configured powers), optional modelbound row buffer, and optional evaluated term-group buffer.
 
     class(GeneralMatrixTerm)      ,intent(inout)   :: this
-    type(VariableContainer)       ,intent(in)      :: varCont
-    real(rk) ,dimension(:)        ,intent(inout)   :: rowVals
-    type(MatrixTermIndexingData)  ,intent(in)      :: indexingData
+    type(VariableContainer)       ,intent(in)      :: varCont      !! Current state variable container
+    real(rk) ,dimension(:)        ,intent(inout)   :: rowVals      !! Output multiplicative factor for each local matrix row
+    type(MatrixTermIndexingData)  ,intent(in)      :: indexingData !! Precomputed local row coordinates and variable index maps
 
-    integer(ik)                                    :: i 
+    integer(ik)                                    :: i ,k ,nRows ,vIdx ,hIdx ,vCoordIdx
+    real(rk)                                       :: p ,scalarMult
 
+    nRows = size(rowVals)
     if (.not. allocated(this%rowCoordsX)) then 
 
-        allocate(this%rowCoordsX(size(rowVals)))
+        allocate(this%rowCoordsX(nRows))
+        allocate(this%cachedCoordProfile(nRows))
 
-        do i = 1,size(rowVals)
+        do i = 1, nRows
             this%rowCoordsX(i) = indexingData%rowDataCoordsLocal(i)%rowCoords(1)
+            this%cachedCoordProfile(i) = this%coordProfile%xProfile(this%rowCoordsX(i))
         end do
 
         if (this%kineticRow) then 
-            allocate(this%rowCoordsH(size(rowVals)))
-            allocate(this%rowCoordsV(size(rowVals)))
-
-
-            do i = 1,size(rowVals)
-                this%rowCoordsH(i) = indexingData%rowDataCoordsLocal(i)%rowCoords(2)
-                this%rowCoordsV(i) = indexingData%rowDataCoordsLocal(i)%rowCoords(3)
+            do i = 1, nRows
+                hIdx = indexingData%rowDataCoordsLocal(i)%rowCoords(2)
+                vCoordIdx = indexingData%rowDataCoordsLocal(i)%rowCoords(3)
+                this%cachedCoordProfile(i) = this%cachedCoordProfile(i) &
+                                           * this%coordProfile%hProfile(hIdx) &
+                                           * this%coordProfile%vProfile(vCoordIdx)
             end do
         end if
 
     end if
-    rowVals = this%coordProfile%xProfile(this%rowCoordsX) * this%timeSignalMult
 
-    if (this%kineticRow) rowVals = rowVals * this%coordProfile%hProfile(this%rowCoordsH) * &
-                                    this%coordProfile%vProfile(this%rowCoordsV)
+    if (abs(this%timeSignalMult - real(1.0d0,kind=rk)) < tiny(real(1.0d0,kind=rk))) then
+        rowVals = this%cachedCoordProfile
+    else
+        rowVals = this%cachedCoordProfile * this%timeSignalMult
+    end if
 
     do i = 1, size(indexingData%rowReqVarIndices)
-        if (varCont%isVarScalar(indexingData%rowReqVarIndices(i))) then 
-            rowVals = rowVals * powerWithUnitSnap( &
-            varCont%variables(indexingData%rowReqVarIndices(i))%entry(1), &
-            this%vData%rowVarPowers(i))
+        vIdx = indexingData%rowReqVarIndices(i)
+        p = this%vData%rowVarPowers(i)
+        if (varCont%isVarScalar(vIdx)) then 
+            scalarMult = powerWithUnitSnap(varCont%variables(vIdx)%entry(1), p)
+            rowVals = rowVals * scalarMult
         else if (this%kineticRow .and. .not. this%reqRowVarIsDist(i)) then 
-            rowVals = rowVals * powerWithUnitSnap( &
-            varCont%variables(indexingData%rowReqVarIndices(i))%entry(this%rowCoordsX), &
-            this%vData%rowVarPowers(i))
+            call mulIndexedPower(rowVals, varCont%variables(vIdx)%entry, &
+                                 lbound(varCont%variables(vIdx)%entry,1), this%rowCoordsX, p)
         else
-            rowVals = rowVals * powerWithUnitSnap( &
-            varCont%variables(indexingData%rowReqVarIndices(i))%entry(indexingData%localRowIndices), &
-            this%vData%rowVarPowers(i))
+            call mulIndexedPower(rowVals, varCont%variables(vIdx)%entry, &
+                                 lbound(varCont%variables(vIdx)%entry,1), indexingData%localRowIndices, p)
         end if
     end do
 
     ! Assumes that the evaluated group variable and modelbound buffer conform to row variable
-    if (allocated(this%modelboundRowVarBuffer)) rowVals = rowVals * this%modelboundRowVarBuffer(indexingData%localRowIndices)
+    if (allocated(this%modelboundRowVarBuffer)) then
+        do k = 1, nRows
+            rowVals(k) = rowVals(k) * this%modelboundRowVarBuffer(indexingData%localRowIndices(k))
+        end do
+    end if
 
-    if (allocated(this%targetTermGroup)) rowVals = rowVals *this%evalBuffer(indexingData%localRowIndices)
+    if (allocated(this%targetTermGroup)) then
+        do k = 1, nRows
+            rowVals(k) = rowVals(k) * this%evalBuffer(indexingData%localRowIndices(k))
+        end do
+    end if
 
 end subroutine generalRow 
 !-----------------------------------------------------------------------------------------------------------------------------------

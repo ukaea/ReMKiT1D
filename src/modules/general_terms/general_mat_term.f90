@@ -113,9 +113,8 @@ module general_mat_term_class
         integer(ik) ,private :: numH !! Local number of harmonics - used when handling modelbound data 
         integer(ik) ,private :: numV !! Local number of velocity cells - used when handling modelbound data 
 
-        integer(ik) ,allocatable ,dimension(:) ,private :: rowCoordsX !x coordinate associated with each matrix row
-        integer(ik) ,allocatable ,dimension(:) ,private :: rowCoordsH !h coordinate associated with each matrix row
-        integer(ik) ,allocatable ,dimension(:) ,private :: rowCoordsV !v coordinate associated with each matrix row
+        integer(ik) ,allocatable ,dimension(:) ,private :: rowCoordsX !! Local x coordinate associated with each matrix row
+        real(rk)    ,allocatable ,dimension(:) ,private :: cachedCoordProfile !! Precomputed static coordinate profile per row
 
         contains
 
@@ -154,13 +153,14 @@ module general_mat_term_class
     end subroutine initGeneralTerm
 !-----------------------------------------------------------------------------------------------------------------------------------
     pure module subroutine generalRow(this,varCont,rowVals,indexingData) 
-        !! Multiplies all required variables and raises them to their corresponding power,using modelbound row variable buffer if allocated, and adding 
-        !! spatial and time profiles
+        !! Evaluates row multiplicative factors for this general matrix term by combining the cached
+        !! static coordinate profile, explicit time signal, required row variables (raised to their
+        !! configured powers), optional modelbound row buffer, and optional evaluated term-group buffer.
 
         class(GeneralMatrixTerm)      ,intent(inout)   :: this
-        type(VariableContainer)       ,intent(in)      :: varCont
-        real(rk) ,dimension(:)        ,intent(inout)   :: rowVals
-        type(MatrixTermIndexingData)  ,intent(in)      :: indexingData
+        type(VariableContainer)       ,intent(in)      :: varCont      !! Current state variable container
+        real(rk) ,dimension(:)        ,intent(inout)   :: rowVals      !! Output multiplicative factor for each local matrix row
+        type(MatrixTermIndexingData)  ,intent(in)      :: indexingData !! Precomputed local row coordinates and variable index maps
 
     end subroutine generalRow 
 !-----------------------------------------------------------------------------------------------------------------------------------

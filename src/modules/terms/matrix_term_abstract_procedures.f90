@@ -66,7 +66,8 @@ pure module subroutine calculateValues(this,varCont)
     class(MatrixTerm)       ,intent(inout)  :: this
     type(VariableContainer) ,intent(in)     :: varCont
 
-    integer(ik) :: i
+    integer(ik) :: i ,k ,nRows
+    real(rk)    :: norm ,rVal
 
     if (assertions) then
         call assertPure(this%isDefined(),"Attempted to calculate values of undefined matrix term object")
@@ -75,49 +76,56 @@ pure module subroutine calculateValues(this,varCont)
     end if
 
     if (.not. this%fixedMatrixCalculated) then
+        nRows = size(this%flatRowPtr) - 1
+        norm = this%normalizationConst
 
-        if (this%hasNonTrivialRowFun) then
-            if (this%hasNonTrivialColFun) then 
+        associate(ptr => this%flatRowPtr, fVals => this%flatValues, fMult => this%flatMultConst)
+            if (this%hasNonTrivialRowFun) then
+                if (this%hasNonTrivialColFun) then 
 
-                call this%calculateRows(varCont,this%rowBuffer,this%indexingData)
-                call this%calculateCols(varCont,this%colBuffer,this%indexingData)
-                do i = 1,size(this%rowData%values)
-                    this%rowData%values(i)%entry = this%normalizationConst * this%multConst(i)%entry &
-                                                * this%rowBuffer(i) &
-                                                * this%colBuffer(i)%entry
-                end do
+                    call this%calculateRows(varCont,this%rowBuffer,this%indexingData)
+                    call this%calculateCols(varCont,this%colBuffer,this%indexingData)
+                    do i = 1, nRows
+                        rVal = norm * this%rowBuffer(i)
+                        fVals(ptr(i):ptr(i+1)-1) = rVal * fMult(ptr(i):ptr(i+1)-1) * this%colBuffer(i)%entry
+                    end do
+
+                else
+
+                    call this%calculateRows(varCont,this%rowBuffer,this%indexingData)
+                    if (this%isOnePerRow) then
+                        ! When every row has exactly one nonzero, ptr(i) == i so values map 1-to-1 with rowBuffer.
+                        do i = 1, nRows
+                            fVals(i) = norm * this%rowBuffer(i) * fMult(i)
+                        end do
+                    else
+                        do i = 1, nRows
+                            rVal = norm * this%rowBuffer(i)
+                            do k = ptr(i), ptr(i+1) - 1
+                                fVals(k) = rVal * fMult(k)
+                            end do
+                        end do
+                    end if
+
+                end if
 
             else
 
-                call this%calculateRows(varCont,this%rowBuffer,this%indexingData)
-                do i = 1,size(this%rowData%values)
-                    this%rowData%values(i)%entry = this%normalizationConst * this%multConst(i)%entry &
-                                                * this%rowBuffer(i) 
-                end do
+                if (this%hasNonTrivialColFun) then
+
+                    call this%calculateCols(varCont,this%colBuffer,this%indexingData)
+                    do i = 1, nRows
+                        fVals(ptr(i):ptr(i+1)-1) = norm * fMult(ptr(i):ptr(i+1)-1) * this%colBuffer(i)%entry
+                    end do
+
+                else
+
+                    fVals = norm * fMult
+
+                end if
 
             end if
-
-        else
-
-            if (this%hasNonTrivialColFun) then
-
-                call this%calculateCols(varCont,this%colBuffer,this%indexingData)
-                do i = 1,size(this%rowData%values)
-                    this%rowData%values(i)%entry = this%normalizationConst * this%multConst(i)%entry &
-                                                * this%colBuffer(i)%entry
-                end do
-
-            else
-
-                do i = 1,size(this%rowData%values)
-                    this%rowData%values(i)%entry = this%normalizationConst * this%multConst(i)%entry 
-
-                end do
-
-            end if
-
-        end if
-
+        end associate
     end if
 
     if (this%fixedMatrix) this%fixedMatrixCalculated = .true.
@@ -195,7 +203,7 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
     procedure(coordMapping)                      :: rowToColMapping
     type(Indexing)               ,intent(in)     :: indexingObj
 
-    integer(ik) :: i ,j ,numRows ,numCols
+    integer(ik) :: i ,j ,numRows ,numCols ,nnz
 
     type(IntArray) ,allocatable ,dimension(:) :: mappedColIndices ,mappedColIndicesLocal ,colVectors
     integer(ik) ,allocatable ,dimension(:)    :: rowIndices
@@ -212,7 +220,6 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
     allocate(colVectors(numRows))
     allocate(this%indexingData%rowDataCoordsGlobal(numRows))
     allocate(this%indexingData%rowDataCoordsLocal(numRows))
-    allocate(this%multConst(numRows))
     allocate(this%colBuffer(numRows))
     allocate(this%rowBuffer(numRows))
     allocate(this%indexingData%localRowIndices(numRows))
@@ -247,9 +254,7 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
 
             this%indexingData%rowDataCoordsLocal(i)%colCoords = allCombinations(mappedColIndicesLocal)
 
-            allocate(this%multConst(i)%entry(numCols))
             allocate(this%colBuffer(i)%entry(numCols))
-            this%multConst(i)%entry = real(1.0d00,kind=rk)
             this%colBuffer(i)%entry = real(1.0d00,kind=rk)
 
             allocate(this%indexingData%localColIndices(i)%entry(numCols))
@@ -305,9 +310,7 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
 
             this%indexingData%rowDataCoordsLocal(i)%colCoords = allCombinations(mappedColIndicesLocal)
 
-            allocate(this%multConst(i)%entry(numCols))
             allocate(this%colBuffer(i)%entry(numCols))
-            this%multConst(i)%entry = real(1.0d00,kind=rk)
             this%colBuffer(i)%entry = real(1.0d00,kind=rk)
 
             allocate(this%indexingData%localColIndices(i)%entry(numCols))
@@ -333,10 +336,49 @@ module subroutine initRowData(this,rowCoords,rowToColMapping,indexingObj)
 
     call this%rowData%init(rowIndices,colVectors)
 
+    ! Build private contiguous CSR storage (authoritative for values and multConst once initRowData has run).
+    if (allocated(this%multConst)) deallocate(this%multConst)
+    if (allocated(this%flatRowPtr)) deallocate(this%flatRowPtr)
+    if (allocated(this%flatValues)) deallocate(this%flatValues)
+    if (allocated(this%flatBufferIndices)) deallocate(this%flatBufferIndices)
+    if (allocated(this%flatMultConst)) deallocate(this%flatMultConst)
+
+    allocate(this%flatRowPtr(numRows+1))
+    this%flatRowPtr(1) = 1
+    do i = 1, numRows
+        this%flatRowPtr(i+1) = this%flatRowPtr(i) + size(colVectors(i)%entry)
+    end do
+    nnz = this%flatRowPtr(numRows+1) - 1
+
+    allocate(this%flatValues(nnz))
+    this%flatValues = real(0.0d0,kind=rk)
+    allocate(this%flatMultConst(nnz))
+    this%flatMultConst = real(1.0d0,kind=rk)
+    this%isOnePerRow = (numRows > 0 .and. all(this%flatRowPtr(2:numRows+1) - this%flatRowPtr(1:numRows) == 1))
+
+    ! Pre-flatten local (x, v) coordinates for 3D distribution terms so pure accumulateRowMoment avoids jagged lookups.
+    this%momentDim = 0
+    if (allocated(this%momentRowX)) deallocate(this%momentRowX)
+    if (allocated(this%momentRowV)) deallocate(this%momentRowV)
+    if (allocated(this%momentColV)) deallocate(this%momentColV)
+    if (size(rowCoords,1) == 3 .and. numRows > 0) then
+        allocate(this%momentRowX(numRows), this%momentRowV(numRows))
+        this%momentDim = size(this%indexingData%rowDataCoordsLocal(1)%colCoords,1)
+        if (this%momentDim == 3) allocate(this%momentColV(nnz))
+        do i = 1, numRows
+            this%momentRowX(i) = this%indexingData%rowDataCoordsLocal(i)%rowCoords(1)
+            this%momentRowV(i) = this%indexingData%rowDataCoordsLocal(i)%rowCoords(3)
+            if (this%momentDim == 3) then
+                this%momentColV(this%flatRowPtr(i):this%flatRowPtr(i+1)-1) = &
+                    this%indexingData%rowDataCoordsLocal(i)%colCoords(3,:)
+            end if
+        end do
+    end if
+
 end subroutine initRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine addRowDataToPreallocationData(this,petscPreallocData) 
-    !! Add this term's row data to a PETSc preallocation object
+    !! Add this term's row data to a PETSc preallocation object and cache flattened value-buffer indices
 
     class(MatrixTerm)            ,intent(inout)  :: this
     type(PETScPreallocationData) ,intent(inout)  :: petscPreallocData
@@ -347,16 +389,18 @@ module subroutine addRowDataToPreallocationData(this,petscPreallocData)
     end if
 
     call petscPreallocData%addRowDataToPattern(this%rowData)
+    call syncFlatBufferIndices(this)
 
 end subroutine addRowDataToPreallocationData
 !-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine addRowDataPatternToController(this,petscCont) 
-    !! Add this term's row data to a petsc preallocation object in PETSc controller
+    !! Add this term's row data to a petsc preallocation object in PETSc controller and cache flattened value-buffer indices
 
     class(MatrixTerm)     ,intent(inout)  :: this
     type(PETScController) ,intent(inout)  :: petscCont
 
     call petscCont%addRowDataToPreallocation(this%rowData)
+    call syncFlatBufferIndices(this)
 
 end subroutine addRowDataPatternToController
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -372,14 +416,20 @@ module subroutine addRowValuesToPETScMatrix(this,petscCont,mult,petscGroup)
     real(rk)                              :: usedMult
     integer(ik)                           :: usedGroup
 
-    if (assertions) call assert(this%isDefined(),"Attempted to add undefined matrix term values to PETSc preallocation data")
+    if (assertions) then
+        call assert(this%isDefined(),"Attempted to add undefined matrix term values to PETSc matrix")
+        call assert(allocated(this%flatBufferIndices),&
+        "Attempted to add matrix term values to PETSc matrix before preallocation registration")
+        call assert(allocated(this%flatValues),&
+        "Attempted to add matrix term values to PETSc matrix before initRowData")
+    end if
 
     usedMult = mult 
     if (this%stationaryEvolvedVar) usedMult = real(-1.0d0,kind=rk)
 
     usedGroup = 1
     if (present(petscGroup)) usedGroup = petscGroup
-    call petscCont%addRowValuesToMatrix(this%rowData,usedMult,usedGroup) 
+    call petscCont%addFlatValuesToMatrix(this%flatBufferIndices,this%flatValues,usedMult,usedGroup)
 
 end subroutine addRowValuesToPETScMatrix
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -404,20 +454,43 @@ module function evaluateMatTerm (this,varCont) result(res)
     allocate(res,mold=varCont%variables(varIndexRow)%entry)
     res = 0
 
-    do i = 1, size(this%rowData%values)
-        res(this%indexingData%localRowIndices(i)) = dot_product(this%rowData%values(i)%entry,&
-                                                varCont%variables(varIndexCol)%entry(this%indexingData%localColIndices(i)%entry))
+    do i = 1, size(this%flatRowPtr) - 1
+        res(this%indexingData%localRowIndices(i)) = dot_product( &
+            this%flatValues(this%flatRowPtr(i):this%flatRowPtr(i+1)-1), &
+            varCont%variables(varIndexCol)%entry(this%indexingData%localColIndices(i)%entry))
     end do
 
 end function evaluateMatTerm
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module subroutine setMultConst(this,multConst) 
-    !! Setter for multConst
+    !! Setter for multConst. After initRowData, writes directly into contiguous flatMultConst; before initRowData,
+    !! stores jagged multConst directly.
 
     class(MatrixTerm)              ,intent(inout)  :: this
     type(RealArray) ,dimension(:)  ,intent(in)     :: multConst
 
-    call copyRealArraysInPlace(this%multConst,multConst)
+    integer(ik) :: i ,nRows ,p0 ,p1
+
+    if (allocated(this%flatRowPtr)) then
+        nRows = size(this%flatRowPtr) - 1
+        if (assertions) call assertPure(size(multConst) == nRows,&
+            "Row count passed to MatrixTerm%setMultConst does not match initialized row data")
+        do i = 1, nRows
+            p0 = this%flatRowPtr(i)
+            p1 = this%flatRowPtr(i+1) - 1
+            if (assertions) call assertPure(allocated(multConst(i)%entry),&
+                "Unallocated row entry passed to MatrixTerm%setMultConst")
+            ! Empty sparse rows (p1 < p0, e.g. boundary-clipped harmonic stencils) have no matrix entries to populate;
+            ! stencil generators may still emit unclipped template weights for them, so only non-empty rows must match length.
+            if (p1 >= p0) then
+                if (assertions) call assertPure(size(multConst(i)%entry) == p1 - p0 + 1,&
+                    "Row entry length passed to MatrixTerm%setMultConst does not match initialized row data")
+                this%flatMultConst(p0:p1) = multConst(i)%entry
+            end if
+        end do
+    else
+        call copyRealArraysInPlace(this%multConst,multConst)
+    end if
 
 end subroutine setMultConst
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -427,9 +500,19 @@ pure module function getMultConst (this) result(multConst)
     class(MatrixTerm)                          ,intent(in) :: this
     type(RealArray) ,allocatable ,dimension(:)             :: multConst
 
+    integer(ik) :: i ,nRows
+
     if (assertions) call assertPure(this%isDefined(),"Called getMultConst on undefined matrix term")
 
-    multConst = this%multConst
+    if (allocated(this%flatRowPtr)) then
+        nRows = size(this%flatRowPtr) - 1
+        allocate(multConst(nRows))
+        do i = 1, nRows
+            multConst(i)%entry = this%flatMultConst(this%flatRowPtr(i):this%flatRowPtr(i+1)-1)
+        end do
+    else
+        multConst = this%multConst
+    end if
 
 end function getMultConst
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -488,14 +571,21 @@ pure module function getIndexingData(this) result(indData)
 end function getIndexingData
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module function getRowData(this) result(rowData)
-    !! Getter for rowData
+    !! Getter for rowData (syncs authoritative flatValues into the returned SparseRowData copy)
 
     class(MatrixTerm)           ,intent(in) :: this
     type(SparseRowData)                     :: rowData
+
+    integer(ik) :: i
     
     if (assertions) call assertPure(this%isDefined(),"Called getRowData on undefined matrix term")
 
-    rowData = this%rowData 
+    rowData = this%rowData
+    if (allocated(this%flatRowPtr)) then
+        do i = 1, size(rowData%rowIndex)
+            rowData%values(i)%entry = this%flatValues(this%flatRowPtr(i):this%flatRowPtr(i+1)-1)
+        end do
+    end if
     
 end function getRowData
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -506,7 +596,7 @@ pure module subroutine accumulateRowMoment(this,vVec,res)
     real(rk) ,dimension(:)         ,intent(in)    :: vVec
     type(RealArray) ,dimension(:)  ,intent(inout) :: res
 
-    integer(ik) :: i ,j ,nRows ,dim ,rowX ,colIdx
+    integer(ik) :: i ,k ,nRows ,rowX ,colIdx
     real(rk)    :: vWeight
 
     if (assertions) call assertPure(this%isDefined(),"Called accumulateRowMoment on undefined matrix term")
@@ -517,46 +607,49 @@ pure module subroutine accumulateRowMoment(this,vVec,res)
         res(i)%entry(:) = 0.0d0
     end do
 
-    nRows = size(this%indexingData%rowDataCoordsLocal)
+    nRows = size(this%flatRowPtr) - 1
     if (nRows == 0) return
 
-    dim = size(this%indexingData%rowDataCoordsLocal(1)%colCoords,1)
-
-    if (dim == 3) then
-        do i = 1, nRows
-            rowX = this%indexingData%rowDataCoordsLocal(i)%rowCoords(1)
-            vWeight = vVec(this%indexingData%rowDataCoordsLocal(i)%rowCoords(3))
-            do j = 1, size(this%rowData%values(i)%entry)
-                colIdx = this%indexingData%rowDataCoordsLocal(i)%colCoords(3,j)
-                res(rowX)%entry(colIdx) = res(rowX)%entry(colIdx) + vWeight * this%rowData%values(i)%entry(j)
+    associate(ptr => this%flatRowPtr, fVals => this%flatValues, &
+              rX => this%momentRowX, rV => this%momentRowV)
+        if (this%momentDim == 3) then
+            associate(cV => this%momentColV)
+                do i = 1, nRows
+                    rowX = rX(i)
+                    vWeight = vVec(rV(i))
+                    do k = ptr(i), ptr(i+1) - 1
+                        colIdx = cV(k)
+                        res(rowX)%entry(colIdx) = res(rowX)%entry(colIdx) + vWeight * fVals(k)
+                    end do
+                end do
+            end associate
+        else
+            do i = 1, nRows
+                rowX = rX(i)
+                vWeight = vVec(rV(i))
+                res(rowX)%entry(:) = res(rowX)%entry(:) + vWeight * fVals(ptr(i):ptr(i+1)-1)
             end do
-        end do
-    else
-        do i = 1, nRows
-            rowX = this%indexingData%rowDataCoordsLocal(i)%rowCoords(1)
-            vWeight = vVec(this%indexingData%rowDataCoordsLocal(i)%rowCoords(3))
-            res(rowX)%entry(:) = res(rowX)%entry(:) + vWeight * this%rowData%values(i)%entry(:)
-        end do
-    end if
+        end if
+    end associate
 
 end subroutine accumulateRowMoment
 !-----------------------------------------------------------------------------------------------------------------------------------
 pure module subroutine multiplyRowValuesInPlace(this,lhs,res)
-    !! Compute element-wise product lhs * this%rowData%values in place without copying SparseRowData
+    !! Compute element-wise product lhs * this%flatValues in place without copying SparseRowData
 
     class(MatrixTerm)                          ,intent(in)    :: this
     type(RealArray) ,dimension(:)              ,intent(in)    :: lhs
     type(RealArray) ,allocatable ,dimension(:) ,intent(inout) :: res
 
-    integer(ik) :: i ,nRows ,nCols
+    integer(ik) :: i ,nRows ,nCols ,p0 ,p1
 
     if (assertions) then
         call assertPure(this%isDefined(),"Called multiplyRowValuesInPlace on undefined matrix term")
-        call assertPure(size(lhs) == size(this%rowData%values),&
+        call assertPure(size(lhs) == size(this%flatRowPtr) - 1,&
             "Row sizes in element-wise sparse row data/real array multiplication do not conform")
     end if
 
-    nRows = size(this%rowData%values)
+    nRows = size(this%flatRowPtr) - 1
     if (.not. allocated(res)) then
         allocate(res(nRows))
     else if (size(res) /= nRows) then
@@ -565,7 +658,9 @@ pure module subroutine multiplyRowValuesInPlace(this,lhs,res)
     end if
 
     do i = 1, nRows
-        nCols = size(this%rowData%values(i)%entry)
+        p0 = this%flatRowPtr(i)
+        p1 = this%flatRowPtr(i+1) - 1
+        nCols = p1 - p0 + 1
         if (assertions) call assertPure(size(lhs(i)%entry) == nCols,&
             "Column vectors do not conform in element-wise sparse row data/real array multiplication")
         if (.not. allocated(res(i)%entry)) then
@@ -574,7 +669,7 @@ pure module subroutine multiplyRowValuesInPlace(this,lhs,res)
             deallocate(res(i)%entry)
             allocate(res(i)%entry(nCols))
         end if
-        res(i)%entry(:) = lhs(i)%entry(:) * this%rowData%values(i)%entry(:)
+        res(i)%entry(:) = lhs(i)%entry(:) * this%flatValues(p0:p1)
     end do
 
 end subroutine multiplyRowValuesInPlace
@@ -614,6 +709,28 @@ module subroutine matrixNoUpdate(this,varCont,indexingData,modelData,hostModel)
 
 end subroutine matrixNoUpdate
 !-----------------------------------------------------------------------------------------------------------------------------------
+pure subroutine syncFlatBufferIndices(this)
+    !! Flatten rowData%cooIndices into private flatBufferIndices aligned 1-to-1 with flatRowPtr/flatValues
+
+    class(MatrixTerm) ,intent(inout) :: this
+
+    integer(ik) :: i ,nRows ,nnz ,p0 ,p1
+
+    if (.not. allocated(this%flatRowPtr) .or. .not. allocated(this%rowData%cooIndices)) return
+
+    nRows = size(this%flatRowPtr) - 1
+    nnz = this%flatRowPtr(nRows+1) - 1
+
+    if (allocated(this%flatBufferIndices)) deallocate(this%flatBufferIndices)
+    allocate(this%flatBufferIndices(nnz))
+
+    do i = 1, nRows
+        p0 = this%flatRowPtr(i)
+        p1 = this%flatRowPtr(i+1) - 1
+        if (p1 >= p0) this%flatBufferIndices(p0:p1) = this%rowData%cooIndices(i)%entry
+    end do
+
+end subroutine syncFlatBufferIndices
 !-----------------------------------------------------------------------------------------------------------------------------------
 end submodule matrix_term_abstract_procedures
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -64,9 +64,13 @@ module matrix_term_abstract_class
         !! The values of a matrix are by default constructed by evaluating row and column functions for each element, and multiplying with the corresponding 
         !! multiplicative and normalization constants 
 
-        type(SparseRowData)                            ,private :: rowData  !! Matrix object in sparse row data form
-        
-        type(RealArray)     ,allocatable ,dimension(:) ,private :: multConst !! Multiplicative constants for each row/column corresponding to the matrix structure
+        type(SparseRowData)                            ,private :: rowData  !! Sparsity structure & legacy SparseRowData view
+        integer(ik)         ,allocatable ,dimension(:) ,private :: flatRowPtr !! 1-based CSR row offsets (size nRows+1), allocated in initRowData
+        real(rk)            ,allocatable ,dimension(:) ,private :: flatValues !! Contiguous matrix values (size nnz), authoritative after initRowData
+        integer(ik)         ,allocatable ,dimension(:) ,private :: flatBufferIndices !! Flattened 1-based PETSc value-buffer indices (size nnz), synced on preallocation
+
+        type(RealArray)     ,allocatable ,dimension(:) ,private :: multConst !! Jagged multConst used only before initRowData
+        real(rk)            ,allocatable ,dimension(:) ,private :: flatMultConst !! Contiguous multiplicative constants (size nnz), authoritative after initRowData
         real(rk)                                       ,private :: normalizationConst = real(1.0d0,kind=rk) !! Normalization constant for this term
 
         type(MatrixTermIndexingData)                   ,private :: indexingData !! Indexing data used to determing coordinates and required variables
@@ -80,6 +84,12 @@ module matrix_term_abstract_class
 
         type(RealArray)     ,allocatable ,dimension(:) ,private :: colBuffer !Buffer for column vector values
         real(rk)            ,allocatable ,dimension(:) ,private :: rowBuffer !Buffer for row vector values
+
+        logical                                        ,private :: isOnePerRow = .false. !! True when every row has exactly one nonzero entry
+        integer(ik)                                    ,private :: momentDim = 0 !! Cached colCoords dim for accumulateRowMoment
+        integer(ik)         ,allocatable ,dimension(:) ,private :: momentRowX !! Cached local x-index per row for accumulateRowMoment
+        integer(ik)         ,allocatable ,dimension(:) ,private :: momentRowV !! Cached v-index per row for accumulateRowMoment
+        integer(ik)         ,allocatable ,dimension(:) ,private :: momentColV !! Cached flat v-index per nonzero for accumulateRowMoment
 
         contains
 

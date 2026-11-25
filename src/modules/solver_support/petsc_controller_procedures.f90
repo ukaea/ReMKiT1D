@@ -125,6 +125,40 @@ module subroutine addRowValuesToMatrix(this,rowData,multConst,objGroup)
 
 end subroutine addRowValuesToMatrix
 !-----------------------------------------------------------------------------------------------------------------------------------
+module subroutine addFlatValuesToMatrix(this,bufferIndices,values,multConst,objGroup)
+    !! Scatter contiguous matrix values into the flat COO value buffer at 1-based bufferIndices,
+    !! optionally scaled by a real constant
+
+    class(PETScController)      ,intent(inout)  :: this
+    integer(ik)   ,dimension(:) ,intent(in)     :: bufferIndices !! 1-based indices into the group COO value buffer
+    real(rk)      ,dimension(:) ,intent(in)     :: values !! Contiguous nonzero values aligned with bufferIndices
+    real(rk)      ,optional     ,intent(in)     :: multConst !! Optional multiplicative scaling factor (default 1.0)
+    integer(ik)   ,optional     ,intent(in)     :: objGroup !! Optional PETSc object group index (default 1)
+
+    real(rk)    :: mult
+    integer(ik) :: i ,usedGroup
+
+    if (assertions .or. assertionLvl >= 0) then
+        call assert(this%isDefined(),"Attempted to add flat values to matrix of undefined PETSc controller object")
+        call assert(this%objCreated,&
+        "Attempted to add flat values to matrix of PETSc controller before PETSc objects were generated")
+        call assert(size(bufferIndices) == size(values),&
+        "Flat value buffer index and value array sizes do not match in addFlatValuesToMatrix")
+    end if
+
+    mult = real(1.0d0,kind=rk)
+    usedGroup = 1
+    if (present(objGroup)) usedGroup = objGroup
+    if (present(multConst)) mult = multConst
+
+    associate(cooVals => this%objs(usedGroup)%cooValues)
+        do i = 1, size(bufferIndices)
+            cooVals(bufferIndices(i)) = cooVals(bufferIndices(i)) + mult * values(i)
+        end do
+    end associate
+
+end subroutine addFlatValuesToMatrix
+!-----------------------------------------------------------------------------------------------------------------------------------
 module subroutine createPETScObjs(this) 
     !! Assemble the preallocation object, create PETSc objects, and deallocate the preallocation object
 

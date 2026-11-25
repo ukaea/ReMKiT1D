@@ -72,6 +72,7 @@ module petsc_controller_class
         procedure ,public :: addRowDataToPreallocation
         procedure ,public :: createPETScObjs 
         procedure ,public :: addRowValuesToMatrix 
+        procedure ,public :: addFlatValuesToMatrix
         procedure ,public :: linearSolve
 
         procedure ,public :: objectsCreated
@@ -117,6 +118,18 @@ module petsc_controller_class
         integer(ik)   ,optional     ,intent(in)     :: objGroup
 
     end subroutine addRowValuesToMatrix
+!-----------------------------------------------------------------------------------------------------------------------------------
+    module subroutine addFlatValuesToMatrix(this,bufferIndices,values,multConst,objGroup)
+        !! Scatter contiguous matrix values into the flat COO value buffer at 1-based bufferIndices,
+        !! optionally scaled by a real constant
+
+        class(PETScController)      ,intent(inout)  :: this
+        integer(ik)   ,dimension(:) ,intent(in)     :: bufferIndices !! 1-based indices into the group COO value buffer
+        real(rk)      ,dimension(:) ,intent(in)     :: values !! Contiguous nonzero values aligned with bufferIndices
+        real(rk)      ,optional     ,intent(in)     :: multConst !! Optional multiplicative scaling factor (default 1.0)
+        integer(ik)   ,optional     ,intent(in)     :: objGroup !! Optional PETSc object group index (default 1)
+
+    end subroutine addFlatValuesToMatrix
 !-----------------------------------------------------------------------------------------------------------------------------------
     module subroutine createPETScObjs(this) 
         !! Assemble the preallocation object, create PETSc objects, and deallocate the preallocation object

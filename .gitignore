@@ -1,12 +1,32 @@
-debug
-build
+# Build directories and CMake artifacts
+debug/
+build/
+build-*/
+compile_commands.json
+CMakeUserPresets.json
+
+# Generated pFUnit sources
 tests/*/*.F90
+
+# Compiled Fortran/C objects and coverage data
+*.mod
+*.smod
+*.o
+*.a
+*.gcno
+*.gcda
+*.gcov
+
+# Simulation inputs/outputs and test scratch JSON files
+config.json
+*config.json
+empty.json
+used_config_test_json*.json
+*.h5
+
+# Generated documentation
+/doc/
+
+# Editor / tooling files
 .VSCodeCounter
 .vscode*
-ford_doc.md
-*mod
-*.json
-/doc/
-.ssh
-.gitconfig
-*bash_history

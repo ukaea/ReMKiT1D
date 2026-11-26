@@ -1,0 +1,55 @@
+cff-version: 1.2.0
+title: "ReMKiT1D"
+message: "If you use ReMKiT1D in your research, please cite the software and the Computer Physics Communications paper below."
+type: software
+version: 1.4.0
+license: GPL-3.0-or-later
+repository-code: "https://github.com/ukaea/ReMKiT1D"
+url: "https://ukaea.github.io/ReMKiT1D/"
+authors:
+  - family-names: Mijin
+    given-names: Stefan
+    email: stefan.mijin@ukaea.uk
+    affiliation: "United Kingdom Atomic Energy Authority"
+  - family-names: Power
+    given-names: Dominic
+    affiliation: "Imperial College London"
+  - family-names: Holden
+    given-names: Ryan
+    affiliation: "United Kingdom Atomic Energy Authority"
+  - family-names: Hornsby
+    given-names: William
+    affiliation: "United Kingdom Atomic Energy Authority"
+  - family-names: Moulton
+    given-names: David
+    affiliation: "United Kingdom Atomic Energy Authority"
+  - family-names: Militello
+    given-names: Fulvio
+    affiliation: "United Kingdom Atomic Energy Authority"
+preferred-citation:
+  type: article
+  title: "ReMKiT1D - A framework for building reactive multi-fluid models of the tokamak scrape-off layer with coupled electron kinetics in 1D"
+  authors:
+    - family-names: Mijin
+      given-names: Stefan
+      affiliation: "United Kingdom Atomic Energy Authority"
+    - family-names: Power
+      given-names: Dominic
+      affiliation: "Imperial College London"
+    - family-names: Holden
+      given-names: Ryan
+      affiliation: "United Kingdom Atomic Energy Authority"
+    - family-names: Hornsby
+      given-names: William
+      affiliation: "United Kingdom Atomic Energy Authority"
+    - family-names: Moulton
+      given-names: David
+      affiliation: "United Kingdom Atomic Energy Authority"
+    - family-names: Militello
+      given-names: Fulvio
+      affiliation: "United Kingdom Atomic Energy Authority"
+  journal: "Computer Physics Communications"
+  volume: 300
+  year: 2024
+  doi: "10.1016/j.cpc.2024.109195"
+  start: 109195

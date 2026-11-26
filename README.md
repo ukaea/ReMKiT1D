@@ -206,7 +206,7 @@ cmake --build build -j"$(nproc)"
 Run the unit test suite (requires pFUnit):
 
 ```bash
-ctest --test-dir build --output-on-failure
+(cd build && ctest --output-on-failure)
 ```
 
 Install the executable, libraries, Fortran module files, and CMake package config (`find_package(ReMKiT1D)`):

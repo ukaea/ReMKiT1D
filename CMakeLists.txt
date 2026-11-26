@@ -102,12 +102,23 @@ IF(_rmk_bt_upper STREQUAL "TESTING")
     FIND_PACKAGE(Python3 COMPONENTS Interpreter)
     FIND_PROGRAM(GCOVR_PATH gcovr)
 
+    SET(_gcov_candidates gcov)
+    IF(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION)
+        STRING(REGEX REPLACE "^([0-9]+)\\..*" "\\1" _gcc_major "${CMAKE_Fortran_COMPILER_VERSION}")
+        LIST(PREPEND _gcov_candidates "gcov-${_gcc_major}")
+    ENDIF()
+    FIND_PROGRAM(GCOV_EXECUTABLE NAMES ${_gcov_candidates})
+
     IF(GCOVR_PATH)
+        SET(_gcovr_args --html --html-details -s
+            -r "${PROJECT_SOURCE_DIR}" --object-directory="${PROJECT_BINARY_DIR}"
+            -o gcovr/index.html)
+        IF(GCOV_EXECUTABLE)
+            LIST(PREPEND _gcovr_args --gcov-executable "${GCOV_EXECUTABLE}")
+        ENDIF()
         ADD_CUSTOM_TARGET(gcovr
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/gcovr"
-            COMMAND ${GCOVR_PATH} --html --html-details -s
-                    -r "${PROJECT_SOURCE_DIR}" --object-directory="${PROJECT_BINARY_DIR}"
-                    -o gcovr/index.html
+            COMMAND ${GCOVR_PATH} ${_gcovr_args}
             WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
             COMMENT "Running gcovr to produce HTML code coverage report."
         )
@@ -117,10 +128,14 @@ IF(_rmk_bt_upper STREQUAL "TESTING")
         )
     ENDIF()
 
+    SET(_gcov_bin "gcov")
+    IF(GCOV_EXECUTABLE)
+        SET(_gcov_bin "${GCOV_EXECUTABLE}")
+    ENDIF()
     ADD_CUSTOM_TARGET(gcov
         COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/coverage"
         COMMAND echo "=================== GCOV ===================="
-        COMMAND bash "${PROJECT_SOURCE_DIR}/get_code_cov.sh" "${CMAKE_BINARY_DIR}/coverage" "${PROJECT_SOURCE_DIR}/src"
+        COMMAND bash "${PROJECT_SOURCE_DIR}/get_code_cov.sh" "${CMAKE_BINARY_DIR}/coverage" "${PROJECT_SOURCE_DIR}/src" "${_gcov_bin}"
         COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverage"
     )
 ENDIF()

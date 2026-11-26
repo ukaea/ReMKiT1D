@@ -176,7 +176,7 @@ Available build types are `RELEASE`, `DEBUG`, `TESTING`, and `RelWithDebInfo`. P
 3. Run the unit test suite (if pFUnit is enabled):
 
 ```bash
-ctest --test-dir build --output-on-failure
+(cd build && ctest --output-on-failure)
 ```
 
 4. *(Optional)* Install the executable, libraries, module files, and CMake package config:

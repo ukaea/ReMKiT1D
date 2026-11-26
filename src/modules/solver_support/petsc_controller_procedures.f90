@@ -20,6 +20,8 @@ submodule (petsc_controller_class) petsc_controller_procedures
 #include "petsc/finclude/petscksp.h"
 #include "petsc/finclude/petscpc.h"
 
+    use, intrinsic :: iso_c_binding ,only: rmk_c_int => c_int
+
 implicit none
 
     interface
@@ -43,19 +45,23 @@ implicit none
         end function kspGetAndClearConvergenceTestC
 
         function kspConvergedDefaultC(ksp,n,rnorm,reason,ctx) result(ierr) bind(C,name="KSPConvergedDefault")
-            import :: c_ptr
+            import :: c_ptr ,rmk_c_int
             type(c_ptr)        ,value       :: ksp
             PetscInt           ,value       :: n
             PetscReal          ,value       :: rnorm
-            KSPConvergedReason ,intent(out) :: reason
+            integer(rmk_c_int) ,intent(out) :: reason
             type(c_ptr)        ,value       :: ctx
             PetscErrorCode                  :: ierr
         end function kspConvergedDefaultC
 
         function kspConvergedDefaultDestroyC(ctx) result(ierr) bind(C,name="KSPConvergedDefaultDestroy")
             import :: c_ptr
-            type(c_ptr)    ,value :: ctx
-            PetscErrorCode        :: ierr
+#if PETSC_VERSION_GE(3,24,0)
+            type(c_ptr) ,intent(inout) :: ctx
+#else
+            type(c_ptr) ,value         :: ctx
+#endif
+            PetscErrorCode             :: ierr
         end function kspConvergedDefaultDestroyC
     end interface
 
@@ -279,7 +285,11 @@ module subroutine createPETScObjs(this)
         if (.not. this%objs(i)%isPreonly) then
             call KSPGetNormType(this%objs(i)%solver,normType,ierr)
             CHKERRQ(ierr)
+#if PETSC_VERSION_GE(3,23,0)
+            if (normType%v /= KSP_NORM_NONE%v) then
+#else
             if (normType /= KSP_NORM_NONE) then
+#endif
                 kspPtr = transfer(this%objs(i)%solver%v,c_null_ptr)
                 ierr = kspGetConvergenceTestC(kspPtr,convFn,defCtxPtr,destFn)
                 CHKERRQ(ierr)
@@ -423,7 +433,11 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,use
         call KSPGetIterationNumber(this%objs(usedGroup)%solver,this%lastNumIterations,ierr)
         CHKERRQ(ierr)
 
+#if PETSC_VERSION_GE(3,23,0)
+        if (this%lastConvergedReason%v >= 0 .or. .not. reuseThisSolve) exit
+#else
         if (this%lastConvergedReason >= 0 .or. .not. reuseThisSolve) exit
+#endif
         ! Retry the installed matrix once, without reassembly or consuming the cleared COO buffer.
         reuseThisSolve = PETSC_FALSE
         call PetscPrintf(PETSC_COMM_WORLD,"Reused PC solve diverged; refreshing PC and retrying once."//achar(10),ierr)
@@ -432,7 +446,11 @@ module subroutine linearSolve(this,knownVec,unknownVec,objGroup,reusePC,rtol,use
 
     ! Exact tolerance is satisfied only when the solve converged and either inexact mode was not active or
     ! KSPConvergedDefault itself declared convergence (relRedCtx%hitExact == .true.).
+#if PETSC_VERSION_GE(3,23,0)
+    if (this%lastConvergedReason%v <= 0) then
+#else
     if (this%lastConvergedReason <= 0) then
+#endif
         exactTol = .false.
     else if (useRelRed) then
         exactTol = this%objs(usedGroup)%relRedCtx%hitExact
@@ -474,6 +492,7 @@ subroutine relRedKSPConverged(ksp,n,rnorm,flag,ctxAddr,ierr)
 
     type(c_ptr)                      :: cptr
     type(RelRedConvContext) ,pointer :: ctx
+    integer(rmk_c_int)               :: reasonVal
 
     cptr = transfer(ctxAddr,cptr)
     call c_f_pointer(cptr,ctx)
@@ -483,13 +502,22 @@ subroutine relRedKSPConverged(ksp,n,rnorm,flag,ctxAddr,ierr)
         ctx%initRnorm = rnorm
     end if
 
-    ierr = kspConvergedDefaultC(transfer(ksp%v,c_null_ptr),n,rnorm,flag,transfer(ctx%defaultCtxAddr,c_null_ptr))
+    ierr = kspConvergedDefaultC(transfer(ksp%v,c_null_ptr),n,rnorm,reasonVal,transfer(ctx%defaultCtxAddr,c_null_ptr))
     CHKERRQ(ierr)
 
+#if PETSC_VERSION_GE(3,23,0)
+    flag%v = int(reasonVal,kind=kind(flag%v))
+    if (flag%v /= KSP_CONVERGED_ITERATING%v) then
+        ctx%hitExact = (flag%v > 0)
+        return
+    end if
+#else
+    flag = int(reasonVal,kind=kind(flag))
     if (flag /= KSP_CONVERGED_ITERATING) then
         ctx%hitExact = (flag > 0)
         return
     end if
+#endif
 
     if (n > 0 .and. ctx%relRedTarget > 0.0d0 .and. rnorm <= ctx%relRedTarget * ctx%initRnorm) then
         flag = KSP_CONVERGED_RTOL
@@ -509,7 +537,11 @@ pure module function getLastConvergedReason(this) result(conv)
         call assertPure(this%objCreated,"Attempted to get converged reason from PETSc controller before any PETSc objects created")
     end if
 
+#if PETSC_VERSION_GE(3,23,0)
+    conv = int(this%lastConvergedReason%v,kind=ik)
+#else
     conv = int(this%lastConvergedReason,kind=ik)
+#endif
 
 end function getLastConvergedReason
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -535,7 +567,8 @@ module subroutine finalize(this)
     class(PETScController)      ,intent(inout)  :: this
 
     PetscErrorCode :: ierr
-    integer(ik)    :: i 
+    integer(ik)    :: i
+    type(c_ptr)    :: defCtxPtr
 
     if (this%isDefined()) then 
 
@@ -550,7 +583,8 @@ module subroutine finalize(this)
             CHKERRQ(ierr)
             if (associated(this%objs(i)%relRedCtx)) then
                 if (this%objs(i)%relRedCtx%defaultCtxAddr /= 0) then
-                    ierr = kspConvergedDefaultDestroyC(transfer(this%objs(i)%relRedCtx%defaultCtxAddr,c_null_ptr))
+                    defCtxPtr = transfer(this%objs(i)%relRedCtx%defaultCtxAddr,c_null_ptr)
+                    ierr = kspConvergedDefaultDestroyC(defCtxPtr)
                     CHKERRQ(ierr)
                     this%objs(i)%relRedCtx%defaultCtxAddr = 0
                 end if

@@ -29,13 +29,21 @@ module cvode_integrator_class
     use timestep_controller_abstract_class ,only: TimestepController
     use support_functions
     use status_printing                    
-    use, intrinsic :: iso_c_binding
-    use mpi_f08
+    ! Import C interoperability names only from ISO_C_BINDING, not via MPI or SUNDIALS.
+    use, intrinsic :: iso_c_binding         ,only: c_ptr, c_null_ptr, c_double, c_int, c_int64_t, c_long, &
+                                                  c_associated, c_f_pointer, c_funloc, c_loc
+    use mpi_f08                            ,only: MPI_Comm, MPI_Allreduce, MPI_INTEGER8, MPI_SUM
 
-    use fcvode_mod                ! Access CVode
-    use fsundials_core_mod
-    use fnvector_parallel_mod 
-    use fsunlinsol_spgmr_mod
+    use fcvode_mod                         ,only: CV_ADAMS, CV_BDF, CV_NORMAL, FCVode, FCVodeCreate, FCVodeFree, &
+                                                  FCVodeInit, FCVodeReInit, FCVodeSStolerances, FCVodeSetLinearSolver, &
+                                                  FCVodeSetMaxOrd, FCVodeSetStabLimDet, FCVodeSetMaxNumSteps, &
+                                                  FCVodeSetMinStep, FCVodeSetMaxStep, FCVodeSetInitStep, FCVodeSetUserData, &
+                                                  FCVodeGetNumSteps, FCVodeGetLastOrder, FCVBBDPrecInit, FCVBBDPrecReInit
+    use fsundials_core_mod                 ,only: N_Vector, SUNMatrix, SUNLinearSolver, SUNTRUE, &
+                                                  FSUNContext_Create, FSUNContext_Free, FSUNLinSolFree, &
+                                                  FN_VDestroy, FN_VGetArrayPointer
+    use fnvector_parallel_mod             ,only: FN_VNew_Parallel
+    use fsunlinsol_spgmr_mod               ,only: FSUNLinSol_SPGMR, FSUNLinSol_SPGMRSetGSType, FSUNLinSol_SPGMRSetMaxRestarts
     implicit none
     private
 

@@ -42,6 +42,21 @@ MACRO(remkit1d_find_dependencies)
     ENDIF()
     IF(NOT TARGET PkgConfig::PETSC)
         pkg_check_modules(PETSC REQUIRED IMPORTED_TARGET petsc>=3.17)
+        # Work around CMake #27238 (fixed in CMake 4.2.0): CMake's Fortran dependency
+        # scanner enters an infinite loop on PETSc >= 3.23's #if !defined(...) finclude
+        # headers. Passing PETSc's include dirs via -I compile options keeps gfortran
+        # preprocessing and .mod lookup intact while bypassing the buggy header scan.
+        IF(CMAKE_VERSION VERSION_LESS 4.2.0 AND PETSC_VERSION VERSION_GREATER_EQUAL 3.23.0)
+            GET_TARGET_PROPERTY(_petsc_inc_dirs PkgConfig::PETSC INTERFACE_INCLUDE_DIRECTORIES)
+            IF(_petsc_inc_dirs)
+                FOREACH(_petsc_inc IN LISTS _petsc_inc_dirs)
+                    SET_PROPERTY(TARGET PkgConfig::PETSC APPEND PROPERTY
+                        INTERFACE_COMPILE_OPTIONS "-I${_petsc_inc}"
+                    )
+                ENDFOREACH()
+                SET_PROPERTY(TARGET PkgConfig::PETSC PROPERTY INTERFACE_INCLUDE_DIRECTORIES "")
+            ENDIF()
+        ENDIF()
     ENDIF()
 
     IF(_RMK_DEP_AS_DEPENDENCY)
@@ -63,11 +78,11 @@ MACRO(remkit1d_find_dependencies)
         ENDIF()
     ENDIF()
 
-    # Support json-fortran >= 8.2.5 (including 9.x) across static, shared, and namespaced targets
+    # Support json-fortran >= 8.2.5 (including 9.x) across static, shared, and compiler-namespaced targets
+    STRING(TOLOWER "${CMAKE_Fortran_COMPILER_ID}" _fc_id_lower)
     SET(_jsonfortran_pkg "jsonfortran-${CMAKE_Fortran_COMPILER_ID}")
     FIND_PACKAGE(${_jsonfortran_pkg} QUIET)
     IF(NOT ${_jsonfortran_pkg}_FOUND)
-        STRING(TOLOWER "${CMAKE_Fortran_COMPILER_ID}" _fc_id_lower)
         SET(_jsonfortran_pkg "jsonfortran-${_fc_id_lower}")
         IF(_RMK_DEP_AS_DEPENDENCY)
             find_dependency(${_jsonfortran_pkg})
@@ -79,16 +94,27 @@ MACRO(remkit1d_find_dependencies)
         MESSAGE(FATAL_ERROR "json-fortran >= 8.2.5 is required (found ${${_jsonfortran_pkg}_VERSION})")
     ENDIF()
     IF(NOT TARGET ReMKiT1D::jsonfortran)
-        ADD_LIBRARY(ReMKiT1D::jsonfortran INTERFACE IMPORTED)
-        IF(TARGET jsonfortran::jsonfortran)
-            TARGET_LINK_LIBRARIES(ReMKiT1D::jsonfortran INTERFACE jsonfortran::jsonfortran)
-        ELSEIF(TARGET jsonfortran-static)
-            TARGET_LINK_LIBRARIES(ReMKiT1D::jsonfortran INTERFACE jsonfortran-static)
-        ELSEIF(TARGET jsonfortran)
-            TARGET_LINK_LIBRARIES(ReMKiT1D::jsonfortran INTERFACE jsonfortran)
-        ELSE()
+        SET(_jsonfortran_target "")
+        FOREACH(_cand
+            "jsonfortran::jsonfortran"
+            "jsonfortran::jsonfortran-static"
+            "jsonfortran-${_fc_id_lower}::jsonfortran"
+            "jsonfortran-${_fc_id_lower}::jsonfortran-static"
+            "jsonfortran-${CMAKE_Fortran_COMPILER_ID}::jsonfortran"
+            "jsonfortran-${CMAKE_Fortran_COMPILER_ID}::jsonfortran-static"
+            "jsonfortran-static"
+            "jsonfortran"
+        )
+            IF(TARGET "${_cand}")
+                SET(_jsonfortran_target "${_cand}")
+                BREAK()
+            ENDIF()
+        ENDFOREACH()
+        IF("${_jsonfortran_target}" STREQUAL "")
             MESSAGE(FATAL_ERROR "Found ${_jsonfortran_pkg} but no supported jsonfortran target was exported")
         ENDIF()
+        ADD_LIBRARY(ReMKiT1D::jsonfortran INTERFACE IMPORTED)
+        TARGET_LINK_LIBRARIES(ReMKiT1D::jsonfortran INTERFACE "${_jsonfortran_target}")
         IF(DEFINED jsonfortran_INCLUDE_DIRS)
             TARGET_INCLUDE_DIRECTORIES(ReMKiT1D::jsonfortran INTERFACE ${jsonfortran_INCLUDE_DIRS})
         ENDIF()

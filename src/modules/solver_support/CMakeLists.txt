@@ -20,3 +20,11 @@ remkit1d_add_module(solver_support
         variables
         mpi_support
 )
+
+# PETSc >= 3.23 expands CHKERRQ(ierr) with __FILE__, which can exceed Fortran's
+# default 132-column free-form line limit on long source paths.
+SET(_solver_support_extra_flags "")
+SET_COMPILE_FLAG(_solver_support_extra_flags Fortran "-ffree-line-length-none")
+IF(_solver_support_extra_flags)
+    TARGET_COMPILE_OPTIONS(solver_support PRIVATE ${_solver_support_extra_flags})
+ENDIF()

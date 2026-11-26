@@ -17,17 +17,17 @@ Thank you for your interest in contributing to ReMKiT1D. Please direct questions
 # Build and test in DEBUG mode (enables assertions and runtime checks)
 cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=DEBUG
 cmake --build build-debug -j"$(nproc)"
-ctest --test-dir build-debug --output-on-failure
+(cd build-debug && ctest --output-on-failure)
 
 # Verify optimised RELEASE build
 cmake -S . -B build-release -DCMAKE_BUILD_TYPE=RELEASE
 cmake --build build-release -j"$(nproc)"
-ctest --test-dir build-release --output-on-failure
+(cd build-release && ctest --output-on-failure)
 
 # Optionally verify coverage in TESTING mode and FORD docs generation
 cmake -S . -B build-testing -DCMAKE_BUILD_TYPE=TESTING
 cmake --build build-testing -j"$(nproc)"
-ctest --test-dir build-testing --output-on-failure
+(cd build-testing && ctest --output-on-failure)
 ford ford-docs.md
 ```
 

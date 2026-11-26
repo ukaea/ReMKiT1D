@@ -115,15 +115,15 @@ jobs:
             --gcov-tool "${GCOV_TOOL}" \
             --directory build/src \
             --output-file build/main_coverage.info
+          sed -i "s|^SF:${GITHUB_WORKSPACE}/|SF:|" build/main_coverage.info
 
-      - name: Upload code coverage
+      - name: Upload coverage artifact
         if: inputs.build_type == 'TESTING'
-        uses: codecov/codecov-action@v5
+        uses: actions/upload-artifact@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ github.workspace }}/build/main_coverage.info
-          fail_ci_if_error: false
-          verbose: true
+          name: remkit1d-coverage
+          path: build/main_coverage.info
+          retention-days: 1
 
       - name: Summarize test results
         if: always()

@@ -24,4 +24,26 @@ jobs:
     uses: ./.github/workflows/_build-and-test.yml
     with:
       build_type: ${{ matrix.build_type }}
-    secrets: inherit
+
+  upload-coverage:
+    name: Upload coverage
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: remkit1d-coverage
+          path: coverage
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ github.workspace }}/coverage/main_coverage.info
+          fail_ci_if_error: false
+          verbose: true

@@ -236,7 +236,7 @@ docker build -t remkit1d-deps:latest docker/
 docker run --rm -it -v "$(pwd):/workspace/ReMKiT1D" -w /workspace/ReMKiT1D remkit1d-deps:latest bash
 ```
 
-Prebuilt CI images are published to GitHub Container Registry under `ghcr.io/ukaea/remkit1d-ci` (see [.github/workflows/build-ci-image.yml](.github/workflows/build-ci-image.yml)). For HPC cluster build advice, please contact the developers.
+A prebuilt CI image is available on Docker Hub as `smijin/remkit1d-ci:latest`. For HPC cluster build advice, please contact the developers.
 
 ## Running ReMKiT1D
 

@@ -1,0 +1,157 @@
+name: Build & Test (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      build_type:
+        description: "CMake build type (TESTING, DEBUG, or RELEASE)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    container:
+      image: smijin/remkit1d-ci:latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure ReMKiT1D
+        id: configure
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_Fortran_COMPILER="${FC:-gfortran}" \
+            -DCMAKE_BUILD_TYPE="${{ inputs.build_type }}" \
+            -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON
+
+      - name: Build ReMKiT1D
+        id: build
+        run: cmake --build build -j"$(nproc)"
+
+      - name: Verify install & CLI version
+        id: install
+        if: inputs.build_type == 'RELEASE'
+        run: |
+          cmake --install build --prefix "${{ runner.temp }}/remkit1d-install"
+          "${{ runner.temp }}/remkit1d-install/bin/ReMKiT1D" --version
+
+      - name: Package build artifacts for testing
+        run: |
+          tar \
+            --exclude='*.o' \
+            --exclude='*.a' \
+            --exclude='*.mod' \
+            --exclude='*.smod' \
+            -cf build.tar ./build/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: remkit1d-build-${{ inputs.build_type }}
+          path: build.tar
+          retention-days: 1
+
+      - name: Summarize build results
+        if: always()
+        run: |
+          {
+            echo "### Build Summary (${{ inputs.build_type }})"
+            echo ""
+            echo "| Step | Outcome |"
+            echo "| :--- | :--- |"
+            echo "| Configure | \`${{ steps.configure.outcome }}\` |"
+            echo "| Build | \`${{ steps.build.outcome }}\` |"
+            if [ "${{ inputs.build_type }}" = "RELEASE" ]; then
+              echo "| Install & CLI \`--version\` | \`${{ steps.install.outcome }}\` |"
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+          if [ "${{ steps.configure.outcome }}" = "failure" ] || [ "${{ steps.build.outcome }}" = "failure" ]; then
+            echo "::error title=Build failed (${{ inputs.build_type }})::CMake configure or build failed for ${{ inputs.build_type }}."
+          elif [ "${{ steps.install.outcome }}" = "failure" ]; then
+            echo "::error title=Install check failed (${{ inputs.build_type }})::cmake --install or ReMKiT1D --version failed."
+          fi
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: smijin/remkit1d-ci:latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: remkit1d-build-${{ inputs.build_type }}
+
+      - name: Extract build artifacts
+        run: tar -xf build.tar
+
+      - name: Run unit tests
+        id: ctest
+        run: (cd build && ctest --output-on-failure --no-tests=error)
+
+      - name: Collect code coverage
+        id: coverage
+        if: inputs.build_type == 'TESTING'
+        run: |
+          GCC_MAJOR="$("${FC:-gfortran}" -dumpversion | cut -d. -f1)"
+          GCOV_TOOL="$(command -v "gcov-${GCC_MAJOR}" || command -v gcov)"
+          lcov --capture \
+            --gcov-tool "${GCOV_TOOL}" \
+            --directory build/src \
+            --output-file build/main_coverage.info
+
+      - name: Upload code coverage
+        if: inputs.build_type == 'TESTING'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ github.workspace }}/build/main_coverage.info
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Summarize test results
+        if: always()
+        run: |
+          FAILED_LOG="build/Testing/Temporary/LastTestsFailed.log"
+          {
+            echo "### Test Summary (${{ inputs.build_type }})"
+            echo ""
+            echo "| Step | Outcome |"
+            echo "| :--- | :--- |"
+            echo "| Unit tests (\`ctest\`) | \`${{ steps.ctest.outcome }}\` |"
+            if [ "${{ inputs.build_type }}" = "TESTING" ]; then
+              echo "| Code coverage (\`lcov\`) | \`${{ steps.coverage.outcome }}\` |"
+            fi
+            if [ -s "${FAILED_LOG}" ]; then
+              echo ""
+              echo "#### Failed tests"
+              while IFS= read -r line; do
+                echo "- \`${line}\`"
+              done < "${FAILED_LOG}"
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+          if [ "${{ steps.ctest.outcome }}" = "failure" ]; then
+            if [ -s "${FAILED_LOG}" ]; then
+              FAILED_TESTS="$(cut -d: -f2- "${FAILED_LOG}" | paste -sd ', ' -)"
+              echo "::error title=Tests failed (${{ inputs.build_type }})::Failed ctest suites: ${FAILED_TESTS}"
+            else
+              echo "::error title=Tests failed (${{ inputs.build_type }})::ctest failed for ${{ inputs.build_type }}."
+            fi
+          fi

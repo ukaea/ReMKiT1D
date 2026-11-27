@@ -714,6 +714,8 @@ contains
         type(testOperator) :: testOp
         type(modeller) :: testModeller
         type(CVODEIntegrator) :: testIntegrator
+        type(CompositeIntegrator) :: composite
+        type(IntegratorCallStep) :: stage
         type(CVODEOptions) :: testOptions
 
         integer(ik) :: i
@@ -774,11 +776,21 @@ contains
 
         call testIntegrator%init(testMPIController,testOptions,modelList=[1],termGroups=[intArray([1])],&
                                 evolvesTimeVar=.true.,initialTimestep=0.1d0)
-        call testIntegrator%setCommunicationNeeded(.false.)
-        call testIntegrator%setUpdateRules([logicalArray([.false.])])
+        call composite%init(0.0d0,0.1d0,1)
+        call composite%addIntegrator(testIntegrator)
+        stage%integratorIndex = 1
+        stage%modelIndices = [1]
+        stage%groupIndices = [intArray([1])]
+        stage%globalStepFraction = 1.0d0
+        stage%allowTimeEvolution = .true.
+        call composite%addIntegrationStage(stage)
+        call testModeller%setIntegrator(composite)
 
-        @assertEqual(testModeller%getCurrentTime(),0.d0)
-        call testModeller%setIntegrator(testIntegrator)
+        call testModeller%integrate(requestedTimestep=0.0d0)
+        call testModeller%copyVarValuesTo(testVarCont)
+        @assertEqual(testModeller%getCurrentTime(),0.0d0)
+        @assertEqual(testVarCont%variables(1)%entry(1),1.0d0)
+
         call testModeller%integrate()
         call testModeller%integrate()
 

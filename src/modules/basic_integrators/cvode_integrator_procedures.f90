@@ -397,6 +397,8 @@ contains
 
         t(1) = currentTimeVal
         do i = 1, numSteps
+            ! The startup step initializes model state without advancing CVODE.
+            if (dt(i) == 0.0d0) cycle
             ierr = FCVode(this%cvode, t(1)+dt(i), this%sunVecY, t, CV_NORMAL)
             call checkCVODEError(ierr, "FCVode")
 

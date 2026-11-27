@@ -210,8 +210,6 @@ module subroutine createPETScObjs(this)
     call this%preallocData%assembleData()
     nnzCOO = this%preallocData%getNumNonzerosCOO()
     ncoo = int(nnzCOO,kind=kind(ncoo))
-    cooRows0 = this%preallocData%getCOORowIndices0()
-    cooCols0 = this%preallocData%getCOOColIndices0()
 
     do i = 1, size(this%objs)
 
@@ -229,6 +227,9 @@ module subroutine createPETScObjs(this)
         CHKERRQ(ierr)
         call MatSetOption(this%objs(i)%petscMat,MAT_NO_OFF_PROC_ENTRIES,PETSC_TRUE,ierr)
         CHKERRQ(ierr)
+        ! PETSc may reorder the coordinates in place; each group needs the original value-buffer order.
+        cooRows0 = this%preallocData%getCOORowIndices0()
+        cooCols0 = this%preallocData%getCOOColIndices0()
         call MatSetPreallocationCOO(this%objs(i)%petscMat,ncoo,cooRows0,cooCols0,ierr)
         CHKERRQ(ierr)
 

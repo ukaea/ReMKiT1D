@@ -32,7 +32,7 @@ module test_petsc_controller
     
         class (MpiTestMethod), intent(inout) :: this
         type(MPIController) :: testMPIController 
-        type(sparseRowData) :: testSRMatrix ,testSRMatrixOverlap
+        type(sparseRowData) :: testSRMatrix ,testSRMatrixOverlap ,offDiag
         type(petscController) :: testPETScController 
         type(solverOptions) :: solOptions 
 
@@ -63,7 +63,7 @@ module test_petsc_controller
         solOptions%kspSolverType = "bcgs"
         solOptions%hyprePC = ""
         solOptions%petscOptions = ""
-        call testPETScController%init(testIndexing,testMPIController,solOptions) 
+        call testPETScController%init(testIndexing,testMPIController,solOptions,numObjs=2)
         locRows = [1,2,3] + testMPIController%getWorldRank()*3
         locCols = [intArray([testMPIController%getWorldRank()*3+1]),&
         intArray([testMPIController%getWorldRank()*3+2]),&
@@ -83,6 +83,10 @@ module test_petsc_controller
 
         call testPETScController%addRowDataToPreallocation(testSRMatrix)
         call testPETScController%addRowDataToPreallocation(testSRMatrixOverlap)
+        ! Register (row 1, col 2) after all three diagonal entries so COO order is not sorted.
+        call offDiag%init([locRows(1)],[IntArray([locRows(2)])])
+        offDiag%values(1)%entry = 0.5d0
+        call testPETScController%addRowDataToPreallocation(offDiag)
         call testPETScController%createPETScObjs()
         call testPETScController%addRowValuesToMatrix(testSRMatrix)
 
@@ -111,6 +115,18 @@ module test_petsc_controller
         expectedSol = real([2.0d00,2.0d00,2.0d00],kind=rk)
         if (testMPIController%getWorldRank() == 0) expectedSol(2) = 1.0d00
         @assertEqual(locVecUnknown,expectedSol,tolerance=1.0d-12)
+
+        expectedSol = [1.0d0,2.0d0,3.0d0]
+        locVecKnown = real(locRows,kind=rk) * expectedSol
+        locVecKnown(1) = locVecKnown(1) + 0.5d0 * expectedSol(2)
+        do i = 1,2
+            call testPETScController%addRowValuesToMatrix(testSRMatrix,objGroup=i)
+            call testPETScController%addRowValuesToMatrix(offDiag,objGroup=i)
+            locVecUnknown = 0.0d0
+            call testPETScController%linearSolve(locVecKnown,locVecUnknown,objGroup=i)
+            @assertTrue(testPETScController%getLastConvergedReason()>0)
+            @assertEqual(locVecUnknown,expectedSol,tolerance=1.0d-12)
+        end do
 
         call checkPCReusePerGroup(testIndexing,testMPIController)
         call checkPCReuseFreshRetry(testIndexing,testMPIController)

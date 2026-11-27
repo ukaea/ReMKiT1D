@@ -3,11 +3,13 @@
 ## v1.4.0, xxxx-xx-xx
 
 - Solver, matrix assembly, and runtime performance improvements
+- Build system, dependency compatibility (PETSc 3.17–3.24+, SUNDIALS 7, json-fortran 9), and documentation modernization
 - Subsumes skipped v1.3.1 bugfixes
 
 ### Breaking Changes
 
-- Require PETSc >= 3.17 for COO matrix assembly (`MatSetPreallocationCOO` / `MatSetValuesCOO`)
+- Require PETSc >= 3.17 for COO matrix assembly (`MatSetPreallocationCOO` / `MatSetValuesCOO`), CMake >= 3.18, and SUNDIALS >= 7.0
+- Removed deprecated HYPRE `euclid` preconditioner default in `initPETScContFromJSON` (`hyprePC` now defaults to `""`)
 - Removed hard-coded ksp flag for initial guess
 - Removed dead `skipPattern` JSON/model option after migrating to PETSc COO matrix assembly
 - Changed `unknownVec` from `intent(out)` to `intent(inout)` in `PETScController%linearSolve` and `Modeller%linearSolvePETSc` to support KSP warm-starting
@@ -17,18 +19,24 @@
 - Added opt-in PETSc preconditioner reuse (`reusePreconditioner` JSON option) for `PicardBDEIntegrator`, with automatic fresh-PC retry on reused-PC divergence
 - Added opt-in distributed Type-II Anderson acceleration (`andersonDepth` JSON option) for `PicardBDEIntegrator`
 - Added relative-reduction inexact KSP solves (`rtol = 1e-2`) on intermediate Picard BDE iterations with per-group `KSPConvergedDefault` delegation and exact-tolerance verification before declaring convergence
-- Enabled PETSc KSP warm-start initial guesses (`KSPSetInitialGuessNonzero`, bypassed for `KSPPREONLY`) and zero-copy local `VecGetArrayF90` vector writes
+- Enabled PETSc KSP warm-start initial guesses (`KSPSetInitialGuessNonzero`, bypassed for `KSPPREONLY`) and zero-copy local `VecGetArray`/`VecGetArrayF90` vector writes
 - Replaced row-by-row `MatSetValues` with pre-registered PETSc COO assembly (`MatSetValuesCOO`), private contiguous CSR buffers in `MatrixTerm`, and upfront matrix row allocation
 - Replaced sparse matrix buffer in `IJIntDerivation` with $O(N_v)$ prefix/suffix sums
 - Added static coordinate profile caching, fused indexed power gathers (`mulIndexedPower`), and centralized near-unit power fast paths (`powerWithUnitSnap` / `unitPowerTolerance`) in `GeneralMatrixTerm` and `PolyFunDeriv`
 - Reduced hot-loop allocations and copies via in-place `RealArray` copy helpers, copy-free `term_moment` / `copyTerm` updates, on-demand term-moment stencil buffers, reusable MPI halo buffers (skipping single-rank row broadcasts), and rank-0-only JSON DOM mutations during startup
 - Added `energyInterpolationGrid` JSON option to CRM `inelasticGridData`
+- Added `--version` / `-v` CLI flag and dynamic CLI argument allocation (removing the 128-character truncation limit on `-with_config_path=`)
+- Added PETSc 3.17–3.24+ (including prefix installs without `PETSC_ARCH` and PETSc >= 3.23 typed Fortran enums), SUNDIALS 7.4 / MPICH 4.2, and json-fortran 8.2.5+ / 9.x compatibility
+- Modernized CMake build/install/export (relocatable `ReMKiT1DConfig.cmake`, `BUILD_TESTING`/`CTest`, dropped unused HDF5 `HL` requirement), consolidated multi-arch Ubuntu 24.04 `Dockerfile`, added `CITATION.cff`, and updated FORD docs and CI workflows
 
 ### Bug Fixes
 
 - Applied build-type Fortran compiler flags consistently across all CMake module targets (`basic_integrators`, `mpi_support`, `parameters`, `solver_support`)
 - Added proper `MPI_Finalize` shutdown in `MPIController` and `ReMKiT1D` executable
-- Fixed kinetic `colBuffer` sizing in `MatrixTerm` and `KSPPREONLY` guard when preconditioner reuse is enabled
+- Modernized `CVODEIntegrator` with standard-conforming module-level `bind(C)` callbacks, SUNDIALS error checking, lazy context initialization, and proper resource cleanup on finalization
+- Added HDF5 error checking across `HDF5Controller`, fixed `loadRestartFiles` read datatype (`h5kind_to_type`), moved `broadcastLogical(varFound)` outside the variable loop in `loadVarsSerial`, and fixed assertion messages
+- Fixed Fortran 2018 procedure conformance in `assertion_utility` and `status_printing`, and fixed `initPETScController` assertion to check `mpiCont%isDefined()`
+- Hardened `get_code_cov.sh` and auto-detected compiler-matching `gcov-<major>`
 - Fixed bug with modelbound data used as column variable
 - Fixed bounds error causing issues with gfortran-11.5.0
 - Fixed vacuum permeability constant `mu0` exponent (`1d-17` -> `1d-7`)
